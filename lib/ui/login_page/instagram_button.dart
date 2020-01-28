@@ -24,7 +24,9 @@ class InstagramButton extends StatelessWidget {
           highlightColor: Colors.black45,
           onTap: () {},
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 6),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.09,
+                vertical: 6),
             child: Row(
               children: <Widget>[
                 Icon(

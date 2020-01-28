@@ -7,7 +7,8 @@ class FacebookButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       color: facebookBlue,
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05),
       child: Icon(
         FontAwesomeIcons.facebookF,
         color: Colors.white,

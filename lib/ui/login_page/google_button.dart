@@ -8,7 +8,8 @@ class GoogleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05),
       child: Icon(
         FontAwesomeIcons.google,
         color: Colors.red,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/bloc/bloc/navigation_bloc.dart';
+import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
 
 class CustomDrawer extends StatelessWidget {
   final NavigationBloc navigationBloc;
@@ -22,6 +21,7 @@ class CustomDrawer extends StatelessWidget {
         if (state is AddContentPageState) {
           return _buildAddContentState();
         }
+        return Container();
       },
     );
   }

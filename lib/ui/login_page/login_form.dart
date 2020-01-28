@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/ui/login_page/facebook_button.dart';
 import 'package:reclip/ui/login_page/instagram_button.dart';
