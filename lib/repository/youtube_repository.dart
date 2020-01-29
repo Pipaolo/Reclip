@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 
 class YoutubeRepository {
-  static final List<String> youtubeChannels = [
+  static final List<String> ciitChannels = [
     'UCok_tgvO9VcIYaoNZPyRsBQ',
     'UCvYs9c95AgZBh8v471s3bnA',
     'UCNx8wTe8rhZrw9f0JIEZPAg',
@@ -14,41 +15,18 @@ class YoutubeRepository {
 
   YoutubeRepository({@required this.ytApi});
 
-  Future<List<YoutubeVid>> getYoutubeVideos() async {
-    final List<YoutubeVid> youtubeVid = List();
+  Future<List<YoutubeChannel>> getYoutubeChannels() async {
+    final List<YoutubeChannel> youtubeChannels = List();
 
-    for (String channel in youtubeChannels) {
+    for (String channel in ciitChannels) {
       final channelResults =
-          await ytApi.channels.list('id,contentDetails', id: channel);
+          await ytApi.channels.list('id,contentDetails, snippet', id: channel);
+
       for (Channel channelInfo in channelResults.items) {
-        final String channelVideosID =
-            channelInfo.contentDetails.relatedPlaylists.uploads;
-        final channelVideos = await ytApi.playlistItems
-            .list('id, snippet', playlistId: channelVideosID);
-
-        channelVideos.items.removeWhere(
-          (video) =>
-              video.snippet.title.toLowerCase().contains('trailer') ||
-              video.snippet.title.toLowerCase().contains('teaser') ||
-              video.snippet.title.toLowerCase().contains('behind') ||
-              video.snippet.title.toLowerCase().contains('earvic') ||
-              video.snippet.title.toLowerCase().contains('sound'),
-        );
-
-        channelVideos.items.forEach(
-          (video) {
-            youtubeVid.add(
-              YoutubeVid(
-                id: video.snippet.resourceId.videoId,
-                channel: video.snippet.channelId,
-                title:
-                    video.snippet.title.replaceAll('"', '').replaceAll('“', ''),
-                description: video.snippet.description,
-                images: video.snippet.thumbnails,
-              ),
-            );
-          },
-        );
+        final YoutubeChannel ytChannel =
+            YoutubeChannel.fromMap(channelInfo.toJson());
+        ytChannel.videos = await getYoutubeVideos(ytChannel.uploadPlaylistId);
+        youtubeChannels.add(ytChannel);
       }
     }
 
@@ -85,9 +63,32 @@ class YoutubeRepository {
     //   }
     // }
 
-    youtubeVid.shuffle();
-    return youtubeVid;
+    youtubeChannels.shuffle();
+    return youtubeChannels;
   }
 
-  Future<List<YoutubeVid>> searchImageVideos() async {}
+  Future<List<YoutubeVideo>> getYoutubeVideos(String playlistId) async {
+    List<YoutubeVideo> ytVids = List();
+    final channelVideos =
+        await ytApi.playlistItems.list('id, snippet', playlistId: playlistId);
+
+    channelVideos.items.removeWhere(
+      (video) =>
+          video.snippet.title.toLowerCase().contains('trailer') ||
+          video.snippet.title.toLowerCase().contains('teaser') ||
+          video.snippet.title.toLowerCase().contains('behind') ||
+          video.snippet.title.toLowerCase().contains('sound'),
+    );
+
+    channelVideos.items.forEach(
+      (video) {
+        ytVids.add(
+          YoutubeVideo.fromMap(video.toJson()),
+        );
+      },
+    );
+    return ytVids;
+  }
+
+  Future<List<YoutubeVideo>> searchImageVideos() async {}
 }

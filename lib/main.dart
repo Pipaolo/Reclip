@@ -7,6 +7,7 @@ import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/repository/youtube_repository.dart';
 import 'package:reclip/ui/login_page/login_page.dart';
+import 'package:sailor/sailor.dart';
 
 import 'bloc/youtube/youtube_bloc.dart';
 import 'core/keys.dart';
@@ -35,7 +36,7 @@ class Reclip extends StatelessWidget {
                 clientViaApiKey(Keys.youtubeApiKey),
               ),
             ),
-          ),
+          )..add(FetchYoutubeVideo()),
         )
       ],
       child: MaterialApp(

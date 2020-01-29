@@ -24,9 +24,9 @@ class YoutubeLoading extends YoutubeState {
 }
 
 class YoutubeSuccess extends YoutubeState {
-  final List<YoutubeVid> ytVids;
+  final List<YoutubeChannel> ytChannels;
 
-  YoutubeSuccess({@required this.ytVids});
+  YoutubeSuccess({@required this.ytChannels});
   @override
-  List<Object> get props => [ytVids];
+  List<Object> get props => [ytChannels];
 }

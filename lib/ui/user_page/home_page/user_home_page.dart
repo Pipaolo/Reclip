@@ -1,9 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/data/model/youtube_channel.dart';
+import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/ui/custom_drawer.dart';
 import 'package:reclip/ui/user_page/home_page/image_widget.dart';
 
@@ -17,10 +20,10 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   List<String> categories = ['Illustrations', 'Photography', 'Clips and Films'];
   NavigationBloc navigationBloc;
+  bool isExpanded = false;
   @override
   void initState() {
     navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    BlocProvider.of<YoutubeBloc>(context)..add(FetchYoutubeVideo());
     super.initState();
   }
 
@@ -34,6 +37,7 @@ class _UserHomePageState extends State<UserHomePage> {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _scaffoldKey,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: yellowOrange,
         title: Text('HOME'),
@@ -53,28 +57,39 @@ class _UserHomePageState extends State<UserHomePage> {
             );
           }
           if (state is YoutubeSuccess) {
-            return Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(10),
-                  width: double.infinity,
-                  color: darkBlue,
-                  child: Text(
-                    'Clips and Films',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                ImageWidget(
-                  ytVids: state.ytVids,
-                  scaffoldKey: _scaffoldKey,
-                ),
-              ],
-            );
+            return _buildHomePage(state.ytChannels);
           }
           return Container();
         },
+      ),
+    );
+  }
+
+  _buildHomePage(List<YoutubeChannel> channels) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10),
+            width: double.infinity,
+            color: darkBlue,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Clips and Films',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ImageWidget(
+            ytChannels: channels,
+            isExpanded: isExpanded,
+          ),
+        ],
       ),
     );
   }
