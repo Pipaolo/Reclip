@@ -5,6 +5,7 @@ import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/ui/custom_drawer.dart';
+import 'package:reclip/ui/user_page/home_page/image_widget.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({Key key}) : super(key: key);
@@ -30,7 +31,9 @@ class _UserHomePageState extends State<UserHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: yellowOrange,
         title: Text('HOME'),
@@ -46,72 +49,33 @@ class _UserHomePageState extends State<UserHomePage> {
           }
           if (state is YoutubeLoading) {
             return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: yellowOrange,
-              ),
+              child: CircularProgressIndicator(),
             );
           }
           if (state is YoutubeSuccess) {
-            return ListView.builder(
-              itemCount: state.ytVids.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading:
-                      Image.network(state.ytVids[index].images.default_.url),
-                  title: Text(
-                    state.ytVids[index].title,
-                    style: TextStyle(color: Colors.white),
+            return Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  width: double.infinity,
+                  color: darkBlue,
+                  child: Text(
+                    'Clips and Films',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
-                );
-              },
+                ),
+                ImageWidget(
+                  ytVids: state.ytVids,
+                  scaffoldKey: _scaffoldKey,
+                ),
+              ],
             );
           }
           return Container();
         },
       ),
-    );
-  }
-
-  _buildList() {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              color: darkBlue,
-              padding: EdgeInsets.fromLTRB(20, 8, 8, 8),
-              child: Text(
-                categories[index],
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 10),
-              child: Container(
-                height: 200,
-                width: double.infinity,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        height: 200,
-                        width: 150,
-                        color: Colors.red,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            )
-          ],
-        );
-      },
-      itemCount: categories.length,
     );
   }
 }

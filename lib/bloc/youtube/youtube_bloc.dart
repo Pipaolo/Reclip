@@ -21,6 +21,7 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   Stream<YoutubeState> mapEventToState(
     YoutubeEvent event,
   ) async* {
+    yield YoutubeLoading();
     if (event is FetchYoutubeVideo) {
       final ytVids = await youtubeRepository.getYoutubeVideos();
       print(ytVids.length);

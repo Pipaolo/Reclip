@@ -1,8 +1,5 @@
-import 'dart:collection';
-
 import 'package:equatable/equatable.dart';
 import 'package:googleapis/youtube/v3.dart';
-import 'package:reclip/data/model/youtube_images.dart';
 
 class YoutubeVid extends Equatable {
   final String id;

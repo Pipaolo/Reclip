@@ -39,6 +39,7 @@ class Reclip extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           accentColor: yellowOrange,
           buttonColor: yellowOrange,

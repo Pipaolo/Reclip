@@ -19,15 +19,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_form_builder: ^3.7.3
+  url_launcher: ^5.4.1
+  youtube_player_flutter: ^6.0.3+2
+
   sailor: ^0.6.0
   font_awesome_flutter: ^8.5.0
+
   equatable: ^1.0.3
   flutter_bloc: ^3.1.0
+
   googleapis: ^0.54.0
   googleapis_auth: ^0.2.11+1
 
+  auto_size_text: ^2.1.0
+  flutter_form_builder: ^3.7.3
+
   cupertino_icons: ^0.1.2
+
+  cached_network_image: ^2.0.0
+  progressive_image: ^1.0.1
 
 dev_dependencies:
   flutter_test:
