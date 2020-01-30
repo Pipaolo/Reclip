@@ -1,0 +1,4 @@
+flutter_icons:
+  image_path: "assets/images/reclip_logo.png"
+  android: "launcher_icon"
+  ios: true

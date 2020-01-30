@@ -69,8 +69,8 @@ class YoutubeRepository {
 
   Future<List<YoutubeVideo>> getYoutubeVideos(String playlistId) async {
     List<YoutubeVideo> ytVids = List();
-    final channelVideos =
-        await ytApi.playlistItems.list('id, snippet', playlistId: playlistId);
+    final channelVideos = await ytApi.playlistItems
+        .list('id, snippet', playlistId: playlistId, maxResults: 50);
 
     channelVideos.items.removeWhere(
       (video) =>

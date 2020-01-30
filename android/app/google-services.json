@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "314786042933",
+    "firebase_url": "https://reclip-f442e.firebaseio.com",
+    "project_id": "reclip-f442e",
+    "storage_bucket": "reclip-f442e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314786042933:android:de4202aa562e97d2cb4d7c",
+        "android_client_info": {
+          "package_name": "com.reclip.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314786042933-5spbbtj4kaugmd4ln37gt78os8m4q634.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reclip.app",
+            "certificate_hash": "802074b733f9fb3da8a3022646713344227cd701"
+          }
+        },
+        {
+          "client_id": "314786042933-qi3796qnakudguppmkpnbaadu9crt4si.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdEm2H9a1YOWwCDFx2FdrlINfNfE1WQkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314786042933-qi3796qnakudguppmkpnbaadu9crt4si.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

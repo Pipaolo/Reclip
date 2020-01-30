@@ -1,11 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/ui/custom_drawer.dart';
+import 'package:sailor/sailor.dart';
+
+class UserAddContentPageArgs extends BaseArguments {
+  final FirebaseUser user;
+
+  UserAddContentPageArgs({@required this.user});
+}
 
 class UserAddContentPage extends StatefulWidget {
-  const UserAddContentPage({Key key}) : super(key: key);
+  final UserAddContentPageArgs args;
+  const UserAddContentPage({Key key, this.args}) : super(key: key);
 
   @override
   _UserAddContentPageState createState() => _UserAddContentPageState();

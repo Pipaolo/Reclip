@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/bloc/login/login_bloc.dart';
 
 class GoogleButton extends StatelessWidget {
   const GoogleButton({Key key}) : super(key: key);
@@ -14,7 +16,9 @@ class GoogleButton extends StatelessWidget {
         FontAwesomeIcons.google,
         color: Colors.red,
       ),
-      onPressed: () {},
+      onPressed: () {
+        BlocProvider.of<LoginBloc>(context).add(LoginWithGooglePressed());
+      },
     );
   }
 }

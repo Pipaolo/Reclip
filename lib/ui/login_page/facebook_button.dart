@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/bloc/login/login_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 
 class FacebookButton extends StatelessWidget {
@@ -13,7 +15,9 @@ class FacebookButton extends StatelessWidget {
         FontAwesomeIcons.facebookF,
         color: Colors.white,
       ),
-      onPressed: () {},
+      onPressed: () {
+        BlocProvider.of<LoginBloc>(context).add(LoginWithFacebookPressed());
+      },
     );
   }
 }

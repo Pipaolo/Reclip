@@ -11,7 +11,9 @@ class Routes {
         SailorRoute(
           name: 'splash_page',
           builder: (context, args, params) {
-            return SplashPage();
+            return SplashPage(
+              args: args,
+            );
           },
           defaultTransitions: [SailorTransition.slide_from_bottom],
         ),
@@ -32,21 +34,27 @@ class Routes {
         SailorRoute(
           name: 'user_home_page',
           builder: (context, args, params) {
-            return UserHomePage();
+            return UserHomePage(
+              args: args,
+            );
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),
         SailorRoute(
           name: 'user_profile_page',
           builder: (context, args, params) {
-            return UserProfilePage();
+            return UserProfilePage(
+              args: args,
+            );
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),
         SailorRoute(
           name: 'user_add_content_page',
           builder: (context, args, params) {
-            return UserAddContentPage();
+            return UserAddContentPage(
+              args: args,
+            );
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),

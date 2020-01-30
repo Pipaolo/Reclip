@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
@@ -8,9 +9,17 @@ import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/ui/custom_drawer.dart';
 import 'package:reclip/ui/user_page/home_page/image_widget.dart';
+import 'package:sailor/sailor.dart';
+
+class UserHomePageArgs extends BaseArguments {
+  final FirebaseUser user;
+
+  UserHomePageArgs({@required this.user});
+}
 
 class UserHomePage extends StatefulWidget {
-  const UserHomePage({Key key}) : super(key: key);
+  final UserHomePageArgs args;
+  const UserHomePage({Key key, this.args}) : super(key: key);
 
   @override
   _UserHomePageState createState() => _UserHomePageState();

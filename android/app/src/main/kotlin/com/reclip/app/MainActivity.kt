@@ -1,4 +1,4 @@
-package com.example.reclip
+package com.reclip.app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
