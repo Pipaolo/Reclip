@@ -126,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
                 TextSpan(
                   text: '  SIGN UP',
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => print('checked'),
+                    ..onTap = () => _navigateToSignupPage(),
                 ),
               ],
             ),
@@ -134,6 +134,10 @@ class _LoginFormState extends State<LoginForm> {
         ],
       ),
     );
+  }
+
+  _navigateToSignupPage() {
+    return Routes.sailor.navigate('signup_page');
   }
 
   _submitLogin() {

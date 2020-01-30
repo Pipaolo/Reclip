@@ -6,11 +6,10 @@ import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/repository/youtube_repository.dart';
-import 'package:reclip/ui/login_page/login_page.dart';
-import 'package:sailor/sailor.dart';
 
 import 'bloc/youtube/youtube_bloc.dart';
 import 'core/keys.dart';
+import 'ui/splash_page/splash_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +48,7 @@ class Reclip extends StatelessWidget {
         ),
         onGenerateRoute: Routes.sailor.generator(),
         navigatorKey: Routes.sailor.navigatorKey,
-        home: LoginPage(),
+        home: SplashPage(),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:googleapis/youtube/v3.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 
 class YoutubeChannel extends Equatable {

@@ -1,3 +1,4 @@
+import 'package:reclip/ui/splash_page/splash_page.dart';
 import 'package:reclip/ui/ui.dart';
 import 'package:sailor/sailor.dart';
 
@@ -7,6 +8,20 @@ class Routes {
   static void createRoutes() {
     sailor.addRoutes(
       [
+        SailorRoute(
+          name: 'splash_page',
+          builder: (context, args, params) {
+            return SplashPage();
+          },
+          defaultTransitions: [SailorTransition.slide_from_bottom],
+        ),
+        SailorRoute(
+          name: 'signup_page',
+          builder: (context, args, params) {
+            return SignupPage();
+          },
+          defaultTransitions: [SailorTransition.slide_from_right],
+        ),
         SailorRoute(
           name: 'login_page',
           builder: (context, args, params) {

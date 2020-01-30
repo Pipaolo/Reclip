@@ -30,10 +30,11 @@ class _VideoDescriptionState extends State<VideoDescription> {
       initialVideoId: widget.ytVid.id,
       flags: YoutubePlayerFlags(
         mute: false,
-        disableDragSeek: false,
+        disableDragSeek: true,
         autoPlay: true,
-        controlsVisibleAtStart: true,
+        controlsVisibleAtStart: false,
         forceHideAnnotation: true,
+        hideControls: false,
       ),
     );
     super.initState();
@@ -41,140 +42,178 @@ class _VideoDescriptionState extends State<VideoDescription> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: royalBlue,
-      child: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              icon: Icon(
-                Icons.close,
-                color: yellowOrange,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+    return ListView(
+      physics: NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        Container(
+          color: royalBlue,
+          child: Column(
+            children: <Widget>[
+              _buildHeader(),
+              _buildDescription(),
+            ],
           ),
-          Hero(
-            tag: widget.ytVid.id,
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height * 0.40,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(180),
-                  blurRadius: 5,
-                  offset: Offset(5, 5),
-                )
-              ]),
-              child: Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: ProgressiveImage(
-                        height:
-                            widget.ytVid.images['high']['height'].toDouble(),
-                        width: widget.ytVid.images['high']['width'].toDouble(),
-                        placeholder:
-                            NetworkImage(widget.ytVid.images['default']['url']),
-                        thumbnail:
-                            NetworkImage(widget.ytVid.images['medium']['url']),
-                        image: NetworkImage(widget.ytVid.images['high']['url']),
-                      ),
-                    ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _ytController.dispose();
+    super.dispose();
+  }
+
+  _buildDescription() {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: midnightBlue.withAlpha(150),
+          ),
+          padding: EdgeInsets.all(10),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                child: AutoSizeText(
+                  widget.ytVid.description,
+                  maxLines: 10,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: Colors.black.withAlpha(100),
-                        highlightColor: Colors.black.withAlpha(180),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.40,
-                          child: Icon(
-                            Icons.play_arrow,
-                            size: 120,
-                            color: Colors.black.withAlpha(180),
-                          ),
-                        ),
-                        onTap: () => _launchUrl(widget.ytVid.id),
-                      ),
-                    ),
-                  )
-                ],
+                  overflow: TextOverflow.visible,
+                ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            alignment: Alignment.center,
-            child: AutoSizeText(
-              widget.ytVid.title,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.only(top: 10),
+                child: AutoSizeText(
+                  'Creator: ${widget.ytChannel.title}',
+                  maxLines: 1,
+                  textAlign: TextAlign.left,
+                  minFontSize: 5,
+                  maxFontSize: 10,
+                  style: TextStyle(
+                    color: Colors.grey.withAlpha(200),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.visible,
+                ),
               ),
-            ),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.only(top: 10),
+                child: AutoSizeText(
+                  'Creator: ${widget.ytChannel.title}',
+                  maxLines: 1,
+                  textAlign: TextAlign.left,
+                  minFontSize: 5,
+                  maxFontSize: 10,
+                  style: TextStyle(
+                    color: Colors.grey.withAlpha(200),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.visible,
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: midnightBlue.withAlpha(150),
+        ),
+      ],
+    );
+  }
+
+  _buildHeader() {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(top: 25),
+          alignment: Alignment.topRight,
+          child: IconButton(
+            icon: Icon(
+              Icons.close,
+              color: yellowOrange,
             ),
-            padding: EdgeInsets.all(10),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        Hero(
+          tag: widget.ytVid.id,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.height * 0.40,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(180),
+                blurRadius: 5,
+                offset: Offset(5, 5),
+              )
+            ]),
+            child: Stack(
               children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  child: AutoSizeText(
-                    widget.ytVid.description,
-                    maxLines: 10,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                Positioned.fill(
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: ProgressiveImage(
+                      height: widget.ytVid.images['high']['height'].toDouble(),
+                      width: widget.ytVid.images['high']['width'].toDouble(),
+                      placeholder:
+                          NetworkImage(widget.ytVid.images['default']['url']),
+                      thumbnail:
+                          NetworkImage(widget.ytVid.images['medium']['url']),
+                      image: NetworkImage(widget.ytVid.images['high']['url']),
                     ),
-                    overflow: TextOverflow.visible,
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: AutoSizeText(
-                    'Creator: ${widget.ytChannel.title}',
-                    maxLines: 1,
-                    textAlign: TextAlign.left,
-                    minFontSize: 5,
-                    maxFontSize: 10,
-                    style: TextStyle(
-                      color: Colors.grey.withAlpha(200),
-                      fontWeight: FontWeight.bold,
+                Align(
+                  alignment: Alignment.center,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Colors.black.withAlpha(100),
+                      highlightColor: Colors.black.withAlpha(180),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.40,
+                        child: Icon(
+                          Icons.play_arrow,
+                          size: 120,
+                          color: Colors.black.withAlpha(180),
+                        ),
+                      ),
+                      onTap: () => _launchUrl(widget.ytVid.id),
                     ),
-                    overflow: TextOverflow.visible,
                   ),
-                ),
+                )
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+          alignment: Alignment.center,
+          child: AutoSizeText(
+            widget.ytVid.title,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -191,6 +230,7 @@ class _VideoDescriptionState extends State<VideoDescription> {
         );
       },
     ).then((_) {
+      _ytController.reset();
       SystemChrome.setEnabledSystemUIOverlays(
           [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 

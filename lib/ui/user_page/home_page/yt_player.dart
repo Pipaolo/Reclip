@@ -20,88 +20,95 @@ class YTPlayer extends StatefulWidget {
 
 class _YTPlayerState extends State<YTPlayer> {
   bool _isPlayerReady = false;
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: YoutubePlayer(
-            controller: widget.youtubePlayerController,
-            topActions: <Widget>[
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        widget.youtubeVideo.title,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: yellowOrange,
-                      ),
-                      onPressed: () {
-                        Routes.sailor.pop();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            bottomActions: <Widget>[
-              ProgressBar(
-                isExpanded: true,
-              ),
-              RemainingDuration(),
-            ],
-            progressColors: ProgressBarColors(
-              bufferedColor: darkBlue,
-              handleColor: yellowOrange,
-              playedColor: yellowOrange,
+    return WillPopScope(
+      onWillPop: () async {
+        widget.youtubePlayerController.pause();
+        return true;
+      },
+      child: Stack(
+        children: <Widget>[
+          _buildYoutubePlayer(),
+          if (!_isPlayerReady)
+            Align(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
             ),
-            width: double.infinity,
-            onReady: () {
-              setState(() {
-                _isPlayerReady = true;
-              });
-            },
-            onEnded: (_) {
-              Routes.sailor.pop();
-            },
+        ],
+      ),
+    );
+  }
+
+  _buildYoutubePlayer() {
+    return Positioned.fill(
+      child: YoutubePlayer(
+        controller: widget.youtubePlayerController,
+        topActions: <Widget>[
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.youtubeVideo.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    color: yellowOrange,
+                  ),
+                  onPressed: () {
+                    widget.youtubePlayerController.pause();
+                    Routes.sailor.pop();
+                  },
+                ),
+              ],
+            ),
           ),
+        ],
+        bottomActions: <Widget>[
+          ProgressBar(
+            isExpanded: true,
+          ),
+          RemainingDuration(),
+        ],
+        progressColors: ProgressBarColors(
+          bufferedColor: darkBlue,
+          handleColor: yellowOrange,
+          playedColor: yellowOrange,
         ),
-        if (!_isPlayerReady)
-          Align(
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(),
-          ),
-      ],
+        width: double.infinity,
+        onReady: () {
+          setState(() {
+            _isPlayerReady = true;
+          });
+        },
+        onEnded: (_) {
+          widget.youtubePlayerController.pause();
+          Routes.sailor.pop();
+        },
+      ),
     );
   }
 
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
+
     _setDeviceToLandscape();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    widget.youtubePlayerController.reset();
-    widget.youtubePlayerController.dispose();
-    super.dispose();
   }
 
   _setDeviceToLandscape() {

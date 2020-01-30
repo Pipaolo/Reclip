@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
   url_launcher: ^5.4.1
   youtube_player_flutter: ^6.0.3+2
+  flare_flutter: ^2.0.1
 
   sailor: ^0.6.0
   font_awesome_flutter: ^8.5.0
@@ -48,6 +49,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/animations/
 
   fonts:
     - family: KarlaTamilUpright

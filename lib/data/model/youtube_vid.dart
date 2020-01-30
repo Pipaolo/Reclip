@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:googleapis/youtube/v3.dart';
 
 class YoutubeVideo extends Equatable {
   final String id;
