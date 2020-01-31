@@ -1,17 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/bloc/login/login_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/ui/custom_drawer.dart';
 import 'package:sailor/sailor.dart';
 
+import '../../../bloc/login/login_bloc.dart';
+import '../../../bloc/navigation/navigation_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/reclip_user.dart';
+import '../../custom_drawer.dart';
+
 class UserProfilePageArgs extends BaseArguments {
-  final FirebaseUser user;
+  final ReclipUser user;
 
   UserProfilePageArgs({@required this.user});
 }
@@ -87,7 +88,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        widget.args.user.photoUrl,
+                        widget.args.user.imageUrl,
                         fit: BoxFit.cover,
                         height: 100,
                         width: 100,
@@ -98,7 +99,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       child: SizedBox(
                         width: double.infinity,
                         child: AutoSizeText(
-                          widget.args.user.displayName,
+                          widget.args.user.name,
                           minFontSize: 20,
                           maxFontSize: 40,
                           style: TextStyle(

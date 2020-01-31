@@ -1,13 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/custom_drawer.dart';
 import 'package:sailor/sailor.dart';
 
 class UserAddContentPageArgs extends BaseArguments {
-  final FirebaseUser user;
+  final ReclipUser user;
 
   UserAddContentPageArgs({@required this.user});
 }

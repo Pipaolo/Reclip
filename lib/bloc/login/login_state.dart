@@ -15,6 +15,9 @@ class LoginLoading extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
+  final ReclipUser user;
+
+  LoginSuccess({this.user});
   @override
   List<Object> get props => [];
 }

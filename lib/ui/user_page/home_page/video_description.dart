@@ -6,7 +6,6 @@ import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:vector_math/vector_math.dart' as math;
 
 import 'yt_player.dart';
 

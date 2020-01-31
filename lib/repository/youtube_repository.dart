@@ -1,34 +1,90 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/core/keys.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
+import 'package:http/http.dart' as http;
+import 'package:reclip/repository/firebase_reclip_repository.dart';
 
 class YoutubeRepository {
-  static final List<String> ciitChannels = [
-    'UCok_tgvO9VcIYaoNZPyRsBQ',
-    'UCvYs9c95AgZBh8v471s3bnA',
-    'UCNx8wTe8rhZrw9f0JIEZPAg',
-    'UC25tzNP6tPvB5VyaWEzUF1w',
-  ];
-  final YoutubeApi ytApi;
+  final FirebaseReclipRepository firebaseReclipRepository;
 
-  YoutubeRepository({@required this.ytApi});
+  YoutubeRepository({@required this.firebaseReclipRepository});
 
-  Future<List<YoutubeChannel>> getYoutubeChannels() async {
-    final List<YoutubeChannel> youtubeChannels = List();
+  Future<ReclipUser> getYoutubeChannel(ReclipUser user) async {
+    if (user.googleAccount != null) {
+      try {
+        final response = await http.get(
+            'https://www.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails&mine=true',
+            headers: await user.googleAccount.authHeaders);
 
-    for (String channel in ciitChannels) {
-      final channelResults =
-          await ytApi.channels.list('id,contentDetails, snippet', id: channel);
+        final YoutubeChannel userChannel =
+            YoutubeChannel.fromMap(json.decode(response.body));
 
-      for (Channel channelInfo in channelResults.items) {
-        final YoutubeChannel ytChannel =
-            YoutubeChannel.fromMap(channelInfo.toJson());
-        ytChannel.videos = await getYoutubeVideos(ytChannel.uploadPlaylistId);
-        youtubeChannels.add(ytChannel);
+        final ReclipUser userToUpload = ReclipUser(
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          imageUrl: user.imageUrl,
+          channel: userChannel,
+        );
+
+        return userToUpload;
+      } catch (e) {
+        print(e.toString());
       }
     }
+    return user;
+  }
+
+  Future<List<YoutubeChannel>> getYoutubeChannels(ReclipUser user) async {
+    List<YoutubeChannel> ciitChannels = List();
+    if (user.googleAccount != null) {
+      try {
+        final response = await http.get(
+            'https://www.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails&mine=true',
+            headers: await user.googleAccount.authHeaders);
+
+        final YoutubeChannel userChannel =
+            YoutubeChannel.fromMap(json.decode(response.body));
+
+        final ReclipUser userToUpload = ReclipUser(
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          imageUrl: user.imageUrl,
+          channel: userChannel,
+        );
+        await firebaseReclipRepository.addUser(userToUpload);
+        await firebaseReclipRepository.addChannel(userChannel);
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+    // YoutubeChannel rawChannel = YoutubeChannel(
+    //   id: channel.id,
+    //   title: channel.title,
+    //   description: channel.description,
+    //   uploadPlaylistId: channel.uploadPlaylistId,
+    //   thumbnails: channel.thumbnails,
+    //   videos: await getYoutubeVideos(channel.uploadPlaylistId),
+    // );
+    // ciitChannels.add(rawChannel);
+    // for (String channel in ciitChannels) {
+    //   final channelResults =
+    //       await ytApi.channels.list('id,contentDetails, snippet', id: channel);
+
+    //   for (Channel channelInfo in channelResults.items) {
+    //     final YoutubeChannel ytChannel =
+    //         YoutubeChannel.fromMap(channelInfo.toJson());
+    //     ytChannel.videos = await getYoutubeVideos(ytChannel.uploadPlaylistId);
+    //     youtubeChannels.add(ytChannel);
+    //   }
+    // }
 
     // for (String channel in youtubeChannels) {
     //   final results = await ytApi.search
@@ -63,30 +119,49 @@ class YoutubeRepository {
     //   }
     // }
 
-    youtubeChannels.shuffle();
-    return youtubeChannels;
+    return ciitChannels;
   }
 
-  Future<List<YoutubeVideo>> getYoutubeVideos(String playlistId) async {
+  Future<List<YoutubeVideo>> getYoutubeVideos(
+    String playlistId,
+  ) async {
     List<YoutubeVideo> ytVids = List();
-    final channelVideos = await ytApi.playlistItems
-        .list('id, snippet', playlistId: playlistId, maxResults: 50);
+    final results = await http.get(
+        'https://www.googleapis.com/youtube/v3/playlistItems?part=id%2c%20snippet&playlistId=$playlistId&key=${Keys.youtubeApiKey}');
 
-    channelVideos.items.removeWhere(
+    final body = json.decode(results.body);
+    List<dynamic> filteredVideos = body['items'];
+
+    filteredVideos.removeWhere(
       (video) =>
-          video.snippet.title.toLowerCase().contains('trailer') ||
-          video.snippet.title.toLowerCase().contains('teaser') ||
-          video.snippet.title.toLowerCase().contains('behind') ||
-          video.snippet.title.toLowerCase().contains('sound'),
+          video['snippet']['title'].toLowerCase().contains('trailer') ||
+          video['snippet']['title'].toLowerCase().contains('behind') ||
+          video['snippet']['title'].toLowerCase().contains('sound') ||
+          video['snippet']['title'].toLowerCase().contains('teaser'),
     );
 
-    channelVideos.items.forEach(
-      (video) {
-        ytVids.add(
-          YoutubeVideo.fromMap(video.toJson()),
-        );
-      },
-    );
+    for (var videos in filteredVideos) {
+      ytVids.add(YoutubeVideo.fromMap(videos));
+    }
+
+    // final channelVideos = await ytApi.playlistItems
+    //     .list('id, snippet', playlistId: playlistId, maxResults: 50);
+
+    // channelVideos.items.removeWhere(
+    //   (video) =>
+    //       video.snippet.title.toLowerCase().contains('trailer') ||
+    //       video.snippet.title.toLowerCase().contains('teaser') ||
+    //       video.snippet.title.toLowerCase().contains('behind') ||
+    //       video.snippet.title.toLowerCase().contains('sound'),
+    // );
+
+    // channelVideos.items.forEach(
+    //   (video) {
+    //     ytVids.add(
+    //       YoutubeVideo.fromMap(video.toJson()),
+    //     );
+    //   },
+    // );
     return ytVids;
   }
 

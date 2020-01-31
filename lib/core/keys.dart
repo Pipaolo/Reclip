@@ -1,3 +1,3 @@
 class Keys {
-  static final String youtubeApiKey = 'AIzaSyAuwlQuWG9jMw3GJ370qB0QFpaXJoSdGRE';
+  static final String youtubeApiKey = 'AIzaSyDNA2lOipDJnKr1hlysovtjl6WwOFHUSdA';
 }

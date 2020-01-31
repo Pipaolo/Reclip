@@ -1,18 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/ui/custom_drawer.dart';
 import 'package:reclip/ui/user_page/home_page/image_widget.dart';
 import 'package:sailor/sailor.dart';
 
 class UserHomePageArgs extends BaseArguments {
-  final FirebaseUser user;
+  final ReclipUser user;
 
   UserHomePageArgs({@required this.user});
 }
@@ -61,7 +61,9 @@ class _UserHomePageState extends State<UserHomePage> {
           }
           if (state is YoutubeLoading) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitCircle(
+                color: yellowOrange,
+              ),
             );
           }
           if (state is YoutubeSuccess) {

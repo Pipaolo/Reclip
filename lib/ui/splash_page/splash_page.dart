@@ -3,8 +3,8 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/user_page/home_page/user_home_page.dart';
 import 'package:sailor/sailor.dart';
 
@@ -24,7 +24,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   bool isAuthenticated = false;
-  FirebaseUser user;
+  ReclipUser user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,6 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _navigateToHomeScreen() {
-    print(user);
     Routes.sailor.navigate(
       'user_home_page',
       navigationType: NavigationType.pushReplace,

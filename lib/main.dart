@@ -6,6 +6,7 @@ import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
 import 'package:reclip/repository/youtube_repository.dart';
 
@@ -43,13 +44,11 @@ class Reclip extends StatelessWidget {
         BlocProvider<YoutubeBloc>(
           create: (context) => YoutubeBloc(
             youtubeRepository: YoutubeRepository(
-              ytApi: YoutubeApi(
-                clientViaApiKey(Keys.youtubeApiKey),
-              ),
+              firebaseReclipRepository: FirebaseReclipRepository(),
             ),
-          )..add(
-              FetchYoutubeVideo(),
-            ),
+            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+            firebaseReclipRepository: FirebaseReclipRepository(),
+          ),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => NavigationBloc(

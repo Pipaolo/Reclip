@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/user_repository.dart';
 
 part 'login_event.dart';
@@ -34,16 +35,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
     if (event is LoginWithFacebookPressed) {
       try {
-        await _userRepository.signInWithFacebook();
-        yield LoginSuccess();
+        final user = await _userRepository.signInWithFacebook();
+        yield LoginSuccess(user: user);
       } catch (_) {
         yield LoginError(error: _.toString());
       }
     }
     if (event is LoginWithGooglePressed) {
       try {
-        await _userRepository.signInWithGoogle();
-        yield LoginSuccess();
+        final user = await _userRepository.signInWithGoogle();
+        yield LoginSuccess(user: user);
       } catch (_) {
         yield LoginError(error: _.toString());
       }

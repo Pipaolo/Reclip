@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/ui.dart';
 import 'package:sailor/sailor.dart';
 
@@ -15,7 +15,7 @@ part 'navigation_state.dart';
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   final GlobalKey<NavigatorState> navigatorKey;
   final AuthenticationBloc authenticationBloc;
-  FirebaseUser user;
+  ReclipUser user;
   StreamSubscription authSubscription;
 
   NavigationBloc({
@@ -38,7 +38,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     authSubscription = authenticationBloc.listen((state) {
       if (state is Authenticated) {
         user = state.user;
-        print(user.displayName);
+        print(user.name);
       }
     });
 

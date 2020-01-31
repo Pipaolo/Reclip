@@ -4,6 +4,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/bloc/login/login_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
+import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 
 import 'login_form.dart';
@@ -21,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
+          print(state);
           final ProgressDialog progressDialog = ProgressDialog(
             context,
             type: ProgressDialogType.Normal,
@@ -32,7 +34,12 @@ class _LoginPageState extends State<LoginPage> {
           if (state is LoginSuccess) {
             BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
             BlocProvider.of<NavigationBloc>(context)..add(ShowHomePage());
+            BlocProvider.of<YoutubeBloc>(context)
+              ..add(FetchYoutubeChannel(user: state.user));
             progressDialog.dismiss();
+          }
+          if (state is LoginError) {
+            print("Error: ${state.error}");
           }
         },
         child: Container(

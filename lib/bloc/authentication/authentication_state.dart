@@ -10,7 +10,7 @@ class Uninitialized extends AuthenticationState {
 }
 
 class Authenticated extends AuthenticationState {
-  final FirebaseUser user;
+  final ReclipUser user;
 
   Authenticated({this.user});
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 

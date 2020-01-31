@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/youtube/v3.dart';
+import 'package:http/http.dart' as http;
+import 'package:reclip/data/model/reclip_user.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
@@ -12,32 +17,47 @@ class UserRepository {
       GoogleSignIn googleSignIn,
       FacebookLogin facebookLogin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn(),
+        _googleSignIn =
+            googleSignIn ?? GoogleSignIn(scopes: [YoutubeApi.YoutubeScope]),
         _facebookLogin = facebookLogin ?? FacebookLogin();
 
-  Future<FirebaseUser> signInWithGoogle() async {
+  Future<ReclipUser> signInWithGoogle() async {
+    //Set Scopes for Access to Youtube API
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
+
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    final user = await _firebaseAuth.signInWithCredential(credential);
-    print(user.user.email);
-    return _firebaseAuth.currentUser();
+
+    await _firebaseAuth.signInWithCredential(credential);
+    final rawUser = await _firebaseAuth.currentUser();
+    return ReclipUser(
+      id: rawUser.uid,
+      email: rawUser.email,
+      name: rawUser.displayName,
+      imageUrl: rawUser.photoUrl,
+      googleAccount: googleUser,
+    );
   }
 
-  Future<FirebaseUser> signInWithFacebook() async {
+  Future<ReclipUser> signInWithFacebook() async {
     final FacebookLoginResult facebookLoginResult =
         await _facebookLogin.logIn(['email']);
 
     final facebookAuthCred = FacebookAuthProvider.getCredential(
         accessToken: facebookLoginResult.accessToken.token);
 
-    final user = await _firebaseAuth.signInWithCredential(facebookAuthCred);
-    print(user.user.email);
-    return _firebaseAuth.currentUser();
+    await _firebaseAuth.signInWithCredential(facebookAuthCred);
+    final rawUser = await _firebaseAuth.currentUser();
+    return ReclipUser(
+      id: rawUser.uid,
+      email: rawUser.email,
+      name: rawUser.displayName,
+      imageUrl: rawUser.photoUrl,
+    );
   }
 
   Future<void> signInWithCredentials(String email, String password) {
@@ -65,7 +85,13 @@ class UserRepository {
     return currentUser != null;
   }
 
-  Future<FirebaseUser> getUser() async {
-    return (await _firebaseAuth.currentUser());
+  Future<ReclipUser> getUser() async {
+    final rawUser = await _firebaseAuth.currentUser();
+    return ReclipUser(
+      id: rawUser.uid,
+      email: rawUser.email,
+      name: rawUser.displayName,
+      imageUrl: rawUser.photoUrl,
+    );
   }
 }
