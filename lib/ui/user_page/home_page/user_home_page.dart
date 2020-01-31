@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/ui/custom_drawer.dart';
-import 'package:reclip/ui/user_page/home_page/image_widget.dart';
 import 'package:sailor/sailor.dart';
+
+import '../../../bloc/navigation/navigation_bloc.dart';
+import '../../../bloc/youtube/youtube_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/reclip_user.dart';
+import '../../../data/model/youtube_channel.dart';
+import '../../custom_drawer.dart';
+import 'image_widget.dart';
 
 class UserHomePageArgs extends BaseArguments {
   final ReclipUser user;

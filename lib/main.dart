@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:googleapis/youtube/v3.dart';
-import 'package:googleapis_auth/auth_io.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/repository/firebase_reclip_repository.dart';
-import 'package:reclip/repository/user_repository.dart';
-import 'package:reclip/repository/youtube_repository.dart';
 
+import 'bloc/authentication/authentication_bloc.dart';
 import 'bloc/login/login_bloc.dart';
+import 'bloc/navigation/navigation_bloc.dart';
 import 'bloc/youtube/youtube_bloc.dart';
-import 'core/keys.dart';
+import 'core/reclip_colors.dart';
+import 'core/route_generator.dart';
+import 'repository/firebase_reclip_repository.dart';
+import 'repository/user_repository.dart';
+import 'repository/youtube_repository.dart';
 import 'ui/splash_page/splash_page.dart';
 
 void main() {

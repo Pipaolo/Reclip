@@ -1,12 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:progressive_image/progressive_image.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/youtube_channel.dart';
+import '../../../data/model/youtube_vid.dart';
 import 'yt_player.dart';
 
 class VideoDescription extends StatefulWidget {
@@ -64,6 +65,7 @@ class _VideoDescriptionState extends State<VideoDescription> {
   }
 
   _buildDescription() {
+    final convertedDate = widget.ytVid.publishedAt.split('T').removeAt(0);
     return Column(
       children: <Widget>[
         SizedBox(
@@ -96,7 +98,7 @@ class _VideoDescriptionState extends State<VideoDescription> {
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 10),
                 child: AutoSizeText(
-                  'Creator: ${widget.ytChannel.title}',
+                  'Published: ${DateFormat('MMMM dd, yyyy').format(DateTime.parse(convertedDate))}',
                   maxLines: 1,
                   textAlign: TextAlign.left,
                   minFontSize: 5,

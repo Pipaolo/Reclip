@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:googleapis/youtube/v3.dart';
-import 'package:meta/meta.dart';
-import 'package:reclip/core/keys.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:http/http.dart' as http;
-import 'package:reclip/repository/firebase_reclip_repository.dart';
+import 'package:meta/meta.dart';
+
+import '../core/keys.dart';
+import '../data/model/reclip_user.dart';
+import '../data/model/youtube_channel.dart';
+import '../data/model/youtube_vid.dart';
+import 'firebase_reclip_repository.dart';
 
 class YoutubeRepository {
   final FirebaseReclipRepository firebaseReclipRepository;

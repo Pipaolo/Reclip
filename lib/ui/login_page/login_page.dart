@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/bloc/login/login_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
 
+import '../../bloc/authentication/authentication_bloc.dart';
+import '../../bloc/login/login_bloc.dart';
+import '../../bloc/navigation/navigation_bloc.dart';
+import '../../bloc/youtube/youtube_bloc.dart';
+import '../../core/reclip_colors.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {

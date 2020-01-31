@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
+import 'package:meta/meta.dart';
+
+import 'youtube_channel.dart';
 
 class ReclipUser extends Equatable {
   final String id;
