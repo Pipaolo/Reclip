@@ -28,7 +28,7 @@ class ReclipUser extends Equatable {
       name: snap.data['name'],
       email: snap.data['email'],
       imageUrl: snap.data['imageUrl'],
-      channel: snap.data['channel'],
+      channel: YoutubeChannel.fromUserMap(snap.data['channel']),
     );
   }
 

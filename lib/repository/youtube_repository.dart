@@ -23,7 +23,7 @@ class YoutubeRepository {
             headers: await user.googleAccount.authHeaders);
 
         final YoutubeChannel userChannel =
-            YoutubeChannel.fromMap(json.decode(response.body));
+            YoutubeChannel.fromHttpMap(json.decode(response.body));
 
         final ReclipUser userToUpload = ReclipUser(
           id: user.id,
@@ -50,7 +50,7 @@ class YoutubeRepository {
             headers: await user.googleAccount.authHeaders);
 
         final YoutubeChannel userChannel =
-            YoutubeChannel.fromMap(json.decode(response.body));
+            YoutubeChannel.fromHttpMap(json.decode(response.body));
 
         final ReclipUser userToUpload = ReclipUser(
           id: user.id,

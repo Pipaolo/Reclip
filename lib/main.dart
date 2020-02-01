@@ -54,7 +54,10 @@ class Reclip extends StatelessWidget {
           ),
         ),
         BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(userRepository: _userRepository),
+          create: (context) => LoginBloc(
+            userRepository: _userRepository,
+            firebaseReclipRepository: FirebaseReclipRepository(),
+          ),
         ),
       ],
       child: MaterialApp(

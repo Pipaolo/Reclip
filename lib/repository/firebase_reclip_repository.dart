@@ -11,6 +11,14 @@ class FirebaseReclipRepository {
     return await userCollection.document(user.email).setData(user.toDocument());
   }
 
+  Future<ReclipUser> getUser(String email) async {
+    return ReclipUser.fromSnapshot(await userCollection.document(email).get());
+  }
+
+  Future<bool> checkExistingUser(String email) async {
+    return (await userCollection.document(email).get() != null) ? true : false;
+  }
+
   Future<void> addChannel(YoutubeChannel channel) async {
     return await channelCollection
         .document(channel.id)

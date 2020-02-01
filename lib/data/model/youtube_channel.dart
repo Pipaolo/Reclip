@@ -18,7 +18,7 @@ class YoutubeChannel extends Equatable {
       this.uploadPlaylistId,
       this.videos});
 
-  factory YoutubeChannel.fromMap(Map<String, dynamic> map) {
+  factory YoutubeChannel.fromHttpMap(Map<String, dynamic> map) {
     return YoutubeChannel(
       id: map['items'][0]['id'],
       title: map['items'][0]['snippet']['title'],
@@ -26,6 +26,16 @@ class YoutubeChannel extends Equatable {
       thumbnails: map['items'][0]['snippet']['thumbnails'],
       uploadPlaylistId: map['items'][0]['contentDetails']['relatedPlaylists']
           ['uploads'],
+    );
+  }
+
+  factory YoutubeChannel.fromUserMap(Map<dynamic, dynamic> map) {
+    return YoutubeChannel(
+      id: map['id'],
+      title: map['title'],
+      description: map['description'],
+      uploadPlaylistId: map['playlistId'],
+      thumbnails: map['thumbnails'],
     );
   }
 

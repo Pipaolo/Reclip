@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
+import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/youtube_repository.dart';
 
@@ -44,7 +45,7 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
         channelStream?.cancel();
 
         final user = await youtubeRepository.getYoutubeChannel(event.user);
-        print('user $user');
+
         await firebaseReclipRepository.addUser(user);
         if (user.channel != null) {
           await firebaseReclipRepository.addChannel(user.channel);
@@ -63,6 +64,10 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
             await youtubeRepository.getYoutubeVideos(channel.uploadPlaylistId);
       }
       yield YoutubeSuccess(ytChannels: event.channels);
+    } else if (event is FetchUserVideos) {
+      final videos = await youtubeRepository
+          .getYoutubeVideos(event.userChannel.uploadPlaylistId);
+      yield YoutubeUser(userVideos: videos);
     }
   }
 }

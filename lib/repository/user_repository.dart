@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/youtube/v3.dart';
+import 'package:reclip/repository/firebase_reclip_repository.dart';
 
 import '../data/model/reclip_user.dart';
 
@@ -9,6 +11,8 @@ class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
+  final FirebaseReclipRepository firebaseReclipRepository =
+      FirebaseReclipRepository();
 
   UserRepository(
       {FirebaseAuth firebaseAuth,
@@ -85,6 +89,12 @@ class UserRepository {
 
   Future<ReclipUser> getUser() async {
     final rawUser = await _firebaseAuth.currentUser();
+    final isUserExisting =
+        await firebaseReclipRepository.checkExistingUser(rawUser.email);
+    if (isUserExisting) {
+      final reclipUser = firebaseReclipRepository.getUser(rawUser.email);
+      return reclipUser;
+    }
     return ReclipUser(
       id: rawUser.uid,
       email: rawUser.email,

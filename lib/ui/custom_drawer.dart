@@ -21,6 +21,7 @@ class CustomDrawer extends StatelessWidget {
         if (state is AddContentPageState) {
           return _buildAddContentState();
         }
+
         return Container();
       },
     );

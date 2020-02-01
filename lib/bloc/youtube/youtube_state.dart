@@ -23,6 +23,14 @@ class YoutubeLoading extends YoutubeState {
   List<Object> get props => [];
 }
 
+class YoutubeUser extends YoutubeState {
+  final List<YoutubeVideo> userVideos;
+
+  YoutubeUser({this.userVideos});
+  @override
+  List<Object> get props => [userVideos];
+}
+
 class YoutubeSuccess extends YoutubeState {
   final List<YoutubeChannel> ytChannels;
 
