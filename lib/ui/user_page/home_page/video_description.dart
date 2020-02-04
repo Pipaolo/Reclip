@@ -142,7 +142,7 @@ class _VideoDescriptionState extends State<VideoDescription> {
           child: IconButton(
             icon: Icon(
               Icons.close,
-              color: yellowOrange,
+              color: royalOrange,
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),

@@ -47,7 +47,7 @@ class _UserHomePageState extends State<UserHomePage> {
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: yellowOrange,
+  
         title: Text('HOME'),
         centerTitle: true,
       ),
@@ -62,7 +62,7 @@ class _UserHomePageState extends State<UserHomePage> {
           if (state is YoutubeLoading) {
             return Center(
               child: SpinKitCircle(
-                color: yellowOrange,
+                color: royalOrange,
               ),
             );
           }

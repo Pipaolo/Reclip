@@ -67,7 +67,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             children: <Widget>[
               Container(
                 width: double.infinity,
-                color: yellowOrange,
+                color: royalOrange,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

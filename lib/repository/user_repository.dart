@@ -22,6 +22,7 @@ class UserRepository {
   Future<ReclipUser> signInWithGoogle() async {
     //Set Scopes for Access to Youtube API
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
@@ -84,7 +85,9 @@ class UserRepository {
   }
 
   Future<ReclipUser> getUser() async {
-    final rawUser = await _firebaseAuth.currentUser();
+    final rawUser = await _firebaseAuth.currentUser().catchError((_) {
+      print(_.toString);
+    });
     return ReclipUser(
       id: rawUser.uid,
       email: rawUser.email,

@@ -1,3 +1,5 @@
+import 'package:reclip/ui/signup_page/signup_category_page.dart';
+import 'package:reclip/ui/signup_page/signup_credentials_page.dart';
 import 'package:reclip/ui/splash_page/splash_page.dart';
 import 'package:reclip/ui/ui.dart';
 import 'package:sailor/sailor.dart';
@@ -24,6 +26,17 @@ class Routes {
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),
+        SailorRoute(
+          name: 'signup_page/category',
+          builder: (context, args, params) {
+            return SignupCategoryPage();
+          },
+        ),
+        SailorRoute(
+            name: 'signup_page/credentials',
+            builder: (context, args, params) {
+              return SignupCredentialsPage();
+            }),
         SailorRoute(
           name: 'login_page',
           builder: (context, args, params) {
