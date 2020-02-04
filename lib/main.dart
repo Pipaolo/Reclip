@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/authentication/authentication_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/navigation/navigation_bloc.dart';
+import 'bloc/playback/playback_bloc.dart';
 import 'bloc/youtube/youtube_bloc.dart';
 import 'core/reclip_colors.dart';
 import 'core/route_generator.dart';
@@ -59,12 +60,14 @@ class Reclip extends StatelessWidget {
             firebaseReclipRepository: FirebaseReclipRepository(),
           ),
         ),
+        BlocProvider<PlaybackBloc>(
+          create: (context) => PlaybackBloc(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           buttonColor: Colors.black,
-          accentColor: Colors.black,
           appBarTheme: AppBarTheme(
             color: Colors.black,
             textTheme: TextTheme(
@@ -74,9 +77,11 @@ class Reclip extends StatelessWidget {
               ),
             ),
           ),
+          backgroundColor: Colors.white,
           fontFamily: 'KarlaTamilUpright',
+          splashColor: Colors.black45,
           canvasColor: Colors.black,
-          errorColor: Colors.black,
+          errorColor: tomato,
         ),
         onGenerateRoute: Routes.sailor.generator(),
         navigatorKey: Routes.sailor.navigatorKey,

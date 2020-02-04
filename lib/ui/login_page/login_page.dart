@@ -27,6 +27,9 @@ class _LoginPageState extends State<LoginPage> {
             type: ProgressDialogType.Normal,
             isDismissible: false,
           );
+          progressDialog.style(
+            progressWidget: CircularProgressIndicator(),
+          );
           if (state is LoginLoading) {
             progressDialog.show();
           }

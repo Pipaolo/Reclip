@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:reclip/core/reclip_colors.dart';
 
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/ui/login_page/facebook_button.dart';
@@ -109,6 +110,7 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(
             width: double.infinity,
             child: RaisedButton(
+              color: tomato,
               child: Text(
                 'Login'.toUpperCase(),
                 style: TextStyle(

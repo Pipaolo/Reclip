@@ -21,6 +21,14 @@
             "package_name": "com.reclip.app",
             "certificate_hash": "4a583a7431a5d377ff93582a05cba74443632ce6"
           }
+        },
+        {
+          "client_id": "314786042933-m0jcjegdiia9cad3hp0o5uk0fneoins8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reclip.app",
+            "certificate_hash": "802074b733f9fb3da8a3022646713344227cd701"
+          }
         }
       ],
       "api_key": [

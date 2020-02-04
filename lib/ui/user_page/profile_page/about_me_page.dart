@@ -1,8 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 
@@ -28,7 +25,7 @@ class AboutMePage extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: AutoSizeText(
-          user.channel.description ?? 'You currently don\'t have a description',
+          user.channel.title ?? 'You currently don\'t have a description',
           maxLines: 8,
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),

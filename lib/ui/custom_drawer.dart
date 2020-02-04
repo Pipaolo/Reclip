@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/core/route_generator.dart';
 
 class CustomDrawer extends StatelessWidget {
   final NavigationBloc navigationBloc;
@@ -31,13 +32,20 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 16, 20),
+          Align(
             alignment: Alignment.topRight,
-            child: Icon(
-              FontAwesomeIcons.bars,
-              color: Colors.white,
-              size: 25,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 20, 50),
+              child: InkWell(
+                onTap: () {
+                  Routes.sailor.pop();
+                },
+                child: Icon(
+                  FontAwesomeIcons.bars,
+                  color: tomato.withAlpha(150),
+                  size: 25,
+                ),
+              ),
             ),
           ),
           _buildListItem(
@@ -64,13 +72,20 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 16, 20),
+          Align(
             alignment: Alignment.topRight,
-            child: Icon(
-              FontAwesomeIcons.bars,
-              color: Colors.white,
-              size: 25,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 20, 50),
+              child: InkWell(
+                onTap: () {
+                  Routes.sailor.pop();
+                },
+                child: Icon(
+                  FontAwesomeIcons.bars,
+                  color: tomato.withAlpha(150),
+                  size: 25,
+                ),
+              ),
             ),
           ),
           _buildListItem(
@@ -97,13 +112,20 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 16, 20),
+          Align(
             alignment: Alignment.topRight,
-            child: Icon(
-              FontAwesomeIcons.bars,
-              color: Colors.white,
-              size: 25,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 20, 50),
+              child: InkWell(
+                onTap: () {
+                  Routes.sailor.pop();
+                },
+                child: Icon(
+                  FontAwesomeIcons.bars,
+                  color: tomato.withAlpha(150),
+                  size: 25,
+                ),
+              ),
             ),
           ),
           _buildListItem(
@@ -130,7 +152,7 @@ class CustomDrawer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Ink(
-        color: darkBlue,
+        color: tomato.withAlpha(150),
         child: InkWell(
           onTap: function,
           child: Padding(

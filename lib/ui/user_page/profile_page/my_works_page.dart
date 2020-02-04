@@ -74,7 +74,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
           }
         } else if (state is YoutubeLoading) {
           return Center(
-            child: SpinKitCircle(color: yellowOrange),
+            child: SpinKitCircle(color: tomato),
           );
         } else if (state is YoutubeError) {
           return Center(

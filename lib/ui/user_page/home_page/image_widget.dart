@@ -7,8 +7,13 @@ import 'package:reclip/ui/user_page/home_page/video_description.dart';
 
 class ImageWidget extends StatefulWidget {
   final List<YoutubeChannel> ytChannels;
+  final List<YoutubeVideo> ytVideos;
   final bool isExpanded;
-  ImageWidget({Key key, @required this.ytChannels, this.isExpanded})
+  ImageWidget(
+      {Key key,
+      @required this.ytChannels,
+      @required this.ytVideos,
+      this.isExpanded})
       : super(key: key);
 
   @override
@@ -22,18 +27,13 @@ class _ImageWidgetState extends State<ImageWidget> {
   }
 
   _buildListView() {
-    List<YoutubeVideo> ytVids = List();
-    for (var channel in widget.ytChannels) {
-      ytVids.addAll(channel.videos);
-    }
-    ytVids.shuffle();
     return Container(
-      decoration: BoxDecoration(color: midnightBlue),
+      decoration: BoxDecoration(color: Colors.black54),
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: ytVids.length,
+        itemCount: widget.ytVideos.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(5),
@@ -46,18 +46,18 @@ class _ImageWidgetState extends State<ImageWidget> {
                 children: <Widget>[
                   Positioned.fill(
                     child: Hero(
-                      tag: ytVids[index].id,
+                      tag: widget.ytVideos[index].id,
                       child: ProgressiveImage(
-                        height:
-                            ytVids[index].images['high']['width'].toDouble(),
-                        width:
-                            ytVids[index].images['high']['height'].toDouble(),
+                        height: widget.ytVideos[index].images['high']['width']
+                            .toDouble(),
+                        width: widget.ytVideos[index].images['high']['height']
+                            .toDouble(),
                         placeholder: NetworkImage(
-                            ytVids[index].images['default']['url']),
-                        thumbnail:
-                            NetworkImage(ytVids[index].images['medium']['url']),
-                        image:
-                            NetworkImage(ytVids[index].images['high']['url']),
+                            widget.ytVideos[index].images['default']['url']),
+                        thumbnail: NetworkImage(
+                            widget.ytVideos[index].images['medium']['url']),
+                        image: NetworkImage(
+                            widget.ytVideos[index].images['high']['url']),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -71,10 +71,11 @@ class _ImageWidgetState extends State<ImageWidget> {
                         onTap: () {
                           return _showBottomSheet(
                               context,
-                              ytVids[index],
+                              widget.ytVideos[index],
                               widget.ytChannels[
                                   widget.ytChannels.indexWhere((channel) {
-                                return channel.videos.contains(ytVids[index]);
+                                return channel.videos
+                                    .contains(widget.ytVideos[index]);
                               })]);
                         },
                       ),
