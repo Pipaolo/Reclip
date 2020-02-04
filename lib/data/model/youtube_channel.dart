@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 
+
 class YoutubeChannel extends Equatable {
   final String id;
   final String title;

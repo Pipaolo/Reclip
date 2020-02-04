@@ -67,7 +67,7 @@ class _YTPlayerState extends State<YTPlayer> {
                 IconButton(
                   icon: Icon(
                     Icons.close,
-                    color: yellowOrange,
+                    color: royalOrange,
                   ),
                   onPressed: () {
                     widget.youtubePlayerController.pause();
@@ -86,8 +86,8 @@ class _YTPlayerState extends State<YTPlayer> {
         ],
         progressColors: ProgressBarColors(
           bufferedColor: darkBlue,
-          handleColor: yellowOrange,
-          playedColor: yellowOrange,
+          handleColor: royalOrange,
+          playedColor: royalOrange,
         ),
         width: double.infinity,
         onReady: () {

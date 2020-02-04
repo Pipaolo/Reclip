@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -55,13 +56,17 @@ class _LoginFormState extends State<LoginForm> {
             maxLines: 1,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                hintText: "Email",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                fillColor: Colors.white,
-                filled: true),
+              contentPadding: EdgeInsets.all(10),
+              hintText: "Email",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              fillColor: Colors.white,
+              filled: true,
+              errorStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             validators: [
               FormBuilderValidators.email(),
               FormBuilderValidators.required(),
@@ -87,6 +92,9 @@ class _LoginFormState extends State<LoginForm> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 fillColor: Colors.white,
+                errorStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
                 filled: true),
             validators: [
               FormBuilderValidators.required(),
@@ -106,22 +114,29 @@ class _LoginFormState extends State<LoginForm> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
+                  color: Colors.white,
                 ),
               ),
               onPressed: () => _submitLogin(),
             ),
           ),
+          SizedBox(
+            height: 15,
+          ),
           InkWell(
-            child: Text(
+            child: AutoSizeText(
               'Forgot Password?',
-              style: TextStyle(color: Colors.white, fontSize: 13),
+              style: TextStyle(color: Colors.white),
+              maxLines: 1,
+              maxFontSize: 24,
+              minFontSize: 18,
             ),
             onTap: () {},
           ),
-          Text.rich(
+          AutoSizeText.rich(
             TextSpan(
               text: 'Dont have account?',
-              style: TextStyle(color: Colors.white, fontSize: 13),
+              style: TextStyle(color: Colors.white),
               children: [
                 TextSpan(
                   text: '  SIGN UP',
@@ -130,6 +145,9 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ],
             ),
+            maxLines: 1,
+            minFontSize: 18,
+            maxFontSize: 24,
           ),
         ],
       ),
@@ -137,7 +155,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   _navigateToSignupPage() {
-    return Routes.sailor.navigate('signup_page');
+    return Routes.sailor.navigate('signup_page/category');
   }
 
   _submitLogin() {

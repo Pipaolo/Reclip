@@ -63,10 +63,20 @@ class Reclip extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          accentColor: yellowOrange,
-          buttonColor: yellowOrange,
+          buttonColor: Colors.black,
+          accentColor: Colors.black,
+          appBarTheme: AppBarTheme(
+            color: Colors.black,
+            textTheme: TextTheme(
+              title: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
           fontFamily: 'KarlaTamilUpright',
-          canvasColor: royalBlue,
+          canvasColor: Colors.black,
+          errorColor: Colors.black,
         ),
         onGenerateRoute: Routes.sailor.generator(),
         navigatorKey: Routes.sailor.navigatorKey,
@@ -75,3 +85,4 @@ class Reclip extends StatelessWidget {
     );
   }
 }
+//Note: ang pogi ni Samuel D. Garcia ng 12 Java

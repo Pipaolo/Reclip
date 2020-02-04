@@ -6,7 +6,6 @@ import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
 import '../../bloc/navigation/navigation_bloc.dart';
 import '../../bloc/youtube/youtube_bloc.dart';
-import '../../core/reclip_colors.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -32,10 +31,14 @@ class _LoginPageState extends State<LoginPage> {
             progressDialog.show();
           }
           if (state is LoginSuccess) {
-            BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
-            BlocProvider.of<NavigationBloc>(context)..add(ShowHomePage());
-            BlocProvider.of<YoutubeBloc>(context)
-              ..add(FetchYoutubeChannel(user: state.user));
+            if (state.user != null) {
+              BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
+
+              BlocProvider.of<NavigationBloc>(context)..add(ShowHomePage());
+              BlocProvider.of<YoutubeBloc>(context)
+                ..add(FetchYoutubeChannel(user: state.user));
+            }
+
             progressDialog.dismiss();
           }
           if (state is LoginError) {
@@ -43,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         child: Container(
-          color: royalBlue,
           height: double.infinity,
           child: SingleChildScrollView(
             child: Column(

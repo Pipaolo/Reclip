@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 Color royalBlue = Color(0xFF011068);
-Color yellowOrange = Color(0xffF68A21);
+Color royalPurple = Color(0xFF7851a9);
+Color royalOrange = Color(0xfff99245);
+Color tomato = Color(0xFFED4E30);
 Color facebookBlue = Color(0xff3B5998);
 Color midnightBlue = Color(0xff1c224a);
 List<Color> instagramColors = [

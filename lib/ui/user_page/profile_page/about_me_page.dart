@@ -28,7 +28,7 @@ class AboutMePage extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: AutoSizeText(
-          user.channel.description,
+          user.channel.description ?? 'You currently don\'t have a description',
           maxLines: 8,
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),

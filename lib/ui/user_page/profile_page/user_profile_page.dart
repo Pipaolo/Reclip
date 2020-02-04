@@ -50,6 +50,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       drawer: CustomDrawer(
         navigationBloc: navigationBloc,
       ),
+<<<<<<< HEAD
       body: DefaultTabController(
         length: 3,
         child: Column(
@@ -69,6 +70,41 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         child: Icon(
                           FontAwesomeIcons.cog,
                           size: 30,
+=======
+      body: BlocListener<LoginBloc, LoginState>(
+        listener: (context, state) {
+          ProgressDialog pd = ProgressDialog(context,
+              isDismissible: false, type: ProgressDialogType.Normal);
+          pd.style(message: '');
+          if (state is LoginLoading) {
+            pd.show();
+          }
+          if (state is LoginSuccess) {
+            pd.dismiss();
+          }
+        },
+        child: DefaultTabController(
+          length: 3,
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                color: royalOrange,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          child: Icon(
+                            FontAwesomeIcons.cog,
+                            size: 30,
+                          ),
+                          onTap: () {},
+>>>>>>> b9e602dcb62dbb271f327df5598f1b679a5ad605
                         ),
                         onTap: () {},
                       ),
