@@ -77,8 +77,7 @@ class UserHomePage extends HookWidget {
               );
             }
             if (state is YoutubeSuccess) {
-              return _buildHomePage(context, _scaffoldKey, state.ytChannels,
-                  scrollController, hideNavDrawerAnimController);
+              return ListView();
             }
             return Container();
           },
