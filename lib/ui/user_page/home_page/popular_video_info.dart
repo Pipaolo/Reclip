@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/playback/playback_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
@@ -116,10 +117,9 @@ class PopularVideoInfo extends StatelessWidget {
                         color: Colors.white,
                       ),
                       title: 'Info',
-                      function: () => BlocProvider.of<PlaybackBloc>(context)
+                      function: () => BlocProvider.of<InfoBloc>(context)
                         ..add(
-                          ShowInfo(
-                              channel: popularChannel, video: popularVideo),
+                          Show(channel: popularChannel, video: popularVideo),
                         ),
                     ),
                   ],

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
+import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/bloc/playback/playback_bloc.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
@@ -50,7 +51,7 @@ class UserHomePage extends HookWidget {
       drawer: CustomDrawer(
         navigationBloc: BlocProvider.of<NavigationBloc>(context),
       ),
-      body: BlocListener<PlaybackBloc, PlaybackState>(
+      body: BlocListener<InfoBloc, InfoState>(
         listener: (context, state) {
           if (state is ShowVideoInfo) {
             showModalBottomSheet(

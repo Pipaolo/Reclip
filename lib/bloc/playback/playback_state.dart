@@ -18,12 +18,3 @@ class IsPlaying extends PlaybackState {
   @override
   List<Object> get props => [];
 }
-
-class ShowVideoInfo extends PlaybackState {
-  final YoutubeVideo video;
-  final YoutubeChannel channel;
-
-  ShowVideoInfo({this.video, this.channel});
-  @override
-  List<Object> get props => [video, channel];
-}

@@ -15,10 +15,5 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
   @override
   Stream<PlaybackState> mapEventToState(
     PlaybackEvent event,
-  ) async* {
-    yield IsNotPlaying();
-    if (event is ShowInfo) {
-      yield ShowVideoInfo(video: event.video, channel: event.channel);
-    }
-  }
+  ) async* {}
 }

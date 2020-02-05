@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 
 import 'bloc/authentication/authentication_bloc.dart';
+import 'bloc/info/info_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/navigation/navigation_bloc.dart';
 import 'bloc/playback/playback_bloc.dart';
@@ -66,6 +67,9 @@ class Reclip extends StatelessWidget {
         ),
         BlocProvider<DrawerBloc>(
           create: (context) => DrawerBloc(),
+        ),
+        BlocProvider<InfoBloc>(
+          create: (context) => InfoBloc(),
         )
       ],
       child: MaterialApp(
