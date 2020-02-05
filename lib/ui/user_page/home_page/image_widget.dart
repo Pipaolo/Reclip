@@ -58,7 +58,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                             widget.ytVideos[index].images['medium']['url']),
                         image: NetworkImage(
                             widget.ytVideos[index].images['high']['url']),
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),

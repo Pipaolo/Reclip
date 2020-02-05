@@ -39,6 +39,17 @@ class PopularVideoInfo extends StatelessWidget {
           ),
         ),
         Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: AutoSizeText(
+            'Featured',
+            style: TextStyle(color: Colors.white, fontSize: 25),
+            maxLines: 1,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Positioned(
           bottom: 10,
           right: 0,
           left: 0,
