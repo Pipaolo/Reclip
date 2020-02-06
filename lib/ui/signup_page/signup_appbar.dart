@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reclip/core/reclip_colors.dart';
+
 import 'package:reclip/core/route_generator.dart';
 
 class SignupAppBar extends StatelessWidget implements PreferredSizeWidget {

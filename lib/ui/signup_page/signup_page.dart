@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/ui/signup_page/signup_appbar.dart';
 import 'package:reclip/ui/signup_page/signup_form.dart';
 

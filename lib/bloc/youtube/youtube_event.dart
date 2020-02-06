@@ -10,6 +10,12 @@ class FetchYoutubeChannel extends YoutubeEvent {
   FetchYoutubeChannel({this.user});
   @override
   List<Object> get props => [user];
+
+  @override
+  String toString() {
+    print("Fetching Youtube Channel{User: $user}");
+    return super.toString();
+  }
 }
 
 class FetchUserVideos extends YoutubeEvent {

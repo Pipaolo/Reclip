@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
@@ -13,10 +14,12 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository _userRepository;
   FirebaseReclipRepository _firebaseReclipRepository;
+  final AuthenticationBloc authenticationBloc;
 
   LoginBloc(
       {@required UserRepository userRepository,
-      @required FirebaseReclipRepository firebaseReclipRepository})
+      @required FirebaseReclipRepository firebaseReclipRepository,
+      @required this.authenticationBloc})
       : assert(userRepository != null),
         assert(firebaseReclipRepository != null),
         _userRepository = userRepository,

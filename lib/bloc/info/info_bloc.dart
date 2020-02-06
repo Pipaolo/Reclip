@@ -16,6 +16,7 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
   Stream<InfoState> mapEventToState(
     InfoEvent event,
   ) async* {
+    yield (Idle());
     if (event is Show) {
       yield ShowVideoInfo(channel: event.channel, video: event.video);
     }

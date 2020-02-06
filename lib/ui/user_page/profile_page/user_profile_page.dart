@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reclip/bloc/login/login_bloc.dart';
 import 'package:reclip/ui/user_page/profile_page/contact_info_page.dart';
 import 'package:sailor/sailor.dart';
@@ -54,7 +53,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
       ),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-          print(widget.args.user.channel);
+          if (state is LoginSuccess) {
+            print(state.user.channel.description);
+          }
         },
         child: DefaultTabController(
           length: 3,

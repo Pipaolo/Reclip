@@ -41,15 +41,16 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   ) async* {
     yield YoutubeLoading();
     if (event is FetchYoutubeChannel) {
+      print("Fetch YoutubeChannel: {User: ${event.user.name}}");
       try {
         channelStream?.cancel();
 
         final user = await youtubeRepository.getYoutubeChannel(event.user);
 
-        await firebaseReclipRepository.addUser(user);
         if (user.channel != null) {
           await firebaseReclipRepository.addChannel(user.channel);
         }
+
         channelStream =
             firebaseReclipRepository.getYoutubeChannels().listen((channels) {
           add(FetchYoutubeVideos(channels: channels));
@@ -60,14 +61,10 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
       }
     } else if (event is FetchYoutubeVideos) {
       for (var channel in event.channels) {
-        channel.videos =
-            await youtubeRepository.getYoutubeVideos(channel.uploadPlaylistId);
+        channel.videos = await youtubeRepository
+            .getYoutubeChannelVideos(channel.uploadPlaylistId);
       }
       yield YoutubeSuccess(ytChannels: event.channels);
-    } else if (event is FetchUserVideos) {
-      final videos = await youtubeRepository
-          .getYoutubeVideos(event.userChannel.uploadPlaylistId);
-      yield YoutubeUser(userVideos: videos);
     }
   }
 }

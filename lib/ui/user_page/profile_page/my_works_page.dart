@@ -7,7 +7,7 @@ import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/user_page/home_page/video_description.dart';
+import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
 class MyWorksPage extends StatefulWidget {
   final ReclipUser user;
@@ -39,12 +39,13 @@ class _MyWorksPageState extends State<MyWorksPage> {
           if (userChannel.videos != null) {
             return SingleChildScrollView(
               child: Container(
+                padding: EdgeInsets.only(top: 8),
                 child: Column(
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(10),
                       width: double.infinity,
-                      color: darkBlue,
+                      color: tomato,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -88,7 +89,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
 
   _buildListView(List<YoutubeVideo> ytVids) {
     return Container(
-      decoration: BoxDecoration(color: midnightBlue),
+      decoration: BoxDecoration(color: tomato.withAlpha(180)),
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
@@ -153,7 +154,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return VideoDescription(
+        return VideoBottomSheet(
           ytVid: ytVid,
           ytChannel: ytChannel,
         );

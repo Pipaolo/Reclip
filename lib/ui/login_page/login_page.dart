@@ -34,13 +34,10 @@ class _LoginPageState extends State<LoginPage> {
             progressDialog.show();
           }
           if (state is LoginSuccess) {
-            if (state.user != null) {
-              BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
-
-              BlocProvider.of<NavigationBloc>(context)..add(ShowHomePage());
-              BlocProvider.of<YoutubeBloc>(context)
-                ..add(FetchYoutubeChannel(user: state.user));
-            }
+            BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
+            BlocProvider.of<YoutubeBloc>(context)
+              ..add(FetchYoutubeChannel(user: state.user));
+            BlocProvider.of<NavigationBloc>(context)..add(ShowHomePage());
 
             progressDialog.dismiss();
           }
@@ -49,22 +46,24 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         child: Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/images/reclip_logo.png',
-                    height: MediaQuery.of(context).size.height * 0.40,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    fit: BoxFit.cover),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: LoginForm(),
-                ),
-              ],
-            ),
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset('assets/images/reclip_logo.png',
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      fit: BoxFit.cover),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: LoginForm(),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

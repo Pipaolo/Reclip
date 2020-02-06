@@ -105,12 +105,12 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           SizedBox(
             width: double.infinity,
             child: RaisedButton(
-              color: tomato,
+              color: reclipIndigoDark,
               child: Text(
                 'Login'.toUpperCase(),
                 style: TextStyle(
@@ -123,15 +123,15 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 8,
           ),
           InkWell(
             child: AutoSizeText(
               'Forgot Password?',
               style: TextStyle(color: Colors.white),
               maxLines: 1,
-              maxFontSize: 24,
-              minFontSize: 18,
+              maxFontSize: 20,
+              minFontSize: 14,
             ),
             onTap: () {},
           ),
@@ -148,8 +148,8 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
             maxLines: 1,
-            minFontSize: 18,
-            maxFontSize: 24,
+            minFontSize: 14,
+            maxFontSize: 20,
           ),
         ],
       ),
@@ -180,8 +180,6 @@ class _LoginFormState extends State<LoginForm> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         GoogleButton(),
-        FacebookButton(),
-        InstagramButton(),
       ],
     );
   }

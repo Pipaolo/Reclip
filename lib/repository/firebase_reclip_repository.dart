@@ -7,7 +7,6 @@ class FirebaseReclipRepository {
   final channelCollection = Firestore.instance.collection('channels');
 
   Future<void> addUser(ReclipUser user) async {
-    print('AddUser: $user');
     return await userCollection.document(user.email).setData(user.toDocument());
   }
 

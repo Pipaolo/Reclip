@@ -5,6 +5,7 @@ ScrollController useScrollControllerForAnimation(
   AnimationController animationController,
 ) {
   ScrollController scrollController = ScrollController();
+
   scrollController.addListener(() {
     switch (scrollController.position.userScrollDirection) {
       case ScrollDirection.forward:

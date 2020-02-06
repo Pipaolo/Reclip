@@ -60,6 +60,7 @@ class Reclip extends StatelessWidget {
           create: (context) => LoginBloc(
             userRepository: _userRepository,
             firebaseReclipRepository: FirebaseReclipRepository(),
+            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           ),
         ),
         BlocProvider<PlaybackBloc>(
@@ -86,10 +87,12 @@ class Reclip extends StatelessWidget {
             ),
           ),
           backgroundColor: Colors.white,
-          fontFamily: 'KarlaTamilUpright',
           splashColor: Colors.black45,
-          canvasColor: Colors.black,
-          errorColor: tomato,
+          primaryColor: reclipBlack,
+          primaryColorDark: reclipBlackDark,
+          primaryColorLight: reclipBlackLight,
+          accentColor: reclipIndigo,
+          scaffoldBackgroundColor: reclipBlack,
         ),
         onGenerateRoute: Routes.sailor.generator(),
         navigatorKey: Routes.sailor.navigatorKey,

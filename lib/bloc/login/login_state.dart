@@ -18,8 +18,15 @@ class LoginSuccess extends LoginState {
   final ReclipUser user;
 
   LoginSuccess({this.user});
+
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() {
+    print('LoginSuccess: {User: ${user.name}}');
+    return super.toString();
+  }
 }
 
 class LoginError extends LoginState {

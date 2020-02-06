@@ -3,6 +3,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
+import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/user_page/home_page/user_home_page.dart';
@@ -34,6 +35,7 @@ class _SplashPageState extends State<SplashPage> {
             isAuthenticated = false;
           }
           if (state is Authenticated) {
+            //getUserInfo
             isAuthenticated = true;
             user = state.user;
           }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -89,14 +88,19 @@ class UserRepository {
   }
 
   Future<ReclipUser> getUser() async {
-    final rawUser = await _firebaseAuth.currentUser().catchError((_) {
-      print(_.toString);
-    });
-    return ReclipUser(
-      id: rawUser.uid,
-      email: rawUser.email,
-      name: rawUser.displayName,
-      imageUrl: rawUser.photoUrl,
-    );
+    final rawUser = await _firebaseAuth.currentUser();
+
+    try {
+      final storedUser = await firebaseReclipRepository.getUser(rawUser.email);
+
+      return storedUser;
+    } catch (e) {
+      return ReclipUser(
+        id: rawUser.uid,
+        email: rawUser.email,
+        name: rawUser.displayName,
+        imageUrl: rawUser.photoUrl,
+      );
+    }
   }
 }

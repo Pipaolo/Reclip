@@ -65,64 +65,10 @@ class YoutubeRepository {
         print(e.toString());
       }
     }
-    // YoutubeChannel rawChannel = YoutubeChannel(
-    //   id: channel.id,
-    //   title: channel.title,
-    //   description: channel.description,
-    //   uploadPlaylistId: channel.uploadPlaylistId,
-    //   thumbnails: channel.thumbnails,
-    //   videos: await getYoutubeVideos(channel.uploadPlaylistId),
-    // );
-    // ciitChannels.add(rawChannel);
-    // for (String channel in ciitChannels) {
-    //   final channelResults =
-    //       await ytApi.channels.list('id,contentDetails, snippet', id: channel);
-
-    //   for (Channel channelInfo in channelResults.items) {
-    //     final YoutubeChannel ytChannel =
-    //         YoutubeChannel.fromMap(channelInfo.toJson());
-    //     ytChannel.videos = await getYoutubeVideos(ytChannel.uploadPlaylistId);
-    //     youtubeChannels.add(ytChannel);
-    //   }
-    // }
-
-    // for (String channel in youtubeChannels) {
-    //   final results = await ytApi.search
-    //       .list('id,snippet', channelId: channel, maxResults: 5, type: 'video');
-
-    //   for (SearchResult item in results.items) {
-    //     final ytVid =
-    //         await ytApi.videos.list('id,snippet', id: item.id.videoId);
-
-    //     ytVid.items.removeWhere(
-    //       (video) =>
-    //           video.snippet.title.toLowerCase().contains('trailer') ||
-    //           video.snippet.title.toLowerCase().contains('teaser') ||
-    //           video.snippet.title.toLowerCase().contains('behind') ||
-    //           video.snippet.title.toLowerCase().contains('sound'),
-    //     );
-
-    //     ytVid.items.forEach(
-    //       (video) {
-    //         youtubeVid.add(
-    //           YoutubeVid(
-    //             id: video.id,
-    //             channel: video.snippet.channelId,
-    //             title:
-    //                 video.snippet.title.replaceAll('"', '').replaceAll('“', ''),
-    //             description: video.snippet.description,
-    //             images: video.snippet.thumbnails,
-    //           ),
-    //         );
-    //       },
-    //     );
-    //   }
-    // }
-
     return ciitChannels;
   }
 
-  Future<List<YoutubeVideo>> getYoutubeVideos(
+  Future<List<YoutubeVideo>> getYoutubeChannelVideos(
     String playlistId,
   ) async {
     List<YoutubeVideo> ytVids = List();
@@ -143,25 +89,6 @@ class YoutubeRepository {
     for (var videos in filteredVideos) {
       ytVids.add(YoutubeVideo.fromMap(videos));
     }
-
-    // final channelVideos = await ytApi.playlistItems
-    //     .list('id, snippet', playlistId: playlistId, maxResults: 50);
-
-    // channelVideos.items.removeWhere(
-    //   (video) =>
-    //       video.snippet.title.toLowerCase().contains('trailer') ||
-    //       video.snippet.title.toLowerCase().contains('teaser') ||
-    //       video.snippet.title.toLowerCase().contains('behind') ||
-    //       video.snippet.title.toLowerCase().contains('sound'),
-    // );
-
-    // channelVideos.items.forEach(
-    //   (video) {
-    //     ytVids.add(
-    //       YoutubeVideo.fromMap(video.toJson()),
-    //     );
-    //   },
-    // );
     return ytVids;
   }
 

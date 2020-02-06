@@ -38,7 +38,7 @@ class _UserAddContentPageState extends State<UserAddContentPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('ADD CONTENT'),
-        backgroundColor: royalOrange,
+        backgroundColor: reclipBlack,
         centerTitle: true,
       ),
       drawer: CustomDrawer(navigationBloc: navigationBloc),

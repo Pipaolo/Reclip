@@ -8,6 +8,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class YTPlayer extends StatefulWidget {
   final YoutubePlayerController youtubePlayerController;
   final YoutubeVideo youtubeVideo;
+
   YTPlayer(
       {Key key,
       @required this.youtubePlayerController,
@@ -67,7 +68,7 @@ class _YTPlayerState extends State<YTPlayer> {
                 IconButton(
                   icon: Icon(
                     Icons.close,
-                    color: royalOrange,
+                    color: reclipIndigo,
                   ),
                   onPressed: () {
                     widget.youtubePlayerController.pause();
@@ -81,14 +82,14 @@ class _YTPlayerState extends State<YTPlayer> {
         bottomActions: <Widget>[
           ProgressBar(
             isExpanded: true,
+            colors: ProgressBarColors(
+              bufferedColor: reclipIndigoDark,
+              handleColor: reclipIndigo,
+              playedColor: reclipIndigo,
+            ),
           ),
           RemainingDuration(),
         ],
-        progressColors: ProgressBarColors(
-          bufferedColor: darkBlue,
-          handleColor: royalOrange,
-          playedColor: royalOrange,
-        ),
         width: double.infinity,
         onReady: () {
           setState(() {
