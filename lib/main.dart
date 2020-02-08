@@ -32,6 +32,7 @@ void main() {
 
 class Reclip extends StatelessWidget {
   final UserRepository _userRepository;
+
   const Reclip({Key key, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
