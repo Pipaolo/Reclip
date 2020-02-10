@@ -3,9 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
+import 'package:sailor/sailor.dart';
+
+class SignupContentCreatorFirstArgs extends BaseArguments {
+  final ReclipUser user;
+
+  SignupContentCreatorFirstArgs({@required this.user});
+}
 
 class SignupContentCreatorFirstPage extends StatelessWidget {
-  const SignupContentCreatorFirstPage({Key key}) : super(key: key);
+  final SignupContentCreatorFirstArgs args;
+  const SignupContentCreatorFirstPage({Key key, @required this.args})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +47,7 @@ class SignupContentCreatorFirstPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                SignupContentCreatorFirstForm(),
+                SignupContentCreatorFirstForm(user: args.user),
               ],
             ),
           ),
@@ -47,7 +58,9 @@ class SignupContentCreatorFirstPage extends StatelessWidget {
 }
 
 class SignupContentCreatorFirstForm extends StatefulWidget {
-  SignupContentCreatorFirstForm({Key key}) : super(key: key);
+  final ReclipUser user;
+  SignupContentCreatorFirstForm({Key key, @required this.user})
+      : super(key: key);
 
   @override
   _SignupContentCreatorFirstFormState createState() =>
@@ -65,6 +78,15 @@ class _SignupContentCreatorFirstFormState
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   FocusNode confirmPasswordFocus = FocusNode();
+
+  @override
+  void initState() {
+    if (widget.user != null) {
+      usernameController.text = widget.user.name;
+      emailController.text = widget.user.email;
+    }
+    super.initState();
+  }
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
@@ -263,7 +285,19 @@ class _SignupContentCreatorFirstFormState
 
   _navigateToNextPage() {
     if (_fbKey.currentState.saveAndValidate()) {
-      Routes.sailor.navigate('signup_page/content_creator/second_page');
+      if (widget.user != null) {
+        ReclipUser user = widget.user.copyWith(
+            username: usernameController.text,
+            email: emailController.text,
+            password: passwordController.text);
+
+        Routes.sailor.navigate(
+          'signup_page/content_creator/second_page',
+          args: SignupContentCreatorSecondArgs(
+            user: user,
+          ),
+        );
+      }
     }
   }
 

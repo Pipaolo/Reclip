@@ -23,3 +23,11 @@ class ShowLoginPage extends NavigationEvent {
   @override
   List<Object> get props => [];
 }
+
+class ShowSignupPage extends NavigationEvent {
+  final ReclipUser user;
+
+  ShowSignupPage({@required this.user});
+  @override
+  List<Object> get props => [user];
+}

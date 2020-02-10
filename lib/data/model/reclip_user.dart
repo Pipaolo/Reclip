@@ -10,6 +10,10 @@ class ReclipUser extends Equatable {
   final String name;
   final String email;
   final String imageUrl;
+  final String birthDate;
+  final String password;
+  final String description;
+  final String contactNumber;
   final YoutubeChannel channel;
   final GoogleSignInAccount googleAccount;
 
@@ -18,6 +22,10 @@ class ReclipUser extends Equatable {
     @required this.name,
     @required this.email,
     @required this.imageUrl,
+    this.birthDate,
+    this.password,
+    this.description,
+    this.contactNumber,
     this.channel,
     this.googleAccount,
   });
@@ -29,6 +37,28 @@ class ReclipUser extends Equatable {
       email: snap.data['email'],
       imageUrl: snap.data['imageUrl'],
       channel: YoutubeChannel.fromUserMap(snap.data['channel']),
+    );
+  }
+
+  ReclipUser copyWith({
+    String username,
+    String password,
+    String email,
+    String description,
+    String birthDate,
+    String contactNumber,
+  }) {
+    return ReclipUser(
+      id: this.id,
+      name: username ?? this.name,
+      password: password ?? '',
+      email: this.email,
+      imageUrl: this.imageUrl,
+      channel: this.channel,
+      googleAccount: this.googleAccount,
+      contactNumber: contactNumber ?? '',
+      description: description ?? '',
+      birthDate: birthDate ?? '',
     );
   }
 
@@ -47,6 +77,10 @@ class ReclipUser extends Equatable {
         id,
         name,
         email,
+        password,
+        description,
+        birthDate,
+        contactNumber,
         imageUrl,
         channel,
         googleAccount,

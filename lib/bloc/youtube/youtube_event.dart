@@ -7,7 +7,7 @@ abstract class YoutubeEvent extends Equatable {
 class FetchYoutubeChannel extends YoutubeEvent {
   final ReclipUser user;
 
-  FetchYoutubeChannel({this.user});
+  FetchYoutubeChannel({@required this.user});
   @override
   List<Object> get props => [user];
 
@@ -16,6 +16,15 @@ class FetchYoutubeChannel extends YoutubeEvent {
     print("Fetching Youtube Channel{User: $user}");
     return super.toString();
   }
+}
+
+class AddYoutubeChannel extends YoutubeEvent {
+  final ReclipUser user;
+
+  AddYoutubeChannel({@required this.user});
+
+  @override
+  List<Object> get props => [user];
 }
 
 class FetchUserVideos extends YoutubeEvent {

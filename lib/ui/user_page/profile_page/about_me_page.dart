@@ -5,6 +5,7 @@ import 'package:reclip/data/model/reclip_user.dart';
 
 class AboutMePage extends StatelessWidget {
   final ReclipUser user;
+
   const AboutMePage({
     Key key,
     this.user,
@@ -21,7 +22,7 @@ class AboutMePage extends StatelessWidget {
             topLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ),
-          color: tomato.withAlpha(180),
+          color: reclipIndigoDark,
         ),
         alignment: Alignment.center,
         child: AutoSizeText(

@@ -107,7 +107,6 @@ class _YTPlayerState extends State<YTPlayer> {
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
-
     _setDeviceToLandscape();
     super.initState();
   }

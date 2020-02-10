@@ -2,7 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/bloc/login/login_bloc.dart';
+import 'package:reclip/bloc/authentication/authentication_bloc.dart';
+
 import 'package:reclip/ui/user_page/profile_page/contact_info_page.dart';
 import 'package:sailor/sailor.dart';
 
@@ -21,6 +22,7 @@ class UserProfilePageArgs extends BaseArguments {
 
 class UserProfilePage extends StatefulWidget {
   final UserProfilePageArgs args;
+
   const UserProfilePage({Key key, this.args}) : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   NavigationBloc navigationBloc;
+
   @override
   void initState() {
     navigationBloc = BlocProvider.of<NavigationBloc>(context);
@@ -51,19 +54,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
       drawer: CustomDrawer(
         navigationBloc: navigationBloc,
       ),
-      body: BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccess) {
-            print(state.user.channel.description);
-          }
-        },
+      body: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: (context, state) {},
         child: DefaultTabController(
           length: 3,
           child: Column(
             children: <Widget>[
               Container(
                 width: double.infinity,
-                color: tomato.withAlpha(255),
+                color: reclipIndigo,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -74,8 +73,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         alignment: Alignment.topRight,
                         child: InkWell(
                           child: Icon(
-                            FontAwesomeIcons.cog,
-                            size: 30,
+                            FontAwesomeIcons.solidEdit,
+                            size: 25,
                           ),
                           onTap: () {},
                         ),
@@ -99,7 +98,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 20,
                           maxFontSize: 40,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: reclipBlack,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -113,7 +112,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         maxFontSize: 12,
                         maxLines: 1,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: reclipBlack,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -121,6 +120,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     TabBar(
                       indicator: UnderlineTabIndicator(
                         insets: EdgeInsets.symmetric(horizontal: 20),
+                        borderSide: BorderSide(color: reclipBlack, width: 2),
                       ),
                       tabs: <Widget>[
                         AutoSizeText(
@@ -129,7 +129,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 12,
                           maxFontSize: 14,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: reclipBlack,
                             fontSize: 12,
                           ),
                         ),
@@ -139,7 +139,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 12,
                           maxFontSize: 14,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: reclipBlack,
                             fontSize: 12,
                           ),
                         ),
@@ -149,7 +149,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 12,
                           maxFontSize: 14,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: reclipBlack,
                             fontSize: 12,
                           ),
                         ),

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 
-
 class YoutubeChannel extends Equatable {
   final String id;
   final String title;
@@ -41,12 +40,14 @@ class YoutubeChannel extends Equatable {
   }
 
   factory YoutubeChannel.fromSnapshot(DocumentSnapshot snap) {
+    final ytVideos = YoutubeVideo().fromList(snap.data['videos']);
     return YoutubeChannel(
       id: snap.data['id'],
       title: snap.data['title'],
       description: snap.data['description'],
       uploadPlaylistId: snap.data['playlistId'],
       thumbnails: snap.data['thumbnails'],
+      videos: ytVideos,
     );
   }
 
@@ -72,7 +73,10 @@ class YoutubeChannel extends Equatable {
           'width': thumbnails['high']['width'],
           'height': thumbnails['high']['height'],
         }
-      }
+      },
+      'videos': videos.map((video) {
+        return video.toDocument();
+      }).toList(),
     };
   }
 

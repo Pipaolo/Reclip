@@ -11,6 +11,7 @@ import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sh
 
 class MyWorksPage extends StatefulWidget {
   final ReclipUser user;
+
   const MyWorksPage({
     Key key,
     this.user,
@@ -45,14 +46,14 @@ class _MyWorksPageState extends State<MyWorksPage> {
                     Container(
                       padding: EdgeInsets.all(10),
                       width: double.infinity,
-                      color: tomato,
+                      color: reclipIndigoLight,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
                             'Clips and Films',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: reclipBlack,
                             ),
                           ),
                         ],
@@ -89,7 +90,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
 
   _buildListView(List<YoutubeVideo> ytVids) {
     return Container(
-      decoration: BoxDecoration(color: tomato.withAlpha(180)),
+      decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_description.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../../../../core/size_config.dart';
 
 import '../../../../data/model/youtube_channel.dart';
 import '../../../../data/model/youtube_vid.dart';
@@ -119,17 +121,34 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.28,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.ytVid.images['high']['url'],
-                        fit: BoxFit.cover,
+                  Column(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          height: SizeConfig.safeBlockVertical * 30,
+                          width: SizeConfig.safeBlockHorizontal * 35,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.ytVid.images['high']['url'],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
+                      Row(
+                        children: <Widget>[
+                          YoutubeStatisticLabels(
+                            icon: FontAwesomeIcons.userAlt,
+                            text: widget.ytVid.statistics.viewCount.toString(),
+                          ),
+                          YoutubeStatisticLabels(
+                            icon: FontAwesomeIcons.solidHeart,
+                            text: widget.ytVid.statistics.likeCount.toString(),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                   VideoDescription(
                     convertedDate: convertedDate,
@@ -137,6 +156,9 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                     description: widget.ytVid.description,
                   ),
                 ],
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical * 5,
               ),
               CreatorVideos(
                 context: context,
@@ -212,5 +234,30 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+  }
+}
+
+class YoutubeStatisticLabels extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const YoutubeStatisticLabels({Key key, this.icon, this.text})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Icon(
+          icon,
+          color: reclipIndigo,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(text),
+        ),
+      ],
+    );
   }
 }

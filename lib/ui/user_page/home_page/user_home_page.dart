@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
+import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/hooks/scroll_controller_for_anim.dart';
 import 'package:reclip/ui/custom_drawer.dart';
@@ -17,7 +18,6 @@ import '../../../core/reclip_colors.dart';
 import '../../../data/model/reclip_user.dart';
 import '../../../data/model/youtube_channel.dart';
 import 'image_widget.dart';
-import 'navigation_drawer_button.dart';
 
 class UserHomePageArgs extends BaseArguments {
   final ReclipUser user;
@@ -48,40 +48,6 @@ class UserHomePage extends HookWidget {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: reclipBlack,
-        elevation: 0,
-        centerTitle: true,
-        title: Container(
-          child: Image.asset(
-            'assets/images/reclip_logo_no_text.png',
-            height: 80,
-            width: 80,
-            fit: BoxFit.fill,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-            color: reclipIndigo,
-          ),
-          onPressed: () {
-            BlocProvider.of<DrawerBloc>(context)
-              ..add(
-                ShowDrawer(scaffoldKey: _scaffoldKey),
-              );
-          },
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.search,
-              color: reclipIndigo,
-            ),
-          ),
-        ],
-      ),
       drawer: CustomDrawer(
         navigationBloc: BlocProvider.of<NavigationBloc>(context),
       ),
@@ -116,12 +82,46 @@ class UserHomePage extends HookWidget {
             }
             if (state is YoutubeSuccess) {
               final sortedVideos = sortVideos(state.ytChannels);
-              return Stack(
-                children: <Widget>[
-                  Positioned(
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: Column(
+
+              return CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    backgroundColor: reclipBlack.withAlpha(200),
+                    elevation: 0,
+                    centerTitle: true,
+                    title: Container(
+                      child: Image.asset(
+                        'assets/images/reclip_logo_no_text.png',
+                        height: 80,
+                        width: 80,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: reclipIndigo,
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<DrawerBloc>(context)
+                          ..add(
+                            ShowDrawer(scaffoldKey: _scaffoldKey),
+                          );
+                      },
+                    ),
+                    actions: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.search,
+                          color: reclipIndigo,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      Column(
                         children: <Widget>[
                           PopularVideo(
                             video: sortedVideos[0],
@@ -134,11 +134,8 @@ class UserHomePage extends HookWidget {
                           _buildVideoList(sortedVideos, state.ytChannels),
                         ],
                       ),
-                    ),
-                  ),
-//                  NavigationDrawerButton(
-//                      hideNavDrawerAnimController: hideNavDrawerAnimController,
-//                      scaffoldKey: _scaffoldKey),
+                    ]),
+                  )
                 ],
               );
             }
@@ -157,8 +154,8 @@ class UserHomePage extends HookWidget {
     }
     //Sort videos by date uploaded
     sortedVideos.sort((a, b) {
-      var aDate = a.publishedAt;
-      var bDate = b.publishedAt;
+      var aDate = a.statistics.likeCount;
+      var bDate = b.statistics.likeCount;
       return -aDate.compareTo(bDate);
     });
 
@@ -195,4 +192,16 @@ class UserHomePage extends HookWidget {
       ],
     );
   }
+}
+
+class ImageView extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.red,
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(SizeConfig.safeBlockVertical * 30);
 }

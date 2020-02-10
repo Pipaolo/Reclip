@@ -27,7 +27,13 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   }) {
     authenticationStream = authenticationBloc.listen((state) {
       if (state is Authenticated) {
-        this.add(FetchYoutubeChannel(user: state.user));
+        this.add(
+          FetchYoutubeChannel(user: state.user),
+        );
+      } else if (state is Unregistered) {
+        this.add(
+          AddYoutubeChannel(user: state.user),
+        );
       }
     });
   }
@@ -44,26 +50,35 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
       print("Fetch YoutubeChannel: {User: ${event.user.name}}");
       try {
         channelStream?.cancel();
-
-        final user = await youtubeRepository.getYoutubeChannel(event.user);
-
-        if (user.channel != null) {
-          await firebaseReclipRepository.addChannel(user.channel);
-        }
-
         channelStream =
             firebaseReclipRepository.getYoutubeChannels().listen((channels) {
+          print(channels.length);
           add(FetchYoutubeVideos(channels: channels));
         });
         authenticationStream.cancel();
       } catch (e) {
         yield YoutubeError(error: e.toString());
       }
-    } else if (event is FetchYoutubeVideos) {
-      for (var channel in event.channels) {
-        channel.videos = await youtubeRepository
-            .getYoutubeChannelVideos(channel.uploadPlaylistId);
+    } else if (event is AddYoutubeChannel) {
+      print("Add YoutubeChannel: {User: ${event.user.name}}");
+      try {
+        channelStream?.cancel();
+        final user = await youtubeRepository.getYoutubeChannel(event.user);
+        if (user.channel != null) {
+          await firebaseReclipRepository.addChannel(user.channel);
+        }
+        await firebaseReclipRepository.addUser(user);
+        channelStream =
+            firebaseReclipRepository.getYoutubeChannels().listen((channels) {
+          print(channels[0].videos.length);
+          add(FetchYoutubeVideos(channels: channels));
+        });
+        authenticationStream.cancel();
+      } catch (error) {
+        print('Add Youtube Channel: {Error: ${error.toString()}}');
       }
+    } else if (event is FetchYoutubeVideos) {
+      print(event.channels[0].videos.length);
       yield YoutubeSuccess(ytChannels: event.channels);
     }
   }

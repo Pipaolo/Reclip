@@ -89,18 +89,11 @@ class UserRepository {
 
   Future<ReclipUser> getUser() async {
     final rawUser = await _firebaseAuth.currentUser();
-
     try {
       final storedUser = await firebaseReclipRepository.getUser(rawUser.email);
-
       return storedUser;
     } catch (e) {
-      return ReclipUser(
-        id: rawUser.uid,
-        email: rawUser.email,
-        name: rawUser.displayName,
-        imageUrl: rawUser.photoUrl,
-      );
+      return null;
     }
   }
 }

@@ -18,6 +18,14 @@ class Authenticated extends AuthenticationState {
   List<Object> get props => [user];
 }
 
+class Unregistered extends AuthenticationState {
+  final ReclipUser user;
+
+  Unregistered({this.user});
+  @override
+  List<Object> get props => [user];
+}
+
 class Unauthenticated extends AuthenticationState {
   @override
   List<Object> get props => [];

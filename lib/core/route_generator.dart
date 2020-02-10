@@ -1,6 +1,8 @@
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
 import 'package:reclip/ui/signup_page/signup_credentials_page.dart';
 import 'package:reclip/ui/splash_page/splash_page.dart';
 import 'package:reclip/ui/ui.dart';
@@ -10,6 +12,51 @@ class Routes {
   static final sailor = Sailor();
 
   static void createRoutes() {
+    sailor.addRoutes([
+      SailorRoute(
+        name: 'signup_page',
+        builder: (context, args, params) {
+          return SignupPage();
+        },
+        defaultTransitions: [SailorTransition.slide_from_right],
+      ),
+      SailorRoute(
+        name: 'signup_page/category',
+        builder: (context, args, params) {
+          return SignupCategoryPage(
+            args: args,
+          );
+        },
+      ),
+      SailorRoute(
+          name: 'signup_page/credentials',
+          builder: (context, args, params) {
+            return SignupCredentialsPage();
+          }),
+      SailorRoute(
+          name: 'signup_page/content_creator/first_page',
+          builder: (context, args, params) {
+            return SignupContentCreatorFirstPage(
+              args: args,
+            );
+          }),
+      SailorRoute(
+          name: 'signup_page/content_creator/second_page',
+          builder: (context, args, params) {
+            return SignupContentCreatorSecondPage(args: args);
+          }),
+      SailorRoute(
+          name: 'signup_page/content_creator/third_page',
+          builder: (context, args, params) {
+            return SignupContentCreatorThirdPage(args: args);
+          }),
+      SailorRoute(
+          name: 'signup_page/content_creator/fourth_page',
+          builder: (context, args, params) {
+            return SignupContentCreatorFourthPage(args: args);
+          })
+    ]);
+
     sailor.addRoutes(
       [
         SailorRoute(
@@ -21,34 +68,6 @@ class Routes {
           },
           defaultTransitions: [SailorTransition.slide_from_bottom],
         ),
-        SailorRoute(
-          name: 'signup_page',
-          builder: (context, args, params) {
-            return SignupPage();
-          },
-          defaultTransitions: [SailorTransition.slide_from_right],
-        ),
-        SailorRoute(
-          name: 'signup_page/category',
-          builder: (context, args, params) {
-            return SignupCategoryPage();
-          },
-        ),
-        SailorRoute(
-            name: 'signup_page/credentials',
-            builder: (context, args, params) {
-              return SignupCredentialsPage();
-            }),
-        SailorRoute(
-            name: 'signup_page/content_creator/first_page',
-            builder: (context, args, params) {
-              return SignupContentCreatorFirstPage();
-            }),
-        SailorRoute(
-            name: 'signup_page/content_creator/second_page',
-            builder: (context, args, params) {
-              return SignupContentCreatorSecondPage();
-            }),
         SailorRoute(
           name: 'login_page',
           builder: (context, args, params) {

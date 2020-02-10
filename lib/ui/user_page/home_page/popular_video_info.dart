@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:intl/intl.dart';
@@ -19,8 +21,28 @@ class PopularVideoInfo extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Align(
+                child: Stack(
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.solidHeart,
+                      color: reclipIndigoLight,
+                      size: SizeConfig.safeBlockVertical * 4,
+                    ),
+                    Positioned.fill(
+                      top: 5,
+                      child: Text(
+                        popularVideo.statistics.likeCount.toString(),
+                        style: TextStyle(color: reclipBlack),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
@@ -34,7 +56,7 @@ class PopularVideoInfo extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

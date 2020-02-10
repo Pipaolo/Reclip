@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
+import '../../../core/size_config.dart';
 import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
 class ImageWidget extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ImageWidgetState extends State<ImageWidget> {
   _buildListView() {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: SizeConfig.safeBlockVertical * 25,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: widget.ytVideos.length,
@@ -42,7 +43,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                 ),
-                width: 100,
+                width: SizeConfig.safeBlockHorizontal * 25,
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(

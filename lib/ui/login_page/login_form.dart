@@ -5,8 +5,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:reclip/core/reclip_colors.dart';
 
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/ui/login_page/facebook_button.dart';
-import 'package:reclip/ui/login_page/instagram_button.dart';
 import 'package:sailor/sailor.dart';
 
 import 'google_button.dart';

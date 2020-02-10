@@ -56,6 +56,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is LoginWithGooglePressed) {
       try {
         final user = await _userRepository.signInWithGoogle();
+        if (!await _firebaseReclipRepository.checkExistingUser(user.email)) {
+          _firebaseReclipRepository.addUser(user);
+        }
         yield LoginSuccess(user: user);
       } catch (_) {
         yield LoginError(error: _.toString());

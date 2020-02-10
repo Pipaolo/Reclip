@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/ui/signup_page/signup_category_page.dart';
 import 'package:reclip/ui/ui.dart';
 import 'package:sailor/sailor.dart';
 
@@ -25,6 +26,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     authSubscription = authenticationBloc.listen((state) {
       if (state is Authenticated) {
         user = state.user;
+      } else if (state is Unregistered) {
+        user = state.user;
       }
     });
   }
@@ -38,6 +41,10 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     authSubscription = authenticationBloc.listen((state) {
       if (state is Authenticated) {
         user = state.user;
+        print(user.channel);
+      } else if (state is Unregistered) {
+        user = state.user;
+        print(user.channel);
       }
     });
 
@@ -50,6 +57,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       yield HomePageState();
     }
     if (event is ShowProfilePage) {
+      print(user.channel);
       Routes.sailor.navigate(
         'user_profile_page',
         navigationType: NavigationType.pushReplace,
@@ -71,6 +79,14 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       Routes.sailor.navigate(
         'login_page',
         navigationType: NavigationType.pushReplace,
+      );
+    }
+    if (event is ShowSignupPage) {
+      Routes.sailor.navigate(
+        'signup_page/category',
+        args: SignupCategoryPageArgs(
+          user: event.user,
+        ),
       );
     }
   }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -7,8 +5,21 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/core/size_config.dart';
+import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
+import 'package:sailor/sailor.dart';
+
+class SignupContentCreatorSecondArgs extends BaseArguments {
+  final ReclipUser user;
+
+  SignupContentCreatorSecondArgs({@required this.user});
+}
 
 class SignupContentCreatorSecondPage extends StatelessWidget {
+  final SignupContentCreatorSecondArgs args;
+
+  const SignupContentCreatorSecondPage({Key key, this.args}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +49,7 @@ class SignupContentCreatorSecondPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                SignupContentCreatorSecondForm(),
+                SignupContentCreatorSecondForm(user: args.user),
               ],
             ),
           ),
@@ -49,6 +60,9 @@ class SignupContentCreatorSecondPage extends StatelessWidget {
 }
 
 class SignupContentCreatorSecondForm extends StatefulWidget {
+  final ReclipUser user;
+
+  const SignupContentCreatorSecondForm({Key key, this.user}) : super(key: key);
   @override
   _SignupContentCreatorSecondFormState createState() =>
       _SignupContentCreatorSecondFormState();
@@ -102,7 +116,7 @@ class _SignupContentCreatorSecondFormState
       },
       autovalidate: true,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: SizeConfig.blockSizeVertical * 40,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -171,6 +185,8 @@ class _SignupContentCreatorSecondFormState
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(),
+                  FormBuilderValidators.minLength(11,
+                      errorText: 'Number should have 11 digits'),
                 ],
               ),
               SizedBox(
@@ -181,7 +197,7 @@ class _SignupContentCreatorSecondFormState
                   ),
                   color: reclipIndigo,
                   child: Text('Next'.toUpperCase()),
-                  onPressed: () => null,
+                  onPressed: () => _navigateToThirdPage(),
                 ),
               ),
             ],
@@ -193,7 +209,14 @@ class _SignupContentCreatorSecondFormState
 
   _navigateToThirdPage() {
     if (_fbKey.currentState.saveAndValidate()) {
-      Routes.sailor.navigate('signup_page/content_creator/third_page');
+      final user = widget.user.copyWith(
+        birthDate: birthDateController.text,
+        contactNumber: contactNumberController.text,
+      );
+      Routes.sailor.navigate(
+        'signup_page/content_creator/third_page',
+        args: SignupContentCreatorThirdArgs(user: user),
+      );
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
+import '../../../../core/size_config.dart';
 
 import 'video_bottom_sheet.dart';
 
@@ -33,6 +34,7 @@ class CreatorVideos extends StatelessWidget {
                 color: reclipIndigo,
                 borderRadius: BorderRadius.circular(5),
               ),
+              height: SizeConfig.safeBlockVertical * 5,
               width: double.infinity,
               padding: EdgeInsets.all(5),
               alignment: Alignment.center,
@@ -63,17 +65,17 @@ class CreatorVideos extends StatelessWidget {
     if (filteredVideos.length == 0) {
       return Container(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.25,
+        height: SizeConfig.safeBlockVertical * 20,
         alignment: Alignment.center,
         child: Text(
           'No Videos Found',
-          style: TextStyle(color: reclipIndigo, fontSize: 30),
+          style: TextStyle(color: reclipIndigo, fontSize: 20),
         ),
       );
     } else {
       return Container(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.25,
+        height: SizeConfig.safeBlockVertical * 25,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: filteredVideos.length,
@@ -86,7 +88,7 @@ class CreatorVideos extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
-                  width: 100,
+                  width: SizeConfig.safeBlockHorizontal * 30,
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(
