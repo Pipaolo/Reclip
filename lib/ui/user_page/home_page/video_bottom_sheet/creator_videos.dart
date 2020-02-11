@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
-import '../../../../core/size_config.dart';
 
 import 'video_bottom_sheet.dart';
 
@@ -34,14 +34,14 @@ class CreatorVideos extends StatelessWidget {
                 color: reclipIndigo,
                 borderRadius: BorderRadius.circular(5),
               ),
-              height: SizeConfig.safeBlockVertical * 5,
+              height: ScreenUtil().setHeight(35),
               width: double.infinity,
               padding: EdgeInsets.all(5),
               alignment: Alignment.center,
               child: AutoSizeText(
                 creatorChannel.title.toUpperCase(),
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: ScreenUtil().setSp(20),
                 ),
               ),
             ),
@@ -65,7 +65,7 @@ class CreatorVideos extends StatelessWidget {
     if (filteredVideos.length == 0) {
       return Container(
         width: double.infinity,
-        height: SizeConfig.safeBlockVertical * 20,
+        height: ScreenUtil().setHeight(200),
         alignment: Alignment.center,
         child: Text(
           'No Videos Found',
@@ -75,7 +75,7 @@ class CreatorVideos extends StatelessWidget {
     } else {
       return Container(
         width: double.infinity,
-        height: SizeConfig.safeBlockVertical * 25,
+        height: ScreenUtil().setHeight(180),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: filteredVideos.length,
@@ -88,7 +88,7 @@ class CreatorVideos extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
-                  width: SizeConfig.safeBlockHorizontal * 30,
+                  width: ScreenUtil().setWidth(110),
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(

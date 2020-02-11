@@ -3,7 +3,6 @@ import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:intl/intl.dart';
-import 'package:reclip/core/size_config.dart';
 
 class VideoDescription extends StatelessWidget {
   const VideoDescription({
@@ -43,11 +42,6 @@ class VideoDescription extends StatelessWidget {
               minMessage: 'Show More',
               maxMessage: 'Show Less',
             ),
-//            AutoSizeText(
-//              description,
-//              wrapWords: true,
-//              softWrap: true,
-//            ),
           ],
         ),
       ),

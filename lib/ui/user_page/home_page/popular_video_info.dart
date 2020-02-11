@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:intl/intl.dart';
@@ -24,24 +24,23 @@ class PopularVideoInfo extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Align(
-                child: Stack(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesomeIcons.solidHeart,
-                      color: reclipIndigoLight,
-                      size: SizeConfig.safeBlockVertical * 4,
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.solidHeart,
+                    color: reclipIndigoLight,
+                    size: ScreenUtil().setSp(25),
+                  ),
+                  Text(
+                    popularVideo.statistics.likeCount.toString(),
+                    style: TextStyle(
+                      color: reclipBlack,
+                      fontSize: ScreenUtil().setSp(15),
                     ),
-                    Positioned.fill(
-                      top: 5,
-                      child: Text(
-                        popularVideo.statistics.likeCount.toString(),
-                        style: TextStyle(color: reclipBlack),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -54,6 +53,7 @@ class PopularVideoInfo extends StatelessWidget {
                   style: TextStyle(
                     color: reclipIndigo,
                     fontWeight: FontWeight.bold,
+                    fontSize: ScreenUtil().setSp(20),
                   ),
                 ),
               ),

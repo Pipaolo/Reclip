@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/data/model/illustration.dart';
 
 import 'youtube_channel.dart';
 
@@ -15,6 +16,7 @@ class ReclipUser extends Equatable {
   final String description;
   final String contactNumber;
   final YoutubeChannel channel;
+  final List<Illustration> illustrations;
   final GoogleSignInAccount googleAccount;
 
   ReclipUser({
@@ -27,6 +29,7 @@ class ReclipUser extends Equatable {
     this.description,
     this.contactNumber,
     this.channel,
+    this.illustrations,
     this.googleAccount,
   });
 
@@ -36,6 +39,7 @@ class ReclipUser extends Equatable {
       name: snap.data['name'],
       email: snap.data['email'],
       imageUrl: snap.data['imageUrl'],
+      illustrations: Illustration().fromList(snap.data['illustrations']),
       channel: YoutubeChannel.fromUserMap(snap.data['channel']),
     );
   }
@@ -47,7 +51,9 @@ class ReclipUser extends Equatable {
     String description,
     String birthDate,
     String contactNumber,
+    Illustration illustration,
   }) {
+    illustrations.add(illustration);
     return ReclipUser(
       id: this.id,
       name: username ?? this.name,
@@ -59,6 +65,7 @@ class ReclipUser extends Equatable {
       contactNumber: contactNumber ?? '',
       description: description ?? '',
       birthDate: birthDate ?? '',
+      illustrations: illustrations,
     );
   }
 
@@ -68,6 +75,11 @@ class ReclipUser extends Equatable {
       'name': name,
       'email': email,
       'imageUrl': imageUrl,
+      'illustrations': (illustrations != null)
+          ? illustrations
+              .map((illustration) => illustration.toDocument())
+              .toList()
+          : [],
       'channel': (channel != null) ? channel.toDocument() : {},
     };
   }
@@ -82,6 +94,7 @@ class ReclipUser extends Equatable {
         birthDate,
         contactNumber,
         imageUrl,
+        illustrations,
         channel,
         googleAccount,
       ];

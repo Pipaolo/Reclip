@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_description.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import '../../../../core/size_config.dart';
 
 import '../../../../data/model/youtube_channel.dart';
 import '../../../../data/model/youtube_vid.dart';
@@ -80,12 +80,12 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
             splashColor: Colors.black.withAlpha(100),
             highlightColor: Colors.black.withAlpha(180),
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height * 0.40,
+              width: ScreenUtil().uiWidthPx,
+              height: ScreenUtil().setHeight(325),
               child: Icon(
                 FontAwesomeIcons.playCircle,
-                size: 60,
-                color: Colors.white,
+                size: ScreenUtil().setSp(50),
+                color: Colors.white.withAlpha(180),
               ),
             ),
             onTap: () => _launchUrl(widget.ytVid.id),
@@ -112,7 +112,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           ),
         ),
         padding: EdgeInsets.only(
-          top: 155,
+          top: 180,
           left: 10,
         ),
         child: SingleChildScrollView(
@@ -128,8 +128,8 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Container(
-                          height: SizeConfig.safeBlockVertical * 30,
-                          width: SizeConfig.safeBlockHorizontal * 35,
+                          height: ScreenUtil().setHeight(225),
+                          width: ScreenUtil().setWidth(150),
                           child: CachedNetworkImage(
                             imageUrl: widget.ytVid.images['high']['url'],
                             fit: BoxFit.cover,
@@ -158,7 +158,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                 ],
               ),
               SizedBox(
-                height: SizeConfig.safeBlockVertical * 5,
+                height: ScreenUtil().setHeight(50),
               ),
               CreatorVideos(
                 context: context,
@@ -176,8 +176,8 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
     return Hero(
       tag: widget.ytVid.id,
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.40,
+        width: ScreenUtil().uiHeightPx,
+        height: ScreenUtil().setHeight(325),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

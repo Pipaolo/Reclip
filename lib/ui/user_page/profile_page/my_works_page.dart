@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:reclip/bloc/youtube/youtube_bloc.dart';
@@ -54,6 +55,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
                             'Clips and Films',
                             style: TextStyle(
                               color: reclipBlack,
+                              fontSize: ScreenUtil().setSp(20),
                             ),
                           ),
                         ],
@@ -92,7 +94,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
     return Container(
       decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: ScreenUtil().setHeight(180),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: ytVids.length,

@@ -7,21 +7,27 @@ import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
+import 'package:reclip/repository/youtube_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository _userRepository;
+  YoutubeRepository _youtubeRepository;
   FirebaseReclipRepository _firebaseReclipRepository;
+
   final AuthenticationBloc authenticationBloc;
 
-  LoginBloc(
-      {@required UserRepository userRepository,
-      @required FirebaseReclipRepository firebaseReclipRepository,
-      @required this.authenticationBloc})
-      : assert(userRepository != null),
+  LoginBloc({
+    @required UserRepository userRepository,
+    @required FirebaseReclipRepository firebaseReclipRepository,
+    @required YoutubeRepository youtubeRepository,
+    @required this.authenticationBloc,
+  })  : assert(userRepository != null),
         assert(firebaseReclipRepository != null),
+        assert(youtubeRepository != null),
+        _youtubeRepository = youtubeRepository,
         _userRepository = userRepository,
         _firebaseReclipRepository = firebaseReclipRepository;
 
@@ -42,24 +48,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginError(error: _.toString());
       }
     }
-    if (event is LoginWithFacebookPressed) {
-      try {
-        final user = await _userRepository.signInWithFacebook();
-        if (!await _firebaseReclipRepository.checkExistingUser(user.email)) {
-          _firebaseReclipRepository.addUser(user);
-        }
-        yield LoginSuccess(user: user);
-      } catch (_) {
-        yield LoginError(error: _.toString());
-      }
-    }
     if (event is LoginWithGooglePressed) {
       try {
-        final user = await _userRepository.signInWithGoogle();
-        if (!await _firebaseReclipRepository.checkExistingUser(user.email)) {
-          _firebaseReclipRepository.addUser(user);
+        final rawUser = await _userRepository.signInWithGoogle();
+
+        final isUserExisting =
+            await _firebaseReclipRepository.checkExistingUser(rawUser.email);
+        if (!isUserExisting) {
+          print("User is not Existing");
+          final user = await _youtubeRepository.getYoutubeChannel(rawUser);
+          await _firebaseReclipRepository.addUser(user);
+          await _firebaseReclipRepository.addChannel(user.channel);
+          yield LoginSuccess(user: user);
+        } else {
+          print("User is Existing");
+          final user = await _firebaseReclipRepository.getUser(rawUser.email);
+          yield LoginSuccess(user: user);
         }
-        yield LoginSuccess(user: user);
       } catch (_) {
         yield LoginError(error: _.toString());
       }

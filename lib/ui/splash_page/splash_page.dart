@@ -2,9 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
+import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/user_page/home_page/user_home_page.dart';
 import 'package:sailor/sailor.dart';
@@ -28,19 +29,26 @@ class _SplashPageState extends State<SplashPage> {
   ReclipUser user;
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    ScreenUtil.init(context,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        allowFontScaling: true);
     return Scaffold(
-      body: BlocListener<AuthenticationBloc, AuthenticationState>(
-        listener: (context, state) {
-          if (state is Unauthenticated) {
-            isAuthenticated = false;
-          }
-          if (state is Authenticated) {
-            //getUserInfo
-            isAuthenticated = true;
-            user = state.user;
-          }
-        },
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+              if (state is Unauthenticated) {
+                isAuthenticated = false;
+              } else if (state is Authenticated) {
+                BlocProvider.of<YoutubeBloc>(context)
+                  ..add(FetchYoutubeChannel(user: state.user));
+                isAuthenticated = true;
+                user = state.user;
+              }
+            },
+          ),
+        ],
         child: Center(
           child: AnimatedContainer(
             duration: Duration(milliseconds: 200),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
@@ -17,8 +18,8 @@ class PopularVideo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.6,
-        height: MediaQuery.of(context).size.height * 0.5,
+        width: ScreenUtil().setWidth(250),
+        height: ScreenUtil().setHeight(350),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

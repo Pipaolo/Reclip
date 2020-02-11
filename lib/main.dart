@@ -18,12 +18,22 @@ import 'ui/splash_page/splash_page.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Routes.createRoutes();
+
+  //Initialize Firebase AdMob
+
   final UserRepository userRepository = UserRepository();
+  final FirebaseReclipRepository firebaseReclipRepository =
+      FirebaseReclipRepository();
+  final YoutubeRepository youtubeRepository =
+      YoutubeRepository(firebaseReclipRepository: firebaseReclipRepository);
+
   runApp(
     BlocProvider(
       create: (context) =>
           AuthenticationBloc(userRepository: userRepository)..add(AppStarted()),
       child: Reclip(
+        firebaseReclipRepository: firebaseReclipRepository,
+        youtubeRepository: youtubeRepository,
         userRepository: userRepository,
       ),
     ),
@@ -31,10 +41,20 @@ void main() {
 }
 
 class Reclip extends StatelessWidget {
+  final YoutubeRepository _youtubeRepository;
+  final FirebaseReclipRepository _firebaseReclipRepository;
   final UserRepository _userRepository;
 
-  const Reclip({Key key, @required UserRepository userRepository})
+  const Reclip(
+      {Key key,
+      @required UserRepository userRepository,
+      @required YoutubeRepository youtubeRepository,
+      @required FirebaseReclipRepository firebaseReclipRepository})
       : assert(userRepository != null),
+        assert(youtubeRepository != null),
+        assert(firebaseReclipRepository != null),
+        _youtubeRepository = youtubeRepository,
+        _firebaseReclipRepository = firebaseReclipRepository,
         _userRepository = userRepository,
         super(key: key);
 
@@ -45,10 +65,9 @@ class Reclip extends StatelessWidget {
         BlocProvider<YoutubeBloc>(
           create: (context) => YoutubeBloc(
             youtubeRepository: YoutubeRepository(
-              firebaseReclipRepository: FirebaseReclipRepository(),
+              firebaseReclipRepository: _firebaseReclipRepository,
             ),
-            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
-            firebaseReclipRepository: FirebaseReclipRepository(),
+            firebaseReclipRepository: _firebaseReclipRepository,
           ),
         ),
         BlocProvider<NavigationBloc>(
@@ -60,7 +79,8 @@ class Reclip extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(
             userRepository: _userRepository,
-            firebaseReclipRepository: FirebaseReclipRepository(),
+            firebaseReclipRepository: _firebaseReclipRepository,
+            youtubeRepository: _youtubeRepository,
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           ),
         ),

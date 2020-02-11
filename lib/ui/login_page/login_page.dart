@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reclip/core/size_config.dart';
 
@@ -19,20 +20,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    final ProgressDialog progressDialog = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      isDismissible: false,
+    );
+    progressDialog.style(
+      progressWidget: CircularProgressIndicator(),
+    );
     SizeConfig().init(context);
     return Scaffold(
       body: MultiBlocListener(
         listeners: [
           BlocListener<LoginBloc, LoginState>(
-            listener: (context, state) {
-              final ProgressDialog progressDialog = ProgressDialog(
-                context,
-                type: ProgressDialogType.Normal,
-                isDismissible: false,
-              );
-              progressDialog.style(
-                progressWidget: CircularProgressIndicator(),
-              );
+            listener: (context, state) async {
               if (state is LoginLoading) {
                 progressDialog.show();
               }
@@ -44,7 +45,15 @@ class _LoginPageState extends State<LoginPage> {
                 progressDialog.dismiss();
               }
               if (state is LoginError) {
-                print("Error: ${state.error}");
+                progressDialog.update(
+                  progressWidget: Icon(
+                    Icons.error,
+                    color: Colors.red,
+                    size: ScreenUtil().setSp(30),
+                  ),
+                  message: 'Error',
+                );
+                BlocProvider.of<LoginBloc>(context).add(SignOut());
               }
             },
           ),

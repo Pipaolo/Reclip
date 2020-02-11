@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/bloc/info/info_bloc.dart';
+import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
-import '../../../core/size_config.dart';
-import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
 class ImageWidget extends StatefulWidget {
   final List<YoutubeChannel> ytChannels;
@@ -30,7 +32,8 @@ class _ImageWidgetState extends State<ImageWidget> {
   _buildListView() {
     return Container(
       width: double.infinity,
-      height: SizeConfig.safeBlockVertical * 25,
+      height: ScreenUtil().setHeight(200),
+      color: reclipIndigoDark,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: widget.ytVideos.length,
@@ -43,7 +46,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                 ),
-                width: SizeConfig.safeBlockHorizontal * 25,
+                width: ScreenUtil().setWidth(125),
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(
@@ -71,14 +74,18 @@ class _ImageWidgetState extends State<ImageWidget> {
                           splashColor: Colors.black.withAlpha(100),
                           highlightColor: Colors.black.withAlpha(180),
                           onTap: () {
-                            return _showBottomSheet(
-                                context,
-                                widget.ytVideos[index],
-                                widget.ytChannels[
-                                    widget.ytChannels.indexWhere((channel) {
-                                  return channel.videos
-                                      .contains(widget.ytVideos[index]);
-                                })]);
+                            BlocProvider.of<InfoBloc>(context)
+                              ..add(
+                                Show(
+                                  video: widget.ytVideos[index],
+                                  channel: widget
+                                      .ytChannels[widget.ytChannels.indexWhere(
+                                    (channel) => channel.videos.contains(
+                                      widget.ytVideos[index],
+                                    ),
+                                  )],
+                                ),
+                              );
                           },
                         ),
                       ),
@@ -90,20 +97,6 @@ class _ImageWidgetState extends State<ImageWidget> {
           );
         },
       ),
-    );
-  }
-
-  _showBottomSheet(
-      BuildContext context, YoutubeVideo ytVid, YoutubeChannel ytChannel) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return VideoBottomSheet(
-          ytVid: ytVid,
-          ytChannel: ytChannel,
-        );
-      },
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_crea
 import 'package:reclip/ui/signup_page/signup_credentials_page.dart';
 import 'package:reclip/ui/splash_page/splash_page.dart';
 import 'package:reclip/ui/ui.dart';
+import 'package:reclip/ui/user_page/add_content/add_content_image/add_content_image_page.dart';
 import 'package:sailor/sailor.dart';
 
 class Routes {
@@ -55,6 +56,14 @@ class Routes {
           builder: (context, args, params) {
             return SignupContentCreatorFourthPage(args: args);
           })
+    ]);
+
+    sailor.addRoutes([
+      SailorRoute(
+          name: 'add_content_image_page',
+          builder: (context, args, params) {
+            return AddContentImagePage();
+          }),
     ]);
 
     sailor.addRoutes(
