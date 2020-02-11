@@ -53,7 +53,9 @@ class ReclipUser extends Equatable {
     String contactNumber,
     Illustration illustration,
   }) {
-    illustrations.add(illustration);
+    if (illustration != null) {
+      illustrations.add(illustration);
+    }
     return ReclipUser(
       id: this.id,
       name: username ?? this.name,

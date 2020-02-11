@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/core/size_config.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
@@ -28,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
     progressDialog.style(
       progressWidget: CircularProgressIndicator(),
     );
-    SizeConfig().init(context);
     return Scaffold(
       body: MultiBlocListener(
         listeners: [
@@ -82,25 +80,25 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
         child: Container(
+          height: ScreenUtil().uiHeightPx,
           alignment: Alignment.center,
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset('assets/images/reclip_logo.png',
-                      height: SizeConfig.safeBlockVertical * 40,
-                      width: SizeConfig.safeBlockHorizontal * 100,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: ScreenUtil().setHeight(250),
+                  width: ScreenUtil().uiWidthPx,
+                  child: Image.asset('assets/images/reclip_logo.png',
                       fit: BoxFit.cover),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: LoginForm(),
-                  ),
-                ],
-              ),
-            ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: LoginForm(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

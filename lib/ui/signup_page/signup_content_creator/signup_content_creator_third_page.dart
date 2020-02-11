@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
 import 'package:sailor/sailor.dart';
@@ -76,7 +76,7 @@ class _SignupContentCreatorThirdFormState
     return FormBuilder(
       key: _fbKey,
       child: SizedBox(
-        height: SizeConfig.safeBlockHorizontal * 80,
+        height: ScreenUtil().setHeight(300),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(

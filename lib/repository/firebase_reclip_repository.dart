@@ -6,6 +6,8 @@ import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 
+import '../data/model/illustration.dart';
+
 class FirebaseReclipRepository {
   final userCollection = Firestore.instance.collection('users');
   final channelCollection = Firestore.instance.collection('channels');
@@ -14,8 +16,8 @@ class FirebaseReclipRepository {
 
   Future<Illustration> addImage(
       ReclipUser user, Illustration rawIllustration, File image) async {
-    final reference =
-        illustrationReference.child('${user.email}/${image.path}');
+    final imageName = image.path.split('/').last;
+    final reference = illustrationReference.child('${user.email}/$imageName');
     final uploadTask = reference.putData(await image.readAsBytes());
     await uploadTask.onComplete;
     final imageUrl = await reference.getDownloadURL();
@@ -23,17 +25,32 @@ class FirebaseReclipRepository {
       imageUrl: imageUrl,
     );
 
-    await illustrationCollection.document(user.email).setData(
+    await userCollection.document(user.email).setData(
           user.copyWith(illustration: uploadIllustration).toDocument(),
         );
 
     return uploadIllustration;
   }
 
+  Future<bool> isIllustrationExist(Illustration illustration) async {
+    final illustrationDocument =
+        await illustrationCollection.document(illustration.title).get();
+
+    return (illustrationDocument.exists) ? true : false;
+  }
+
   Future<void> addIllustration(Illustration illustration) async {
     return await illustrationCollection
-        .document(illustration.authorEmail)
+        .document(illustration.title)
         .setData(illustration.toDocument());
+  }
+
+  Stream<List<Illustration>> getIllustrations() {
+    return illustrationCollection.snapshots().map((snapshot) {
+      return snapshot.documents.map((illustration) {
+        return Illustration.fromSnapshot(illustration);
+      }).toList();
+    });
   }
 
   Future<void> addUser(ReclipUser user) async {

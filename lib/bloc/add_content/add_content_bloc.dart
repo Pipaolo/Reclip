@@ -23,13 +23,23 @@ class AddContentBloc extends Bloc<AddContentEvent, AddContentState> {
     AddContentEvent event,
   ) async* {
     if (event is AddIllustration) {
-      yield Uploading();
-
-      final illustration = await reclipRepository.addImage(
-          event.user, event.illustration, event.image);
-
-      await reclipRepository.addIllustration(illustration);
-      yield UploadImageSuccess();
+      try {
+        yield Uploading();
+        final isIllustrationExisting =
+            await reclipRepository.isIllustrationExist(event.illustration);
+        if (isIllustrationExisting) {
+          yield UploadImageDuplicate();
+        } else {
+          final illustration = await reclipRepository.addImage(
+              event.user, event.illustration, event.image);
+          await reclipRepository.addIllustration(illustration);
+          yield UploadImageSuccess();
+        }
+      } catch (e) {
+        yield UploadImageError(
+          errorText: e.toString(),
+        );
+      }
     }
   }
 }

@@ -62,7 +62,9 @@ class Routes {
       SailorRoute(
           name: 'add_content_image_page',
           builder: (context, args, params) {
-            return AddContentImagePage();
+            return AddContentImagePage(
+              args: args,
+            );
           }),
     ]);
 

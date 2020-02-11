@@ -23,6 +23,11 @@ class Uploading extends AddContentState {
   List<Object> get props => [];
 }
 
+class UploadImageDuplicate extends AddContentState {
+  @override
+  List<Object> get props => [];
+}
+
 class UploadImageSuccess extends AddContentState {
   final Illustration illustration;
 

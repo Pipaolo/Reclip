@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
@@ -10,13 +11,12 @@ import 'package:sailor/sailor.dart';
 class SignupContentCreatorFirstArgs extends BaseArguments {
   final ReclipUser user;
 
-  SignupContentCreatorFirstArgs({@required this.user});
+  SignupContentCreatorFirstArgs({this.user});
 }
 
 class SignupContentCreatorFirstPage extends StatelessWidget {
   final SignupContentCreatorFirstArgs args;
-  const SignupContentCreatorFirstPage({Key key, @required this.args})
-      : super(key: key);
+  const SignupContentCreatorFirstPage({Key key, this.args}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class SignupContentCreatorFirstPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                SignupContentCreatorFirstForm(user: args.user),
+                SignupContentCreatorFirstForm(),
               ],
             ),
           ),
@@ -59,8 +59,7 @@ class SignupContentCreatorFirstPage extends StatelessWidget {
 
 class SignupContentCreatorFirstForm extends StatefulWidget {
   final ReclipUser user;
-  SignupContentCreatorFirstForm({Key key, @required this.user})
-      : super(key: key);
+  SignupContentCreatorFirstForm({Key key, this.user}) : super(key: key);
 
   @override
   _SignupContentCreatorFirstFormState createState() =>
@@ -102,7 +101,7 @@ class _SignupContentCreatorFirstFormState
       },
       autovalidate: true,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: ScreenUtil().setHeight(500),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -291,6 +290,19 @@ class _SignupContentCreatorFirstFormState
             email: emailController.text,
             password: passwordController.text);
 
+        Routes.sailor.navigate(
+          'signup_page/content_creator/second_page',
+          args: SignupContentCreatorSecondArgs(
+            user: user,
+          ),
+        );
+      } else {
+        ReclipUser user = ReclipUser(
+          imageUrl: '',
+          name: usernameController.text,
+          email: emailController.text,
+          id: '',
+        );
         Routes.sailor.navigate(
           'signup_page/content_creator/second_page',
           args: SignupContentCreatorSecondArgs(

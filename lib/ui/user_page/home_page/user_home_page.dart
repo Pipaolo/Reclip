@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/ui/custom_drawer.dart';
 import 'package:reclip/ui/user_page/home_page/popular_video.dart';
@@ -197,16 +196,4 @@ class HomePageAppBar extends StatelessWidget {
       ],
     );
   }
-}
-
-class ImageView extends StatelessWidget implements PreferredSizeWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-    );
-  }
-
-  @override
-  Size get preferredSize => Size.fromHeight(SizeConfig.safeBlockVertical * 30);
 }

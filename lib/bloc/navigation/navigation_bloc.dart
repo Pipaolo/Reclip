@@ -41,10 +41,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     authSubscription = authenticationBloc.listen((state) {
       if (state is Authenticated) {
         user = state.user;
-        print(user.channel);
       } else if (state is Unregistered) {
         user = state.user;
-        print(user.channel);
       }
     });
 

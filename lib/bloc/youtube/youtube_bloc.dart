@@ -36,7 +36,6 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
         channelStream?.cancel();
         channelStream =
             firebaseReclipRepository.getYoutubeChannels().listen((channels) {
-          print(channels.length);
           add(FetchYoutubeVideos(channels: channels));
         });
       } catch (e) {

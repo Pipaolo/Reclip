@@ -89,7 +89,7 @@ class SignupCategoryPage extends StatelessWidget {
   }
 
   _signupContentCreator() {
-    if (args.user != null) {
+    if (args != null) {
       return Routes.sailor.navigate(
         'signup_page/content_creator/first_page',
         args: SignupContentCreatorFirstArgs(user: args.user),

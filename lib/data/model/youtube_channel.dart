@@ -30,12 +30,14 @@ class YoutubeChannel extends Equatable {
   }
 
   factory YoutubeChannel.fromUserMap(Map<dynamic, dynamic> map) {
+    final ytVideos = YoutubeVideo().fromList(map['videos']);
     return YoutubeChannel(
       id: map['id'],
       title: map['title'],
       description: map['description'],
       uploadPlaylistId: map['playlistId'],
       thumbnails: map['thumbnails'],
+      videos: ytVideos,
     );
   }
 

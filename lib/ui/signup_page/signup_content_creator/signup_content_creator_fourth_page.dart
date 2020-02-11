@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/size_config.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:sailor/sailor.dart';
 
@@ -32,7 +33,7 @@ class SignupContentCreatorFourthPage extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: SizeConfig.safeBlockVertical * 50,
+            height: ScreenUtil().setHeight(400),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -51,7 +52,7 @@ class SignupContentCreatorFourthPage extends StatelessWidget {
                 ),
                 ProfileImagePicker(),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
+                  width: ScreenUtil().setWidth(150),
                   child: MaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -95,12 +96,12 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
           child: InkWell(
             borderRadius: BorderRadius.circular(200),
             child: Container(
-              height: SizeConfig.safeBlockVertical * 25,
-              width: SizeConfig.safeBlockHorizontal * 50,
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
               child: Icon(
                 Icons.add,
                 color: reclipIndigo,
-                size: SizeConfig.safeBlockVertical * 8,
+                size: ScreenUtil().setSp(100),
               ),
             ),
             onTap: () => _addPicture(),
@@ -108,16 +109,35 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
         ),
       );
     } else {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(200),
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 25,
-          width: SizeConfig.safeBlockHorizontal * 50,
-          child: Image.file(
-            _image,
-            fit: BoxFit.cover,
+      return Stack(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(200),
+            child: Container(
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
+              child: Image.file(
+                _image,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 10,
+            right: 20,
+            child: IconButton(
+              icon: Icon(
+                FontAwesomeIcons.plusCircle,
+                size: ScreenUtil().setSp(45),
+                color: reclipIndigo,
+              ),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              alignment: Alignment.center,
+              onPressed: () => _addPicture(),
+            ),
+          ),
+        ],
       );
     }
   }
