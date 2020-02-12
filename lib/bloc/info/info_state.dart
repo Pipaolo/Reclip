@@ -17,3 +17,14 @@ class ShowVideoInfo extends InfoState {
   @override
   List<Object> get props => [video, channel];
 }
+
+class ShowIllustrationInfo extends InfoState {
+  final Illustration illustration;
+
+  ShowIllustrationInfo({
+    this.illustration,
+  });
+
+  @override
+  List<Object> get props => [illustration];
+}

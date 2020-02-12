@@ -67,8 +67,10 @@ class Reclip extends StatelessWidget {
               AddContentBloc(reclipRepository: _firebaseReclipRepository),
         ),
         BlocProvider<IllustrationsBloc>(
-          create: (context) =>
-              IllustrationsBloc(reclipRepository: _firebaseReclipRepository),
+          create: (context) => IllustrationsBloc(
+            reclipRepository: _firebaseReclipRepository,
+            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+          )..add(FetchIllustrations()),
         ),
         BlocProvider<YoutubeBloc>(
           create: (context) => YoutubeBloc(

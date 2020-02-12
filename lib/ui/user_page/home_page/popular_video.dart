@@ -33,7 +33,7 @@ class PopularVideo extends StatelessWidget {
           onTap: () {
             BlocProvider.of<InfoBloc>(context)
               ..add(
-                Show(
+                ShowVideo(
                   video: video,
                   channel: channel,
                 ),

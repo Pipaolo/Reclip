@@ -46,11 +46,13 @@ class FirebaseReclipRepository {
   }
 
   Stream<List<Illustration>> getIllustrations() {
-    return illustrationCollection.snapshots().map((snapshot) {
-      return snapshot.documents.map((illustration) {
-        return Illustration.fromSnapshot(illustration);
-      }).toList();
-    });
+    return illustrationCollection.snapshots().map(
+      (snapshot) {
+        return snapshot.documents.map((illustration) {
+          return Illustration.fromSnapshot(illustration);
+        }).toList();
+      },
+    );
   }
 
   Future<void> addUser(ReclipUser user) async {
@@ -63,6 +65,7 @@ class FirebaseReclipRepository {
 
   Future<bool> checkExistingUser(String email) async {
     final userDocument = await userCollection.document(email).get();
+    print((userDocument.exists) ? true : false);
     return (userDocument.exists) ? true : false;
   }
 
@@ -80,5 +83,6 @@ class FirebaseReclipRepository {
     });
   }
 
+  //TODO: Update User Profile
   Future<void> updateUser() {}
 }

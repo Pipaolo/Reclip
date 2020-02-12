@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
@@ -62,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     FetchYoutubeChannel(user: state.user),
                   );
+                BlocProvider.of<IllustrationsBloc>(context)..add(FetchIllustrations());
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
                     ShowHomePage(),

@@ -194,6 +194,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
   _uploadImage(BuildContext context) async {
     if (_fbKey.currentState.saveAndValidate()) {
       final illustration = Illustration(
+        authorEmail: widget.args.user.email,
         description: _descriptionTextEditingController.text,
         title: _titleTextEditingController.text,
         publishedAt: DateTime.now().toString(),

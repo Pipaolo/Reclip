@@ -66,7 +66,7 @@ class Illustration extends Equatable {
   List<Illustration> fromList(List<dynamic> illustrations) {
     List<Illustration> illustrationList = List();
     for (var item in illustrations) {
-      illustrationList.add(Illustration.fromSnapshot(item));
+      illustrationList.add(Illustration.fromMap(item));
     }
     return illustrationList;
   }

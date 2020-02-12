@@ -7,6 +7,7 @@ import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/ui/custom_drawer.dart';
+import 'package:reclip/ui/user_page/home_page/illustration_bottom_sheet/illustration_bottom_sheet.dart';
 import 'package:reclip/ui/user_page/home_page/popular_video.dart';
 import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 import 'package:sailor/sailor.dart';
@@ -15,6 +16,7 @@ import '../../../bloc/youtube/youtube_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/reclip_user.dart';
 import '../../../data/model/youtube_channel.dart';
+import 'illustration_widgets/illustration_widget.dart';
 import 'image_widget.dart';
 
 class UserHomePageArgs extends BaseArguments {
@@ -54,6 +56,17 @@ class UserHomePage extends StatelessWidget {
                     ytVid: state.video, ytChannel: state.channel);
               },
             );
+          } else if (state is ShowIllustrationInfo) {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (context) {
+                return IllustrationBottomSheet(
+                  illustration: state.illustration,
+                  user: state.user,
+                );
+              },
+            );
           }
         },
         child: BlocBuilder<YoutubeBloc, YoutubeState>(
@@ -91,6 +104,7 @@ class UserHomePage extends StatelessWidget {
                             )],
                           ),
                           _buildVideoList(sortedVideos, state.ytChannels),
+                          IllustrationWidget(),
                         ],
                       ),
                     ]),

@@ -76,7 +76,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                           onTap: () {
                             BlocProvider.of<InfoBloc>(context)
                               ..add(
-                                Show(
+                                ShowVideo(
                                   video: widget.ytVideos[index],
                                   channel: widget
                                       .ytChannels[widget.ytChannels.indexWhere(

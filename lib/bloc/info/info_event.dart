@@ -4,11 +4,22 @@ abstract class InfoEvent extends Equatable {
   const InfoEvent();
 }
 
-class Show extends InfoEvent {
+class ShowVideo extends InfoEvent {
   final YoutubeVideo video;
   final YoutubeChannel channel;
 
-  Show({this.video, this.channel});
+  ShowVideo({this.video, this.channel});
   @override
   List<Object> get props => [video, channel];
+}
+
+class ShowIllustration extends InfoEvent {
+  final Illustration illustration;
+
+  ShowIllustration({
+    this.illustration,
+  });
+
+  @override
+  List<Object> get props => [illustration];
 }

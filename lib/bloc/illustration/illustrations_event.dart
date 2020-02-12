@@ -8,3 +8,11 @@ class FetchIllustrations extends IllustrationsEvent {
   @override
   List<Object> get props => [];
 }
+
+class ShowIllustrations extends IllustrationsEvent {
+  final List<Illustration> illustrations;
+
+  ShowIllustrations({this.illustrations});
+  @override
+  List<Object> get props => [illustrations];
+}

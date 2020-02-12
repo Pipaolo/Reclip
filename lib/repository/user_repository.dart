@@ -45,23 +45,6 @@ class UserRepository {
     );
   }
 
-  Future<ReclipUser> signInWithFacebook() async {
-    final FacebookLoginResult facebookLoginResult =
-        await _facebookLogin.logIn(['email']);
-
-    final facebookAuthCred = FacebookAuthProvider.getCredential(
-        accessToken: facebookLoginResult.accessToken.token);
-
-    await _firebaseAuth.signInWithCredential(facebookAuthCred);
-    final rawUser = await _firebaseAuth.currentUser();
-    return ReclipUser(
-      id: rawUser.uid,
-      email: rawUser.email,
-      name: rawUser.displayName,
-      imageUrl: rawUser.photoUrl,
-    );
-  }
-
   Future<void> signInWithCredentials(String email, String password) {
     return _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
