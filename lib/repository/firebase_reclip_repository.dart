@@ -59,13 +59,22 @@ class FirebaseReclipRepository {
     return await userCollection.document(user.email).setData(user.toDocument());
   }
 
+  Stream<List<ReclipUser>> getUsers() {
+    return userCollection.snapshots().map(
+      (snapshot) {
+        return snapshot.documents.map((document) {
+          return ReclipUser.fromSnapshot(document);
+        }).toList();
+      },
+    );
+  }
+
   Future<ReclipUser> getUser(String email) async {
     return ReclipUser.fromSnapshot(await userCollection.document(email).get());
   }
 
   Future<bool> checkExistingUser(String email) async {
     final userDocument = await userCollection.document(email).get();
-    print((userDocument.exists) ? true : false);
     return (userDocument.exists) ? true : false;
   }
 

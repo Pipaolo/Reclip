@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
+import 'package:reclip/bloc/user/user_bloc.dart';
 
 import 'bloc/add_content/add_content_bloc.dart';
 import 'bloc/authentication/authentication_bloc.dart';
@@ -71,6 +72,10 @@ class Reclip extends StatelessWidget {
             reclipRepository: _firebaseReclipRepository,
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           )..add(FetchIllustrations()),
+        ),
+        BlocProvider<UserBloc>(
+          create: (context) =>
+              UserBloc(reclipRepository: _firebaseReclipRepository),
         ),
         BlocProvider<YoutubeBloc>(
           create: (context) => YoutubeBloc(

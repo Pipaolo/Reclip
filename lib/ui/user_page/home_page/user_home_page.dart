@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
+import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/ui/custom_drawer.dart';
 import 'package:reclip/ui/user_page/home_page/illustration_bottom_sheet/illustration_bottom_sheet.dart';
@@ -57,13 +58,14 @@ class UserHomePage extends StatelessWidget {
               },
             );
           } else if (state is ShowIllustrationInfo) {
+            BlocProvider.of<UserBloc>(context)
+              ..add(GetUser(email: state.illustration.authorEmail));
             showModalBottomSheet(
               isScrollControlled: true,
               context: context,
               builder: (context) {
                 return IllustrationBottomSheet(
                   illustration: state.illustration,
-                  user: state.user,
                 );
               },
             );

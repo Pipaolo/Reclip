@@ -10,7 +10,6 @@ import 'package:reclip/core/reclip_colors.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../../../bloc/add_content/add_content_bloc.dart';
-import '../../../../bloc/add_content/add_content_bloc.dart';
 import '../../../../core/reclip_colors.dart';
 import '../../../../core/route_generator.dart';
 import '../../../../data/model/illustration.dart';
@@ -101,11 +100,12 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
+                    color: reclipBlack,
                     border: Border.all(color: reclipIndigo, width: 3),
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
                       image: FileImage(widget.args.image),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                   height: ScreenUtil().setHeight(300),

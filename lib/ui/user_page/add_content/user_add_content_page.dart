@@ -115,8 +115,8 @@ class AddContentButton extends StatelessWidget {
               print("EMPTY");
             } else {
               try {
-                final image = await ImagePicker.pickImage(
-                    source: ImageSource.gallery, imageQuality: 80);
+                final image =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
                 Routes.sailor.navigate(
                   'add_content_image_page',
                   args: AddContentImagePageArgs(

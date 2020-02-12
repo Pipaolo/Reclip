@@ -1,11 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/illustration.dart';
+import 'package:shimmer/shimmer.dart';
 
 class IllustrationWidget extends StatelessWidget {
   const IllustrationWidget({Key key}) : super(key: key);
@@ -69,9 +71,21 @@ class IllustrationWidget extends StatelessWidget {
                     Positioned.fill(
                       child: Hero(
                         tag: illustrations[index].title,
-                        child: CachedNetworkImage(
-                          imageUrl: illustrations[index].imageUrl,
+                        child: TransitionToImage(
+                          image: AdvancedNetworkImage(
+                            illustrations[index].imageUrl,
+                            useDiskCache: true,
+                            cacheRule: CacheRule(
+                              maxAge: Duration(days: 2),
+                            ),
+                            disableMemoryCache: true,
+                          ),
                           fit: BoxFit.cover,
+                          loadingWidget: Shimmer.fromColors(
+                              child: Container(color: Colors.black),
+                              direction: ShimmerDirection.ltr,
+                              baseColor: Colors.grey,
+                              highlightColor: Colors.white54),
                         ),
                       ),
                     ),

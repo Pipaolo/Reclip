@@ -1,10 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
+import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
@@ -62,6 +66,42 @@ class _MyWorksPageState extends State<MyWorksPage> {
                       ),
                     ),
                     _buildListView(userChannel.videos),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      width: double.infinity,
+                      color: reclipIndigoLight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Illustrations',
+                            style: TextStyle(
+                              color: reclipBlack,
+                              fontSize: ScreenUtil().setSp(20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    BlocBuilder<IllustrationsBloc, IllustrationsState>(
+                      builder: (context, state) {
+                        if (state is IllustrationsSuccess) {
+                          return _buildIllustration(state.illustrations
+                              .where((illustration) => illustration.authorEmail
+                                  .contains(widget.user.email))
+                              .toList());
+                        } else if (state is IllustrationsError) {
+                          return Center(
+                            child: Text("Error"),
+                          );
+                        } else if (state is IllustrationsLoading) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -87,6 +127,56 @@ class _MyWorksPageState extends State<MyWorksPage> {
         }
         return Container();
       },
+    );
+  }
+
+  _buildIllustration(List<Illustration> illustrations) {
+    return Container(
+      decoration: BoxDecoration(color: reclipIndigoDark),
+      width: double.infinity,
+      height: ScreenUtil().setHeight(180),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: illustrations.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(5),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+              ),
+              width: 100,
+              child: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Hero(
+                      tag: illustrations[index].title,
+                      child: CachedNetworkImage(
+                        imageUrl: illustrations[index].imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Colors.black.withAlpha(100),
+                        highlightColor: Colors.black.withAlpha(180),
+                        onTap: () {
+                          BlocProvider.of<InfoBloc>(context)
+                            ..add(ShowIllustration(
+                                illustration: illustrations[index]));
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

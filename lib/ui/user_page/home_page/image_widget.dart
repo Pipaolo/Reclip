@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:progressive_image/progressive_image.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ImageWidget extends StatefulWidget {
   final List<YoutubeChannel> ytChannels;
@@ -52,18 +54,19 @@ class _ImageWidgetState extends State<ImageWidget> {
                     Positioned.fill(
                       child: Hero(
                         tag: widget.ytVideos[index].id,
-                        child: ProgressiveImage(
-                          height: widget.ytVideos[index].images['high']['width']
-                              .toDouble(),
-                          width: widget.ytVideos[index].images['high']['height']
-                              .toDouble(),
-                          placeholder: NetworkImage(
-                              widget.ytVideos[index].images['default']['url']),
-                          thumbnail: NetworkImage(
-                              widget.ytVideos[index].images['medium']['url']),
-                          image: NetworkImage(
-                              widget.ytVideos[index].images['high']['url']),
-                          fit: BoxFit.fill,
+                        child: TransitionToImage(
+                          image: AdvancedNetworkImage(
+                            widget.ytVideos[index].images['medium']['url'],
+                            useDiskCache: true,
+                            cacheRule: CacheRule(maxAge: Duration(days: 2)),
+                            disableMemoryCache: true,
+                          ),
+                          fit: BoxFit.cover,
+                          loadingWidget: Shimmer.fromColors(
+                              child: Container(color: Colors.black),
+                              direction: ShimmerDirection.ltr,
+                              baseColor: Colors.grey,
+                              highlightColor: Colors.white54),
                         ),
                       ),
                     ),

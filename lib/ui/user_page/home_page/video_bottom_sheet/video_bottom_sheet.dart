@@ -48,7 +48,6 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
   Widget build(BuildContext context) {
     return ListView(
       physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
       children: <Widget>[
         SizedBox(
           height: MediaQuery.of(context).size.height,
