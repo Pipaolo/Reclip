@@ -35,7 +35,6 @@ class PopularVideo extends StatelessWidget {
               ..add(
                 ShowVideo(
                   video: video,
-                  channel: channel,
                 ),
               );
           },

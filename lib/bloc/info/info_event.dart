@@ -6,11 +6,10 @@ abstract class InfoEvent extends Equatable {
 
 class ShowVideo extends InfoEvent {
   final YoutubeVideo video;
-  final YoutubeChannel channel;
 
-  ShowVideo({this.video, this.channel});
+  ShowVideo({this.video});
   @override
-  List<Object> get props => [video, channel];
+  List<Object> get props => [video];
 }
 
 class ShowIllustration extends InfoEvent {

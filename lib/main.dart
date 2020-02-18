@@ -106,7 +106,8 @@ class Reclip extends StatelessWidget {
           create: (context) => DrawerBloc(),
         ),
         BlocProvider<InfoBloc>(
-          create: (context) => InfoBloc(),
+          create: (context) =>
+              InfoBloc(reclipRepository: _firebaseReclipRepository),
         )
       ],
       child: MaterialApp(

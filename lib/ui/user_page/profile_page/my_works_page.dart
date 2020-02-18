@@ -34,15 +34,14 @@ class _MyWorksPageState extends State<MyWorksPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<YoutubeVideo> creatorVideos = List();
     return BlocBuilder<YoutubeBloc, YoutubeState>(
       builder: (context, state) {
         if (state is YoutubeSuccess) {
-          final userChannel = state.ytChannels[state.ytChannels.indexWhere(
-            (channel) => channel.title
-                .toLowerCase()
-                .contains(widget.user.channel.title.toLowerCase()),
-          )];
-          if (userChannel.videos != null) {
+          creatorVideos.addAll(state.ytVideos);
+          creatorVideos.retainWhere(
+              (video) => video.channelId.contains(widget.user.channel.id));
+          if (state.ytVideos != null) {
             return SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(top: 8),
@@ -65,7 +64,7 @@ class _MyWorksPageState extends State<MyWorksPage> {
                         ],
                       ),
                     ),
-                    _buildListView(userChannel.videos),
+                    _buildListView(creatorVideos),
                     Container(
                       padding: EdgeInsets.all(10),
                       width: double.infinity,

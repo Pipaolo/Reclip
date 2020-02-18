@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
@@ -23,6 +25,7 @@ class CreatorVideos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<YoutubeVideo> creatorVideos = List();
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -46,7 +49,17 @@ class CreatorVideos extends StatelessWidget {
               ),
             ),
           ),
-          _buildListView(creatorChannel.videos),
+          BlocBuilder<YoutubeBloc, YoutubeState>(
+            builder: (context, state) {
+              if (state is YoutubeSuccess) {
+                creatorVideos.addAll(state.ytVideos);
+                creatorVideos.retainWhere(
+                    (video) => video.channelId.contains(creatorChannel.id));
+                return _buildListView(creatorVideos);
+              }
+              return Container();
+            },
+          )
         ],
       ),
     );

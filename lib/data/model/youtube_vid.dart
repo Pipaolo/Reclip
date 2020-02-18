@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/data/model/youtube_statistics.dart';
 
 class YoutubeVideo extends Equatable {
   final String id;
+  final String channelId;
   final String title;
   final String description;
   final String publishedAt;
@@ -12,6 +14,7 @@ class YoutubeVideo extends Equatable {
 
   YoutubeVideo({
     this.id,
+    this.channelId,
     this.title,
     this.description,
     this.publishedAt,
@@ -22,6 +25,7 @@ class YoutubeVideo extends Equatable {
   factory YoutubeVideo.fromMap(Map<dynamic, dynamic> snippet) {
     return YoutubeVideo(
       id: snippet['items'][0]['id'],
+      channelId: snippet['items'][0]['snippet']['channelId'],
       title: snippet['items'][0]['snippet']['title'],
       description: snippet['items'][0]['snippet']['description'],
       publishedAt: snippet['items'][0]['snippet']['publishedAt'],
@@ -32,9 +36,10 @@ class YoutubeVideo extends Equatable {
     );
   }
 
-  factory YoutubeVideo.fromSnapshot(Map<dynamic, dynamic> snapshot) {
+  factory YoutubeVideo.fromSnapshot(DocumentSnapshot snapshot) {
     return YoutubeVideo(
       id: snapshot['id'],
+      channelId: snapshot['channelId'],
       title: snapshot['title'],
       description: snapshot['description'],
       publishedAt: snapshot['publishedAt'],
@@ -45,17 +50,10 @@ class YoutubeVideo extends Equatable {
     );
   }
 
-  List<YoutubeVideo> fromList(List<dynamic> video) {
-    List<YoutubeVideo> ytVid = List();
-    for (var item in video) {
-      ytVid.add(YoutubeVideo.fromSnapshot(item));
-    }
-    return ytVid;
-  }
-
   Map<String, Object> toDocument() {
     return {
       'id': id,
+      'channelId': channelId,
       'title': title,
       'description': description,
       'publishedAt': publishedAt,
@@ -93,5 +91,6 @@ class YoutubeVideo extends Equatable {
   }
 
   @override
-  List<Object> get props => [id, title, description, publishedAt, images];
+  List<Object> get props =>
+      [id, channelId, title, description, publishedAt, images];
 }

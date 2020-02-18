@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
-
+import 'package:reclip/data/model/youtube_vid.dart';
 import '../data/model/illustration.dart';
 
 class FirebaseReclipRepository {
@@ -78,10 +78,36 @@ class FirebaseReclipRepository {
     return (userDocument.exists) ? true : false;
   }
 
+  Future<YoutubeChannel> getChannel(String channelId) async {
+    return YoutubeChannel.fromSnapshot(
+        await channelCollection.document(channelId).get());
+  }
+
   Future<void> addChannel(YoutubeChannel channel) async {
     return await channelCollection
         .document(channel.id)
-        .setData(channel.toDocument());
+        .setData(channel.toDocument())
+        .then((_) async {
+      for (var video in channel.videos) {
+        await channelCollection
+            .document(channel.id)
+            .collection('videos')
+            .document(video.id)
+            .setData(video.toDocument());
+      }
+    });
+  }
+
+  Stream<List<YoutubeVideo>> getYoutubeVideos() {
+    final videos = Firestore.instance
+        .collectionGroup('videos')
+        .orderBy('statistics.likeCount', descending: true)
+        .snapshots();
+    return videos.map((snapshot) {
+      return snapshot.documents.map((document) {
+        return YoutubeVideo.fromSnapshot(document);
+      }).toList();
+    });
   }
 
   Stream<List<YoutubeChannel>> getYoutubeChannels() {

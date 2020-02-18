@@ -15,10 +15,7 @@ class ImageWidget extends StatefulWidget {
   final bool isExpanded;
 
   ImageWidget(
-      {Key key,
-      @required this.ytChannels,
-      @required this.ytVideos,
-      this.isExpanded})
+      {Key key, this.ytChannels, @required this.ytVideos, this.isExpanded})
       : super(key: key);
 
   @override
@@ -52,22 +49,19 @@ class _ImageWidgetState extends State<ImageWidget> {
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(
-                      child: Hero(
-                        tag: widget.ytVideos[index].id,
-                        child: TransitionToImage(
-                          image: AdvancedNetworkImage(
-                            widget.ytVideos[index].images['medium']['url'],
-                            useDiskCache: true,
-                            cacheRule: CacheRule(maxAge: Duration(days: 2)),
-                            disableMemoryCache: true,
-                          ),
-                          fit: BoxFit.cover,
-                          loadingWidget: Shimmer.fromColors(
-                              child: Container(color: Colors.black),
-                              direction: ShimmerDirection.ltr,
-                              baseColor: Colors.grey,
-                              highlightColor: Colors.white54),
+                      child: TransitionToImage(
+                        image: AdvancedNetworkImage(
+                          widget.ytVideos[index].images['medium']['url'],
+                          useDiskCache: true,
+                          cacheRule: CacheRule(maxAge: Duration(days: 2)),
+                          disableMemoryCache: true,
                         ),
+                        fit: BoxFit.cover,
+                        loadingWidget: Shimmer.fromColors(
+                            child: Container(color: Colors.black),
+                            direction: ShimmerDirection.ltr,
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.white54),
                       ),
                     ),
                     Positioned.fill(
@@ -81,12 +75,6 @@ class _ImageWidgetState extends State<ImageWidget> {
                               ..add(
                                 ShowVideo(
                                   video: widget.ytVideos[index],
-                                  channel: widget
-                                      .ytChannels[widget.ytChannels.indexWhere(
-                                    (channel) => channel.videos.contains(
-                                      widget.ytVideos[index],
-                                    ),
-                                  )],
                                 ),
                               );
                           },

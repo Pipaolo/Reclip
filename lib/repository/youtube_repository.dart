@@ -109,18 +109,6 @@ class YoutubeRepository {
         YoutubeVideo.fromMap(body),
       );
     }
-
-    // filteredVideos.removeWhere(
-    //   (video) =>
-    //       video['snippet']['title'].toLowerCase().contains('trailer') ||
-    //       video['snippet']['title'].toLowerCase().contains('behind') ||
-    //       video['snippet']['title'].toLowerCase().contains('sound') ||
-    //       video['snippet']['title'].toLowerCase().contains('teaser'),
-    // );
-
-    // for (var videos in filteredVideos) {
-    //   ytVids.add(YoutubeVideo.fromMap(videos));
-    // }
     return ytVids;
   }
 

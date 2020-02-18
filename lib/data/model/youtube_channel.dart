@@ -30,26 +30,22 @@ class YoutubeChannel extends Equatable {
   }
 
   factory YoutubeChannel.fromUserMap(Map<dynamic, dynamic> map) {
-    final ytVideos = YoutubeVideo().fromList(map['videos']);
     return YoutubeChannel(
       id: map['id'],
       title: map['title'],
       description: map['description'],
       uploadPlaylistId: map['playlistId'],
       thumbnails: map['thumbnails'],
-      videos: ytVideos,
     );
   }
 
   factory YoutubeChannel.fromSnapshot(DocumentSnapshot snap) {
-    final ytVideos = YoutubeVideo().fromList(snap.data['videos']);
     return YoutubeChannel(
       id: snap.data['id'],
       title: snap.data['title'],
       description: snap.data['description'],
       uploadPlaylistId: snap.data['playlistId'],
       thumbnails: snap.data['thumbnails'],
-      videos: ytVideos,
     );
   }
 
@@ -76,9 +72,9 @@ class YoutubeChannel extends Equatable {
           'height': thumbnails['high']['height'],
         }
       },
-      'videos': videos.map((video) {
-        return video.toDocument();
-      }).toList(),
+      // 'videos': videos.map((video) {
+      //   return video.toDocument();
+      // }).toList(),
     };
   }
 

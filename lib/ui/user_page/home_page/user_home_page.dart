@@ -88,8 +88,6 @@ class UserHomePage extends StatelessWidget {
               );
             }
             if (state is YoutubeSuccess) {
-              final sortedVideos = sortVideos(state.ytChannels);
-
               return CustomScrollView(
                 slivers: <Widget>[
                   HomePageAppBar(scaffoldKey: _scaffoldKey),
@@ -98,14 +96,9 @@ class UserHomePage extends StatelessWidget {
                       Column(
                         children: <Widget>[
                           PopularVideo(
-                            video: sortedVideos[0],
-                            channel:
-                                state.ytChannels[state.ytChannels.indexWhere(
-                              (channel) =>
-                                  channel.videos.contains(sortedVideos[0]),
-                            )],
+                            video: state.ytVideos[0],
                           ),
-                          _buildVideoList(sortedVideos, state.ytChannels),
+                          _buildVideoList(state.ytVideos),
                           IllustrationWidget(),
                         ],
                       ),
@@ -139,7 +132,6 @@ class UserHomePage extends StatelessWidget {
 
   _buildVideoList(
     List<YoutubeVideo> youtubeVideos,
-    List<YoutubeChannel> youtubeChannel,
   ) {
     return Column(
       children: <Widget>[
@@ -158,7 +150,6 @@ class UserHomePage extends StatelessWidget {
           ),
         ),
         ImageWidget(
-          ytChannels: youtubeChannel,
           ytVideos: youtubeVideos,
         ),
       ],

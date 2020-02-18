@@ -15,7 +15,7 @@ part 'youtube_state.dart';
 class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   final YoutubeRepository youtubeRepository;
   final FirebaseReclipRepository firebaseReclipRepository;
-  StreamSubscription channelStream;
+  StreamSubscription videoStream;
 
   YoutubeBloc({
     @required this.youtubeRepository,
@@ -33,10 +33,10 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
     if (event is FetchYoutubeChannel) {
       try {
         print("Fetch YoutubeChannel: {User: ${event.user.name}}");
-        channelStream?.cancel();
-        channelStream =
-            firebaseReclipRepository.getYoutubeChannels().listen((channels) {
-          add(FetchYoutubeVideos(channels: channels));
+        videoStream?.cancel();
+        videoStream =
+            firebaseReclipRepository.getYoutubeVideos().listen((videos) {
+          add(FetchYoutubeVideos(videos: videos));
         });
       } catch (e) {
         yield YoutubeError(error: e.toString());
@@ -44,21 +44,21 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
     } else if (event is AddYoutubeChannel) {
       try {
         print("Add YoutubeChannel: {User: ${event.user.name}}");
-        channelStream?.cancel();
+        videoStream?.cancel();
         final user = await youtubeRepository.getYoutubeChannel(event.user);
         if (user.channel != null) {
           await firebaseReclipRepository.addChannel(user.channel);
         }
         await firebaseReclipRepository.addUser(user);
-        channelStream =
-            firebaseReclipRepository.getYoutubeChannels().listen((channels) {
-          add(FetchYoutubeVideos(channels: channels));
+        videoStream =
+            firebaseReclipRepository.getYoutubeVideos().listen((videos) {
+          add(FetchYoutubeVideos(videos: videos));
         });
       } catch (error) {
         print('Add Youtube Channel: {Error: ${error.toString()}}');
       }
     } else if (event is FetchYoutubeVideos) {
-      yield YoutubeSuccess(ytChannels: event.channels);
+      yield YoutubeSuccess(ytVideos: event.videos);
     }
   }
 }
