@@ -29,8 +29,12 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   Stream<YoutubeState> mapEventToState(
     YoutubeEvent event,
   ) async* {
-    yield YoutubeLoading();
+    if (event is AddView) {
+      await firebaseReclipRepository.addVideoView(
+          event.channelId, event.videoId);
+    }
     if (event is FetchYoutubeChannel) {
+      yield YoutubeLoading();
       try {
         print("Fetch YoutubeChannel: {User: ${event.user.name}}");
         videoStream?.cancel();
@@ -58,6 +62,7 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
         print('Add Youtube Channel: {Error: ${error.toString()}}');
       }
     } else if (event is FetchYoutubeVideos) {
+      yield YoutubeLoading();
       yield YoutubeSuccess(ytVideos: event.videos);
     }
   }

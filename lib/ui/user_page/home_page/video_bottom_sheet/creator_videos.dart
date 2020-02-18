@@ -42,9 +42,11 @@ class CreatorVideos extends StatelessWidget {
               padding: EdgeInsets.all(5),
               alignment: Alignment.center,
               child: AutoSizeText(
-                creatorChannel.title.toUpperCase(),
+                'More Videos of ${creatorChannel.title.toUpperCase()}',
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(20),
+                  fontSize: ScreenUtil().setSp(16),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black.withAlpha(180),
                 ),
               ),
             ),

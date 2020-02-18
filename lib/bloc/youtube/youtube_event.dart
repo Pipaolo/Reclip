@@ -27,6 +27,16 @@ class AddYoutubeChannel extends YoutubeEvent {
   List<Object> get props => [user];
 }
 
+class AddView extends YoutubeEvent {
+  final String channelId;
+  final String videoId;
+
+  AddView({@required this.channelId, @required this.videoId});
+
+  @override
+  List<Object> get props => [channelId, videoId];
+}
+
 class FetchUserVideos extends YoutubeEvent {
   final YoutubeChannel userChannel;
 

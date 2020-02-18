@@ -98,6 +98,14 @@ class FirebaseReclipRepository {
     });
   }
 
+  Future<void> addVideoView(String channelId, String videoId) async {
+    return await channelCollection
+        .document(channelId)
+        .collection('videos')
+        .document(videoId)
+        .updateData({'statistics.viewCount': FieldValue.increment(1)});
+  }
+
   Stream<List<YoutubeVideo>> getYoutubeVideos() {
     final videos = Firestore.instance
         .collectionGroup('videos')

@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_description.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -135,18 +137,6 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                           ),
                         ),
                       ),
-                      Row(
-                        children: <Widget>[
-                          YoutubeStatisticLabels(
-                            icon: FontAwesomeIcons.userAlt,
-                            text: widget.ytVid.statistics.viewCount.toString(),
-                          ),
-                          YoutubeStatisticLabels(
-                            icon: FontAwesomeIcons.solidHeart,
-                            text: widget.ytVid.statistics.likeCount.toString(),
-                          ),
-                        ],
-                      )
                     ],
                   ),
                   VideoDescription(
@@ -155,9 +145,6 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                     description: widget.ytVid.description,
                   ),
                 ],
-              ),
-              SizedBox(
-                height: ScreenUtil().setHeight(50),
               ),
               CreatorVideos(
                 context: context,
@@ -208,6 +195,8 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
   }
 
   _launchUrl(String videoId) async {
+    BlocProvider.of<YoutubeBloc>(context)
+      ..add(AddView(channelId: widget.ytChannel.id, videoId: videoId));
     await showGeneralDialog(
       context: context,
       barrierDismissible: false,
