@@ -126,6 +126,9 @@ class FirebaseReclipRepository {
     });
   }
 
-  //TODO: Update User Profile
-  Future<void> updateUser() {}
+  Future<ReclipUser> updateUser(ReclipUser user) async {
+    await userCollection.document(user.email).setData(user.toDocument());
+    final updatedUser = await getUser(user.email);
+    return updatedUser;
+  }
 }

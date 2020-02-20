@@ -4,7 +4,7 @@ import 'package:sailor/sailor.dart';
 
 import '../../../bloc/navigation/navigation_bloc.dart';
 import '../../../data/model/reclip_user.dart';
-import 'user_illustration_.dart';
+import 'user_illustration_page.dart';
 import 'user_video_page.dart';
 
 class UserHomePageArgs extends BaseArguments {

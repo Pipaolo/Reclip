@@ -38,6 +38,8 @@ class ReclipUser extends Equatable {
       id: snap.data['id'],
       name: snap.data['name'],
       email: snap.data['email'],
+      description: snap.data['description'],
+      contactNumber: snap.data['contactNumber'],
       imageUrl: snap.data['imageUrl'],
       illustrations: Illustration().fromList(snap.data['illustrations']),
       channel: YoutubeChannel.fromUserMap(snap.data['channel']),
@@ -77,6 +79,8 @@ class ReclipUser extends Equatable {
       'name': name,
       'email': email,
       'imageUrl': imageUrl,
+      'description': description,
+      'contactNumber': contactNumber,
       'illustrations': (illustrations != null)
           ? illustrations
               .map((illustration) => illustration.toDocument())

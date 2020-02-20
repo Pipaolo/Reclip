@@ -11,6 +11,7 @@ class HomePageAppBar extends StatelessWidget {
       backgroundColor: reclipBlack,
       elevation: 0,
       centerTitle: true,
+      floating: true,
       title: Container(
         width: double.infinity,
         child: Row(

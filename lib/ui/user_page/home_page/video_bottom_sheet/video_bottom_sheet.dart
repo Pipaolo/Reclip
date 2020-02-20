@@ -52,14 +52,15 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return ListView(
+      shrinkWrap: true,
+      controller: widget.controller,
       children: <Widget>[
-        SizedBox(
-          height: ScreenUtil().uiHeightPx,
-        ),
-        _buildHeader(),
+        Stack(children: [
+          _buildHeader(),
+          _buildPlayOverlay(),
+        ]),
         _buildDescription(),
-        _buildPlayOverlay(),
       ],
     );
   }
@@ -81,7 +82,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
             highlightColor: Colors.black.withAlpha(180),
             child: Container(
               width: ScreenUtil().uiWidthPx,
-              height: ScreenUtil().setHeight(325),
+              height: ScreenUtil().setHeight(250),
               child: Icon(
                 FontAwesomeIcons.playCircle,
                 size: ScreenUtil().setSp(50),
@@ -97,63 +98,46 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
 
   _buildDescription() {
     final convertedDate = widget.ytVid.publishedAt.split('T').removeAt(0);
-    return Positioned.fill(
-      top: 120,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              Colors.transparent,
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            stops: [0.75, 1],
-          ),
-        ),
-        padding: EdgeInsets.only(
-          top: 180,
-          left: 10,
-        ),
-        child: SingleChildScrollView(
-          controller: widget.controller,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      padding: EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          height: ScreenUtil().setHeight(225),
-                          width: ScreenUtil().setWidth(150),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.ytVid.images['high']['url'],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      height: ScreenUtil().setHeight(180),
+                      width: ScreenUtil().setWidth(120),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.ytVid.images['high']['url'],
+                        fit: BoxFit.cover,
                       ),
-                    ],
-                  ),
-                  VideoDescription(
-                    convertedDate: convertedDate,
-                    title: widget.ytVid.title,
-                    description: widget.ytVid.description,
+                    ),
                   ),
                 ],
               ),
-              CreatorVideos(
-                context: context,
+              VideoDescription(
+                convertedDate: convertedDate,
                 title: widget.ytVid.title,
-                creatorChannel: widget.ytChannel,
+                description: widget.ytVid.description,
               ),
             ],
           ),
-        ),
+          CreatorVideos(
+            context: context,
+            title: widget.ytVid.title,
+            creatorChannel: widget.ytChannel,
+          ),
+        ],
       ),
     );
   }
@@ -163,7 +147,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
       tag: widget.ytVid.id,
       child: Container(
         width: ScreenUtil().uiHeightPx,
-        height: ScreenUtil().setHeight(325),
+        height: ScreenUtil().setHeight(250),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -177,7 +161,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           children: <Widget>[
             Positioned.fill(
               child: FittedBox(
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 child: ProgressiveImage(
                   height: widget.ytVid.images['high']['height'].toDouble(),
                   width: widget.ytVid.images['high']['width'].toDouble(),

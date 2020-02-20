@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(FetchIllustrations());
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowBottomNavbarController(),
+                    ShowBottomNavbarController(user: state.user),
                   );
               } else if (state is Unregistered) {
                 BlocProvider.of<YoutubeBloc>(context)
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowBottomNavbarController(),
+                    ShowBottomNavbarController(user: state.user),
                   );
               }
             },

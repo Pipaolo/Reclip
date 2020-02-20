@@ -31,7 +31,7 @@ class _ImageWidgetState extends State<ImageWidget> {
   _buildListView() {
     return Container(
       width: double.infinity,
-      height: ScreenUtil().setHeight(200),
+      height: ScreenUtil().setHeight(170),
       color: reclipIndigoDark,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -45,7 +45,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                 ),
-                width: ScreenUtil().setWidth(125),
+                width: ScreenUtil().setWidth(105),
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(

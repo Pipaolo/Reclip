@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reclip/bloc/user/user_bloc.dart';
-import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/youtube/youtube_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/youtube_vid.dart';
-import 'illustration_bottom_sheet/illustration_bottom_sheet.dart';
 import 'user_home_page_appbar.dart';
+import 'video_bottom_sheet/video_bottom_sheet.dart';
 import 'video_widgets/image_widget.dart';
 import 'video_widgets/popular_video.dart';
 
@@ -29,32 +27,15 @@ class UserVideoPage extends StatelessWidget {
                 builder: (context) {
                   return DraggableScrollableSheet(
                       initialChildSize: 1.0,
+                      expand: true,
                       builder: (context, scrollController) {
-                        return ListView(
+                        return VideoBottomSheet(
+                          ytChannel: state.channel,
+                          ytVid: state.video,
                           controller: scrollController,
-                          shrinkWrap: true,
-                          children: <Widget>[
-                            VideoBottomSheet(
-                              ytChannel: state.channel,
-                              ytVid: state.video,
-                              controller: scrollController,
-                            ),
-                          ],
                         );
                       });
                 });
-          } else if (state is ShowIllustrationInfo) {
-            BlocProvider.of<UserBloc>(context)
-              ..add(GetUser(email: state.illustration.authorEmail));
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return IllustrationBottomSheet(
-                  illustration: state.illustration,
-                );
-              },
-            );
           }
         },
         child: BlocBuilder<YoutubeBloc, YoutubeState>(

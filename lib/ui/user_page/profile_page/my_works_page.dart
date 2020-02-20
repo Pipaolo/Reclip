@@ -139,37 +139,37 @@ class _MyWorksPageState extends State<MyWorksPage> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(5),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-              ),
-              width: 100,
-              child: Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Hero(
-                      tag: illustrations[index].title,
-                      child: CachedNetworkImage(
-                        imageUrl: illustrations[index].imageUrl,
-                        fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                width: 100,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Hero(
+                        tag: illustrations[index].title,
+                        child: CachedNetworkImage(
+                          imageUrl: illustrations[index].imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: Colors.black.withAlpha(100),
-                        highlightColor: Colors.black.withAlpha(180),
-                        onTap: () {
-                          BlocProvider.of<InfoBloc>(context)
-                            ..add(ShowIllustration(
-                                illustration: illustrations[index]));
-                        },
+                    Positioned.fill(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.black.withAlpha(100),
+                          highlightColor: Colors.black.withAlpha(180),
+                          onTap: () {
+                            BlocProvider.of<InfoBloc>(context)
+                              ..add(ShowIllustration(
+                                  illustration: illustrations[index]));
+                          },
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -189,47 +189,47 @@ class _MyWorksPageState extends State<MyWorksPage> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(5),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-              ),
-              width: 100,
-              child: Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Hero(
-                      tag: ytVids[index].id,
-                      child: ProgressiveImage(
-                        height:
-                            ytVids[index].images['high']['width'].toDouble(),
-                        width:
-                            ytVids[index].images['high']['height'].toDouble(),
-                        placeholder: NetworkImage(
-                            ytVids[index].images['default']['url']),
-                        thumbnail:
-                            NetworkImage(ytVids[index].images['medium']['url']),
-                        image:
-                            NetworkImage(ytVids[index].images['high']['url']),
-                        fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                width: 100,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Hero(
+                        tag: ytVids[index].id,
+                        child: ProgressiveImage(
+                          height:
+                              ytVids[index].images['high']['width'].toDouble(),
+                          width:
+                              ytVids[index].images['high']['height'].toDouble(),
+                          placeholder: NetworkImage(
+                              ytVids[index].images['default']['url']),
+                          thumbnail: NetworkImage(
+                              ytVids[index].images['medium']['url']),
+                          image:
+                              NetworkImage(ytVids[index].images['high']['url']),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: Colors.black.withAlpha(100),
-                        highlightColor: Colors.black.withAlpha(180),
-                        onTap: () {
-                          BlocProvider.of<InfoBloc>(context)
-                            ..add(
-                              ShowVideo(video: ytVids[index]),
-                            );
-                        },
+                    Positioned.fill(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.black.withAlpha(100),
+                          highlightColor: Colors.black.withAlpha(180),
+                          onTap: () {
+                            BlocProvider.of<InfoBloc>(context)
+                              ..add(
+                                ShowVideo(video: ytVids[index]),
+                              );
+                          },
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -237,18 +237,4 @@ class _MyWorksPageState extends State<MyWorksPage> {
       ),
     );
   }
-
-  // _showBottomSheet(
-  //     BuildContext context, YoutubeVideo ytVid, YoutubeChannel ytChannel) {
-  //   showModalBottomSheet(
-  //     isScrollControlled: true,
-  //     context: context,
-  //     builder: (context) {
-  //       return VideoBottomSheet(
-  //         ytVid: ytVid,
-  //         ytChannel: ytChannel,
-  //       );
-  //     },
-  //   );
-  // }
 }

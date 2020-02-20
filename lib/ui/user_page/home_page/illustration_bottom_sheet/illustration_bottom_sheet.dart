@@ -12,77 +12,78 @@ import 'illustration_author_image.dart';
 
 class IllustrationBottomSheet extends StatelessWidget {
   final Illustration illustration;
-  const IllustrationBottomSheet({Key key, @required this.illustration})
+  final ScrollController scrollController;
+  const IllustrationBottomSheet(
+      {Key key, @required this.illustration, @required this.scrollController})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: ScreenUtil().uiHeightPx,
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: ScreenUtil().setHeight(425),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30)),
-                  child: Container(
-                      height: ScreenUtil().setHeight(400),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: reclipBlack,
-                      ),
-                      child: Image(
-                        image: AdvancedNetworkImage(
-                          illustration.imageUrl,
-                          useDiskCache: true,
-                          cacheRule: CacheRule(maxAge: Duration(days: 2)),
-                        ),
-                        fit: BoxFit.fitHeight,
-                      )),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 80,
-                  right: 80,
-                  child: Container(
-                    height: ScreenUtil().setHeight(50),
+    return ListView(
+      shrinkWrap: true,
+      controller: scrollController,
+      children: <Widget>[
+        Container(
+          height: ScreenUtil().setHeight(425),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)),
+                child: Container(
+                    height: ScreenUtil().setHeight(400),
+                    width: double.infinity,
                     decoration: BoxDecoration(
-                      color: reclipIndigo,
-                      boxShadow: [
-                        BoxShadow(
-                          color: reclipBlack,
-                          blurRadius: 10,
-                          offset: Offset(0, 5),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(50),
+                      color: reclipBlack,
                     ),
-                    alignment: Alignment.center,
-                    child: AutoSizeText(
-                      illustration.title,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(18),
+                    child: Image(
+                      image: AdvancedNetworkImage(
+                        illustration.imageUrl,
+                        useDiskCache: true,
+                        cacheRule: CacheRule(maxAge: Duration(days: 2)),
                       ),
+                      fit: BoxFit.fitHeight,
+                    )),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 80,
+                right: 80,
+                child: Container(
+                  height: ScreenUtil().setHeight(50),
+                  decoration: BoxDecoration(
+                    color: reclipIndigo,
+                    boxShadow: [
+                      BoxShadow(
+                        color: reclipBlack,
+                        blurRadius: 10,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  alignment: Alignment.center,
+                  child: AutoSizeText(
+                    illustration.title,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(18),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          IllustrationDescription(
-            illustration: illustration,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        IllustrationDescription(
+          illustration: illustration,
+        ),
+      ],
     );
   }
 }
@@ -109,9 +110,8 @@ class IllustrationDescription extends StatelessWidget {
   }
 
   _buildSuccessState(ReclipUser user) {
-    return Container(
-      height: ScreenUtil().uiHeightPx * 0.43,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+    return Padding(
+      padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,9 +126,13 @@ class IllustrationDescription extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(20),
+                color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           Container(
             decoration: BoxDecoration(

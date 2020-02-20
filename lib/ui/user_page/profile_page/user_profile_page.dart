@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/ui/user_page/profile_page/edit_profile_page/edit_profile_page.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
@@ -58,7 +60,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             FontAwesomeIcons.solidEdit,
                             size: ScreenUtil().setSp(25),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Routes.sailor.navigate('user_edit_profile_page',
+                                args: UserEditProfilePageArgs(
+                                  user: widget.args.user,
+                                ));
+                          },
                         ),
                       ),
                     ),
@@ -67,8 +74,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       child: Image.network(
                         widget.args.user.imageUrl,
                         fit: BoxFit.cover,
-                        height: ScreenUtil().setHeight(150),
-                        width: ScreenUtil().setWidth(150),
+                        height: ScreenUtil().setHeight(100),
+                        width: ScreenUtil().setWidth(100),
                       ),
                     ),
                     Padding(
@@ -79,24 +86,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           widget.args.user.name,
                           style: TextStyle(
                             color: reclipBlack,
-                            fontSize: ScreenUtil().setSp(30),
+                            fontSize: ScreenUtil().setSp(20),
                           ),
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 20),
-                      child: AutoSizeText(
-                        'ILLUSTRATOR,MODEL, PROGRAMMER, ACTOR',
-                        minFontSize: 5,
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: reclipBlack,
-                          fontSize: ScreenUtil().setSp(15),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                    SizedBox(
+                      height: 5,
                     ),
                     TabBar(
                       indicator: UnderlineTabIndicator(
@@ -110,7 +107,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 12,
                           style: TextStyle(
                             color: reclipBlack,
-                            fontSize: ScreenUtil().setSp(15),
+                            fontSize: ScreenUtil().setSp(13),
                           ),
                         ),
                         AutoSizeText(
@@ -119,7 +116,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 12,
                           style: TextStyle(
                             color: reclipBlack,
-                            fontSize: ScreenUtil().setSp(15),
+                            fontSize: ScreenUtil().setSp(13),
                           ),
                         ),
                         AutoSizeText(
@@ -128,7 +125,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           minFontSize: 12,
                           style: TextStyle(
                             color: reclipBlack,
-                            fontSize: ScreenUtil().setSp(15),
+                            fontSize: ScreenUtil().setSp(13),
                           ),
                         ),
                       ],
@@ -141,7 +138,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   children: <Widget>[
                     AboutMePage(user: widget.args.user),
                     MyWorksPage(user: widget.args.user),
-                    ContactInfoPage(),
+                    ContactInfoPage(user: widget.args.user),
                   ],
                 ),
               ),

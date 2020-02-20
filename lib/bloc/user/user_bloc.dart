@@ -33,6 +33,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           error: e.toString(),
         );
       }
+    } else if (event is UpdateUser) {
+      yield UserLoading();
+      try {
+        final user = await _reclipRepository.updateUser(event.user);
+        yield UserSuccess(user: user);
+      } catch (e) {
+        yield UserError(
+          error: e.toString(),
+        );
+      }
     }
   }
 }

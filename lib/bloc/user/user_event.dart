@@ -11,3 +11,12 @@ class GetUser extends UserEvent {
   @override
   List<Object> get props => [email];
 }
+
+class UpdateUser extends UserEvent {
+  final ReclipUser user;
+
+  UpdateUser({this.user});
+
+  @override
+  List<Object> get props => [user];
+}
