@@ -32,6 +32,7 @@ class _UserHomePageState extends State<UserHomePage> {
     homePages = [
       UserVideoPage(
         key: PageStorageKey('UserVideoPage'),
+        user: widget.args.user,
       ),
       UserIllustrationPage(
         key: PageStorageKey('UserIllustrationPage'),

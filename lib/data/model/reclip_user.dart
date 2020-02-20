@@ -53,6 +53,8 @@ class ReclipUser extends Equatable {
     String description,
     String birthDate,
     String contactNumber,
+    GoogleSignInAccount googleAccount,
+    YoutubeChannel channel,
     Illustration illustration,
   }) {
     if (illustration != null) {
@@ -64,8 +66,8 @@ class ReclipUser extends Equatable {
       password: password ?? '',
       email: this.email,
       imageUrl: this.imageUrl,
-      channel: this.channel,
-      googleAccount: this.googleAccount,
+      channel: channel ?? this.channel,
+      googleAccount: googleAccount ?? this.googleAccount,
       contactNumber: contactNumber ?? '',
       description: description ?? '',
       birthDate: birthDate ?? '',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/youtube/youtube_bloc.dart';
@@ -13,7 +14,8 @@ import 'video_widgets/image_widget.dart';
 import 'video_widgets/popular_video.dart';
 
 class UserVideoPage extends StatelessWidget {
-  const UserVideoPage({Key key}) : super(key: key);
+  final ReclipUser user;
+  UserVideoPage({Key key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,22 +57,30 @@ class UserVideoPage extends StatelessWidget {
               );
             }
             if (state is YoutubeSuccess) {
-              return CustomScrollView(
-                slivers: <Widget>[
-                  HomePageAppBar(),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      Column(
-                        children: <Widget>[
-                          PopularVideo(
-                            video: state.ytVideos[0],
-                          ),
-                          _buildVideoList(state.ytVideos),
-                        ],
-                      ),
-                    ]),
-                  )
-                ],
+              return RefreshIndicator(
+                onRefresh: () async {
+                  BlocProvider.of<YoutubeBloc>(context)
+                    ..add(
+                      UpdateYoutubeChannel(user: user),
+                    );
+                },
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    HomePageAppBar(),
+                    SliverList(
+                      delegate: SliverChildListDelegate([
+                        Column(
+                          children: <Widget>[
+                            PopularVideo(
+                              video: state.ytVideos[0],
+                            ),
+                            _buildVideoList(state.ytVideos),
+                          ],
+                        ),
+                      ]),
+                    )
+                  ],
+                ),
               );
             }
             return Container();

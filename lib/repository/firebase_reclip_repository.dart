@@ -78,6 +78,21 @@ class FirebaseReclipRepository {
     return (userDocument.exists) ? true : false;
   }
 
+  Future<void> updateChannel(YoutubeChannel channel) async {
+    return await channelCollection
+        .document(channel.id)
+        .updateData(channel.toDocument())
+        .then((_) async {
+      for (var video in channel.videos) {
+        await channelCollection
+            .document(channel.id)
+            .collection('videos')
+            .document(video.id)
+            .setData(video.toDocument());
+      }
+    });
+  }
+
   Future<YoutubeChannel> getChannel(String channelId) async {
     return YoutubeChannel.fromSnapshot(
         await channelCollection.document(channelId).get());

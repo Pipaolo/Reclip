@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/bloc/user/user_bloc.dart';
+import 'package:reclip/ui/user_page/home_page/illustration_bottom_sheet/illustration_bottom_sheet.dart';
+import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
 import '../../../bloc/illustration/illustrations_bloc.dart';
 import '../../../bloc/info/info_bloc.dart';
@@ -34,97 +37,137 @@ class _MyWorksPageState extends State<MyWorksPage> {
   @override
   Widget build(BuildContext context) {
     List<YoutubeVideo> creatorVideos = List();
-    return BlocBuilder<YoutubeBloc, YoutubeState>(
-      builder: (context, state) {
-        if (state is YoutubeSuccess) {
-          creatorVideos.addAll(state.ytVideos);
-          creatorVideos.retainWhere(
-              (video) => video.channelId.contains(widget.user.channel.id));
-          if (state.ytVideos != null) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(top: 8),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      width: double.infinity,
-                      color: reclipIndigoLight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Clips and Films',
-                            style: TextStyle(
-                              color: reclipBlack,
-                              fontSize: ScreenUtil().setSp(20),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    _buildListView(creatorVideos),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      width: double.infinity,
-                      color: reclipIndigoLight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Illustrations',
-                            style: TextStyle(
-                              color: reclipBlack,
-                              fontSize: ScreenUtil().setSp(20),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    BlocBuilder<IllustrationsBloc, IllustrationsState>(
-                      builder: (context, state) {
-                        if (state is IllustrationsSuccess) {
-                          return _buildIllustration(state.illustrations
-                              .where((illustration) => illustration.authorEmail
-                                  .contains(widget.user.email))
-                              .toList());
-                        } else if (state is IllustrationsError) {
-                          return Center(
-                            child: Text("Error"),
-                          );
-                        } else if (state is IllustrationsLoading) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Center(
-              child: Text(
-                'You currently have no works',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            );
-          }
-        } else if (state is YoutubeLoading) {
-          return Center(
-            child: SpinKitCircle(color: tomato),
-          );
-        } else if (state is YoutubeError) {
-          return Center(
-            child: Text('Woops Something Bad Happend! : ${state.error}'),
+    return BlocListener<InfoBloc, InfoState>(
+      listener: (context, state) {
+        if (state is ShowVideoInfo) {
+          showBottomSheet(
+              context: context,
+              builder: (context) {
+                return DraggableScrollableSheet(
+                    initialChildSize: 1.0,
+                    expand: true,
+                    builder: (context, scrollController) {
+                      return VideoBottomSheet(
+                        ytChannel: state.channel,
+                        ytVid: state.video,
+                        controller: scrollController,
+                      );
+                    });
+              });
+        } else if (state is ShowIllustrationInfo) {
+          BlocProvider.of<UserBloc>(context)
+            ..add(GetUser(email: state.illustration.authorEmail));
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (context) {
+              return DraggableScrollableSheet(
+                initialChildSize: 1,
+                expand: true,
+                builder: (context, scrollController) {
+                  return IllustrationBottomSheet(
+                    illustration: state.illustration,
+                    scrollController: scrollController,
+                  );
+                },
+              );
+            },
           );
         }
-        return Container();
       },
+      child: BlocBuilder<YoutubeBloc, YoutubeState>(
+        builder: (context, state) {
+          if (state is YoutubeSuccess) {
+            creatorVideos.addAll(state.ytVideos);
+            creatorVideos.retainWhere(
+                (video) => video.channelId.contains(widget.user.channel.id));
+            if (state.ytVideos != null) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        width: double.infinity,
+                        color: reclipIndigoLight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Clips and Films',
+                              style: TextStyle(
+                                color: reclipBlack,
+                                fontSize: ScreenUtil().setSp(20),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _buildListView(creatorVideos),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        width: double.infinity,
+                        color: reclipIndigoLight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Illustrations',
+                              style: TextStyle(
+                                color: reclipBlack,
+                                fontSize: ScreenUtil().setSp(20),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      BlocBuilder<IllustrationsBloc, IllustrationsState>(
+                        builder: (context, state) {
+                          if (state is IllustrationsSuccess) {
+                            return _buildIllustration(state.illustrations
+                                .where((illustration) => illustration
+                                    .authorEmail
+                                    .contains(widget.user.email))
+                                .toList());
+                          } else if (state is IllustrationsError) {
+                            return Center(
+                              child: Text("Error"),
+                            );
+                          } else if (state is IllustrationsLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'You currently have no works',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            }
+          } else if (state is YoutubeLoading) {
+            return Center(
+              child: SpinKitCircle(color: tomato),
+            );
+          } else if (state is YoutubeError) {
+            return Center(
+              child: Text('Woops Something Bad Happend! : ${state.error}'),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 

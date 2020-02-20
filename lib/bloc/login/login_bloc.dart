@@ -54,16 +54,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         final isUserExisting =
             await _firebaseReclipRepository.checkExistingUser(rawUser.email);
+        final userInitial = await _youtubeRepository.getYoutubeChannel(rawUser);
         if (!isUserExisting) {
           print("User is not Existing");
-          final user = await _youtubeRepository.getYoutubeChannel(rawUser);
-          await _firebaseReclipRepository.addUser(user);
-          await _firebaseReclipRepository.addChannel(user.channel);
-          yield LoginSuccess(user: user);
+          await _firebaseReclipRepository.addUser(userInitial);
+          await _firebaseReclipRepository.addChannel(userInitial.channel);
+          yield LoginSuccess(user: userInitial);
         } else {
           print("User is Existing");
+          await _firebaseReclipRepository.updateChannel(userInitial.channel);
           final user = await _firebaseReclipRepository.getUser(rawUser.email);
-          yield LoginSuccess(user: user);
+
+          yield LoginSuccess(
+            user: user,
+          );
         }
       } catch (_) {
         yield LoginError(error: _.toString());

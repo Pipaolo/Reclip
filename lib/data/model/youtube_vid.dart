@@ -26,9 +26,9 @@ class YoutubeVideo extends Equatable {
     return YoutubeVideo(
       id: snippet['items'][0]['id'],
       channelId: snippet['items'][0]['snippet']['channelId'],
-      title: snippet['items'][0]['snippet']['title'],
-      description: snippet['items'][0]['snippet']['description'],
-      publishedAt: snippet['items'][0]['snippet']['publishedAt'],
+      title: snippet['items'][0]['snippet']['title'] ?? '',
+      description: snippet['items'][0]['snippet']['description'] ?? '',
+      publishedAt: snippet['items'][0]['snippet']['publishedAt'] ?? '',
       images: snippet['items'][0]['snippet']['thumbnails'],
       statistics: Statistics.fromMap(
         snippet['items'][0]['statistics'],

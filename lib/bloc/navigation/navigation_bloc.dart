@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/ui/bottom_nav_controller.dart';
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
 import 'package:reclip/ui/ui.dart';
 import 'package:sailor/sailor.dart';
@@ -78,7 +79,11 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       );
     }
     if (event is ShowBottomNavbarController) {
-      Routes.sailor.navigate('bottom_nav_bar_controller');
+      Routes.sailor.navigate(
+        'bottom_nav_bar_controller',
+        args: BottomNavBarControllerArgs(user: event.user),
+        navigationType: NavigationType.pushReplace,
+      );
     }
   }
 }

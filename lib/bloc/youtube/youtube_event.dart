@@ -4,6 +4,14 @@ abstract class YoutubeEvent extends Equatable {
   const YoutubeEvent();
 }
 
+class UpdateYoutubeChannel extends YoutubeEvent {
+  final ReclipUser user;
+
+  UpdateYoutubeChannel({this.user});
+  @override
+  List<Object> get props => [user];
+}
+
 class FetchYoutubeChannel extends YoutubeEvent {
   final ReclipUser user;
 
