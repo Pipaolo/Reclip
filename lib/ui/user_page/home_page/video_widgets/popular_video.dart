@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/user_page/home_page/popular_video_image.dart';
-import 'package:reclip/ui/user_page/home_page/popular_video_info.dart';
+import 'package:reclip/ui/user_page/home_page/video_widgets/popular_video_image.dart';
+import 'package:reclip/ui/user_page/home_page/video_widgets/popular_video_info.dart';
 
 class PopularVideo extends StatelessWidget {
   final YoutubeVideo video;

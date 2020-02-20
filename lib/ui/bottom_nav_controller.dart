@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/ui.dart';

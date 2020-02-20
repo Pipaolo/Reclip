@@ -9,12 +9,12 @@ class ShowHomePage extends NavigationEvent {
   List<Object> get props => [];
 }
 
-class ShowProfilePage extends NavigationEvent {
+class ShowVideoPage extends NavigationEvent {
   @override
   List<Object> get props => [];
 }
 
-class ShowAddContentPage extends NavigationEvent {
+class ShowIllustrationPage extends NavigationEvent {
   @override
   List<Object> get props => [];
 }

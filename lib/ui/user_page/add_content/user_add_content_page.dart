@@ -1,16 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/ui/custom_drawer.dart';
 import 'package:sailor/sailor.dart';
 
+import '../../../core/reclip_colors.dart';
+import '../../../core/route_generator.dart';
+import '../../../data/model/reclip_user.dart';
 import 'add_content_image/add_content_image_page.dart';
 
 class UserAddContentPageArgs extends BaseArguments {

@@ -3,13 +3,13 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/ui/bottom_nav_controller.dart';
-import 'package:reclip/ui/user_page/home_page/user_home_page.dart';
 import 'package:sailor/sailor.dart';
+
+import '../../bloc/authentication/authentication_bloc.dart';
+import '../../bloc/youtube/youtube_bloc.dart';
+import '../../core/route_generator.dart';
+import '../../data/model/reclip_user.dart';
+import '../bottom_nav_controller.dart';
 
 class SplashPageArgs extends BaseArguments {
   final FirebaseUser user;

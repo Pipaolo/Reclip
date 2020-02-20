@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/adexchangebuyer/v1_4.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
@@ -54,23 +55,13 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       );
       yield HomePageState();
     }
-    if (event is ShowProfilePage) {
-      print(user.channel);
-      Routes.sailor.navigate(
-        'user_profile_page',
-        navigationType: NavigationType.pushReplace,
-        args: UserProfilePageArgs(user: user),
-      );
-      yield ProfilePageState();
+
+    if (event is ShowVideoPage) {
+      yield VideoPageState();
+    } else if (event is ShowIllustrationPage) {
+      yield IllustrationPageState();
     }
-    if (event is ShowAddContentPage) {
-      Routes.sailor.navigate(
-        'user_add_content_page',
-        navigationType: NavigationType.pushReplace,
-        args: UserAddContentPageArgs(user: user),
-      );
-      yield AddContentPageState();
-    }
+
     if (event is ShowLoginPage) {
       authenticationBloc.add(LoggedOut());
       authSubscription.cancel();
