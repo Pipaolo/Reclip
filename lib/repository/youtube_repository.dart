@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-
-import '../core/keys.dart';
 import '../data/model/reclip_user.dart';
 import '../data/model/youtube_channel.dart';
 import '../data/model/youtube_vid.dart';
