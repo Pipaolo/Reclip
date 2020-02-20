@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progressive_image/progressive_image.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 
-import 'video_bottom_sheet.dart';
+import '../../../../bloc/info/info_bloc.dart';
+import '../../../../bloc/youtube/youtube_bloc.dart';
+import '../../../../core/reclip_colors.dart';
+import '../../../../data/model/youtube_channel.dart';
+import '../../../../data/model/youtube_vid.dart';
 
 class CreatorVideos extends StatelessWidget {
   final YoutubeChannel creatorChannel;
@@ -133,11 +132,10 @@ class CreatorVideos extends StatelessWidget {
                             splashColor: Colors.black.withAlpha(100),
                             highlightColor: Colors.black.withAlpha(180),
                             onTap: () {
-                              return _showBottomSheet(
-                                context,
-                                filteredVideos[index],
-                                creatorChannel,
-                              );
+                              BlocProvider.of<InfoBloc>(context)
+                                ..add(
+                                  ShowVideo(video: filteredVideos[index]),
+                                );
                             },
                           ),
                         ),
@@ -153,18 +151,18 @@ class CreatorVideos extends StatelessWidget {
     }
   }
 
-  _showBottomSheet(
-      BuildContext context, YoutubeVideo ytVid, YoutubeChannel ytChannel) {
-    Routes.sailor.pop();
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return VideoBottomSheet(
-          ytVid: ytVid,
-          ytChannel: ytChannel,
-        );
-      },
-    );
-  }
+  // _showBottomSheet(
+  //     BuildContext context, YoutubeVideo ytVid, YoutubeChannel ytChannel) {
+  //   Routes.sailor.pop();
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: context,
+  //     builder: (context) {
+  //       return VideoBottomSheet(
+  //         ytVid: ytVid,
+  //         ytChannel: ytChannel,
+  //       );
+  //     },
+  //   );
+  // }
 }

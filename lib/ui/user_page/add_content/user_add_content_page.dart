@@ -31,17 +31,6 @@ class _UserAddContentPageState extends State<UserAddContentPage> {
   final TextStyle _textStyle = TextStyle(
     fontSize: ScreenUtil().setSp(20),
   );
-  NavigationBloc navigationBloc;
-  @override
-  void initState() {
-    navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +41,6 @@ class _UserAddContentPageState extends State<UserAddContentPage> {
         backgroundColor: reclipBlack,
         centerTitle: true,
       ),
-      drawer: CustomDrawer(navigationBloc: navigationBloc),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

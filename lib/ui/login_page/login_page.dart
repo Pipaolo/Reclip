@@ -63,10 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     FetchYoutubeChannel(user: state.user),
                   );
-                BlocProvider.of<IllustrationsBloc>(context)..add(FetchIllustrations());
+                BlocProvider.of<IllustrationsBloc>(context)
+                  ..add(FetchIllustrations());
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowHomePage(),
+                    ShowBottomNavbarController(),
                   );
               } else if (state is Unregistered) {
                 BlocProvider.of<YoutubeBloc>(context)
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowHomePage(),
+                    ShowBottomNavbarController(),
                   );
               }
             },

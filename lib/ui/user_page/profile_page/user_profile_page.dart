@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-
-import 'package:reclip/ui/user_page/profile_page/contact_info_page.dart';
 import 'package:sailor/sailor.dart';
 
-import '../../../bloc/navigation/navigation_bloc.dart';
+import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/reclip_user.dart';
-import '../../custom_drawer.dart';
 import 'about_me_page.dart';
+import 'contact_info_page.dart';
 import 'my_works_page.dart';
 
 class UserProfilePageArgs extends BaseArguments {
@@ -31,29 +28,13 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  NavigationBloc navigationBloc;
-
-  @override
-  void initState() {
-    navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('MY PROFILE'),
-        backgroundColor: Colors.black,
+        backgroundColor: reclipBlack,
         centerTitle: true,
-      ),
-      drawer: CustomDrawer(
-        navigationBloc: navigationBloc,
       ),
       body: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {},

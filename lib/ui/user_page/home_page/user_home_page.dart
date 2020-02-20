@@ -1,7 +1,9 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/navigation/navigation_bloc.dart';
@@ -34,29 +36,36 @@ class UserHomePage extends StatelessWidget {
     'Clips and Films'
   ];
 
-  UserHomePage({this.args});
+  UserHomePage({Key key, this.args}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: CustomDrawer(
-        navigationBloc: BlocProvider.of<NavigationBloc>(context),
-      ),
       body: BlocListener<InfoBloc, InfoState>(
         listener: (context, state) {
           if (state is ShowVideoInfo) {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return VideoBottomSheet(
-                    ytVid: state.video, ytChannel: state.channel);
-              },
-            );
+            showBottomSheet(
+                context: context,
+                builder: (context) {
+                  return DraggableScrollableSheet(
+                      initialChildSize: 1.0,
+                      builder: (context, scrollController) {
+                        return ListView(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          children: <Widget>[
+                            VideoBottomSheet(
+                              ytChannel: state.channel,
+                              ytVid: state.video,
+                              controller: scrollController,
+                            ),
+                          ],
+                        );
+                      });
+                });
           } else if (state is ShowIllustrationInfo) {
             BlocProvider.of<UserBloc>(context)
               ..add(GetUser(email: state.illustration.authorEmail));
@@ -90,7 +99,7 @@ class UserHomePage extends StatelessWidget {
             if (state is YoutubeSuccess) {
               return CustomScrollView(
                 slivers: <Widget>[
-                  HomePageAppBar(scaffoldKey: _scaffoldKey),
+                  HomePageAppBar(),
                   SliverList(
                     delegate: SliverChildListDelegate([
                       Column(
@@ -112,22 +121,6 @@ class UserHomePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<YoutubeVideo> sortVideos(List<YoutubeChannel> channels) {
-    List<YoutubeVideo> sortedVideos = List();
-
-    for (var channel in channels) {
-      sortedVideos.addAll(channel.videos);
-    }
-    //Sort videos by date uploaded
-    sortedVideos.sort((a, b) {
-      var aDate = a.statistics.likeCount;
-      var bDate = b.statistics.likeCount;
-      return -aDate.compareTo(bDate);
-    });
-
-    return sortedVideos;
   }
 
   _buildVideoList(
@@ -158,49 +151,33 @@ class UserHomePage extends StatelessWidget {
 }
 
 class HomePageAppBar extends StatelessWidget {
-  const HomePageAppBar({
-    Key key,
-    @required GlobalKey<ScaffoldState> scaffoldKey,
-  })  : _scaffoldKey = scaffoldKey,
-        super(key: key);
-
-  final GlobalKey<ScaffoldState> _scaffoldKey;
-
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      backgroundColor: reclipBlack.withAlpha(200),
+      backgroundColor: reclipBlack,
       elevation: 0,
       centerTitle: true,
       title: Container(
-        child: Image.asset(
-          'assets/images/reclip_logo_no_text.png',
-          height: 80,
-          width: 80,
-          fit: BoxFit.fill,
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/reclip_logo_no_text.png',
+              height: 80,
+              width: 80,
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(8),
+            ),
+            Text('Videos'),
+            SizedBox(
+              width: ScreenUtil().setWidth(30),
+            ),
+            Text('Illustrations'),
+          ],
         ),
       ),
-      leading: IconButton(
-        icon: Icon(
-          Icons.menu,
-          color: reclipIndigo,
-        ),
-        onPressed: () {
-          BlocProvider.of<DrawerBloc>(context)
-            ..add(
-              ShowDrawer(scaffoldKey: _scaffoldKey),
-            );
-        },
-      ),
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.search,
-            color: reclipIndigo,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 
 import 'package:reclip/ui/user_page/profile_page/contact_info_page.dart';

@@ -1,3 +1,4 @@
+import 'package:reclip/ui/bottom_nav_controller.dart';
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
@@ -68,6 +69,14 @@ class Routes {
             );
           }),
     ]);
+
+    sailor.addRoute(SailorRoute(
+        name: 'bottom_nav_bar_controller',
+        builder: (context, args, params) {
+          return BottomNavBarController(
+            args: args,
+          );
+        }));
 
     sailor.addRoutes(
       [

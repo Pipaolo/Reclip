@@ -18,6 +18,7 @@ dependencies:
   firebase_storage: ^3.1.1
   flutter_advanced_networkimage: ^0.7.0
   shimmer: ^1.0.1
+  curved_navigation_bar: ^0.3.2
 
   #Authentication Packages
   firebase_auth: ^0.15.4

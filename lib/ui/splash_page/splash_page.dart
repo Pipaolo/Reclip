@@ -7,6 +7,7 @@ import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/bloc/youtube/youtube_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/ui/bottom_nav_controller.dart';
 import 'package:reclip/ui/user_page/home_page/user_home_page.dart';
 import 'package:sailor/sailor.dart';
 
@@ -71,13 +72,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _navigateToHomeScreen() {
-    Routes.sailor.navigate(
-      'user_home_page',
-      navigationType: NavigationType.pushReplace,
-      args: UserHomePageArgs(
-        user: user,
-      ),
-    );
+    Routes.sailor.navigate('bottom_nav_bar_controller',
+        navigationType: NavigationType.pushReplace,
+        args: BottomNavBarControllerArgs(
+          user: user,
+        ));
   }
 
   _navigateToLoginScreen() {

@@ -22,6 +22,11 @@ Color reclipIndigo = Color(0xFF9FA8DA);
 Color reclipIndigoLight = Color(0xFFD1D9FF);
 Color reclipIndigoDark = Color(0xFF6F79A8);
 
+//CIIT Colors
+Color ciitRed = Color(0xFFe83a31);
+Color ciitBlue = Color(0xff41c8f5);
+Color ciitYellow = Color(0xffece93a);
+
 // Instagram:
 // FEDA74
 // FA7E1E

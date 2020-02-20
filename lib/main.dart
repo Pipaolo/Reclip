@@ -117,11 +117,14 @@ class Reclip extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: Colors.black,
             textTheme: TextTheme(
-              title: TextStyle(
+              headline6: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
               ),
             ),
+          ),
+          bottomSheetTheme: BottomSheetThemeData(
+            backgroundColor: reclipBlack,
           ),
           backgroundColor: Colors.white,
           splashColor: Colors.black45,

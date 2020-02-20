@@ -31,3 +31,8 @@ class ShowSignupPage extends NavigationEvent {
   @override
   List<Object> get props => [user];
 }
+
+class ShowBottomNavbarController extends NavigationEvent {
+  @override
+  List<Object> get props => [];
+}

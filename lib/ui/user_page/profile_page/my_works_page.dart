@@ -4,15 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progressive_image/progressive_image.dart';
-import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
+
+import '../../../bloc/illustration/illustrations_bloc.dart';
+import '../../../bloc/info/info_bloc.dart';
+import '../../../bloc/youtube/youtube_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/illustration.dart';
+import '../../../data/model/reclip_user.dart';
+import '../../../data/model/youtube_vid.dart';
 
 class MyWorksPage extends StatefulWidget {
   final ReclipUser user;
@@ -222,11 +221,10 @@ class _MyWorksPageState extends State<MyWorksPage> {
                         splashColor: Colors.black.withAlpha(100),
                         highlightColor: Colors.black.withAlpha(180),
                         onTap: () {
-                          return _showBottomSheet(
-                            context,
-                            ytVids[index],
-                            widget.user.channel,
-                          );
+                          BlocProvider.of<InfoBloc>(context)
+                            ..add(
+                              ShowVideo(video: ytVids[index]),
+                            );
                         },
                       ),
                     ),
@@ -240,17 +238,17 @@ class _MyWorksPageState extends State<MyWorksPage> {
     );
   }
 
-  _showBottomSheet(
-      BuildContext context, YoutubeVideo ytVid, YoutubeChannel ytChannel) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return VideoBottomSheet(
-          ytVid: ytVid,
-          ytChannel: ytChannel,
-        );
-      },
-    );
-  }
+  // _showBottomSheet(
+  //     BuildContext context, YoutubeVideo ytVid, YoutubeChannel ytChannel) {
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: context,
+  //     builder: (context) {
+  //       return VideoBottomSheet(
+  //         ytVid: ytVid,
+  //         ytChannel: ytChannel,
+  //       );
+  //     },
+  //   );
+  // }
 }

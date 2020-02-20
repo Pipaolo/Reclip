@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/youtube/v3.dart';
-import 'package:reclip/repository/firebase_reclip_repository.dart';
 
 import '../data/model/reclip_user.dart';
+import 'firebase_reclip_repository.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;

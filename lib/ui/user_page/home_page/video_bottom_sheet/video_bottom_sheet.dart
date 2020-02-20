@@ -18,9 +18,13 @@ import 'creator_videos.dart';
 class VideoBottomSheet extends StatefulWidget {
   final YoutubeVideo ytVid;
   final YoutubeChannel ytChannel;
+  final ScrollController controller;
 
   const VideoBottomSheet(
-      {Key key, @required this.ytVid, @required this.ytChannel})
+      {Key key,
+      @required this.controller,
+      @required this.ytVid,
+      @required this.ytChannel})
       : super(key: key);
 
   @override
@@ -48,19 +52,14 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
+    return Stack(
       children: <Widget>[
         SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: <Widget>[
-              _buildHeader(),
-              _buildDescription(),
-              _buildPlayOverlay(),
-            ],
-          ),
-        )
+          height: ScreenUtil().uiHeightPx,
+        ),
+        _buildHeader(),
+        _buildDescription(),
+        _buildPlayOverlay(),
       ],
     );
   }
@@ -117,6 +116,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           left: 10,
         ),
         child: SingleChildScrollView(
+          controller: widget.controller,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

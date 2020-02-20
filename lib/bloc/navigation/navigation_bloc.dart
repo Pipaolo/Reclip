@@ -87,5 +87,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         ),
       );
     }
+    if (event is ShowBottomNavbarController) {
+      Routes.sailor.navigate('bottom_nav_bar_controller');
+    }
   }
 }
