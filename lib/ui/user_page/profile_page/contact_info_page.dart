@@ -11,16 +11,14 @@ class ContactInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 50,
-        vertical: 18,
-      ),
+      padding: const EdgeInsets.fromLTRB(50, 20, 50, 0),
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
           return true;
         },
         child: ListView(
+          shrinkWrap: true,
           children: <Widget>[
             ContactInfo(
               title: 'Email',

@@ -21,12 +21,16 @@ class YoutubeRepository {
             'https://www.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails&mine=true',
             headers: await user.googleAccount.authHeaders);
 
-        final YoutubeChannel userChannel =
+        final YoutubeChannel rawUserChannel =
             YoutubeChannel.fromHttpMap(json.decode(response.body));
         final youtubeIds = await getYoutubePlaylistVideoID(
-            userChannel.uploadPlaylistId, user.googleAccount);
-        userChannel.videos =
-            await getYoutubeChannelVideos(youtubeIds, user.googleAccount);
+            rawUserChannel.uploadPlaylistId, user.googleAccount);
+
+        final userChannel = rawUserChannel.copyWith(
+          email: user.email,
+          youtubeVideos:
+              await getYoutubeChannelVideos(youtubeIds, user.googleAccount),
+        );
 
         final ReclipUser userToUpload = ReclipUser(
           id: user.id,

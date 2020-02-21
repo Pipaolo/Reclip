@@ -16,6 +16,8 @@ class ShowVideoInfo extends InfoState {
   ShowVideoInfo({this.video, this.channel});
   @override
   List<Object> get props => [video, channel];
+
+  get illustration => null;
 }
 
 class ShowIllustrationInfo extends InfoState {

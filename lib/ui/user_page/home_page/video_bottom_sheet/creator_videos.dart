@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:reclip/bloc/other_user/other_user_bloc.dart';
 
 import '../../../../bloc/info/info_bloc.dart';
 import '../../../../bloc/youtube/youtube_bloc.dart';
 import '../../../../core/reclip_colors.dart';
+import '../../../../core/route_generator.dart';
 import '../../../../data/model/youtube_channel.dart';
 import '../../../../data/model/youtube_vid.dart';
 
@@ -31,21 +33,32 @@ class CreatorVideos extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 10, top: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: reclipIndigo,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              height: ScreenUtil().setHeight(35),
-              width: double.infinity,
-              padding: EdgeInsets.all(5),
-              alignment: Alignment.center,
-              child: AutoSizeText(
-                'More Videos of ${creatorChannel.title.toUpperCase()}',
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(16),
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black.withAlpha(180),
+            child: Material(
+              color: reclipIndigo,
+              child: Ink(
+                child: InkWell(
+                  onTap: () {
+                    BlocProvider.of<OtherUserBloc>(context)
+                      ..add(GetOtherUser(email: creatorChannel.email));
+                    return Routes.sailor('other_user_profile_page');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    height: ScreenUtil().setHeight(35),
+                    width: double.infinity,
+                    padding: EdgeInsets.all(5),
+                    alignment: Alignment.center,
+                    child: AutoSizeText(
+                      'More Videos of ${creatorChannel.title.toUpperCase()}',
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(16),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black.withAlpha(180),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -9,6 +9,7 @@ import 'bloc/authentication/authentication_bloc.dart';
 import 'bloc/info/info_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/navigation/navigation_bloc.dart';
+import 'bloc/other_user/other_user_bloc.dart';
 import 'bloc/playback/playback_bloc.dart';
 import 'bloc/youtube/youtube_bloc.dart';
 import 'core/reclip_colors.dart';
@@ -70,12 +71,15 @@ class Reclip extends StatelessWidget {
         BlocProvider<IllustrationsBloc>(
           create: (context) => IllustrationsBloc(
             reclipRepository: _firebaseReclipRepository,
-            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           )..add(FetchIllustrations()),
         ),
         BlocProvider<UserBloc>(
           create: (context) =>
               UserBloc(reclipRepository: _firebaseReclipRepository),
+        ),
+        BlocProvider<OtherUserBloc>(
+          create: (context) =>
+              OtherUserBloc(reclipRepository: _firebaseReclipRepository),
         ),
         BlocProvider<YoutubeBloc>(
           create: (context) => YoutubeBloc(

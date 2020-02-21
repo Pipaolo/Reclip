@@ -26,7 +26,7 @@ class AboutMePage extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: AutoSizeText(
-          (user.description != null)
+          (user.description != null && user.description.isNotEmpty)
               ? user.description
               : user.channel.description,
           maxLines: 8,

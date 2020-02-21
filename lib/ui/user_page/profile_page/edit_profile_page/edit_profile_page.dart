@@ -49,7 +49,12 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
 
   @override
   void initState() {
-    _aboutMeTextEditingController.text = widget.args.user.description ?? '';
+    if (widget.args.user.description != null &&
+        widget.args.user.description.isNotEmpty) {
+      _aboutMeTextEditingController.text = widget.args.user.description;
+    } else {
+      _aboutMeTextEditingController.text = widget.args.user.channel.description;
+    }
     _emailTextEditingController.text = widget.args.user.email ?? '';
     _contactNoTextEditingController.text = widget.args.user.contactNumber ?? '';
     _userNameTextEditingController.text = widget.args.user.name ?? '';

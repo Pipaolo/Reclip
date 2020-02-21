@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/user/user_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/data/model/reclip_user.dart';
 
+import '../../../../bloc/other_user/other_user_bloc.dart';
+import '../../../../core/reclip_colors.dart';
+import '../../../../data/model/illustration.dart';
+import '../../../../data/model/reclip_user.dart';
 import 'illustration_author_image.dart';
 
 class IllustrationBottomSheet extends StatelessWidget {
@@ -95,14 +95,14 @@ class IllustrationDescription extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocBuilder<OtherUserBloc, OtherUserState>(
       builder: (context, state) {
-        if (state is UserSuccess) {
+        if (state is OtherUserSuccess) {
           return _buildSuccessState(state.user);
-        } else if (state is UserLoading) {
+        } else if (state is OtherUserLoading) {
           return _buildLoadingState();
-        } else if (state is UserError) {
-          return _buildErrorState(state.error);
+        } else if (state is OtherUserError) {
+          return _buildErrorState(state.errorText);
         }
         return Container();
       },

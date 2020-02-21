@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:reclip/bloc/other_user/other_user_bloc.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 
 import '../../../bloc/info/info_bloc.dart';

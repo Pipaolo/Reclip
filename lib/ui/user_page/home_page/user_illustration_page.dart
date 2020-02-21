@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
-import 'package:reclip/ui/user_page/home_page/illustration_widgets/popular_illustration_widget.dart';
 
+import '../../../bloc/illustration/illustrations_bloc.dart';
 import '../../../bloc/info/info_bloc.dart';
-import '../../../bloc/user/user_bloc.dart';
+import '../../../bloc/other_user/other_user_bloc.dart';
 import 'illustration_bottom_sheet/illustration_bottom_sheet.dart';
 import 'illustration_widgets/illustration_widget.dart';
+import 'illustration_widgets/popular_illustration_widget.dart';
 import 'user_home_page_appbar.dart';
 
 class UserIllustrationPage extends StatelessWidget {
@@ -18,8 +18,8 @@ class UserIllustrationPage extends StatelessWidget {
       body: BlocListener<InfoBloc, InfoState>(
         listener: (context, state) {
           if (state is ShowIllustrationInfo) {
-            BlocProvider.of<UserBloc>(context)
-              ..add(GetUser(email: state.illustration.authorEmail));
+            BlocProvider.of<OtherUserBloc>(context)
+              ..add(GetOtherUser(email: state.illustration.authorEmail));
             showModalBottomSheet(
               isScrollControlled: true,
               context: context,

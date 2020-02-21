@@ -6,14 +6,16 @@ class YoutubeChannel extends Equatable {
   final String id;
   final String title;
   final String description;
+  final String email;
   final Map<dynamic, dynamic> thumbnails;
   final String uploadPlaylistId;
-  List<YoutubeVideo> videos;
+  final List<YoutubeVideo> videos;
 
   YoutubeChannel(
       {this.id,
       this.title,
       this.description,
+      this.email,
       this.thumbnails,
       this.uploadPlaylistId,
       this.videos});
@@ -46,6 +48,7 @@ class YoutubeChannel extends Equatable {
       description: snap.data['description'],
       uploadPlaylistId: snap.data['playlistId'],
       thumbnails: snap.data['thumbnails'],
+      email: snap.data['email'],
     );
   }
 
@@ -54,6 +57,7 @@ class YoutubeChannel extends Equatable {
       'id': id,
       'title': title,
       'description': description,
+      'email': email,
       'playlistId': uploadPlaylistId,
       'thumbnails': {
         'default': {
@@ -78,7 +82,19 @@ class YoutubeChannel extends Equatable {
     };
   }
 
+  YoutubeChannel copyWith({String email, List<YoutubeVideo> youtubeVideos}) {
+    return YoutubeChannel(
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      email: email ?? this.email,
+      thumbnails: this.thumbnails,
+      uploadPlaylistId: this.uploadPlaylistId,
+      videos: youtubeVideos ?? this.videos,
+    );
+  }
+
   @override
   List<Object> get props =>
-      [id, title, description, thumbnails, uploadPlaylistId, videos];
+      [id, title, description, email, thumbnails, uploadPlaylistId, videos];
 }

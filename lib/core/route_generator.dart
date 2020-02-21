@@ -125,9 +125,7 @@ class Routes {
         SailorRoute(
             name: 'other_user_profile_page',
             builder: (context, args, params) {
-              return OtherProfilePage(
-                args: args,
-              );
+              return OtherProfilePage();
             }),
         SailorRoute(
           name: 'user_edit_profile_page',
