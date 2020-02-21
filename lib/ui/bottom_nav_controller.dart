@@ -63,7 +63,6 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
       ),
       UserProfilePage(
         key: PageStorageKey('UserProfilePage'),
-        args: UserProfilePageArgs(user: widget.args.user),
       ),
     ];
 

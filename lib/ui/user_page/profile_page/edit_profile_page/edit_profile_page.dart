@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_user.dart';
@@ -33,6 +37,15 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
       TextEditingController();
   final TextEditingController _userNameTextEditingController =
       TextEditingController();
+  final TextEditingController _facebookTextEditingController =
+      TextEditingController();
+  final TextEditingController _twitterTextEditingController =
+      TextEditingController();
+
+  final TextEditingController _instagramTextEditingController =
+      TextEditingController();
+
+  File profileImage;
 
   @override
   void initState() {
@@ -40,13 +53,85 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
     _emailTextEditingController.text = widget.args.user.email ?? '';
     _contactNoTextEditingController.text = widget.args.user.contactNumber ?? '';
     _userNameTextEditingController.text = widget.args.user.name ?? '';
+    _facebookTextEditingController.text = widget.args.user.facebook ?? '';
+    _twitterTextEditingController.text = widget.args.user.twitter ?? '';
+    _instagramTextEditingController.text = widget.args.user.instagram ?? '';
     super.initState();
   }
 
+  _showLoadingDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        });
+  }
+
+  _showSuccessDialog(BuildContext context) {
+    Navigator.of(context).pop();
+    Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.checkCircle,
+                      color: Colors.green,
+                      size: ScreenUtil().setSp(80),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: Text(
+                        'Profile Updated',
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  _showErrorDialog(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is UserLoading) {
+          _showLoadingDialog(context);
+        } else if (state is UserSuccess) {
+          _showSuccessDialog(context);
+        } else if (state is UserError) {
+          _showErrorDialog(context);
+        }
+      },
       child: Scaffold(
         backgroundColor: reclipBlackDark,
         appBar: AppBar(
@@ -55,7 +140,6 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
           backgroundColor: reclipBlack,
         ),
         body: FormBuilder(
-          autovalidate: true,
           key: _fbKey,
           child: Center(
             child: SingleChildScrollView(
@@ -65,13 +149,32 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
+                    Center(
                       child: CircleAvatar(
-                        child: Icon(
-                          FontAwesomeIcons.camera,
-                          size: ScreenUtil().setSp(70),
-                          color: reclipIndigo,
+                        backgroundImage: (profileImage != null)
+                            ? FileImage(profileImage)
+                            : AdvancedNetworkImage(
+                                widget.args.user.imageUrl,
+                              ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: IconButton(
+                                icon: Icon(
+                                  FontAwesomeIcons.plusCircle,
+                                  color: Colors.white,
+                                  size: ScreenUtil().setSp(33),
+                                ),
+                                onPressed: () async {
+                                  profileImage = await ImagePicker.pickImage(
+                                      source: ImageSource.gallery);
+                                  setState(() {});
+                                },
+                              ),
+                            )
+                          ],
                         ),
                         radius: ScreenUtil().setSp(80),
                         backgroundColor: reclipBlackLight,
@@ -181,6 +284,90 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
+                        'Facebook',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                    FormBuilderTextField(
+                      attribute: 'facebook',
+                      controller: _facebookTextEditingController,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Facebook',
+                        hintStyle: TextStyle(
+                          color: reclipBlackLight,
+                        ),
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: reclipBlack,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        'Instagram',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                    FormBuilderTextField(
+                      attribute: 'instagram',
+                      controller: _instagramTextEditingController,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Instagram',
+                        hintStyle: TextStyle(
+                          color: reclipBlackLight,
+                        ),
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: reclipBlack,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        'Twitter',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                    FormBuilderTextField(
+                      attribute: 'twitter',
+                      controller: _twitterTextEditingController,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Twitter',
+                        hintStyle: TextStyle(
+                          color: reclipBlackLight,
+                        ),
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: reclipBlack,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
                         'Mobile Number',
                         style: TextStyle(
                           color: Colors.white,
@@ -203,10 +390,13 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
                         filled: true,
                         fillColor: reclipBlack,
                       ),
+                      autovalidate: true,
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       validators: [
                         FormBuilderValidators.numeric(),
+                        FormBuilderValidators.minLength(11,
+                            errorText: 'Invalid Number (e.g 09213241232)'),
                       ],
                       maxLines: 1,
                     ),
@@ -274,10 +464,20 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
                                           username:
                                               _userNameTextEditingController
                                                   .text,
+                                          facebook:
+                                              _facebookTextEditingController
+                                                  .text,
+                                          twitter: _twitterTextEditingController
+                                              .text,
+                                          instagram:
+                                              _instagramTextEditingController
+                                                  .text,
                                         );
                                         BlocProvider.of<UserBloc>(context)
                                           ..add(
-                                            UpdateUser(user: updatedUser),
+                                            UpdateUser(
+                                                user: updatedUser,
+                                                image: profileImage),
                                           );
                                         Navigator.of(context).pop();
                                       },

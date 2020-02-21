@@ -109,9 +109,7 @@ class Routes {
         SailorRoute(
           name: 'user_profile_page',
           builder: (context, args, params) {
-            return UserProfilePage(
-              args: args,
-            );
+            return UserProfilePage();
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),

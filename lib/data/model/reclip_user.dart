@@ -15,6 +15,9 @@ class ReclipUser extends Equatable {
   final String password;
   final String description;
   final String contactNumber;
+  final String facebook;
+  final String twitter;
+  final String instagram;
   final YoutubeChannel channel;
   final List<Illustration> illustrations;
   final GoogleSignInAccount googleAccount;
@@ -24,6 +27,9 @@ class ReclipUser extends Equatable {
     @required this.name,
     @required this.email,
     @required this.imageUrl,
+    this.facebook,
+    this.instagram,
+    this.twitter,
     this.birthDate,
     this.password,
     this.description,
@@ -38,9 +44,12 @@ class ReclipUser extends Equatable {
       id: snap.data['id'],
       name: snap.data['name'],
       email: snap.data['email'],
-      description: snap.data['description'],
-      contactNumber: snap.data['contactNumber'],
+      description: snap.data['description'] ?? '',
+      contactNumber: snap.data['contactNumber'] ?? '',
       imageUrl: snap.data['imageUrl'],
+      facebook: snap.data['facebook'] ?? '',
+      instagram: snap.data['instagram'] ?? '',
+      twitter: snap.data['twitter'] ?? '',
       illustrations: Illustration().fromList(snap.data['illustrations']),
       channel: YoutubeChannel.fromUserMap(snap.data['channel']),
     );
@@ -53,6 +62,10 @@ class ReclipUser extends Equatable {
     String description,
     String birthDate,
     String contactNumber,
+    String facebook,
+    String twitter,
+    String instagram,
+    String imageUrl,
     GoogleSignInAccount googleAccount,
     YoutubeChannel channel,
     Illustration illustration,
@@ -65,11 +78,14 @@ class ReclipUser extends Equatable {
       name: username ?? this.name,
       password: password ?? '',
       email: this.email,
-      imageUrl: this.imageUrl,
+      imageUrl: imageUrl ?? this.imageUrl,
       channel: channel ?? this.channel,
+      facebook: facebook ?? this.facebook,
+      twitter: twitter ?? this.twitter,
+      instagram: instagram ?? this.instagram,
       googleAccount: googleAccount ?? this.googleAccount,
-      contactNumber: contactNumber ?? '',
-      description: description ?? '',
+      contactNumber: contactNumber ?? this.contactNumber,
+      description: description ?? this.description,
       birthDate: birthDate ?? '',
       illustrations: illustrations,
     );
@@ -83,6 +99,9 @@ class ReclipUser extends Equatable {
       'imageUrl': imageUrl,
       'description': description,
       'contactNumber': contactNumber,
+      'facebook': facebook,
+      'instagram': instagram,
+      'twitter': twitter,
       'illustrations': (illustrations != null)
           ? illustrations
               .map((illustration) => illustration.toDocument())
@@ -104,6 +123,9 @@ class ReclipUser extends Equatable {
         imageUrl,
         illustrations,
         channel,
+        facebook,
+        instagram,
+        twitter,
         googleAccount,
       ];
 }

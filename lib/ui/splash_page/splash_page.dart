@@ -3,6 +3,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
@@ -44,6 +45,8 @@ class _SplashPageState extends State<SplashPage> {
               } else if (state is Authenticated) {
                 BlocProvider.of<YoutubeBloc>(context)
                   ..add(FetchYoutubeChannel(user: state.user));
+                BlocProvider.of<UserBloc>(context)
+                  ..add(GetUser(email: state.user.email));
                 isAuthenticated = true;
                 user = state.user;
               }

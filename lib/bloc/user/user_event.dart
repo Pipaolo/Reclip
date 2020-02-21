@@ -14,9 +14,10 @@ class GetUser extends UserEvent {
 
 class UpdateUser extends UserEvent {
   final ReclipUser user;
+  final File image;
 
-  UpdateUser({this.user});
+  UpdateUser({this.user, this.image});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, image];
 }

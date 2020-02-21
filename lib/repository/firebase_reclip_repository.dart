@@ -55,6 +55,30 @@ class FirebaseReclipRepository {
     );
   }
 
+  Future<String> addProfilePicture(ReclipUser user, File image) async {
+    final reference = illustrationReference.child('${user.email}/profileImage');
+    final uploadTask = reference.putData(await image.readAsBytes());
+    await uploadTask.onComplete;
+    final imageUrl = await reference.getDownloadURL();
+    return imageUrl;
+  }
+
+  Future<ReclipUser> updateUser(ReclipUser user, File image) async {
+    if (image != null) {
+      final imageUrl = await addProfilePicture(user, image);
+      await userCollection.document(user.email).setData(user
+          .copyWith(
+            imageUrl: imageUrl,
+          )
+          .toDocument());
+    } else {
+      await userCollection.document(user.email).setData(user.toDocument());
+    }
+
+    final updatedUser = await getUser(user.email);
+    return updatedUser;
+  }
+
   Future<void> addUser(ReclipUser user) async {
     return await userCollection.document(user.email).setData(user.toDocument());
   }
@@ -139,11 +163,5 @@ class FirebaseReclipRepository {
         return YoutubeChannel.fromSnapshot(document);
       }).toList();
     });
-  }
-
-  Future<ReclipUser> updateUser(ReclipUser user) async {
-    await userCollection.document(user.email).setData(user.toDocument());
-    final updatedUser = await getUser(user.email);
-    return updatedUser;
   }
 }

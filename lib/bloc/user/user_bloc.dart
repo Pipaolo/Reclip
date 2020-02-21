@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -36,7 +37,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is UpdateUser) {
       yield UserLoading();
       try {
-        final user = await _reclipRepository.updateUser(event.user);
+        final user =
+            await _reclipRepository.updateUser(event.user, event.image);
         yield UserSuccess(user: user);
       } catch (e) {
         yield UserError(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
+import 'package:reclip/bloc/user/user_bloc.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
@@ -63,8 +64,13 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     FetchYoutubeChannel(user: state.user),
                   );
+
                 BlocProvider.of<IllustrationsBloc>(context)
                   ..add(FetchIllustrations());
+
+                BlocProvider.of<UserBloc>(context)
+                  ..add(GetUser(email: state.user.email));
+
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
                     ShowBottomNavbarController(user: state.user),
@@ -74,6 +80,10 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     AddYoutubeChannel(user: state.user),
                   );
+
+                BlocProvider.of<UserBloc>(context)
+                  ..add(GetUser(email: state.user.email));
+
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
                     ShowBottomNavbarController(user: state.user),
