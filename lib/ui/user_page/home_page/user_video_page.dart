@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reclip/bloc/other_user/other_user_bloc.dart';
-import 'package:reclip/data/model/reclip_user.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/youtube/youtube_bloc.dart';
 import '../../../core/reclip_colors.dart';
+import '../../../data/model/reclip_user.dart';
 import '../../../data/model/youtube_vid.dart';
 import 'user_home_page_appbar.dart';
 import 'video_bottom_sheet/video_bottom_sheet.dart';
