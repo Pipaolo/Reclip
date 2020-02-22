@@ -13,7 +13,7 @@ class GetUser extends UserEvent {
 }
 
 class UpdateUser extends UserEvent {
-  final ReclipUser user;
+  final ReclipContentCreator user;
   final File image;
 
   UpdateUser({this.user, this.image});

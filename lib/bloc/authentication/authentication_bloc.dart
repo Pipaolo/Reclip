@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
+
 import 'package:reclip/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -36,8 +38,8 @@ class AuthenticationBloc
     try {
       final isSignedIn = await _userRepository.isSignedIn();
       if (isSignedIn) {
-        final user = await _userRepository.getUser();
-        yield Authenticated(user: user);
+        final user = await _userRepository.getContentCreator();
+        yield AuthenticatedContentCreator(user: user);
       } else {
         yield Unauthenticated();
       }
@@ -46,14 +48,17 @@ class AuthenticationBloc
     }
   }
 
-  Stream<AuthenticationState> _mapLoggedInToState(ReclipUser user) async* {
-    final storedUser = await _userRepository.getUser();
+  Stream<AuthenticationState> _mapLoggedInToState(
+      ReclipContentCreator user) async* {
+    final storedUser = await _userRepository.getContentCreator();
+    final user = await _userRepository.getUser();
     if (storedUser != null) {
       print('AUTH AUTHENTICATED');
-      yield Authenticated(user: storedUser);
-    } else {
+      yield AuthenticatedContentCreator(user: storedUser);
+    } else if (storedUser == null && user == null) {
       print('AUTH UNREGISTERED');
-      yield Unregistered(user: user);
+    } else {
+      yield AuthenticatedUser(user: user);
     }
   }
 

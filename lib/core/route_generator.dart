@@ -6,7 +6,7 @@ import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_crea
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_sixth_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
-import 'package:reclip/ui/signup_page/signup_credentials_page.dart';
+import 'package:reclip/ui/signup_page/signup_user/signup_user.dart';
 import 'package:reclip/ui/splash_page/splash_page.dart';
 import 'package:reclip/ui/ui.dart';
 import 'package:reclip/ui/user_page/add_content/add_content_image/add_content_image_page.dart';
@@ -33,9 +33,9 @@ class Routes {
         },
       ),
       SailorRoute(
-          name: 'signup_page/credentials',
+          name: 'signup_page/user',
           builder: (context, args, params) {
-            return SignupCredentialsPage();
+            return SignupUserPage();
           }),
       SailorRoute(
           name: 'signup_page/content_creator/first_page',
@@ -110,9 +110,7 @@ class Routes {
         SailorRoute(
           name: 'user_home_page',
           builder: (context, args, params) {
-            return UserHomePage(
-              args: args,
-            );
+            return UserHomePage();
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),

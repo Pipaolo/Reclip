@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
 import 'package:reclip/repository/youtube_repository.dart';
@@ -52,7 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final rawUser = await _userRepository.signInWithGoogle();
 
         final storedUser =
-            await _firebaseReclipRepository.getUser(rawUser.email);
+            await _firebaseReclipRepository.getContentCreator(rawUser.email);
         // final userInitial = await _youtubeRepository.getYoutubeChannel(
         //   storedUser.copyWith(
         //     googleAccount: rawUser.googleAccount,
@@ -66,7 +66,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         } else {
           print("User is Existing");
           // await _firebaseReclipRepository.updateChannel(userInitial.channel);
-          final user = await _firebaseReclipRepository.getUser(rawUser.email);
+          final user =
+              await _firebaseReclipRepository.getContentCreator(rawUser.email);
 
           yield LoginSuccess(
             user: user,

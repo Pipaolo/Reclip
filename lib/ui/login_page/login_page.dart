@@ -47,7 +47,13 @@ class _LoginPageState extends State<LoginPage> {
                     ..add(
                       LoggedIn(user: state.user),
                     );
+                } else {
+                  BlocProvider.of<AuthenticationBloc>(context)
+                    ..add(
+                      LoggedIn(),
+                    );
                 }
+
                 progressDialog.dismiss();
               }
               if (state is LoginError) {
@@ -77,10 +83,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              if (state is Authenticated) {
+              if (state is AuthenticatedContentCreator) {
                 BlocProvider.of<YoutubeBloc>(context)
                   ..add(
-                    FetchYoutubeChannel(user: state.user),
+                    FetchYoutubeChannel(),
                   );
 
                 BlocProvider.of<IllustrationsBloc>(context)
@@ -93,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     ShowBottomNavbarController(user: state.user),
                   );
+              } else if (state is AuthenticatedUser) {
               } else if (state is Unregistered) {
                 BlocProvider.of<YoutubeBloc>(context)
                   ..add(

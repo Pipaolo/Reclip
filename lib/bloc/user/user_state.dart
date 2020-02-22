@@ -22,7 +22,7 @@ class UserError extends UserState {
 }
 
 class UserSuccess extends UserState {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   UserSuccess({@required this.user});
   @override

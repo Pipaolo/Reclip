@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:reclip/data/model/illustration.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
@@ -14,8 +15,8 @@ class FirebaseReclipRepository {
   final illustrationCollection = Firestore.instance.collection('illustrations');
   final illustrationReference = FirebaseStorage.instance.ref();
 
-  Future<Illustration> addImage(
-      ReclipUser user, Illustration rawIllustration, File image) async {
+  Future<Illustration> addImage(ReclipContentCreator user,
+      Illustration rawIllustration, File image) async {
     final imageName = image.path.split('/').last;
     final reference = illustrationReference.child('${user.email}/$imageName');
     final uploadTask = reference.putData(await image.readAsBytes());
@@ -55,7 +56,8 @@ class FirebaseReclipRepository {
     );
   }
 
-  Future<String> addProfilePicture(ReclipUser user, File image) async {
+  Future<String> addProfilePicture(
+      ReclipContentCreator user, File image) async {
     final reference = illustrationReference.child('${user.email}/profileImage');
     final uploadTask = reference.putData(await image.readAsBytes());
     await uploadTask.onComplete;
@@ -63,7 +65,8 @@ class FirebaseReclipRepository {
     return imageUrl;
   }
 
-  Future<ReclipUser> updateUser(ReclipUser user, File image) async {
+  Future<ReclipContentCreator> updateUser(
+      ReclipContentCreator user, File image) async {
     if (image != null) {
       final imageUrl = await addProfilePicture(user, image);
       await userCollection.document(user.email).setData(user
@@ -75,7 +78,7 @@ class FirebaseReclipRepository {
       await userCollection.document(user.email).setData(user.toDocument());
     }
 
-    final updatedUser = await getUser(user.email);
+    final updatedUser = await getContentCreator(user.email);
     return updatedUser;
   }
 
@@ -83,21 +86,19 @@ class FirebaseReclipRepository {
     return await userCollection.document(user.email).setData(user.toDocument());
   }
 
-  Stream<List<ReclipUser>> getUsers() {
-    return userCollection.snapshots().map(
-      (snapshot) {
-        return snapshot.documents.map((document) {
-          return ReclipUser.fromSnapshot(document);
-        }).toList();
-      },
-    );
+  Future<void> addContentCreator(ReclipContentCreator user) async {
+    return await userCollection.document(user.email).setData(user.toDocument());
   }
 
   Future<ReclipUser> getUser(String email) async {
+    return ReclipUser.fromSnapshot(await userCollection.document(email).get());
+  }
+
+  Future<ReclipContentCreator> getContentCreator(String email) async {
     final user = await userCollection
         .where('channel.ownerEmail', isEqualTo: email)
         .getDocuments()
-        .then((user) => ReclipUser.fromSnapshot(user.documents[0]));
+        .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
 
     return user;
   }
@@ -106,7 +107,7 @@ class FirebaseReclipRepository {
     final user = await userCollection
         .where('channel.ownerEmail', isEqualTo: email)
         .getDocuments()
-        .then((user) => ReclipUser.fromSnapshot(user.documents[0]));
+        .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
 
     return (user != null) ? true : false;
   }

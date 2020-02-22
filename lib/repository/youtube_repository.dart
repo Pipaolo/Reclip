@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import '../data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import '../data/model/youtube_channel.dart';
 import '../data/model/youtube_vid.dart';
 import 'firebase_reclip_repository.dart';
@@ -14,7 +14,8 @@ class YoutubeRepository {
 
   YoutubeRepository({@required this.firebaseReclipRepository});
 
-  Future<ReclipUser> getYoutubeChannel(ReclipUser user) async {
+  Future<ReclipContentCreator> getYoutubeChannel(
+      ReclipContentCreator user) async {
     if (user.googleAccount != null) {
       try {
         final response = await http.get(
@@ -32,7 +33,7 @@ class YoutubeRepository {
               await getYoutubeChannelVideos(youtubeIds, user.googleAccount),
         );
 
-        final ReclipUser userToUpload = ReclipUser(
+        final ReclipContentCreator userToUpload = ReclipContentCreator(
           id: user.id,
           email: user.email,
           name: user.name,

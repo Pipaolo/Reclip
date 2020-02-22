@@ -1,15 +1,17 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:sailor/sailor.dart';
 
 import '../core/reclip_colors.dart';
-import '../data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'ui.dart';
 
 class BottomNavBarControllerArgs extends BaseArguments {
+  final ReclipContentCreator contentCreator;
   final ReclipUser user;
 
-  BottomNavBarControllerArgs({this.user});
+  BottomNavBarControllerArgs({this.contentCreator, this.user});
 }
 
 class BottomNavBarController extends StatefulWidget {
@@ -27,7 +29,11 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
 
   int _selectedIndex = 0;
 
-  _bottomNavbar(int selectedIndex) {
+  _bottomNavbar(int selectedIndex) {}
+
+  _buildUserNavbar(int selectedIndex) {}
+
+  _buildContentCreatorNavbar(int selectedIndex) {
     return CurvedNavigationBar(
       height: kBottomNavigationBarHeight,
       buttonBackgroundColor: reclipIndigoDark,
@@ -49,23 +55,34 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
 
   @override
   void initState() {
-    pages = [
-      UserHomePage(
-        key: PageStorageKey('UserHomePage'),
-        args: UserHomePageArgs(
-          user: widget.args.user,
+    if (widget.args.contentCreator != null) {
+      pages = [
+        UserHomePage(
+          key: PageStorageKey('UserHomePage'),
+          args: UserHomePageArgs(
+            user: widget.args.contentCreator,
+          ),
         ),
-      ),
-      UserAddContentPage(
-        key: PageStorageKey('UserAddContentPage'),
-        args: UserAddContentPageArgs(
-          user: widget.args.user,
+        UserAddContentPage(
+          key: PageStorageKey('UserAddContentPage'),
+          args: UserAddContentPageArgs(
+            user: widget.args.contentCreator,
+          ),
         ),
-      ),
-      UserProfilePage(
-        key: PageStorageKey('UserProfilePage'),
-      ),
-    ];
+        UserProfilePage(
+          key: PageStorageKey('UserProfilePage'),
+        ),
+      ];
+    } else {
+      pages = [
+        UserHomePage(
+          key: PageStorageKey('UserHomePage'),
+          args: UserHomePageArgs(
+            user: widget.args.contentCreator,
+          ),
+        ),
+      ];
+    }
 
     super.initState();
   }
@@ -73,7 +90,9 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _bottomNavbar(_selectedIndex),
+      bottomNavigationBar: (widget.args.contentCreator != null)
+          ? _buildContentCreatorNavbar(_selectedIndex)
+          : _buildUserNavbar(_selectedIndex),
       body: PageStorage(
         bucket: bucket,
         child: pages[_selectedIndex],

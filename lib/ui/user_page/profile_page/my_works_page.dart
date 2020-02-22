@@ -5,18 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:reclip/bloc/other_user/other_user_bloc.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 
 import '../../../bloc/illustration/illustrations_bloc.dart';
 import '../../../bloc/youtube/youtube_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/illustration.dart';
-import '../../../data/model/reclip_user.dart';
 import '../../../data/model/youtube_vid.dart';
 import '../home_page/illustration_bottom_sheet/illustration_bottom_sheet.dart';
 import '../home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
 class MyWorksPage extends StatefulWidget {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   const MyWorksPage({
     Key key,

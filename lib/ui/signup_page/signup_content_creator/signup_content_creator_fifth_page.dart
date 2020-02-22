@@ -9,13 +9,13 @@ import 'package:reclip/bloc/login/login_bloc.dart';
 import 'package:reclip/bloc/signup/signup_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_sixth_page.dart';
 
 import 'package:sailor/sailor.dart';
 
 class SignupContentCreatorFifthArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
   final File profileImage;
 
   SignupContentCreatorFifthArgs({this.user, this.profileImage});
@@ -47,7 +47,7 @@ class _SignupContentCreatorFifthPageState
         if (state is SignupLoading) {
           progressDialog.show();
         }
-        if (state is SignupSuccess) {
+        if (state is SignupContentCreatorSuccess) {
           progressDialog.dismiss();
           _navigateToSixthPage(state.user);
         }
@@ -107,7 +107,7 @@ class _SignupContentCreatorFifthPageState
     );
   }
 
-  _navigateToSixthPage(ReclipUser user) {
+  _navigateToSixthPage(ReclipContentCreator user) {
     return Routes.sailor.navigate(
       'signup_page/content_creator/sixth_page',
       args: SignupContentCreatorSixthArgs(

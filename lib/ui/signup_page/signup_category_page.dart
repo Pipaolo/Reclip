@@ -3,17 +3,17 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../bloc/verification/verification_bloc.dart';
 import '../../core/reclip_colors.dart';
 import '../../core/route_generator.dart';
-import '../../data/model/reclip_user.dart';
 import 'signup_appbar.dart';
 
 class SignupCategoryPageArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   SignupCategoryPageArgs({this.user});
 }
@@ -198,7 +198,7 @@ class SignupCategoryPage extends StatelessWidget {
   }
 
   _signupUser() {
-    return Routes.sailor.navigate('signup_page/credentials');
+    return Routes.sailor.navigate('signup_page/user');
   }
 }
 

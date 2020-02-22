@@ -5,7 +5,7 @@ abstract class AddContentEvent extends Equatable {
 }
 
 class AddIllustration extends AddContentEvent {
-  final ReclipUser user;
+  final ReclipContentCreator user;
   final Illustration illustration;
   final File image;
 

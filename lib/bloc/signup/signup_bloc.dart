@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
@@ -33,7 +34,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       final user = await userRepository.signInWithGoogle();
       final userWithChannel = await youtubeRepository.getYoutubeChannel(user);
 
-      yield SignupSuccess(
+      yield SignupContentCreatorSuccess(
         user: userWithChannel.copyWith(
           username: event.user.name,
           birthDate: event.user.birthDate,
@@ -46,17 +47,28 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           ),
         ),
       );
-    } else if (event is SignupUser) {
+    } else if (event is SignupContentCreator) {
       yield SignupLoading();
       final imageUrl = await firebaseReclipRepository.addProfilePicture(
           event.user, event.profileImage);
       await firebaseReclipRepository
-          .addUser(event.user.copyWith(imageUrl: imageUrl));
+          .addContentCreator(event.user.copyWith(imageUrl: imageUrl));
 
       await firebaseReclipRepository.addChannel(event.user.channel);
 
-      yield SignupSuccess(
-          user: await firebaseReclipRepository.getUser(event.user.email));
+      yield SignupContentCreatorSuccess(
+          user: await firebaseReclipRepository
+              .getContentCreator(event.user.email));
+    } else if (event is SignupUser) {
+      yield SignupLoading();
+      try {
+        await userRepository.signUpUser(event.user.email, event.user.password);
+        await firebaseReclipRepository.addUser(event.user);
+        final user = await firebaseReclipRepository.getUser(event.user.email);
+        yield SignupUserSuccess(user: user);
+      } catch (e) {
+        yield SignupError(errorText: e.toString());
+      }
     }
   }
 }

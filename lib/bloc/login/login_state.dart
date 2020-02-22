@@ -15,7 +15,7 @@ class LoginLoading extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   LoginSuccess({this.user});
 

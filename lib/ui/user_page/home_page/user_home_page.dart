@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../../bloc/navigation/navigation_bloc.dart';
-import '../../../data/model/reclip_user.dart';
 import 'user_illustration_page.dart';
 import 'user_video_page.dart';
 
 class UserHomePageArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   UserHomePageArgs({@required this.user});
 }
@@ -23,7 +23,6 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
-  final List<String> categories = ['Illustrations', 'Clips and Films'];
   List<Widget> homePages = List();
   final PageStorageBucket bucket = PageStorageBucket();
 

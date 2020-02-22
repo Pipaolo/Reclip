@@ -24,7 +24,7 @@ class OtherUserError extends OtherUserState {
 }
 
 class OtherUserSuccess extends OtherUserState {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   OtherUserSuccess({this.user});
 

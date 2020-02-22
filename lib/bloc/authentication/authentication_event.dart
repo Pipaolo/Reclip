@@ -10,7 +10,7 @@ class AppStarted extends AuthenticationEvent {
 }
 
 class LoggedIn extends AuthenticationEvent {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   LoggedIn({this.user});
   @override

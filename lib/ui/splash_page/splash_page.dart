@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/youtube/youtube_bloc.dart';
 import '../../core/route_generator.dart';
-import '../../data/model/reclip_user.dart';
 import '../bottom_nav_controller.dart';
 
 class SplashPageArgs extends BaseArguments {
@@ -29,6 +30,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   bool isAuthenticated = false;
+  ReclipContentCreator contentCreator;
   ReclipUser user;
   @override
   Widget build(BuildContext context) {
@@ -44,9 +46,16 @@ class _SplashPageState extends State<SplashPage> {
             listener: (context, state) {
               if (state is Unauthenticated) {
                 isAuthenticated = false;
-              } else if (state is Authenticated) {
+              } else if (state is AuthenticatedContentCreator) {
                 BlocProvider.of<YoutubeBloc>(context)
-                  ..add(FetchYoutubeChannel(user: state.user));
+                  ..add(FetchYoutubeChannel());
+                BlocProvider.of<UserBloc>(context)
+                  ..add(GetUser(email: state.user.email));
+                isAuthenticated = true;
+                contentCreator = state.user;
+              } else if (state is AuthenticatedUser) {
+                BlocProvider.of<YoutubeBloc>(context)
+                  ..add(FetchYoutubeChannel());
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
                 isAuthenticated = true;
@@ -80,6 +89,7 @@ class _SplashPageState extends State<SplashPage> {
     Routes.sailor.navigate('bottom_nav_bar_controller',
         navigationType: NavigationType.pushReplace,
         args: BottomNavBarControllerArgs(
+          contentCreator: contentCreator,
           user: user,
         ));
   }

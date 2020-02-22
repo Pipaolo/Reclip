@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
@@ -36,7 +36,6 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
     if (event is FetchYoutubeChannel) {
       yield YoutubeLoading();
       try {
-        print("Fetch YoutubeChannel: {User: ${event.user.name}}");
         videoStream?.cancel();
         videoStream =
             firebaseReclipRepository.getYoutubeVideos().listen((videos) {
@@ -54,7 +53,7 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
           await firebaseReclipRepository.addChannel(user.channel);
         }
 
-        await firebaseReclipRepository.addUser(user);
+        await firebaseReclipRepository.addContentCreator(user);
 
         videoStream =
             firebaseReclipRepository.getYoutubeVideos().listen((videos) {

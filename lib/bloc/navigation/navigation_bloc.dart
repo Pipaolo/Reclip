@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/bottom_nav_controller.dart';
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
@@ -17,7 +18,9 @@ part 'navigation_state.dart';
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   final GlobalKey<NavigatorState> navigatorKey;
   final AuthenticationBloc authenticationBloc;
+  ReclipContentCreator contentCreator;
   ReclipUser user;
+
   StreamSubscription authSubscription;
 
   NavigationBloc({
@@ -25,10 +28,12 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     this.authenticationBloc,
   }) {
     authSubscription = authenticationBloc.listen((state) {
-      if (state is Authenticated) {
+      if (state is AuthenticatedContentCreator) {
+        contentCreator = state.user;
+      } else if (state is AuthenticatedUser) {
         user = state.user;
       } else if (state is Unregistered) {
-        user = state.user;
+        contentCreator = state.user;
       }
     });
   }
@@ -40,10 +45,12 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     NavigationEvent event,
   ) async* {
     authSubscription = authenticationBloc.listen((state) {
-      if (state is Authenticated) {
+      if (state is AuthenticatedContentCreator) {
+        contentCreator = state.user;
+      } else if (state is AuthenticatedUser) {
         user = state.user;
       } else if (state is Unregistered) {
-        user = state.user;
+        contentCreator = state.user;
       }
     });
 
@@ -51,7 +58,6 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       Routes.sailor.navigate(
         'user_home_page',
         navigationType: NavigationType.pushReplace,
-        args: UserHomePageArgs(user: user),
       );
       yield HomePageState();
     }
@@ -81,7 +87,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     if (event is ShowBottomNavbarController) {
       Routes.sailor.navigate(
         'bottom_nav_bar_controller',
-        args: BottomNavBarControllerArgs(user: event.user),
+        args: BottomNavBarControllerArgs(contentCreator: event.user),
         navigationType: NavigationType.pushReplace,
       );
     }

@@ -6,12 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
 import 'package:sailor/sailor.dart';
 
 class SignupContentCreatorSecondArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   SignupContentCreatorSecondArgs({@required this.user});
 }
@@ -60,7 +60,7 @@ class SignupContentCreatorSecondPage extends StatelessWidget {
 }
 
 class SignupContentCreatorSecondForm extends StatefulWidget {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   const SignupContentCreatorSecondForm({Key key, this.user}) : super(key: key);
   @override

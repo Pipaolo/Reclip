@@ -14,10 +14,18 @@ class SignupLoading extends SignupState {
   List<Object> get props => [];
 }
 
-class SignupSuccess extends SignupState {
+class SignupUserSuccess extends SignupState {
   final ReclipUser user;
 
-  SignupSuccess({this.user});
+  SignupUserSuccess({this.user});
+  @override
+  List<Object> get props => null;
+}
+
+class SignupContentCreatorSuccess extends SignupState {
+  final ReclipContentCreator user;
+
+  SignupContentCreatorSuccess({this.user});
   @override
   List<Object> get props => [user];
 }

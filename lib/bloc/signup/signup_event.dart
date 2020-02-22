@@ -5,7 +5,7 @@ abstract class SignupEvent extends Equatable {
 }
 
 class SignupWithGoogle extends SignupEvent {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   SignupWithGoogle({this.user});
   @override
@@ -14,9 +14,18 @@ class SignupWithGoogle extends SignupEvent {
 
 class SignupUser extends SignupEvent {
   final ReclipUser user;
+
+  SignupUser({this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+class SignupContentCreator extends SignupEvent {
+  final ReclipContentCreator user;
   final File profileImage;
 
-  SignupUser({this.user, this.profileImage});
+  SignupContentCreator({this.user, this.profileImage});
 
   @override
   List<Object> get props => [user, profileImage];

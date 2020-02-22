@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
 import 'package:sailor/sailor.dart';
 
@@ -286,7 +286,7 @@ class _SignupContentCreatorFirstFormState
 
   _navigateToNextPage() {
     if (_fbKey.currentState.saveAndValidate()) {
-      ReclipUser user = ReclipUser(
+      ReclipContentCreator user = ReclipContentCreator(
         name: usernameController.text,
         email: emailController.text,
         password: passwordController.text,

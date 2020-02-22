@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactInfoPage extends StatelessWidget {
-  final ReclipUser user;
+  final ReclipContentCreator user;
   const ContactInfoPage({Key key, this.user}) : super(key: key);
 
   @override

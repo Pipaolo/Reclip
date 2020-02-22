@@ -8,13 +8,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:sailor/sailor.dart';
 
 import 'signup_content_creator_fifth_page.dart';
 
 class SignupContentCreatorFourthArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   SignupContentCreatorFourthArgs({this.user});
 }

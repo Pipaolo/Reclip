@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/bloc/signup/signup_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/ui/user_page/profile_page/contact_info_page.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:sailor/sailor.dart';
 
+import '../../../bloc/navigation/navigation_bloc.dart';
+import '../../../bloc/signup/signup_bloc.dart';
+import '../../../core/reclip_colors.dart';
+
 class SignupContentCreatorSixthArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
   final File profileImage;
 
   SignupContentCreatorSixthArgs({this.user, this.profileImage});
@@ -39,7 +38,7 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
         if (state is SignupLoading) {
           progressDialog.show();
         }
-        if (state is SignupSuccess) {
+        if (state is SignupContentCreatorSuccess) {
           if (state.user != null) {
             BlocProvider.of<NavigationBloc>(context)
               ..add(
@@ -181,7 +180,7 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                   BlocProvider.of<SignupBloc>(context)
-                    ..add(SignupUser(
+                    ..add(SignupContentCreator(
                         user: args.user, profileImage: args.profileImage));
                 },
               ),

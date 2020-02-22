@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../../core/reclip_colors.dart';
 import '../../../core/route_generator.dart';
-import '../../../data/model/reclip_user.dart';
 import 'add_content_image/add_content_image_page.dart';
 
 class UserAddContentPageArgs extends BaseArguments {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   UserAddContentPageArgs({@required this.user});
 }
@@ -77,7 +77,7 @@ class AddContentButton extends StatelessWidget {
   final String text;
   final IconData icon;
   final String pageName;
-  final ReclipUser user;
+  final ReclipContentCreator user;
   const AddContentButton({
     Key key,
     @required this.textStyle,

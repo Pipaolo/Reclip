@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 
 import '../../../../bloc/other_user/other_user_bloc.dart';
 import '../../../../core/reclip_colors.dart';
 import '../../../../data/model/illustration.dart';
-import '../../../../data/model/reclip_user.dart';
 import 'illustration_author_image.dart';
 
 class IllustrationBottomSheet extends StatelessWidget {
@@ -109,7 +109,7 @@ class IllustrationDescription extends StatelessWidget {
     );
   }
 
-  _buildSuccessState(ReclipUser user) {
+  _buildSuccessState(ReclipContentCreator user) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(

@@ -25,7 +25,7 @@ class ShowLoginPage extends NavigationEvent {
 }
 
 class ShowSignupPage extends NavigationEvent {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   ShowSignupPage({@required this.user});
   @override
@@ -33,7 +33,7 @@ class ShowSignupPage extends NavigationEvent {
 }
 
 class ShowBottomNavbarController extends NavigationEvent {
-  final ReclipUser user;
+  final ReclipContentCreator user;
 
   ShowBottomNavbarController({this.user});
   @override

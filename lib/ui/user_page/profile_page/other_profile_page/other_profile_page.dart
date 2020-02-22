@@ -2,10 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/data/model/reclip_content_creator.dart';
 
 import '../../../../bloc/other_user/other_user_bloc.dart';
 import '../../../../core/reclip_colors.dart';
-import '../../../../data/model/reclip_user.dart';
 import '../about_me_page.dart';
 import '../contact_info_page.dart';
 import '../my_works_page.dart';
@@ -38,7 +38,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     );
   }
 
-  _buildSuccessState(ReclipUser user) {
+  _buildSuccessState(ReclipContentCreator user) {
     return DefaultTabController(
       length: 3,
       child: Column(
