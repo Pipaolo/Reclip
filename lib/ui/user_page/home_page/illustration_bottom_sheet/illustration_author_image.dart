@@ -22,10 +22,12 @@ class IllustrationAuthorImage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned.fill(
-              child: CachedNetworkImage(
-                imageUrl: user.channel.thumbnails['high']['url'],
-                filterQuality: FilterQuality.low,
-                fit: BoxFit.cover,
+              child: Container(
+                child: CachedNetworkImage(
+                  imageUrl: user.imageUrl,
+                  filterQuality: FilterQuality.low,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Positioned.fill(

@@ -23,10 +23,10 @@ class ReclipUser extends Equatable {
   final GoogleSignInAccount googleAccount;
 
   ReclipUser({
-    @required this.id,
+    this.id,
     @required this.name,
     @required this.email,
-    @required this.imageUrl,
+    this.imageUrl,
     this.facebook,
     this.instagram,
     this.twitter,
@@ -41,7 +41,7 @@ class ReclipUser extends Equatable {
 
   factory ReclipUser.fromSnapshot(DocumentSnapshot snap) {
     return ReclipUser(
-      id: snap.data['id'],
+      id: snap.data['id'] ?? '',
       name: snap.data['name'],
       email: snap.data['email'],
       description: snap.data['description'] ?? '',
@@ -50,6 +50,7 @@ class ReclipUser extends Equatable {
       facebook: snap.data['facebook'] ?? '',
       instagram: snap.data['instagram'] ?? '',
       twitter: snap.data['twitter'] ?? '',
+      birthDate: snap.data['birthDate'] ?? '',
       illustrations: Illustration().fromList(snap.data['illustrations']),
       channel: YoutubeChannel.fromUserMap(snap.data['channel']),
     );
@@ -76,7 +77,7 @@ class ReclipUser extends Equatable {
     return ReclipUser(
       id: this.id,
       name: username ?? this.name,
-      password: password ?? '',
+      password: password ?? this.password,
       email: this.email,
       imageUrl: imageUrl ?? this.imageUrl,
       channel: channel ?? this.channel,
@@ -86,7 +87,7 @@ class ReclipUser extends Equatable {
       googleAccount: googleAccount ?? this.googleAccount,
       contactNumber: contactNumber ?? this.contactNumber,
       description: description ?? this.description,
-      birthDate: birthDate ?? '',
+      birthDate: birthDate ?? this.birthDate,
       illustrations: illustrations,
     );
   }
@@ -96,6 +97,7 @@ class ReclipUser extends Equatable {
       'id': id,
       'name': name,
       'email': email,
+      'birthDate': birthDate,
       'imageUrl': imageUrl,
       'description': description,
       'contactNumber': contactNumber,

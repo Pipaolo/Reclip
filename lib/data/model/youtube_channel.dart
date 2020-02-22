@@ -7,6 +7,7 @@ class YoutubeChannel extends Equatable {
   final String title;
   final String description;
   final String email;
+  final String ownerEmail;
   final Map<dynamic, dynamic> thumbnails;
   final String uploadPlaylistId;
   final List<YoutubeVideo> videos;
@@ -16,6 +17,7 @@ class YoutubeChannel extends Equatable {
       this.title,
       this.description,
       this.email,
+      this.ownerEmail,
       this.thumbnails,
       this.uploadPlaylistId,
       this.videos});
@@ -35,6 +37,8 @@ class YoutubeChannel extends Equatable {
     return YoutubeChannel(
       id: map['id'],
       title: map['title'],
+      email: map['email'],
+      ownerEmail: map['ownerEmail'],
       description: map['description'],
       uploadPlaylistId: map['playlistId'],
       thumbnails: map['thumbnails'],
@@ -49,6 +53,7 @@ class YoutubeChannel extends Equatable {
       uploadPlaylistId: snap.data['playlistId'],
       thumbnails: snap.data['thumbnails'],
       email: snap.data['email'],
+      ownerEmail: snap.data['ownerEmail'],
     );
   }
 
@@ -57,6 +62,7 @@ class YoutubeChannel extends Equatable {
       'id': id,
       'title': title,
       'description': description,
+      'ownerEmail': ownerEmail,
       'email': email,
       'playlistId': uploadPlaylistId,
       'thumbnails': {
@@ -82,12 +88,14 @@ class YoutubeChannel extends Equatable {
     };
   }
 
-  YoutubeChannel copyWith({String email, List<YoutubeVideo> youtubeVideos}) {
+  YoutubeChannel copyWith(
+      {String email, String ownerEmail, List<YoutubeVideo> youtubeVideos}) {
     return YoutubeChannel(
       id: this.id,
       title: this.title,
       description: this.description,
       email: email ?? this.email,
+      ownerEmail: ownerEmail ?? this.ownerEmail,
       thumbnails: this.thumbnails,
       uploadPlaylistId: this.uploadPlaylistId,
       videos: youtubeVideos ?? this.videos,
@@ -95,6 +103,14 @@ class YoutubeChannel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [id, title, description, email, thumbnails, uploadPlaylistId, videos];
+  List<Object> get props => [
+        id,
+        title,
+        description,
+        email,
+        ownerEmail,
+        thumbnails,
+        uploadPlaylistId,
+        videos
+      ];
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
+import 'package:reclip/core/reclip_colors.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
@@ -36,6 +37,7 @@ class _SplashPageState extends State<SplashPage> {
         width: MediaQuery.of(context).size.width,
         allowFontScaling: true);
     return Scaffold(
+      backgroundColor: reclipBlack,
       body: MultiBlocListener(
         listeners: [
           BlocListener<AuthenticationBloc, AuthenticationState>(

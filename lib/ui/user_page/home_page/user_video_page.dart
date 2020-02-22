@@ -57,30 +57,22 @@ class UserVideoPage extends StatelessWidget {
               );
             }
             if (state is YoutubeSuccess) {
-              return RefreshIndicator(
-                onRefresh: () async {
-                  BlocProvider.of<YoutubeBloc>(context)
-                    ..add(
-                      UpdateYoutubeChannel(user: user),
-                    );
-                },
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    HomePageAppBar(),
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        Column(
-                          children: <Widget>[
-                            PopularVideo(
-                              video: state.ytVideos[0],
-                            ),
-                            _buildVideoList(state.ytVideos),
-                          ],
-                        ),
-                      ]),
-                    )
-                  ],
-                ),
+              return CustomScrollView(
+                slivers: <Widget>[
+                  HomePageAppBar(),
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      Column(
+                        children: <Widget>[
+                          PopularVideo(
+                            video: state.ytVideos[0],
+                          ),
+                          _buildVideoList(state.ytVideos),
+                        ],
+                      ),
+                    ]),
+                  )
+                ],
               );
             }
             return Container();

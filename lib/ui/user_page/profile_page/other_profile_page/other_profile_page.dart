@@ -86,19 +86,6 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 2, 0, 20),
-                  child: AutoSizeText(
-                    'ILLUSTRATOR,MODEL, PROGRAMMER, ACTOR',
-                    minFontSize: 5,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: reclipBlack,
-                      fontSize: ScreenUtil().setSp(13),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
                 TabBar(
                   indicator: UnderlineTabIndicator(
                     insets: EdgeInsets.symmetric(horizontal: 20),

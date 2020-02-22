@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:reclip/bloc/navigation/navigation_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:sailor/sailor.dart';
 
@@ -39,53 +40,182 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
   final TextEditingController _descriptionTextEditingController =
       TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
+  _showLoadingDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              height: ScreenUtil().setHeight(160),
+              width: ScreenUtil().setWidth(160),
+              child: Column(
+                children: <Widget>[
+                  Center(child: CircularProgressIndicator()),
+                  Text(
+                    'Uploading Image...',
+                    style: TextStyle(color: reclipBlack),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showSuccessDialog(BuildContext context) {
+    Navigator.of(context).pop();
+    Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.checkCircle,
+                      color: Colors.green,
+                      size: ScreenUtil().setSp(80),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: Text(
+                        'Image uploaded!',
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  _showDuplicateDialog(BuildContext context) {
+    Navigator.of(context).pop();
+    Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.exclamationCircle,
+                      color: Colors.red,
+                      size: ScreenUtil().setSp(80),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: Text(
+                        'Existing Image!',
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  _showErrorDialog(BuildContext context) {
+    Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.exclamationCircle,
+                      color: Colors.red,
+                      size: ScreenUtil().setSp(80),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: Text(
+                        'Uploading Error!',
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog progressDialog = ProgressDialog(
-      context,
-      isDismissible: false,
-    );
-    progressDialog.style(
-      progressWidget: CircularProgressIndicator(),
-      message: 'Loading...',
-    );
     return BlocListener<AddContentBloc, AddContentState>(
       listener: (context, state) {
         if (state is Uploading) {
-          progressDialog.show();
+          _showLoadingDialog(context);
         } else if (state is UploadImageSuccess) {
-          progressDialog.update(
-            progressWidget: Icon(FontAwesomeIcons.checkCircle),
-            message: 'Upload Success!',
-          );
+          _showSuccessDialog(context);
           Future.delayed(
             Duration(seconds: 2),
             () {
-              progressDialog.dismiss();
               Routes.sailor.pop();
             },
           );
         } else if (state is UploadImageDuplicate) {
-          progressDialog.update(
-            progressWidget: Icon(FontAwesomeIcons.exclamationCircle),
-            message: 'Existing Image!',
-          );
+          _showDuplicateDialog(context);
           Future.delayed(
             Duration(seconds: 2),
             () {
-              progressDialog.dismiss();
               Routes.sailor.pop();
+              BlocProvider.of<NavigationBloc>(context)
+                ..add(ShowBottomNavbarController());
             },
           );
         } else if (state is UploadImageError) {
-          progressDialog.update(
-            progressWidget: Icon(FontAwesomeIcons.cross),
-            message: 'Upload Error!',
-          );
-          Future.delayed(
-            Duration(seconds: 2),
-            () => progressDialog.dismiss(),
-          );
+          _showErrorDialog(context);
         }
       },
       child: Scaffold(

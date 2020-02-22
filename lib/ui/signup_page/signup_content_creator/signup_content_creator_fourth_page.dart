@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/core/route_generator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:sailor/sailor.dart';
+
+import 'signup_content_creator_fifth_page.dart';
 
 class SignupContentCreatorFourthArgs extends BaseArguments {
   final ReclipUser user;
@@ -15,9 +19,18 @@ class SignupContentCreatorFourthArgs extends BaseArguments {
   SignupContentCreatorFourthArgs({this.user});
 }
 
-class SignupContentCreatorFourthPage extends StatelessWidget {
+class SignupContentCreatorFourthPage extends StatefulWidget {
   final SignupContentCreatorFourthArgs args;
   const SignupContentCreatorFourthPage({Key key, this.args}) : super(key: key);
+
+  @override
+  _SignupContentCreatorFourthPageState createState() =>
+      _SignupContentCreatorFourthPageState();
+}
+
+class _SignupContentCreatorFourthPageState
+    extends State<SignupContentCreatorFourthPage> {
+  File _image;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +63,7 @@ class SignupContentCreatorFourthPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                ProfileImagePicker(),
+                _buildImagePicker(),
                 SizedBox(
                   width: ScreenUtil().setWidth(150),
                   child: MaterialButton(
@@ -61,7 +74,7 @@ class SignupContentCreatorFourthPage extends StatelessWidget {
                     child: Text(
                       'Next'.toUpperCase(),
                     ),
-                    onPressed: () => {},
+                    onPressed: () => _navigateToFifthPage(),
                   ),
                 ),
               ],
@@ -71,20 +84,34 @@ class SignupContentCreatorFourthPage extends StatelessWidget {
       ),
     );
   }
-}
 
-class ProfileImagePicker extends StatefulWidget {
-  ProfileImagePicker({Key key}) : super(key: key);
+  _navigateToFifthPage() {
+    if (_image != null) {
+      Routes.sailor.navigate('signup_page/content_creator/fifth_page',
+          args: SignupContentCreatorFifthArgs(
+              profileImage: _image, user: widget.args.user));
+    } else {
+      Flushbar(
+        duration: Duration(seconds: 3),
+        backgroundColor: reclipBlack,
+        messageText: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Please add a profile picture',
+              style: TextStyle(color: Colors.white),
+            ),
+            Icon(
+              Icons.warning,
+              color: Colors.yellow,
+            ),
+          ],
+        ),
+      )..show(context);
+    }
+  }
 
-  @override
-  _ProfileImagePickerState createState() => _ProfileImagePickerState();
-}
-
-class _ProfileImagePickerState extends State<ProfileImagePicker> {
-  File _image;
-
-  @override
-  Widget build(BuildContext context) {
+  _buildImagePicker() {
     if (_image == null) {
       return Material(
         borderRadius: BorderRadius.circular(200),

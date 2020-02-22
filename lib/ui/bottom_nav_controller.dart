@@ -30,12 +30,13 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
   _bottomNavbar(int selectedIndex) {
     return CurvedNavigationBar(
       height: kBottomNavigationBarHeight,
-      buttonBackgroundColor: reclipIndigo,
-      backgroundColor: reclipBlack,
+      buttonBackgroundColor: reclipIndigoDark,
+      color: reclipBlack,
+      backgroundColor: Colors.white,
       items: <Widget>[
-        Icon(Icons.home),
-        Icon(Icons.add),
-        Icon(Icons.person),
+        Icon(Icons.home, color: Colors.white),
+        Icon(Icons.add, color: Colors.white),
+        Icon(Icons.person, color: Colors.white),
       ],
       onTap: (index) {
         setState(() {

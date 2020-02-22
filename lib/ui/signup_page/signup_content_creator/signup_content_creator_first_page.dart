@@ -9,9 +9,9 @@ import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_crea
 import 'package:sailor/sailor.dart';
 
 class SignupContentCreatorFirstArgs extends BaseArguments {
-  final ReclipUser user;
+  final String email;
 
-  SignupContentCreatorFirstArgs({this.user});
+  SignupContentCreatorFirstArgs({this.email});
 }
 
 class SignupContentCreatorFirstPage extends StatelessWidget {
@@ -47,7 +47,7 @@ class SignupContentCreatorFirstPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                SignupContentCreatorFirstForm(),
+                SignupContentCreatorFirstForm(email: args.email),
               ],
             ),
           ),
@@ -58,8 +58,8 @@ class SignupContentCreatorFirstPage extends StatelessWidget {
 }
 
 class SignupContentCreatorFirstForm extends StatefulWidget {
-  final ReclipUser user;
-  SignupContentCreatorFirstForm({Key key, this.user}) : super(key: key);
+  final String email;
+  SignupContentCreatorFirstForm({Key key, this.email}) : super(key: key);
 
   @override
   _SignupContentCreatorFirstFormState createState() =>
@@ -80,9 +80,8 @@ class _SignupContentCreatorFirstFormState
 
   @override
   void initState() {
-    if (widget.user != null) {
-      usernameController.text = widget.user.name;
-      emailController.text = widget.user.email;
+    if (widget.email != null) {
+      emailController.text = widget.email;
     }
     super.initState();
   }
@@ -214,6 +213,9 @@ class _SignupContentCreatorFirstFormState
                 focusNode: passwordFocus,
                 validators: [
                   FormBuilderValidators.required(),
+                  FormBuilderValidators.minLength(6,
+                      errorText:
+                          'Password needs to be atleast 6 letters or numbers'),
                 ],
                 onFieldSubmitted: (_) => changeFocusField(
                     context, passwordFocus, confirmPasswordFocus),
@@ -251,6 +253,9 @@ class _SignupContentCreatorFirstFormState
                 textInputAction: TextInputAction.done,
                 validators: [
                   FormBuilderValidators.required(),
+                  FormBuilderValidators.minLength(6,
+                      errorText:
+                          'Password needs to be atleast 6 letters or numbers'),
                   // ignore: missing_return
                   (val) {
                     if (!_fbKey
@@ -260,9 +265,6 @@ class _SignupContentCreatorFirstFormState
                       return 'Password is not the same';
                   },
                 ],
-                onFieldSubmitted: (_) {
-                  if (_fbKey.currentState.saveAndValidate()) {}
-                },
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.35,
@@ -284,32 +286,17 @@ class _SignupContentCreatorFirstFormState
 
   _navigateToNextPage() {
     if (_fbKey.currentState.saveAndValidate()) {
-      if (widget.user != null) {
-        ReclipUser user = widget.user.copyWith(
-            username: usernameController.text,
-            email: emailController.text,
-            password: passwordController.text);
-
-        Routes.sailor.navigate(
-          'signup_page/content_creator/second_page',
-          args: SignupContentCreatorSecondArgs(
-            user: user,
-          ),
-        );
-      } else {
-        ReclipUser user = ReclipUser(
-          imageUrl: '',
-          name: usernameController.text,
-          email: emailController.text,
-          id: '',
-        );
-        Routes.sailor.navigate(
-          'signup_page/content_creator/second_page',
-          args: SignupContentCreatorSecondArgs(
-            user: user,
-          ),
-        );
-      }
+      ReclipUser user = ReclipUser(
+        name: usernameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Routes.sailor.navigate(
+        'signup_page/content_creator/second_page',
+        args: SignupContentCreatorSecondArgs(
+          user: user,
+        ),
+      );
     }
   }
 

@@ -186,7 +186,9 @@ class _SignupContentCreatorSecondFormState
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(),
                   FormBuilderValidators.minLength(11,
-                      errorText: 'Number should have 11 digits'),
+                      errorText: 'Invalid Contact Number'),
+                  FormBuilderValidators.maxLength(11,
+                      errorText: 'Invalid Contact Number'),
                 ],
               ),
               SizedBox(

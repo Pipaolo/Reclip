@@ -67,7 +67,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       authSubscription.cancel();
       Routes.sailor.navigate(
         'login_page',
-        navigationType: NavigationType.pushReplace,
+        navigationType: NavigationType.pushAndRemoveUntil,
       );
     }
     if (event is ShowSignupPage) {

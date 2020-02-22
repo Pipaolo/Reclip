@@ -112,6 +112,7 @@ class _SignupContentCreatorThirdFormState
                 validators: [
                   FormBuilderValidators.required(),
                 ],
+                controller: descriptionController,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.35,

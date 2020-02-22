@@ -47,22 +47,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } catch (_) {
         yield LoginError(error: _.toString());
       }
-    }
-    if (event is LoginWithGooglePressed) {
+    } else if (event is LoginWithGooglePressed) {
       try {
         final rawUser = await _userRepository.signInWithGoogle();
 
-        final isUserExisting =
-            await _firebaseReclipRepository.checkExistingUser(rawUser.email);
-        final userInitial = await _youtubeRepository.getYoutubeChannel(rawUser);
-        if (!isUserExisting) {
+        final storedUser =
+            await _firebaseReclipRepository.getUser(rawUser.email);
+        // final userInitial = await _youtubeRepository.getYoutubeChannel(
+        //   storedUser.copyWith(
+        //     googleAccount: rawUser.googleAccount,
+        //   ),
+        // );
+        if (storedUser == null) {
           print("User is not Existing");
-          await _firebaseReclipRepository.addUser(userInitial);
-          await _firebaseReclipRepository.addChannel(userInitial.channel);
-          yield LoginSuccess(user: userInitial);
+          // await _firebaseReclipRepository.addUser(userInitial);
+          // await _firebaseReclipRepository.addChannel(userInitial.channel);
+          // yield LoginSuccess(user: userInitial);
         } else {
           print("User is Existing");
-          await _firebaseReclipRepository.updateChannel(userInitial.channel);
+          // await _firebaseReclipRepository.updateChannel(userInitial.channel);
           final user = await _firebaseReclipRepository.getUser(rawUser.email);
 
           yield LoginSuccess(
@@ -72,8 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } catch (_) {
         yield LoginError(error: _.toString());
       }
-    }
-    if (event is SignOut) {
+    } else if (event is SignOut) {
       try {
         await _userRepository.signOut();
         yield LoginSuccess();

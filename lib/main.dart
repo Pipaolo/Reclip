@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/drawer/drawer_bloc.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
+import 'package:reclip/bloc/signup/signup_bloc.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
+import 'package:reclip/core/styling.dart';
 
 import 'bloc/add_content/add_content_bloc.dart';
 import 'bloc/authentication/authentication_bloc.dart';
@@ -11,6 +14,7 @@ import 'bloc/login/login_bloc.dart';
 import 'bloc/navigation/navigation_bloc.dart';
 import 'bloc/other_user/other_user_bloc.dart';
 import 'bloc/playback/playback_bloc.dart';
+import 'bloc/verification/verification_bloc.dart';
 import 'bloc/youtube/youtube_bloc.dart';
 import 'core/reclip_colors.dart';
 import 'core/route_generator.dart';
@@ -62,6 +66,9 @@ class Reclip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: reclipBlackDark,
+    ));
     return MultiBlocProvider(
       providers: [
         BlocProvider<AddContentBloc>(
@@ -103,6 +110,18 @@ class Reclip extends StatelessWidget {
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           ),
         ),
+        BlocProvider<VerificationBloc>(
+          create: (context) => VerificationBloc(
+            userRepository: _userRepository,
+          ),
+        ),
+        BlocProvider<SignupBloc>(
+          create: (context) => SignupBloc(
+            userRepository: _userRepository,
+            firebaseReclipRepository: _firebaseReclipRepository,
+            youtubeRepository: _youtubeRepository,
+          ),
+        ),
         BlocProvider<PlaybackBloc>(
           create: (context) => PlaybackBloc(),
         ),
@@ -116,28 +135,7 @@ class Reclip extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          buttonColor: Colors.black,
-          appBarTheme: AppBarTheme(
-            color: Colors.black,
-            textTheme: TextTheme(
-              headline6: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-          ),
-          bottomSheetTheme: BottomSheetThemeData(
-            backgroundColor: reclipBlack,
-          ),
-          backgroundColor: Colors.white,
-          splashColor: Colors.black45,
-          primaryColor: reclipBlack,
-          primaryColorDark: reclipBlackDark,
-          primaryColorLight: reclipBlackLight,
-          accentColor: reclipIndigo,
-          scaffoldBackgroundColor: reclipBlack,
-        ),
+        theme: AppTheme.reclipTheme,
         onGenerateRoute: Routes.sailor.generator(),
         navigatorKey: Routes.sailor.navigatorKey,
         home: SplashPage(),

@@ -1,8 +1,10 @@
 import 'package:reclip/ui/bottom_nav_controller.dart';
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fifth_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_sixth_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
 import 'package:reclip/ui/signup_page/signup_credentials_page.dart';
 import 'package:reclip/ui/splash_page/splash_page.dart';
@@ -27,9 +29,7 @@ class Routes {
       SailorRoute(
         name: 'signup_page/category',
         builder: (context, args, params) {
-          return SignupCategoryPage(
-            args: args,
-          );
+          return SignupCategoryPage();
         },
       ),
       SailorRoute(
@@ -58,6 +58,16 @@ class Routes {
           name: 'signup_page/content_creator/fourth_page',
           builder: (context, args, params) {
             return SignupContentCreatorFourthPage(args: args);
+          }),
+      SailorRoute(
+          name: 'signup_page/content_creator/fifth_page',
+          builder: (context, args, params) {
+            return SignupContentCreatorFifthPage(args: args);
+          }),
+      SailorRoute(
+          name: 'signup_page/content_creator/sixth_page',
+          builder: (context, args, params) {
+            return SignupContentCreatorSixthPage(args: args);
           })
     ]);
 

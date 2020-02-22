@@ -13,14 +13,14 @@ Color googleColor = Color(0xFFD44638);
 Color darkBlue = Color(0xFF00093D);
 
 //Reclip Colors Primary
-Color reclipBlack = Color(0xFF212121);
-Color reclipBlackLight = Color(0xFF484848);
-Color reclipBlackDark = Color(0xFF000000);
+const Color reclipBlack = Color(0xFF212121);
+const Color reclipBlackLight = Color(0xFF484848);
+const Color reclipBlackDark = Color(0xFF000000);
 
 //Reclip Colors Secondary
-Color reclipIndigo = Color(0xFF9FA8DA);
-Color reclipIndigoLight = Color(0xFFD1D9FF);
-Color reclipIndigoDark = Color(0xFF6F79A8);
+const Color reclipIndigo = Color(0xFF9FA8DA);
+const Color reclipIndigoLight = Color(0xFFD1D9FF);
+const Color reclipIndigoDark = Color(0xFF6F79A8);
 
 //CIIT Colors
 Color ciitRed = Color(0xFFe83a31);

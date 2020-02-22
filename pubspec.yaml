@@ -20,6 +20,7 @@ dependencies:
   shimmer: ^1.0.1
   curved_navigation_bar: ^0.3.2
   pull_to_refresh: ^1.5.8
+  flushbar: ^1.9.1
 
   #Authentication Packages
   firebase_auth: ^0.15.4

@@ -94,12 +94,21 @@ class FirebaseReclipRepository {
   }
 
   Future<ReclipUser> getUser(String email) async {
-    return ReclipUser.fromSnapshot(await userCollection.document(email).get());
+    final user = await userCollection
+        .where('channel.ownerEmail', isEqualTo: email)
+        .getDocuments()
+        .then((user) => ReclipUser.fromSnapshot(user.documents[0]));
+
+    return user;
   }
 
   Future<bool> checkExistingUser(String email) async {
-    final userDocument = await userCollection.document(email).get();
-    return (userDocument.exists) ? true : false;
+    final user = await userCollection
+        .where('channel.ownerEmail', isEqualTo: email)
+        .getDocuments()
+        .then((user) => ReclipUser.fromSnapshot(user.documents[0]));
+
+    return (user != null) ? true : false;
   }
 
   Future<void> updateChannel(YoutubeChannel channel) async {

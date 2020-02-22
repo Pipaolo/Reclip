@@ -9,7 +9,6 @@ import 'firebase_reclip_repository.dart';
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
-  final FacebookLogin _facebookLogin;
   final FirebaseReclipRepository firebaseReclipRepository =
       FirebaseReclipRepository();
 
@@ -19,8 +18,25 @@ class UserRepository {
       FacebookLogin facebookLogin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn =
-            googleSignIn ?? GoogleSignIn(scopes: [YoutubeApi.YoutubeScope]),
-        _facebookLogin = facebookLogin ?? FacebookLogin();
+            googleSignIn ?? GoogleSignIn(scopes: [YoutubeApi.YoutubeScope]);
+
+  Future<FirebaseUser> signInWithGoogleVerification() async {
+    //Set Scopes for Access to Youtube API
+    final GoogleSignIn googleSignInVerification = GoogleSignIn();
+    final GoogleSignInAccount googleUser =
+        await googleSignInVerification.signIn();
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    await _firebaseAuth.signInWithCredential(credential);
+    return await _firebaseAuth.currentUser();
+  }
 
   Future<ReclipUser> signInWithGoogle() async {
     //Set Scopes for Access to Youtube API
@@ -60,7 +76,6 @@ class UserRepository {
       [
         _firebaseAuth.signOut(),
         _googleSignIn.signOut(),
-        _facebookLogin.logOut(),
       ],
     );
   }

@@ -1,9 +1,12 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
+import 'package:reclip/core/reclip_colors.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
@@ -30,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       progressWidget: CircularProgressIndicator(),
     );
     return Scaffold(
+      backgroundColor: reclipBlack,
       body: MultiBlocListener(
         listeners: [
           BlocListener<LoginBloc, LoginState>(
@@ -38,22 +42,36 @@ class _LoginPageState extends State<LoginPage> {
                 progressDialog.show();
               }
               if (state is LoginSuccess) {
-                BlocProvider.of<AuthenticationBloc>(context)
-                  ..add(
-                    LoggedIn(user: state.user),
-                  );
+                if (state.user != null) {
+                  BlocProvider.of<AuthenticationBloc>(context)
+                    ..add(
+                      LoggedIn(user: state.user),
+                    );
+                }
                 progressDialog.dismiss();
               }
               if (state is LoginError) {
-                progressDialog.update(
-                  progressWidget: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                    size: ScreenUtil().setSp(30),
-                  ),
-                  message: 'Error',
-                );
+                print(state.error);
+                progressDialog.dismiss();
+
                 BlocProvider.of<LoginBloc>(context).add(SignOut());
+                Flushbar(
+                  backgroundColor: reclipBlackDark,
+                  duration: Duration(seconds: 3),
+                  messageText: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'User not found!',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      Icon(
+                        FontAwesomeIcons.exclamationCircle,
+                        color: Colors.red,
+                      ),
+                    ],
+                  ),
+                )..show(context);
               }
             },
           ),

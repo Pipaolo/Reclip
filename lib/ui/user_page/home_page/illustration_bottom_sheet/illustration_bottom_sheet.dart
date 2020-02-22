@@ -36,7 +36,7 @@ class IllustrationBottomSheet extends StatelessWidget {
                     height: ScreenUtil().setHeight(400),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: reclipBlack,
+                      color: reclipBlackDark,
                     ),
                     child: Image(
                       image: AdvancedNetworkImage(
