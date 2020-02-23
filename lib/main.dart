@@ -106,7 +106,6 @@ class Reclip extends StatelessWidget {
           create: (context) => LoginBloc(
             userRepository: _userRepository,
             firebaseReclipRepository: _firebaseReclipRepository,
-            youtubeRepository: _youtubeRepository,
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           ),
         ),

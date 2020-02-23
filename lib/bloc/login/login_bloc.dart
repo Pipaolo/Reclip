@@ -15,7 +15,6 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository _userRepository;
-  YoutubeRepository _youtubeRepository;
   FirebaseReclipRepository _firebaseReclipRepository;
 
   final AuthenticationBloc authenticationBloc;
@@ -23,12 +22,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     @required UserRepository userRepository,
     @required FirebaseReclipRepository firebaseReclipRepository,
-    @required YoutubeRepository youtubeRepository,
     @required this.authenticationBloc,
   })  : assert(userRepository != null),
         assert(firebaseReclipRepository != null),
-        assert(youtubeRepository != null),
-        _youtubeRepository = youtubeRepository,
         _userRepository = userRepository,
         _firebaseReclipRepository = firebaseReclipRepository;
 

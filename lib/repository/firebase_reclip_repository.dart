@@ -166,6 +166,15 @@ class FirebaseReclipRepository {
         .updateData({'statistics.viewCount': FieldValue.increment(1)});
   }
 
+  Future<void> addVideoLike(
+      String channelId, String videoId, String email) async {
+    await channelCollection
+        .document(channelId)
+        .collection('videos')
+        .document(videoId)
+        .updateData({'statistics.likeCount': FieldValue.increment(1)});
+  }
+
   Stream<List<YoutubeVideo>> getYoutubeVideos() {
     final videos = Firestore.instance
         .collectionGroup('videos')

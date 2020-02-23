@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/bloc/login/login_bloc.dart';
-import 'package:reclip/bloc/signup/signup_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_sixth_page.dart';
-
 import 'package:sailor/sailor.dart';
+
+import '../../../bloc/login/login_bloc.dart';
+import '../../../bloc/signup/signup_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../core/route_generator.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import 'signup_content_creator_sixth_page.dart';
 
 class SignupContentCreatorFifthArgs extends BaseArguments {
   final ReclipContentCreator user;
@@ -118,6 +117,7 @@ class _SignupContentCreatorFifthPageState
         if (state is SignupContentCreatorSuccess) {
           Future.delayed(Duration(seconds: 3), () {
             Navigator.of(context).pop();
+            _showSuccessDialog(context);
             _navigateToSixthPage(state.user);
           });
         }
