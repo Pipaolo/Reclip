@@ -33,9 +33,10 @@ class ShowSignupPage extends NavigationEvent {
 }
 
 class ShowBottomNavbarController extends NavigationEvent {
-  final ReclipContentCreator user;
+  final ReclipUser user;
+  final ReclipContentCreator contentCreator;
 
-  ShowBottomNavbarController({this.user});
+  ShowBottomNavbarController({this.user, this.contentCreator});
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, contentCreator];
 }

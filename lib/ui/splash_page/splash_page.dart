@@ -50,7 +50,7 @@ class _SplashPageState extends State<SplashPage> {
                 BlocProvider.of<YoutubeBloc>(context)
                   ..add(FetchYoutubeChannel());
                 BlocProvider.of<UserBloc>(context)
-                  ..add(GetUser(email: state.user.email));
+                  ..add(GetContentCreator(email: state.user.email));
                 isAuthenticated = true;
                 contentCreator = state.user;
               } else if (state is AuthenticatedUser) {

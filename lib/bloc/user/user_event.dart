@@ -12,6 +12,13 @@ class GetUser extends UserEvent {
   List<Object> get props => [email];
 }
 
+class GetContentCreator extends UserEvent {
+  final String email;
+  GetContentCreator({this.email});
+  @override
+  List<Object> get props => [email];
+}
+
 class UpdateUser extends UserEvent {
   final ReclipContentCreator user;
   final File image;

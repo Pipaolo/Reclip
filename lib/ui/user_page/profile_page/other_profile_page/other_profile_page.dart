@@ -27,6 +27,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
             } else if (state is OtherUserLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is OtherUserError) {
+              print(state.errorText);
               return Center(
                 child: Text('Woops something bad happened :('),
               );

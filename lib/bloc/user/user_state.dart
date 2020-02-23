@@ -22,9 +22,17 @@ class UserError extends UserState {
 }
 
 class UserSuccess extends UserState {
-  final ReclipContentCreator user;
+  final ReclipUser user;
 
   UserSuccess({@required this.user});
   @override
   List<Object> get props => [user];
+}
+
+class ContentCreatorSuccess extends UserState {
+  final ReclipContentCreator contentCreator;
+
+  ContentCreatorSuccess({@required this.contentCreator});
+  @override
+  List<Object> get props => [contentCreator];
 }

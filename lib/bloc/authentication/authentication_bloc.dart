@@ -28,7 +28,7 @@ class AuthenticationBloc
     if (event is AppStarted) {
       yield* _mapAppStartedToState();
     } else if (event is LoggedIn) {
-      yield* _mapLoggedInToState(event.user);
+      yield* _mapLoggedInToState(event.contentCreator, event.user);
     } else if (event is LoggedOut) {
       yield* _mapLoggedOutToState();
     }
@@ -38,8 +38,13 @@ class AuthenticationBloc
     try {
       final isSignedIn = await _userRepository.isSignedIn();
       if (isSignedIn) {
-        final user = await _userRepository.getContentCreator();
-        yield AuthenticatedContentCreator(user: user);
+        final user = await _userRepository.getUser();
+        if (user != null) {
+          yield AuthenticatedUser(user: user);
+        } else {
+          final contentCreator = await _userRepository.getContentCreator();
+          yield AuthenticatedContentCreator(user: contentCreator);
+        }
       } else {
         yield Unauthenticated();
       }
@@ -49,17 +54,28 @@ class AuthenticationBloc
   }
 
   Stream<AuthenticationState> _mapLoggedInToState(
-      ReclipContentCreator user) async* {
-    final storedUser = await _userRepository.getContentCreator();
-    final user = await _userRepository.getUser();
-    if (storedUser != null) {
-      print('AUTH AUTHENTICATED');
-      yield AuthenticatedContentCreator(user: storedUser);
-    } else if (storedUser == null && user == null) {
-      print('AUTH UNREGISTERED');
+      ReclipContentCreator contentCreator, ReclipUser user) async* {
+    final reclipUser = await _userRepository.getUser();
+
+    if (reclipUser != null) {
+      print("USER FOUND!");
+      yield AuthenticatedUser(user: reclipUser);
     } else {
-      yield AuthenticatedUser(user: user);
+      final reclipContentCreator = await _userRepository.getContentCreator();
+      print("CONTENT CREATOR FOUND!");
+      yield AuthenticatedContentCreator(
+        user: reclipContentCreator,
+      );
     }
+
+    // if (storedUser != null) {
+    //   print('AUTH AUTHENTICATED');
+    //   yield AuthenticatedContentCreator(user: storedUser);
+    // } else if (storedUser == null && user == null) {
+    //   print('AUTH UNREGISTERED');
+    // } else {
+    //   yield AuthenticatedUser(user: user);
+    // }
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {

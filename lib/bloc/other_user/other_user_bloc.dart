@@ -22,7 +22,7 @@ class OtherUserBloc extends Bloc<OtherUserEvent, OtherUserState> {
     yield OtherUserLoading();
     if (event is GetOtherUser) {
       try {
-        final user = await reclipRepository.getContentCreator(event.email);
+        final user = await reclipRepository.getOtherContentCreator(event.email);
         yield OtherUserSuccess(user: user);
       } catch (e) {
         yield OtherUserError(errorText: e.toString());

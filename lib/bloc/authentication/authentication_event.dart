@@ -10,11 +10,12 @@ class AppStarted extends AuthenticationEvent {
 }
 
 class LoggedIn extends AuthenticationEvent {
-  final ReclipContentCreator user;
+  final ReclipContentCreator contentCreator;
+  final ReclipUser user;
 
-  LoggedIn({this.user});
+  LoggedIn({this.user, this.contentCreator});
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, contentCreator];
 }
 
 class LoggedOut extends AuthenticationEvent {

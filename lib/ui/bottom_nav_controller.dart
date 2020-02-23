@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/ui/user_page/my_list_page/user_my_list_page.dart';
+import 'package:reclip/ui/user_page/profile_page/user_reclipuser_page.dart';
 import 'package:sailor/sailor.dart';
 
 import '../core/reclip_colors.dart';
@@ -29,9 +31,25 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
 
   int _selectedIndex = 0;
 
-  _bottomNavbar(int selectedIndex) {}
-
-  _buildUserNavbar(int selectedIndex) {}
+  _buildUserNavbar(int selectedIndex) {
+    return CurvedNavigationBar(
+      height: kBottomNavigationBarHeight,
+      buttonBackgroundColor: reclipIndigoDark,
+      color: reclipBlack,
+      backgroundColor: Colors.white,
+      items: <Widget>[
+        Icon(Icons.home, color: Colors.white),
+        Icon(Icons.star, color: Colors.white),
+        Icon(Icons.person, color: Colors.white),
+      ],
+      onTap: (index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      index: selectedIndex,
+    );
+  }
 
   _buildContentCreatorNavbar(int selectedIndex) {
     return CurvedNavigationBar(
@@ -59,15 +77,10 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
       pages = [
         UserHomePage(
           key: PageStorageKey('UserHomePage'),
-          args: UserHomePageArgs(
-            user: widget.args.contentCreator,
-          ),
         ),
         UserAddContentPage(
           key: PageStorageKey('UserAddContentPage'),
-          args: UserAddContentPageArgs(
-            user: widget.args.contentCreator,
-          ),
+          args: UserAddContentPageArgs(user: widget.args.contentCreator),
         ),
         UserProfilePage(
           key: PageStorageKey('UserProfilePage'),
@@ -77,9 +90,12 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
       pages = [
         UserHomePage(
           key: PageStorageKey('UserHomePage'),
-          args: UserHomePageArgs(
-            user: widget.args.contentCreator,
-          ),
+        ),
+        UserMyListPage(
+          key: PageStorageKey('UserMyListPage'),
+        ),
+        ReclipUserProfilePage(
+          key: PageStorageKey('ReclipUserProfilePage'),
         ),
       ];
     }

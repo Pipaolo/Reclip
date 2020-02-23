@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../bloc/navigation/navigation_bloc.dart';
 import 'user_illustration_page.dart';
 import 'user_video_page.dart';
 
-class UserHomePageArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  UserHomePageArgs({@required this.user});
-}
-
 class UserHomePage extends StatefulWidget {
-  final UserHomePageArgs args;
-
-  UserHomePage({Key key, this.args}) : super(key: key);
+  UserHomePage({Key key}) : super(key: key);
 
   @override
   _UserHomePageState createState() => _UserHomePageState();
@@ -31,7 +21,6 @@ class _UserHomePageState extends State<UserHomePage> {
     homePages = [
       UserVideoPage(
         key: PageStorageKey('UserVideoPage'),
-        user: widget.args.user,
       ),
       UserIllustrationPage(
         key: PageStorageKey('UserIllustrationPage'),

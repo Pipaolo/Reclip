@@ -55,9 +55,15 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
               child: Column(
                 children: <Widget>[
                   Center(child: CircularProgressIndicator()),
-                  Text(
-                    'Uploading Image...',
-                    style: TextStyle(color: reclipBlack),
+                  Material(
+                    color: Colors.transparent,
+                    child: Text(
+                      'Uploading Image...',
+                      style: TextStyle(
+                        color: reclipBlack,
+                        fontSize: ScreenUtil().setSp(12),
+                      ),
+                    ),
                   )
                 ],
               ),

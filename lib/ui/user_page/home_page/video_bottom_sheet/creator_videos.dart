@@ -32,14 +32,13 @@ class CreatorVideos extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 10, top: 10),
+            padding: const EdgeInsets.only(right: 10),
             child: Material(
-              color: reclipIndigo,
               child: Ink(
                 child: InkWell(
                   onTap: () {
                     BlocProvider.of<OtherUserBloc>(context)
-                      ..add(GetOtherUser(email: creatorChannel.email));
+                      ..add(GetOtherUser(email: creatorChannel.ownerEmail));
                     return Routes.sailor('other_user_profile_page');
                   },
                   child: Container(

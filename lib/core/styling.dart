@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reclip/core/reclip_colors.dart';
+
+import 'reclip_colors.dart';
 
 class AppTheme {
   AppTheme._();
@@ -29,7 +30,7 @@ class AppTheme {
   static final AppBarTheme appBarTheme = AppBarTheme(
     color: Colors.black,
     textTheme: TextTheme(
-      headline: TextStyle(
+      headline5: TextStyle(
         color: Colors.white,
         fontSize: 20,
       ),

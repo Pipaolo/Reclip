@@ -132,6 +132,35 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
               ),
             ],
           ),
+          Divider(
+            thickness: 1,
+            endIndent: 10,
+            indent: 10,
+            color: reclipIndigo,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              VideoUserButtons(
+                title: 'Share',
+                icon: FontAwesomeIcons.solidShareSquare,
+              ),
+              VideoUserButtons(
+                title: 'Like',
+                icon: FontAwesomeIcons.thumbsUp,
+              ),
+              VideoUserButtons(
+                title: 'Dislike',
+                icon: FontAwesomeIcons.thumbsDown,
+              ),
+            ],
+          ),
+          Divider(
+            thickness: 1,
+            endIndent: 10,
+            indent: 10,
+            color: reclipIndigo,
+          ),
           CreatorVideos(
             context: context,
             title: widget.ytVid.title,
@@ -206,6 +235,54 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+  }
+}
+
+class VideoUserButtons extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const VideoUserButtons({Key key, this.icon, this.title}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(20),
+      child: Ink(
+        child: InkWell(
+          onTap: () {
+            if (title.toLowerCase().contains('share')) {
+              print('Share');
+            } else if (title.toLowerCase() == "like") {
+              print('like');
+            } else if (title.toLowerCase() == 'dislike') {
+              print('dislike');
+            }
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: reclipIndigo,
+                size: ScreenUtil().setSp(24),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  color: reclipBlack,
+                  fontSize: ScreenUtil().setSp(12),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

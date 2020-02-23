@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:reclip/bloc/login/login_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 
 import 'package:reclip/core/route_generator.dart';
-import 'package:sailor/sailor.dart';
 
 import 'google_button.dart';
 
@@ -160,9 +161,11 @@ class _LoginFormState extends State<LoginForm> {
 
   _submitLogin() {
     if (_fbKey.currentState.saveAndValidate()) {
-      Routes.sailor.navigate(
-        'user_home_page',
-        navigationType: NavigationType.pushReplace,
+      BlocProvider.of<LoginBloc>(context).add(
+        LoginWithCredentialsPressed(
+          email: _emailController.text,
+          password: _passwordController.text,
+        ),
       );
     }
   }

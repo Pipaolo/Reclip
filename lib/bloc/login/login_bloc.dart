@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
 import 'package:reclip/repository/youtube_repository.dart';
@@ -43,7 +44,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         await _userRepository.signInWithCredentials(
             event.email, event.password);
-        yield LoginSuccess();
+
+        /*
+        Try to get fetch user first, if user is not present
+        then go ahead and fetch content creator
+        */
+
+        final reclipUser = await _userRepository.getUser();
+        if (reclipUser != null) {
+          yield LoginSuccessUser(user: reclipUser);
+        } else {
+          final reclipContentCreator =
+              await _userRepository.getContentCreator();
+          yield LoginSuccessContentCreator(user: reclipContentCreator);
+        }
       } catch (_) {
         yield LoginError(error: _.toString());
       }
@@ -69,7 +83,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           final user =
               await _firebaseReclipRepository.getContentCreator(rawUser.email);
 
-          yield LoginSuccess(
+          yield LoginSuccessContentCreator(
             user: user,
           );
         }
@@ -79,7 +93,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is SignOut) {
       try {
         await _userRepository.signOut();
-        yield LoginSuccess();
+        yield LoginSuccessContentCreator();
       } catch (_) {
         yield LoginError(error: _.toString());
       }

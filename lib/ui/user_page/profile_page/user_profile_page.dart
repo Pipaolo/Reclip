@@ -27,7 +27,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       child: Scaffold(
         body: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
-            if (state is UserSuccess) {
+            if (state is ContentCreatorSuccess) {
               return DefaultTabController(
                 length: 3,
                 child: Column(
@@ -63,7 +63,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                     Routes.sailor.navigate(
                                       'user_edit_profile_page',
                                       args: UserEditProfilePageArgs(
-                                          user: state.user),
+                                          user: state.contentCreator),
                                     );
                                   },
                                 ),
@@ -73,7 +73,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: Image.network(
-                              state.user.imageUrl,
+                              state.contentCreator.imageUrl,
                               fit: BoxFit.cover,
                               height: ScreenUtil().setHeight(100),
                               width: ScreenUtil().setWidth(100),
@@ -84,7 +84,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             child: SizedBox(
                               width: double.infinity,
                               child: AutoSizeText(
-                                state.user.name,
+                                state.contentCreator.name,
                                 style: TextStyle(
                                   color: reclipBlack,
                                   fontSize: ScreenUtil().setSp(20),
@@ -138,9 +138,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     Flexible(
                       child: TabBarView(
                         children: <Widget>[
-                          AboutMePage(user: state.user),
-                          MyWorksPage(user: state.user),
-                          ContactInfoPage(user: state.user),
+                          AboutMePage(user: state.contentCreator),
+                          MyWorksPage(user: state.contentCreator),
+                          ContactInfoPage(user: state.contentCreator),
                         ],
                       ),
                     ),

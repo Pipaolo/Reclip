@@ -40,23 +40,20 @@ class _LoginPageState extends State<LoginPage> {
             listener: (context, state) async {
               if (state is LoginLoading) {
                 progressDialog.show();
-              }
-              if (state is LoginSuccess) {
-                if (state.user != null) {
-                  BlocProvider.of<AuthenticationBloc>(context)
-                    ..add(
-                      LoggedIn(user: state.user),
-                    );
-                } else {
-                  BlocProvider.of<AuthenticationBloc>(context)
-                    ..add(
-                      LoggedIn(),
-                    );
-                }
+              } else if (state is LoginSuccessContentCreator) {
+                BlocProvider.of<AuthenticationBloc>(context)
+                  ..add(
+                    LoggedIn(contentCreator: state.user),
+                  );
 
                 progressDialog.dismiss();
-              }
-              if (state is LoginError) {
+              } else if (state is LoginSuccessUser) {
+                BlocProvider.of<AuthenticationBloc>(context)
+                  ..add(
+                    LoggedIn(user: state.user),
+                  );
+                progressDialog.dismiss();
+              } else if (state is LoginError) {
                 print(state.error);
                 progressDialog.dismiss();
 
@@ -93,26 +90,37 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(FetchIllustrations());
 
                 BlocProvider.of<UserBloc>(context)
-                  ..add(GetUser(email: state.user.email));
+                  ..add(GetContentCreator(email: state.user.email));
 
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowBottomNavbarController(user: state.user),
+                    ShowBottomNavbarController(contentCreator: state.user),
                   );
               } else if (state is AuthenticatedUser) {
-              } else if (state is Unregistered) {
                 BlocProvider.of<YoutubeBloc>(context)
-                  ..add(
-                    AddYoutubeChannel(user: state.user),
-                  );
+                  ..add(FetchYoutubeChannel());
+
+                BlocProvider.of<IllustrationsBloc>(context)
+                  ..add(FetchIllustrations());
 
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
 
                 BlocProvider.of<NavigationBloc>(context)
-                  ..add(
-                    ShowBottomNavbarController(user: state.user),
-                  );
+                  ..add(ShowBottomNavbarController(user: state.user));
+              } else if (state is Unregistered) {
+                // BlocProvider.of<YoutubeBloc>(context)
+                //   ..add(
+                //     AddYoutubeChannel(user: state.user),
+                //   );
+
+                // BlocProvider.of<UserBloc>(context)
+                //   ..add(GetUser(email: state.user.email));
+
+                // BlocProvider.of<NavigationBloc>(context)
+                //   ..add(
+                //     ShowBottomNavbarController(user: state.user),
+                //   );
               }
             },
           ),

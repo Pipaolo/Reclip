@@ -14,10 +14,19 @@ class LoginLoading extends LoginState {
   List<Object> get props => [];
 }
 
-class LoginSuccess extends LoginState {
+class LoginSuccessUser extends LoginState {
+  final ReclipUser user;
+
+  LoginSuccessUser({this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+class LoginSuccessContentCreator extends LoginState {
   final ReclipContentCreator user;
 
-  LoginSuccess({this.user});
+  LoginSuccessContentCreator({this.user});
 
   @override
   List<Object> get props => [];

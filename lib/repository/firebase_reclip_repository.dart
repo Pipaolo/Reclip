@@ -11,6 +11,8 @@ import '../data/model/illustration.dart';
 
 class FirebaseReclipRepository {
   final userCollection = Firestore.instance.collection('users');
+  final contentCreatorCollection =
+      Firestore.instance.collection('content_creators');
   final channelCollection = Firestore.instance.collection('channels');
   final illustrationCollection = Firestore.instance.collection('illustrations');
   final illustrationReference = FirebaseStorage.instance.ref();
@@ -65,17 +67,19 @@ class FirebaseReclipRepository {
     return imageUrl;
   }
 
-  Future<ReclipContentCreator> updateUser(
+  Future<ReclipContentCreator> updateContentCreator(
       ReclipContentCreator user, File image) async {
     if (image != null) {
       final imageUrl = await addProfilePicture(user, image);
-      await userCollection.document(user.email).setData(user
+      await contentCreatorCollection.document(user.email).setData(user
           .copyWith(
             imageUrl: imageUrl,
           )
           .toDocument());
     } else {
-      await userCollection.document(user.email).setData(user.toDocument());
+      await contentCreatorCollection
+          .document(user.email)
+          .setData(user.toDocument());
     }
 
     final updatedUser = await getContentCreator(user.email);
@@ -87,15 +91,22 @@ class FirebaseReclipRepository {
   }
 
   Future<void> addContentCreator(ReclipContentCreator user) async {
-    return await userCollection.document(user.email).setData(user.toDocument());
+    return await contentCreatorCollection
+        .document(user.email)
+        .setData(user.toDocument());
   }
 
   Future<ReclipUser> getUser(String email) async {
     return ReclipUser.fromSnapshot(await userCollection.document(email).get());
   }
 
+  Future<ReclipContentCreator> getOtherContentCreator(String email) async {
+    return ReclipContentCreator.fromSnapshot(
+        await contentCreatorCollection.document(email).get());
+  }
+
   Future<ReclipContentCreator> getContentCreator(String email) async {
-    final user = await userCollection
+    final user = await contentCreatorCollection
         .where('channel.ownerEmail', isEqualTo: email)
         .getDocuments()
         .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
@@ -104,7 +115,7 @@ class FirebaseReclipRepository {
   }
 
   Future<bool> checkExistingUser(String email) async {
-    final user = await userCollection
+    final user = await contentCreatorCollection
         .where('channel.ownerEmail', isEqualTo: email)
         .getDocuments()
         .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
