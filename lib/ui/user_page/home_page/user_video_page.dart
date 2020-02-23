@@ -27,7 +27,6 @@ class UserVideoPage extends StatelessWidget {
                 builder: (context) {
                   return DraggableScrollableSheet(
                       initialChildSize: 1.0,
-                      expand: true,
                       builder: (context, scrollController) {
                         return VideoBottomSheet(
                           ytChannel: state.channel,

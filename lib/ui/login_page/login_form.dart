@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/bloc/login/login_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 
@@ -100,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
               FormBuilderValidators.required(),
             ],
             onFieldSubmitted: (_) {
-              _submitLogin();
+              _submitLogin(context);
             },
           ),
           SizedBox(
@@ -118,7 +120,7 @@ class _LoginFormState extends State<LoginForm> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () => _submitLogin(),
+              onPressed: () => _submitLogin(context),
             ),
           ),
           SizedBox(
@@ -159,7 +161,87 @@ class _LoginFormState extends State<LoginForm> {
     return Routes.sailor.navigate('signup_page/category');
   }
 
-  _submitLogin() {
+  _showSuccessDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(180),
+              width: ScreenUtil().setWidth(180),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.checkCircle,
+                    color: Colors.green,
+                    size: ScreenUtil().setSp(60),
+                  ),
+                  Material(child: Text('Sign up Success!'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showErrorDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(180),
+              width: ScreenUtil().setWidth(180),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.exclamationCircle,
+                    color: Colors.red,
+                    size: ScreenUtil().setSp(60),
+                  ),
+                  Material(child: Text('Error!'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showLoadingDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
+              alignment: Alignment.center,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        });
+  }
+
+  _submitLogin(BuildContext context) {
+    // _showSuccessDialog(context);
+    // _showLoadingDialog(context);
+    // _showErrorDialog(context);
+
     if (_fbKey.currentState.saveAndValidate()) {
       BlocProvider.of<LoginBloc>(context).add(
         LoginWithCredentialsPressed(

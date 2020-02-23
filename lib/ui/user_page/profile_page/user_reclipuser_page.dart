@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/route_generator.dart';
+import 'package:sailor/sailor.dart';
+
+import '../../../core/reclip_colors.dart';
 
 class ReclipUserProfilePage extends StatelessWidget {
   const ReclipUserProfilePage({Key key}) : super(key: key);
@@ -64,9 +66,14 @@ class ReclipUserProfilePage extends StatelessWidget {
                   style: TextStyle(color: reclipIndigoLight),
                 ),
                 onPressed: () {
-                  BlocProvider.of<NavigationBloc>(context)
-                    ..add(ShowLoginPage());
-                  Routes.sailor.popUntil(ModalRoute.withName('login_page'));
+                  Navigator.of(context).pop();
+                  BlocProvider.of<AuthenticationBloc>(context)
+                    ..add(LoggedOut());
+                  Routes.sailor.navigate(
+                    'login_page',
+                    navigationType: NavigationType.pushAndRemoveUntil,
+                    removeUntilPredicate: ModalRoute.withName('login_page'),
+                  );
                 },
               ),
             ],

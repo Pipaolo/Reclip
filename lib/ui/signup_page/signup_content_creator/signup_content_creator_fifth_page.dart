@@ -32,34 +32,98 @@ class SignupContentCreatorFifthPage extends StatefulWidget {
 
 class _SignupContentCreatorFifthPageState
     extends State<SignupContentCreatorFifthPage> {
+  _showSuccessDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(180),
+              width: ScreenUtil().setWidth(180),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.checkCircle,
+                    color: Colors.green,
+                    size: ScreenUtil().setSp(60),
+                  ),
+                  Material(child: Text('Sign up Success!'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showErrorDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(180),
+              width: ScreenUtil().setWidth(180),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.exclamationCircle,
+                    color: Colors.red,
+                    size: ScreenUtil().setSp(60),
+                  ),
+                  Material(child: Text('Error!'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showLoadingDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
+              alignment: Alignment.center,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog progressDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    progressDialog.style(
-      progressWidget: CircularProgressIndicator(),
-    );
     return BlocListener<SignupBloc, SignupState>(
       listener: (context, state) {
         if (state is SignupLoading) {
-          progressDialog.show();
+          _showLoadingDialog(context);
         }
         if (state is SignupContentCreatorSuccess) {
-          progressDialog.dismiss();
-          _navigateToSixthPage(state.user);
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pop();
+            _navigateToSixthPage(state.user);
+          });
         }
         if (state is SignupError) {
-          progressDialog.update(
-            progressWidget: Icon(
-              Icons.error,
-              color: Colors.red,
-              size: ScreenUtil().setSp(30),
-            ),
-            message: 'Error',
-          );
+          Navigator.of(context).pop();
+          _showErrorDialog(context);
           BlocProvider.of<LoginBloc>(context).add(SignOut());
         }
       },
