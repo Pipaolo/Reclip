@@ -93,6 +93,7 @@ class Reclip extends StatelessWidget {
             youtubeRepository: YoutubeRepository(
               firebaseReclipRepository: _firebaseReclipRepository,
             ),
+            userRepository: _userRepository,
             firebaseReclipRepository: _firebaseReclipRepository,
           ),
         ),

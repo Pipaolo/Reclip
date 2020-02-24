@@ -26,6 +26,15 @@ class AddYoutubeChannel extends YoutubeEvent {
   List<Object> get props => [user];
 }
 
+class AddLike extends YoutubeEvent {
+  final String channelId;
+  final String videoId;
+
+  AddLike({this.channelId, this.videoId});
+  @override
+  List<Object> get props => [channelId, videoId];
+}
+
 class AddView extends YoutubeEvent {
   final String channelId;
   final String videoId;

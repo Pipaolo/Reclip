@@ -3,13 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/bloc/login/login_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
 
-import 'package:reclip/core/route_generator.dart';
-
+import '../../bloc/login/login_bloc.dart';
+import '../../core/reclip_colors.dart';
+import '../../core/route_generator.dart';
 import 'google_button.dart';
 
 class LoginForm extends StatefulWidget {

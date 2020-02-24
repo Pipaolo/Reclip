@@ -84,7 +84,6 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
   }
 
   _showSuccessDialog(BuildContext context) {
-    Navigator.of(context).pop();
     Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
     showDialog(
         context: context,
@@ -124,16 +123,22 @@ class _UserEditProfilePageState extends State<UserEditProfilePage> {
         });
   }
 
-  _showErrorDialog(BuildContext context) {}
+  _showErrorDialog(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
         if (state is UserLoading) {
           _showLoadingDialog(context);
-        } else if (state is UserSuccess) {
+        } else if (state is ContentCreatorSuccess) {
+          Navigator.of(context).pop();
           _showSuccessDialog(context);
         } else if (state is UserError) {
+          Navigator.of(context).pop();
+          print(state.error);
           _showErrorDialog(context);
         }
       },

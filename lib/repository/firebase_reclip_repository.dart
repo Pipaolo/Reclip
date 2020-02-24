@@ -168,11 +168,34 @@ class FirebaseReclipRepository {
 
   Future<void> addVideoLike(
       String channelId, String videoId, String email) async {
+    //Add like by 1
     await channelCollection
         .document(channelId)
         .collection('videos')
         .document(videoId)
         .updateData({'statistics.likeCount': FieldValue.increment(1)});
+    //Get Liked youtube Video
+    final video = YoutubeVideo.fromSnapshot(await channelCollection
+        .document(channelId)
+        .collection('videos')
+        .document(videoId)
+        .get());
+    //Add Youtube Video
+    //Get User
+    final reclipUser = await userCollection.document(email).get();
+    if (reclipUser.exists) {
+      await userCollection
+          .document(email)
+          .collection('likedVideos')
+          .document(videoId)
+          .setData(video.toDocument());
+    } else {
+      await contentCreatorCollection
+          .document(email)
+          .collection('likedVideos')
+          .document(videoId)
+          .setData(video.toDocument());
+    }
   }
 
   Stream<List<YoutubeVideo>> getYoutubeVideos() {

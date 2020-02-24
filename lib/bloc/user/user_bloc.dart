@@ -50,9 +50,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is UpdateUser) {
       yield UserLoading();
       try {
-        final user = await _reclipRepository.updateContentCreator(
+        final contentCreator = await _reclipRepository.updateContentCreator(
             event.user, event.image);
-        yield ContentCreatorSuccess(contentCreator: user);
+        yield ContentCreatorSuccess(contentCreator: contentCreator);
       } catch (e) {
         yield UserError(
           error: e.toString(),

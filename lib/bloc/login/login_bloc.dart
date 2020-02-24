@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/repository/firebase_reclip_repository.dart';
-import 'package:reclip/repository/user_repository.dart';
-import 'package:reclip/repository/youtube_repository.dart';
+import 'package:meta/meta.dart';
+
+import '../../data/model/reclip_content_creator.dart';
+import '../../data/model/reclip_user.dart';
+import '../../repository/firebase_reclip_repository.dart';
+import '../../repository/user_repository.dart';
+import '../authentication/authentication_bloc.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

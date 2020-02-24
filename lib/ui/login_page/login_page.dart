@@ -41,17 +41,22 @@ class _LoginPageState extends State<LoginPage> {
               if (state is LoginLoading) {
                 progressDialog.show();
               } else if (state is LoginSuccessContentCreator) {
-                BlocProvider.of<AuthenticationBloc>(context)
-                  ..add(
-                    LoggedIn(contentCreator: state.user),
-                  );
+                if (state.user != null) {
+                  BlocProvider.of<AuthenticationBloc>(context)
+                    ..add(
+                      LoggedIn(contentCreator: state.user),
+                    );
+                }
 
                 progressDialog.dismiss();
               } else if (state is LoginSuccessUser) {
-                BlocProvider.of<AuthenticationBloc>(context)
-                  ..add(
-                    LoggedIn(user: state.user),
-                  );
+                if (state.user != null) {
+                  BlocProvider.of<AuthenticationBloc>(context)
+                    ..add(
+                      LoggedIn(user: state.user),
+                    );
+                }
+
                 progressDialog.dismiss();
               } else if (state is LoginError) {
                 print(state.error);

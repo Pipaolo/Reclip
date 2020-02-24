@@ -7,6 +7,7 @@ import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
+import 'package:reclip/repository/user_repository.dart';
 import 'package:reclip/repository/youtube_repository.dart';
 
 part 'youtube_event.dart';
@@ -15,10 +16,12 @@ part 'youtube_state.dart';
 class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   final YoutubeRepository youtubeRepository;
   final FirebaseReclipRepository firebaseReclipRepository;
+  final UserRepository userRepository;
   StreamSubscription videoStream;
 
   YoutubeBloc({
     @required this.youtubeRepository,
+    @required this.userRepository,
     this.firebaseReclipRepository,
   });
 
@@ -32,8 +35,12 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
     if (event is AddView) {
       await firebaseReclipRepository.addVideoView(
           event.channelId, event.videoId);
-    }
-    if (event is FetchYoutubeChannel) {
+    } else if (event is AddLike) {
+      await userRepository.getCurrentUser().then(
+            (email) async => await firebaseReclipRepository.addVideoLike(
+                event.channelId, event.videoId, email),
+          );
+    } else if (event is FetchYoutubeChannel) {
       yield YoutubeLoading();
       try {
         videoStream?.cancel();

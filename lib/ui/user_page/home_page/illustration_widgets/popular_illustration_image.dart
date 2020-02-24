@@ -1,6 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../data/model/illustration.dart';
 
@@ -14,9 +16,17 @@ class PopularIllustrationImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: ScreenUtil().setHeight(350),
-      child: CachedNetworkImage(
-        imageUrl: popularIllustration.imageUrl,
+      child: TransitionToImage(
+        image: AdvancedNetworkImage(
+          popularIllustration.imageUrl,
+          useDiskCache: true,
+        ),
         fit: BoxFit.cover,
+        loadingWidget: Shimmer.fromColors(
+            child: Container(color: Colors.black),
+            direction: ShimmerDirection.ltr,
+            baseColor: Colors.grey,
+            highlightColor: Colors.white54),
       ),
     );
   }

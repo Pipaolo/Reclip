@@ -60,7 +60,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           _buildHeader(),
           _buildPlayOverlay(),
         ]),
-        _buildDescription(),
+        _buildDescription(widget.ytChannel.id, widget.ytVid.id),
       ],
     );
   }
@@ -96,7 +96,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
     );
   }
 
-  _buildDescription() {
+  _buildDescription(String channelId, String videoId) {
     final convertedDate = widget.ytVid.publishedAt.split('T').removeAt(0);
     return Container(
       decoration: BoxDecoration(
@@ -144,14 +144,20 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
               VideoUserButtons(
                 title: 'Share',
                 icon: FontAwesomeIcons.solidShareSquare,
+                channelId: channelId,
+                videoId: videoId,
               ),
               VideoUserButtons(
                 title: 'Like',
                 icon: FontAwesomeIcons.thumbsUp,
+                channelId: channelId,
+                videoId: videoId,
               ),
               VideoUserButtons(
                 title: 'Dislike',
                 icon: FontAwesomeIcons.thumbsDown,
+                channelId: channelId,
+                videoId: videoId,
               ),
             ],
           ),
@@ -241,8 +247,16 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
 class VideoUserButtons extends StatelessWidget {
   final IconData icon;
   final String title;
+  final String channelId;
+  final String videoId;
 
-  const VideoUserButtons({Key key, this.icon, this.title}) : super(key: key);
+  const VideoUserButtons({
+    Key key,
+    this.icon,
+    this.title,
+    this.channelId,
+    this.videoId,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -255,6 +269,13 @@ class VideoUserButtons extends StatelessWidget {
               print('Share');
             } else if (title.toLowerCase() == "like") {
               print('like');
+              BlocProvider.of<YoutubeBloc>(context)
+                ..add(
+                  AddLike(
+                    channelId: channelId,
+                    videoId: videoId,
+                  ),
+                );
             } else if (title.toLowerCase() == 'dislike') {
               print('dislike');
             }
