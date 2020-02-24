@@ -5,26 +5,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progressive_image/progressive_image.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_description.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../../../bloc/youtube/youtube_bloc.dart';
+import '../../../../core/reclip_colors.dart';
 import '../../../../data/model/youtube_channel.dart';
 import '../../../../data/model/youtube_vid.dart';
 import '../yt_player.dart';
 import 'creator_videos.dart';
+import 'video_description.dart';
 
 class VideoBottomSheet extends StatefulWidget {
   final YoutubeVideo ytVid;
   final YoutubeChannel ytChannel;
+  final bool isLiked;
   final ScrollController controller;
 
   const VideoBottomSheet(
       {Key key,
       @required this.controller,
       @required this.ytVid,
-      @required this.ytChannel})
+      @required this.ytChannel,
+      this.isLiked})
       : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
         hideControls: false,
       ),
     );
+
     super.initState();
   }
 
@@ -60,7 +63,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           _buildHeader(),
           _buildPlayOverlay(),
         ]),
-        _buildDescription(widget.ytChannel.id, widget.ytVid.id),
+        _buildDescription(widget.ytChannel.id, widget.ytVid.id, context),
       ],
     );
   }
@@ -96,7 +99,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
     );
   }
 
-  _buildDescription(String channelId, String videoId) {
+  _buildDescription(String channelId, String videoId, BuildContext context) {
     final convertedDate = widget.ytVid.publishedAt.split('T').removeAt(0);
     return Container(
       decoration: BoxDecoration(
@@ -141,23 +144,14 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              VideoUserButtons(
-                title: 'Share',
-                icon: FontAwesomeIcons.solidShareSquare,
+              VideoShareButton(
                 channelId: channelId,
                 videoId: videoId,
               ),
-              VideoUserButtons(
-                title: 'Like',
-                icon: FontAwesomeIcons.thumbsUp,
+              VideoLikeButton(
                 channelId: channelId,
                 videoId: videoId,
-              ),
-              VideoUserButtons(
-                title: 'Dislike',
-                icon: FontAwesomeIcons.thumbsDown,
-                channelId: channelId,
-                videoId: videoId,
+                isLiked: widget.isLiked,
               ),
             ],
           ),
@@ -244,62 +238,118 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
   }
 }
 
-class VideoUserButtons extends StatelessWidget {
-  final IconData icon;
-  final String title;
+class VideoLikeButton extends StatefulWidget {
+  final String channelId;
+  final String videoId;
+  final bool isLiked;
+
+  VideoLikeButton({
+    Key key,
+    this.channelId,
+    this.videoId,
+    this.isLiked,
+  }) : super(key: key);
+
+  @override
+  _VideoLikeButtonState createState() => _VideoLikeButtonState();
+}
+
+class _VideoLikeButtonState extends State<VideoLikeButton> {
+  bool liked;
+  @override
+  void initState() {
+    liked = widget.isLiked;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 14,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        child: Ink(
+          child: InkWell(
+            onTap: () {
+              if (liked) {
+                setState(() {
+                  liked = false;
+                });
+                BlocProvider.of<YoutubeBloc>(context)
+                  ..add(
+                    RemoveLike(
+                      channelId: widget.channelId,
+                      videoId: widget.videoId,
+                    ),
+                  );
+              } else {
+                setState(() {
+                  liked = true;
+                });
+                BlocProvider.of<YoutubeBloc>(context)
+                  ..add(
+                    AddLike(
+                      channelId: widget.channelId,
+                      videoId: widget.videoId,
+                    ),
+                  );
+              }
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  (liked)
+                      ? FontAwesomeIcons.solidThumbsUp
+                      : FontAwesomeIcons.thumbsUp,
+                  color: reclipIndigo,
+                  size: ScreenUtil().setSp(24),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class VideoShareButton extends StatelessWidget {
   final String channelId;
   final String videoId;
 
-  const VideoUserButtons({
+  const VideoShareButton({
     Key key,
-    this.icon,
-    this.title,
     this.channelId,
     this.videoId,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(20),
-      child: Ink(
-        child: InkWell(
-          onTap: () {
-            if (title.toLowerCase().contains('share')) {
-              print('Share');
-            } else if (title.toLowerCase() == "like") {
-              print('like');
-              BlocProvider.of<YoutubeBloc>(context)
-                ..add(
-                  AddLike(
-                    channelId: channelId,
-                    videoId: videoId,
-                  ),
-                );
-            } else if (title.toLowerCase() == 'dislike') {
-              print('dislike');
-            }
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                icon,
-                color: reclipIndigo,
-                size: ScreenUtil().setSp(24),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                  color: reclipBlack,
-                  fontSize: ScreenUtil().setSp(12),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 14,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        child: Ink(
+          child: InkWell(
+            onTap: () {},
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  FontAwesomeIcons.shareAltSquare,
+                  color: reclipIndigo,
+                  size: ScreenUtil().setSp(24),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

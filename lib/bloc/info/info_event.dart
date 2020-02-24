@@ -22,3 +22,12 @@ class ShowIllustration extends InfoEvent {
   @override
   List<Object> get props => [illustration];
 }
+
+class GetLikedVideo extends InfoEvent {
+  final String videoId;
+
+  GetLikedVideo({this.videoId});
+
+  @override
+  List<Object> get props => [videoId];
+}

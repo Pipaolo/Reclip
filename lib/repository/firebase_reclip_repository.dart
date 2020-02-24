@@ -166,6 +166,52 @@ class FirebaseReclipRepository {
         .updateData({'statistics.viewCount': FieldValue.increment(1)});
   }
 
+  Future<bool> checkVideoLike(String videoId, String email) async {
+    final reclipUser = await userCollection.document(email).get();
+    if (reclipUser.exists) {
+      final video = await userCollection
+          .document(email)
+          .collection('likedVideos')
+          .document(videoId)
+          .get();
+      return (video.exists);
+    } else {
+      final video = await contentCreatorCollection
+          .document(email)
+          .collection('likedVideos')
+          .document(videoId)
+          .get();
+      return (video.exists);
+    }
+  }
+
+  Future<void> removeVideoLike(
+      String channelId, String videoId, String email) async {
+    //Add like by 1
+    await channelCollection
+        .document(channelId)
+        .collection('videos')
+        .document(videoId)
+        .updateData({'statistics.likeCount': FieldValue.increment(-1)});
+
+    //Remove Youtube Video
+    //Get User
+    final reclipUser = await userCollection.document(email).get();
+    if (reclipUser.exists) {
+      await userCollection
+          .document(email)
+          .collection('likedVideos')
+          .document(videoId)
+          .delete();
+    } else {
+      await contentCreatorCollection
+          .document(email)
+          .collection('likedVideos')
+          .document(videoId)
+          .delete();
+    }
+  }
+
   Future<void> addVideoLike(
       String channelId, String videoId, String email) async {
     //Add like by 1

@@ -35,6 +35,15 @@ class AddLike extends YoutubeEvent {
   List<Object> get props => [channelId, videoId];
 }
 
+class RemoveLike extends YoutubeEvent {
+  final String channelId;
+  final String videoId;
+
+  RemoveLike({this.channelId, this.videoId});
+  @override
+  List<Object> get props => [channelId, videoId];
+}
+
 class AddView extends YoutubeEvent {
   final String channelId;
   final String videoId;

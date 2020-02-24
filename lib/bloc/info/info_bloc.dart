@@ -6,14 +6,16 @@ import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
+import 'package:reclip/repository/user_repository.dart';
 
 part 'info_event.dart';
 part 'info_state.dart';
 
 class InfoBloc extends Bloc<InfoEvent, InfoState> {
   final FirebaseReclipRepository reclipRepository;
+  final UserRepository userRepository;
 
-  InfoBloc({@required this.reclipRepository});
+  InfoBloc({@required this.reclipRepository, @required this.userRepository});
   @override
   InfoState get initialState => Idle();
 
@@ -23,8 +25,16 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
   ) async* {
     yield (Idle());
     if (event is ShowVideo) {
-      final channel = await reclipRepository.getChannel(event.video.channelId);
-      yield ShowVideoInfo(channel: channel, video: event.video);
+      try {
+        final channel =
+            await reclipRepository.getChannel(event.video.channelId);
+        final isLiked = await userRepository.getCurrentUser().then(
+            (email) => reclipRepository.checkVideoLike(event.video.id, email));
+        yield ShowVideoInfo(
+            channel: channel, video: event.video, isLiked: isLiked);
+      } catch (e) {
+        print(e);
+      }
     } else if (event is ShowIllustration) {
       yield ShowIllustrationInfo(illustration: event.illustration);
     }

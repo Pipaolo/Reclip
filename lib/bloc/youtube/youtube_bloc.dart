@@ -40,6 +40,11 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
             (email) async => await firebaseReclipRepository.addVideoLike(
                 event.channelId, event.videoId, email),
           );
+    } else if (event is RemoveLike) {
+      await userRepository.getCurrentUser().then(
+            (email) async => await firebaseReclipRepository.removeVideoLike(
+                event.channelId, event.videoId, email),
+          );
     } else if (event is FetchYoutubeChannel) {
       yield YoutubeLoading();
       try {

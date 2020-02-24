@@ -31,6 +31,7 @@ class UserVideoPage extends StatelessWidget {
                         return VideoBottomSheet(
                           ytChannel: state.channel,
                           ytVid: state.video,
+                          isLiked: state.isLiked,
                           controller: scrollController,
                         );
                       });

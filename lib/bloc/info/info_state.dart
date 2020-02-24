@@ -12,12 +12,15 @@ class Idle extends InfoState {
 class ShowVideoInfo extends InfoState {
   final YoutubeVideo video;
   final YoutubeChannel channel;
+  final bool isLiked;
 
-  ShowVideoInfo({this.video, this.channel});
+  ShowVideoInfo({
+    this.video,
+    this.channel,
+    this.isLiked,
+  });
   @override
-  List<Object> get props => [video, channel];
-
-  get illustration => null;
+  List<Object> get props => [isLiked, video, channel];
 }
 
 class ShowIllustrationInfo extends InfoState {
@@ -29,4 +32,13 @@ class ShowIllustrationInfo extends InfoState {
 
   @override
   List<Object> get props => [illustration];
+}
+
+class LikedVideo extends InfoState {
+  final bool isLiked;
+
+  LikedVideo({this.isLiked});
+
+  @override
+  List<Object> get props => [isLiked];
 }
