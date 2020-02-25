@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reclip/ui/user_page/home_page/video_widgets/youtube_style_widget.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/youtube/youtube_bloc.dart';
@@ -10,8 +9,8 @@ import '../../../core/reclip_colors.dart';
 import '../../../data/model/youtube_vid.dart';
 import 'user_home_page_appbar.dart';
 import 'video_bottom_sheet/video_bottom_sheet.dart';
-import 'video_widgets/image_widget.dart';
 import 'video_widgets/popular_video.dart';
+import 'video_widgets/youtube_style_widget.dart';
 
 class UserVideoPage extends StatelessWidget {
   UserVideoPage({Key key}) : super(key: key);

@@ -3,11 +3,11 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../../../bloc/info/info_bloc.dart';
+import '../../../../core/reclip_colors.dart';
+import '../../../../data/model/youtube_vid.dart';
 
 class ImageWidget extends StatefulWidget {
   final List<YoutubeVideo> ytVideos;
