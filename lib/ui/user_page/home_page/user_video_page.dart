@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:reclip/ui/user_page/home_page/video_widgets/youtube_style_widget.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/youtube/youtube_bloc.dart';
@@ -85,22 +86,29 @@ class UserVideoPage extends StatelessWidget {
   ) {
     return Column(
       children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
         Container(
-          padding: EdgeInsets.all(10),
           width: double.infinity,
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(vertical: 10),
           color: reclipIndigo,
           child: Text(
             'Clips and Films'.toUpperCase(),
             style: TextStyle(
               color: reclipBlack,
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setSp(15),
+              fontSize: ScreenUtil().setSp(20),
               wordSpacing: 2,
             ),
           ),
         ),
-        ImageWidget(
-          ytVideos: youtubeVideos,
+        // ImageWidget(
+        //   ytVideos: youtubeVideos,
+        // ),
+        YoutubeStyleWidget(
+          youtubeVideos: youtubeVideos,
         ),
       ],
     );

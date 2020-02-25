@@ -23,7 +23,7 @@ class PopularVideo extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              offset: Offset(5, 10),
+              offset: Offset(3, 2),
               color: Colors.black,
               blurRadius: 20,
             ),

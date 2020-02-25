@@ -37,6 +37,7 @@ class _UserAddContentPageState extends State<UserAddContentPage> {
         title: Text('ADD CONTENT'),
         backgroundColor: reclipBlack,
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: SingleChildScrollView(

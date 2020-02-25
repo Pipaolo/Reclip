@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../bloc/illustration/illustrations_bloc.dart';
 import '../../../bloc/info/info_bloc.dart';
@@ -44,17 +45,30 @@ class UserIllustrationPage extends StatelessWidget {
               return CustomScrollView(
                 slivers: <Widget>[
                   HomePageAppBar(),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      Column(
-                        children: <Widget>[
-                          PopularIllustrationWidget(
-                              illustration: state.illustrations[0]),
-                          IllustrationWidget(),
-                        ],
-                      )
-                    ]),
-                  )
+                  if (state.illustrations.isNotEmpty)
+                    SliverList(
+                      delegate: SliverChildListDelegate([
+                        Column(
+                          children: <Widget>[
+                            PopularIllustrationWidget(
+                                illustration: state.illustrations[0]),
+                            IllustrationWidget(),
+                          ],
+                        )
+                      ]),
+                    ),
+                  if (state.illustrations.isEmpty)
+                    SliverFillRemaining(
+                      child: Center(
+                        child: Text(
+                          'No illustrations found!',
+                          style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: ScreenUtil().setSp(20),
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               );
             }

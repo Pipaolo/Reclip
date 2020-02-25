@@ -10,12 +10,10 @@ import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageWidget extends StatefulWidget {
-  final List<YoutubeChannel> ytChannels;
   final List<YoutubeVideo> ytVideos;
   final bool isExpanded;
 
-  ImageWidget(
-      {Key key, this.ytChannels, @required this.ytVideos, this.isExpanded})
+  ImageWidget({Key key, @required this.ytVideos, this.isExpanded})
       : super(key: key);
 
   @override

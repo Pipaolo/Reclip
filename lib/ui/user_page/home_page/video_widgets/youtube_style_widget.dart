@@ -4,82 +4,19 @@ import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
 
-class UserMyListPage extends StatelessWidget {
-  const UserMyListPage({Key key}) : super(key: key);
+class YoutubeStyleWidget extends StatelessWidget {
+  final List<YoutubeVideo> youtubeVideos;
+
+  const YoutubeStyleWidget({Key key, this.youtubeVideos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<InfoBloc, InfoState>(
-      listener: (context, state) {
-        if (state is ShowVideoInfo) {
-          showBottomSheet(
-              context: context,
-              builder: (context) {
-                return DraggableScrollableSheet(
-                    initialChildSize: 1.0,
-                    builder: (context, scrollController) {
-                      return VideoBottomSheet(
-                        ytChannel: state.channel,
-                        ytVid: state.video,
-                        isLiked: state.isLiked,
-                        controller: scrollController,
-                      );
-                    });
-              });
-        }
-      },
-      child: SafeArea(
-        child: Scaffold(
-          body: Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Liked Videos',
-                    style: TextStyle(
-                      color: reclipBlack,
-                      fontSize: ScreenUtil().setSp(48),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                BlocBuilder<ReclipUserBloc, ReclipUserState>(
-                  builder: (context, state) {
-                    if (state is ReclipUserLoading) {
-                      return _buildLoadingState();
-                    } else if (state is ReclipUserSuccess) {
-                      return _buildSuccessState(state.videos);
-                    } else if (state is ReclipUserError) {
-                      return _buildErrorState();
-                    }
-                    return Container();
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _buildLoadingState() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  _buildSuccessState(List<YoutubeVideo> likedVideos) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: likedVideos.length,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: youtubeVideos.length,
       itemBuilder: (context, index) {
         return Container(
           height: ScreenUtil().setHeight(120),
@@ -100,7 +37,7 @@ class UserMyListPage extends StatelessWidget {
                         width: ScreenUtil().setWidth(135),
                         child: TransitionToImage(
                           image: AdvancedNetworkImage(
-                              likedVideos[index].images['default']['url']),
+                              youtubeVideos[index].images['default']['url']),
                           loadingWidget:
                               Center(child: CircularProgressIndicator()),
                           fit: BoxFit.fitHeight,
@@ -115,7 +52,7 @@ class UserMyListPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              likedVideos[index].title,
+                              youtubeVideos[index].title,
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(20),
                                 fontWeight: FontWeight.bold,
@@ -125,9 +62,9 @@ class UserMyListPage extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              (likedVideos[index].description.isEmpty)
+                              (youtubeVideos[index].description.isEmpty)
                                   ? 'No Description Provided'
-                                  : likedVideos[index].description,
+                                  : youtubeVideos[index].description,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                             ),
@@ -146,7 +83,7 @@ class UserMyListPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       onTap: () {
                         BlocProvider.of<InfoBloc>(context)
-                          ..add(ShowVideo(video: likedVideos[index]));
+                          ..add(ShowVideo(video: youtubeVideos[index]));
                       },
                     ),
                   ),
@@ -156,12 +93,6 @@ class UserMyListPage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  _buildErrorState() {
-    return Center(
-      child: Text('Woops! Something Bad Happened'),
     );
   }
 }

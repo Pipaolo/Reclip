@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
@@ -38,13 +39,16 @@ class IllustrationBottomSheet extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: reclipBlackDark,
                     ),
-                    child: Image(
+                    child: TransitionToImage(
                       image: AdvancedNetworkImage(
                         illustration.imageUrl,
                         useDiskCache: true,
                         cacheRule: CacheRule(maxAge: Duration(days: 2)),
                       ),
                       fit: BoxFit.fitHeight,
+                      loadingWidget: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     )),
               ),
               Positioned(

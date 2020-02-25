@@ -53,6 +53,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
               height: ScreenUtil().setHeight(160),
               width: ScreenUtil().setWidth(160),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Center(child: CircularProgressIndicator()),
                   Material(
