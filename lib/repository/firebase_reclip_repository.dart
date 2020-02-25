@@ -106,12 +106,15 @@ class FirebaseReclipRepository {
   }
 
   Future<ReclipContentCreator> getContentCreator(String email) async {
-    final user = await contentCreatorCollection
-        .where('channel.ownerEmail', isEqualTo: email)
-        .getDocuments()
-        .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
-
-    return user;
+    try {
+      final user = await contentCreatorCollection
+          .where('channel.ownerEmail', isEqualTo: email)
+          .getDocuments()
+          .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<bool> checkExistingUser(String email) async {
@@ -214,12 +217,16 @@ class FirebaseReclipRepository {
 
   Future<void> addVideoLike(
       String channelId, String videoId, String email) async {
+    List<String> likedUsers = [email];
     //Add like by 1
     await channelCollection
         .document(channelId)
         .collection('videos')
         .document(videoId)
-        .updateData({'statistics.likeCount': FieldValue.increment(1)});
+        .updateData({
+      'statistics.likeCount': FieldValue.increment(1),
+      'likedUsers': FieldValue.arrayUnion(likedUsers)
+    });
     //Get Liked youtube Video
     final video = YoutubeVideo.fromSnapshot(await channelCollection
         .document(channelId)

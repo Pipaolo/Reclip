@@ -9,6 +9,7 @@ class YoutubeVideo extends Equatable {
   final String title;
   final String description;
   final String publishedAt;
+  final List<dynamic> likedUsers;
   final Statistics statistics;
   final Map<dynamic, dynamic> images;
 
@@ -20,6 +21,7 @@ class YoutubeVideo extends Equatable {
     this.publishedAt,
     this.images,
     this.statistics,
+    this.likedUsers,
   });
 
   factory YoutubeVideo.fromMap(Map<dynamic, dynamic> snippet) {
@@ -44,6 +46,7 @@ class YoutubeVideo extends Equatable {
       description: snapshot['description'],
       publishedAt: snapshot['publishedAt'],
       images: snapshot['images'],
+      likedUsers: snapshot['likedUsers'],
       statistics: Statistics.fromSnapshot(
         snapshot['statistics'],
       ),
@@ -79,7 +82,8 @@ class YoutubeVideo extends Equatable {
         'likeCount': statistics.likeCount,
         'dislikeCount': statistics.dislikeCount,
         'viewCount': statistics.viewCount,
-      }
+      },
+      'likedUsers': (likedUsers != null) ? likedUsers : [],
     };
   }
 
@@ -92,5 +96,5 @@ class YoutubeVideo extends Equatable {
 
   @override
   List<Object> get props =>
-      [id, channelId, title, description, publishedAt, images];
+      [id, channelId, title, description, publishedAt, images, likedUsers];
 }

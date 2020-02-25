@@ -248,6 +248,11 @@ class _MyWorksPageState extends State<MyWorksPage> {
                                         return VideoBottomSheet(
                                           ytChannel: widget.user.channel,
                                           ytVid: ytVids[index],
+                                          isLiked: ytVids[index]
+                                                  .likedUsers
+                                                  .contains(widget.user.email)
+                                              ? true
+                                              : false,
                                           controller: scrollController,
                                         );
                                       });

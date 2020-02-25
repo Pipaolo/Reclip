@@ -51,7 +51,7 @@ class _SignupContentCreatorFifthPageState
                     color: Colors.green,
                     size: ScreenUtil().setSp(60),
                   ),
-                  Material(child: Text('Sign up Success!'))
+                  Material(child: Text('Channel Linked!'))
                 ],
               ),
             ),
@@ -115,9 +115,9 @@ class _SignupContentCreatorFifthPageState
           _showLoadingDialog(context);
         }
         if (state is SignupContentCreatorSuccess) {
+          Navigator.of(context).pop();
+          _showSuccessDialog(context);
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.of(context).pop();
-            _showSuccessDialog(context);
             _navigateToSixthPage(state.user);
           });
         }

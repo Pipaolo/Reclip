@@ -29,7 +29,9 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
         final channel =
             await reclipRepository.getChannel(event.video.channelId);
         final isLiked = await userRepository.getCurrentUser().then(
-            (email) => reclipRepository.checkVideoLike(event.video.id, email));
+              (email) =>
+                  (event.video.likedUsers.contains(email) ? true : false),
+            );
         yield ShowVideoInfo(
             channel: channel, video: event.video, isLiked: isLiked);
       } catch (e) {

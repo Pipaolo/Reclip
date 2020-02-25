@@ -59,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 progressDialog.dismiss();
               } else if (state is LoginError) {
-                print(state.error);
                 progressDialog.dismiss();
 
                 BlocProvider.of<LoginBloc>(context).add(SignOut());

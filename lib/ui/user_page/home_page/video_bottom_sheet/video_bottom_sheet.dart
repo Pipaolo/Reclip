@@ -17,17 +17,17 @@ import 'video_description.dart';
 
 class VideoBottomSheet extends StatefulWidget {
   final YoutubeVideo ytVid;
-  final YoutubeChannel ytChannel;
   final bool isLiked;
+  final YoutubeChannel ytChannel;
   final ScrollController controller;
 
-  const VideoBottomSheet(
-      {Key key,
-      @required this.controller,
-      @required this.ytVid,
-      @required this.ytChannel,
-      this.isLiked})
-      : super(key: key);
+  const VideoBottomSheet({
+    Key key,
+    @required this.controller,
+    @required this.ytVid,
+    @required this.ytChannel,
+    @required this.isLiked,
+  }) : super(key: key);
 
   @override
   _VideoDescriptionState createState() => _VideoDescriptionState();

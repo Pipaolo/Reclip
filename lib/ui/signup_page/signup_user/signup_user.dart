@@ -3,47 +3,114 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
-import 'package:reclip/bloc/signup/signup_bloc.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sailor/sailor.dart';
 
+import '../../../bloc/authentication/authentication_bloc.dart';
+import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
+import '../../../core/route_generator.dart';
+import '../../../data/model/reclip_user.dart';
 
 class SignupUserPage extends StatelessWidget {
+  _showSuccessDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(180),
+              width: ScreenUtil().setWidth(180),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.checkCircle,
+                    color: Colors.green,
+                    size: ScreenUtil().setSp(60),
+                  ),
+                  Material(child: Text('Sign up Success!'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showErrorDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(180),
+              width: ScreenUtil().setWidth(180),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(
+                    FontAwesomeIcons.exclamationCircle,
+                    color: Colors.red,
+                    size: ScreenUtil().setSp(60),
+                  ),
+                  Material(child: Text('Error!'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _showLoadingDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
+              alignment: Alignment.center,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog progressDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    progressDialog.style(
-      progressWidget: CircularProgressIndicator(),
-    );
     return BlocListener<SignupBloc, SignupState>(
       listener: (context, state) {
         if (state is SignupLoading) {
-          progressDialog.show();
+          _showLoadingDialog(context);
         } else if (state is SignupUserSuccess) {
           if (state.user != null) {
-            BlocProvider.of<NavigationBloc>(context)
-              ..add(
-                ShowLoginPage(),
+            Navigator.of(context).pop();
+            _showSuccessDialog(context);
+            BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
+            Future.delayed(Duration(seconds: 3), () {
+              Navigator.of(context).pop();
+              Routes.sailor.navigate(
+                'login_page',
+                navigationType: NavigationType.pushAndRemoveUntil,
+                removeUntilPredicate: ModalRoute.withName('login_page'),
               );
-            Routes.sailor.popUntil(ModalRoute.withName('login_page'));
+            });
           }
-          progressDialog.dismiss();
         } else if (state is SignupError) {
-          progressDialog.update(
-            progressWidget: Icon(
-              Icons.error,
-              color: Colors.red,
-              size: ScreenUtil().setSp(30),
-            ),
-            message: 'Error',
-          );
+          _showErrorDialog(context);
         }
       },
       child: Scaffold(
