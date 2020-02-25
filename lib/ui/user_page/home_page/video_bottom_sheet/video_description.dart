@@ -37,7 +37,7 @@ class VideoDescription extends StatelessWidget {
               maxLines: 2,
             ),
             ExpandText(
-              description,
+              (description.isEmpty) ? 'No Description Provided' : description,
               maxLength: 8,
               minMessage: 'Show More',
               maxMessage: 'Show Less',

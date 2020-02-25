@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
+import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 
@@ -103,6 +104,9 @@ class _LoginPageState extends State<LoginPage> {
               } else if (state is AuthenticatedUser) {
                 BlocProvider.of<YoutubeBloc>(context)
                   ..add(FetchYoutubeChannel());
+
+                BlocProvider.of<ReclipUserBloc>(context)
+                  ..add(GetLikedVideos(email: state.user.email));
 
                 BlocProvider.of<IllustrationsBloc>(context)
                   ..add(FetchIllustrations());

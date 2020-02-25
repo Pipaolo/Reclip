@@ -100,6 +100,20 @@ class FirebaseReclipRepository {
     return ReclipUser.fromSnapshot(await userCollection.document(email).get());
   }
 
+  Stream<List<YoutubeVideo>> getUserLikedVideos(String email) {
+    return userCollection
+        .document(email)
+        .collection('likedVideos')
+        .snapshots()
+        .map(
+          (videos) => videos.documents
+              .map(
+                (video) => YoutubeVideo.fromSnapshot(video),
+              )
+              .toList(),
+        );
+  }
+
   Future<ReclipContentCreator> getOtherContentCreator(String email) async {
     return ReclipContentCreator.fromSnapshot(
         await contentCreatorCollection.document(email).get());
@@ -195,7 +209,10 @@ class FirebaseReclipRepository {
         .document(channelId)
         .collection('videos')
         .document(videoId)
-        .updateData({'statistics.likeCount': FieldValue.increment(-1)});
+        .updateData({
+      'statistics.likeCount': FieldValue.increment(-1),
+      'likedUsers': FieldValue.arrayRemove([email]),
+    });
 
     //Remove Youtube Video
     //Get User

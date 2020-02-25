@@ -11,23 +11,21 @@ class ReclipUserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: reclipBlack,
-        title: Text('Profile'),
-      ),
-      body: Align(
-        alignment: Alignment.center,
-        child: RaisedButton(
-          color: reclipIndigo,
-          padding: EdgeInsets.symmetric(horizontal: 100),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+    return SafeArea(
+      child: Scaffold(
+        body: Align(
+          alignment: Alignment.center,
+          child: RaisedButton(
+            color: reclipIndigo,
+            padding: EdgeInsets.symmetric(horizontal: 100),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text('Sign out'),
+            onPressed: () async {
+              return await _showConfirmationDialog(context);
+            },
           ),
-          child: Text('Sign out'),
-          onPressed: () async {
-            return await _showConfirmationDialog(context);
-          },
         ),
       ),
     );

@@ -8,6 +8,7 @@ class HomePageAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: reclipBlack,
       elevation: 0,
       centerTitle: true,

@@ -3,6 +3,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
@@ -54,6 +55,8 @@ class _SplashPageState extends State<SplashPage> {
                 isAuthenticated = true;
                 contentCreator = state.user;
               } else if (state is AuthenticatedUser) {
+                BlocProvider.of<ReclipUserBloc>(context)
+                  ..add(GetLikedVideos(email: state.user.email));
                 BlocProvider.of<YoutubeBloc>(context)
                   ..add(FetchYoutubeChannel());
                 BlocProvider.of<UserBloc>(context)
