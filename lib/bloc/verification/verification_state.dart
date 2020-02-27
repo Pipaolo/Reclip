@@ -20,12 +20,12 @@ class VerificationInvalidEmail extends VerificationState {
 }
 
 class VerificationSuccess extends VerificationState {
-  final String email;
+  final ReclipContentCreator contentCreator;
 
-  VerificationSuccess({this.email});
+  VerificationSuccess({this.contentCreator});
 
   @override
-  List<Object> get props => [email];
+  List<Object> get props => [contentCreator];
 }
 
 class VerificationError extends VerificationState {

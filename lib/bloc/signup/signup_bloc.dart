@@ -54,7 +54,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       await firebaseReclipRepository
           .addContentCreator(event.user.copyWith(imageUrl: imageUrl));
 
-      await firebaseReclipRepository.addChannel(event.user.channel);
+      if (event.user.channel != null) {
+        await firebaseReclipRepository.addChannel(event.user.channel);
+      }
 
       yield SignupContentCreatorSuccess(
           user: await firebaseReclipRepository

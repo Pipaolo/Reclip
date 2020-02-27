@@ -77,7 +77,8 @@ class SignupCategoryPage extends StatelessWidget {
                 ),
               ],
             ),
-          )..show(context).then((_) => _signupContentCreator(state.email));
+          )..show(context)
+              .then((_) => _signupContentCreator(state.contentCreator));
         } else if (state is VerificationError) {
           print(state.errorText);
         }
@@ -190,10 +191,10 @@ class SignupCategoryPage extends StatelessWidget {
         });
   }
 
-  _signupContentCreator(String email) {
+  _signupContentCreator(ReclipContentCreator contentCreator) {
     return Routes.sailor.navigate(
       'signup_page/content_creator/first_page',
-      args: SignupContentCreatorFirstArgs(email: email),
+      args: SignupContentCreatorFirstArgs(contentCreator: contentCreator),
     );
   }
 

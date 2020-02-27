@@ -28,7 +28,7 @@ class FirebaseReclipRepository {
       imageUrl: imageUrl,
     );
 
-    await userCollection.document(user.email).setData(
+    await contentCreatorCollection.document(user.email).setData(
           user.copyWith(illustration: uploadIllustration).toDocument(),
         );
 
@@ -121,11 +121,13 @@ class FirebaseReclipRepository {
 
   Future<ReclipContentCreator> getContentCreator(String email) async {
     try {
-      final user = await contentCreatorCollection
-          .where('channel.ownerEmail', isEqualTo: email)
-          .getDocuments()
-          .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
-      return user;
+      // final user = await contentCreatorCollection
+      //     .where('channel.ownerEmail', isEqualTo: email)
+      //     .getDocuments()
+      //     .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
+
+      return ReclipContentCreator.fromSnapshot(
+          await contentCreatorCollection.document(email).get());
     } catch (e) {
       return null;
     }

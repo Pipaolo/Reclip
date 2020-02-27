@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:reclip/repository/user_repository.dart';
+
+import '../../data/model/reclip_content_creator.dart';
+import '../../repository/user_repository.dart';
 
 part 'verification_event.dart';
 part 'verification_state.dart';
@@ -24,9 +26,15 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     if (event is LoginWithGoogleVerification) {
       try {
         final user = await _userRepository.signInWithGoogleVerification();
-        await _userRepository.signOut();
+
         if (user.email.toLowerCase().contains('@ciit.edu.ph')) {
-          yield VerificationSuccess(email: user.email);
+          yield VerificationSuccess(
+            contentCreator: ReclipContentCreator(
+              id: user.uid,
+              email: user.email,
+              name: user.displayName,
+            ),
+          );
         } else {
           yield VerificationInvalidEmail();
         }

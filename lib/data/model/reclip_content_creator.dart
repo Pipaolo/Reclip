@@ -109,7 +109,7 @@ class ReclipContentCreator extends Equatable {
               .map((illustration) => illustration.toDocument())
               .toList()
           : [],
-      'channel': (channel != null) ? channel.toDocument() : {},
+      'channel': (channel.title != null) ? channel.toDocument() : {},
     };
   }
 

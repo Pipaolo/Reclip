@@ -52,8 +52,10 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
               ),
               height: ScreenUtil().setHeight(160),
               width: ScreenUtil().setWidth(160),
+              alignment: Alignment.center,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Center(child: CircularProgressIndicator()),
                   Material(
@@ -156,6 +158,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
   }
 
   _showErrorDialog(BuildContext context) {
+    Navigator.of(context).pop();
     Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
     showDialog(
         context: context,
@@ -220,6 +223,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
             },
           );
         } else if (state is UploadImageError) {
+          print(state.errorText);
           _showErrorDialog(context);
         }
       },

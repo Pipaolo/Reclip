@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../../bloc/login/login_bloc.dart';
@@ -140,6 +141,7 @@ class _SignupContentCreatorFifthPageState
           padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Align(
@@ -164,9 +166,75 @@ class _SignupContentCreatorFifthPageState
                   child: _buildYoutubeButton(),
                 ),
               ),
+              FlatButton(
+                child: Text(
+                  'Skip',
+                  style: TextStyle(
+                    color: Colors.black45,
+                    fontSize: ScreenUtil().setSp(
+                      16,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  return _showConfirmationDialog(context);
+                },
+              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  _showConfirmationDialog(BuildContext context) {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: reclipBlack,
+            title: Text(
+              'Confirm',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              '''If you don't link your Youtube Channel, you can no longer add videos to the app, are you sure about that?''',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: reclipIndigoDark),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  'Confirm',
+                  style: TextStyle(color: reclipIndigoLight),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _navigateToSixthPageWithoutChannel();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _navigateToSixthPageWithoutChannel() {
+    return Routes.sailor.navigate(
+      'signup_page/content_creator/sixth_page',
+      args: SignupContentCreatorSixthArgs(
+        user: widget.args.user,
+        profileImage: widget.args.profileImage,
       ),
     );
   }
@@ -195,6 +263,7 @@ class _SignupContentCreatorFifthPageState
           ],
         ),
         onPressed: () {
+          BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
           BlocProvider.of<SignupBloc>(context)
             ..add(SignupWithGoogle(user: widget.args.user));
         },

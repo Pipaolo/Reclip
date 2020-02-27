@@ -169,29 +169,7 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
                       title: 'Description',
                       content: args.user.description,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        'Channel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: ScreenUtil().setSp(24),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SignupContactInfo(
-                      title: 'Title',
-                      content: args.user.channel.title,
-                    ),
-                    ContactInfoDescription(
-                      title: 'Description',
-                      content: args.user.channel.description,
-                    ),
-                    SignupContactInfo(
-                      title: 'Email',
-                      content: args.user.channel.email,
-                    ),
+                    if (args.user.channel != null) _buildChannelInfo(),
                     RaisedButton(
                       color: reclipIndigo,
                       shape: RoundedRectangleBorder(
@@ -208,6 +186,36 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  _buildChannelInfo() {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            'Channel',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: ScreenUtil().setSp(24),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SignupContactInfo(
+          title: 'Title',
+          content: args.user.channel.title,
+        ),
+        ContactInfoDescription(
+          title: 'Description',
+          content: args.user.channel.description,
+        ),
+        SignupContactInfo(
+          title: 'Email',
+          content: args.user.channel.email,
+        ),
+      ],
     );
   }
 
