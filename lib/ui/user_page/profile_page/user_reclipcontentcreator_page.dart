@@ -14,14 +14,16 @@ import 'contact_info_page.dart';
 import 'edit_profile_page/edit_profile_page.dart';
 import 'my_works_page.dart';
 
-class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({Key key}) : super(key: key);
+class UserContentCreatorProfilePage extends StatefulWidget {
+  const UserContentCreatorProfilePage({Key key}) : super(key: key);
 
   @override
-  _UserProfilePageState createState() => _UserProfilePageState();
+  _UserContentCreatorProfilePageState createState() =>
+      _UserContentCreatorProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _UserContentCreatorProfilePageState
+    extends State<UserContentCreatorProfilePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

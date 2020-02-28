@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/user_page/my_list_page/user_my_list_page.dart';
+import 'package:reclip/ui/user_page/profile_page/user_reclipcontentcreator_page.dart';
 import 'package:reclip/ui/user_page/profile_page/user_reclipuser_page.dart';
 import 'package:sailor/sailor.dart';
 
@@ -82,7 +83,7 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
           key: PageStorageKey('UserAddContentPage'),
           args: UserAddContentPageArgs(user: widget.args.contentCreator),
         ),
-        UserProfilePage(
+        UserContentCreatorProfilePage(
           key: PageStorageKey('UserProfilePage'),
         ),
       ];

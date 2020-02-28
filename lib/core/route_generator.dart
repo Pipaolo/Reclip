@@ -12,6 +12,7 @@ import 'package:reclip/ui/ui.dart';
 import 'package:reclip/ui/user_page/add_content/add_content_image/add_content_image_page.dart';
 import 'package:reclip/ui/user_page/profile_page/edit_profile_page/edit_profile_page.dart';
 import 'package:reclip/ui/user_page/profile_page/other_profile_page/other_profile_page.dart';
+import 'package:reclip/ui/user_page/profile_page/user_reclipcontentcreator_page.dart';
 import 'package:sailor/sailor.dart';
 
 class Routes {
@@ -117,7 +118,7 @@ class Routes {
         SailorRoute(
           name: 'user_profile_page',
           builder: (context, args, params) {
-            return UserProfilePage();
+            return UserContentCreatorProfilePage();
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),

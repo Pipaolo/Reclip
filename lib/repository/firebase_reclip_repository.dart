@@ -206,15 +206,15 @@ class FirebaseReclipRepository {
 
   Future<void> removeVideoLike(
       String channelId, String videoId, String email) async {
-    //Add like by 1
-    await channelCollection
-        .document(channelId)
-        .collection('videos')
-        .document(videoId)
-        .updateData({
-      'statistics.likeCount': FieldValue.increment(-1),
-      'likedUsers': FieldValue.arrayRemove([email]),
-    });
+    // //Add like by 1
+    // await channelCollection
+    //     .document(channelId)
+    //     .collection('videos')
+    //     .document(videoId)
+    //     .updateData({
+    //   'statistics.likeCount': FieldValue.increment(-1),
+    //   'likedUsers': FieldValue.arrayRemove([email]),
+    // });
 
     //Remove Youtube Video
     //Get User
@@ -238,14 +238,14 @@ class FirebaseReclipRepository {
       String channelId, String videoId, String email) async {
     List<String> likedUsers = [email];
     //Add like by 1
-    await channelCollection
-        .document(channelId)
-        .collection('videos')
-        .document(videoId)
-        .updateData({
-      'statistics.likeCount': FieldValue.increment(1),
-      'likedUsers': FieldValue.arrayUnion(likedUsers)
-    });
+    // await channelCollection
+    //     .document(channelId)
+    //     .collection('videos')
+    //     .document(videoId)
+    //     .updateData({
+    //   'statistics.likeCount': FieldValue.increment(1),
+    //   'likedUsers': FieldValue.arrayUnion(likedUsers)
+    // });
     //Get Liked youtube Video
     final video = YoutubeVideo.fromSnapshot(await channelCollection
         .document(channelId)
