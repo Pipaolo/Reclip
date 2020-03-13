@@ -12,8 +12,8 @@ import 'package:sailor/sailor.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/youtube/youtube_bloc.dart';
+import '../../bottom_nav_controller.dart';
 import '../../core/route_generator.dart';
-import '../bottom_nav_controller.dart';
 
 class SplashPageArgs extends BaseArguments {
   final FirebaseUser user;
@@ -35,10 +35,7 @@ class _SplashPageState extends State<SplashPage> {
   ReclipUser user;
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        allowFontScaling: true);
+    ScreenUtil.init(context, allowFontScaling: true);
     return Scaffold(
       backgroundColor: reclipBlack,
       body: MultiBlocListener(

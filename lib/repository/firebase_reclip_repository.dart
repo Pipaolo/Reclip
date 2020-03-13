@@ -121,11 +121,6 @@ class FirebaseReclipRepository {
 
   Future<ReclipContentCreator> getContentCreator(String email) async {
     try {
-      // final user = await contentCreatorCollection
-      //     .where('channel.ownerEmail', isEqualTo: email)
-      //     .getDocuments()
-      //     .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
-
       return ReclipContentCreator.fromSnapshot(
           await contentCreatorCollection.document(email).get());
     } catch (e) {
@@ -185,37 +180,9 @@ class FirebaseReclipRepository {
         .updateData({'statistics.viewCount': FieldValue.increment(1)});
   }
 
-  Future<bool> checkVideoLike(String videoId, String email) async {
-    final reclipUser = await userCollection.document(email).get();
-    if (reclipUser.exists) {
-      final video = await userCollection
-          .document(email)
-          .collection('likedVideos')
-          .document(videoId)
-          .get();
-      return (video.exists);
-    } else {
-      final video = await contentCreatorCollection
-          .document(email)
-          .collection('likedVideos')
-          .document(videoId)
-          .get();
-      return (video.exists);
-    }
-  }
 
   Future<void> removeVideoLike(
       String channelId, String videoId, String email) async {
-    // //Add like by 1
-    // await channelCollection
-    //     .document(channelId)
-    //     .collection('videos')
-    //     .document(videoId)
-    //     .updateData({
-    //   'statistics.likeCount': FieldValue.increment(-1),
-    //   'likedUsers': FieldValue.arrayRemove([email]),
-    // });
-
     //Remove Youtube Video
     //Get User
     final reclipUser = await userCollection.document(email).get();
@@ -236,16 +203,6 @@ class FirebaseReclipRepository {
 
   Future<void> addVideoLike(
       String channelId, String videoId, String email) async {
-    List<String> likedUsers = [email];
-    //Add like by 1
-    // await channelCollection
-    //     .document(channelId)
-    //     .collection('videos')
-    //     .document(videoId)
-    //     .updateData({
-    //   'statistics.likeCount': FieldValue.increment(1),
-    //   'likedUsers': FieldValue.arrayUnion(likedUsers)
-    // });
     //Get Liked youtube Video
     final video = YoutubeVideo.fromSnapshot(await channelCollection
         .document(channelId)

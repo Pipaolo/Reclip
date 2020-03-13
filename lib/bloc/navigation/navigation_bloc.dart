@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:sailor/sailor.dart';
 
+import '../../bottom_nav_controller.dart';
 import '../../core/route_generator.dart';
 import '../../data/model/reclip_content_creator.dart';
 import '../../data/model/reclip_user.dart';
-import '../../ui/bottom_nav_controller.dart';
 import '../../ui/signup_page/signup_category_page.dart';
 import '../authentication/authentication_bloc.dart';
 
@@ -32,8 +32,6 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         contentCreator = state.user;
       } else if (state is AuthenticatedUser) {
         user = state.user;
-      } else if (state is Unregistered) {
-        contentCreator = state.user;
       }
     });
   }
@@ -49,8 +47,6 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         contentCreator = state.user;
       } else if (state is AuthenticatedUser) {
         user = state.user;
-      } else if (state is Unregistered) {
-        contentCreator = state.user;
       }
     });
 

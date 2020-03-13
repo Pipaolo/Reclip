@@ -67,15 +67,6 @@ class AuthenticationBloc
         user: reclipContentCreator,
       );
     }
-
-    // if (storedUser != null) {
-    //   print('AUTH AUTHENTICATED');
-    //   yield AuthenticatedContentCreator(user: storedUser);
-    // } else if (storedUser == null && user == null) {
-    //   print('AUTH UNREGISTERED');
-    // } else {
-    //   yield AuthenticatedUser(user: user);
-    // }
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {

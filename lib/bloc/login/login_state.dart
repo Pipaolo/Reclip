@@ -29,12 +29,26 @@ class LoginSuccessContentCreator extends LoginState {
   LoginSuccessContentCreator({this.user});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [user];
 
   @override
   String toString() {
     print('LoginSuccess: {User: ${user.name}}');
     return super.toString();
+  }
+}
+
+class LoginSuccessUnregistered extends LoginState {
+  final ReclipContentCreator unregisteredUser;
+
+  LoginSuccessUnregistered({this.unregisteredUser});
+
+  @override
+  List<Object> get props => [unregisteredUser];
+
+  @override
+  String toString() {
+    return 'Unregistered: ${unregisteredUser.name}';
   }
 }
 

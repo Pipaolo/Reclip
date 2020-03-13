@@ -63,11 +63,19 @@ flutter:
     - assets/animations/
 
   fonts:
-    - family: KarlaTamilUpright
+    - family: "GothamHTF"
       fonts:
-        - asset: assets/fonts/karlatamilupright_regular.ttf
-        - asset: assets/fonts/karlatamilupright_bold.ttf
+        - asset: assets/fonts/gotham/GothamHTF-Black.otf
+          weight: 900
+        - asset: assets/fonts/gotham/GothamHTF-Bold.otf
           weight: 700
+        - asset: assets/fonts/gotham/GothamHTF-Book.otf
+        - asset: assets/fonts/gotham/GothamHTF-Light.otf
+          weight: 300
+        - asset: assets/fonts/gotham/GothamHTF-Medium.otf
+          weight: 500
+        - asset: assets/fonts/gotham/GothamHTF-Thin.otf
+          weight: 100
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

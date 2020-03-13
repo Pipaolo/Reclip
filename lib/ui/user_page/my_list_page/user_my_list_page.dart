@@ -7,7 +7,7 @@ import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/user_page/home_page/video_bottom_sheet/video_bottom_sheet.dart';
+import 'package:reclip/ui/custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
 
 class UserMyListPage extends StatelessWidget {
   const UserMyListPage({Key key}) : super(key: key);

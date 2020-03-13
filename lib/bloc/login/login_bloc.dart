@@ -40,7 +40,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         await _userRepository.signInWithCredentials(
             event.email, event.password);
-
         /*
         Try to get fetch user first, if user is not present
         then go ahead and fetch content creator
@@ -65,7 +64,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await _firebaseReclipRepository.getContentCreator(rawUser.email);
         if (storedUser == null) {
           print("User is not Existing");
-          yield LoginError(error: 'User not Found!');
+          yield LoginSuccessUnregistered(unregisteredUser: rawUser);
         } else {
           print("User is Existing");
           // await _firebaseReclipRepository.updateChannel(userInitial.channel);

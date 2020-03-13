@@ -1,19 +1,23 @@
-import 'package:reclip/ui/bottom_nav_controller.dart';
-import 'package:reclip/ui/signup_page/signup_category_page.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fifth_page.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_sixth_page.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
-import 'package:reclip/ui/signup_page/signup_user/signup_user.dart';
-import 'package:reclip/ui/splash_page/splash_page.dart';
-import 'package:reclip/ui/ui.dart';
-import 'package:reclip/ui/user_page/add_content/add_content_image/add_content_image_page.dart';
-import 'package:reclip/ui/user_page/profile_page/edit_profile_page/edit_profile_page.dart';
-import 'package:reclip/ui/user_page/profile_page/other_profile_page/other_profile_page.dart';
-import 'package:reclip/ui/user_page/profile_page/user_reclipcontentcreator_page.dart';
+import 'package:reclip/ui/content_creator_page/add_content/add_content_image/add_content_image_page.dart';
+import 'package:reclip/ui/content_creator_page/add_content/content_creator_add_content_page.dart';
+import 'package:reclip/ui/content_creator_page/profile_page/content_creator_profile_page.dart';
+import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/content_creator_edit_profile_page.dart';
+import 'package:reclip/ui/custom_wigets/other_profile_page/other_profile_page.dart';
+import 'package:reclip/ui/home_page/home_page.dart';
+import 'package:reclip/ui/login_page/login_page.dart';
+import 'package:reclip/ui/signup_page/signup_page.dart';
 import 'package:sailor/sailor.dart';
+
+import '../bottom_nav_controller.dart';
+import '../ui/signup_page/signup_category_page.dart';
+import '../ui/signup_page/signup_content_creator/signup_content_creator_fifth_page.dart';
+import '../ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
+import '../ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
+import '../ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
+import '../ui/signup_page/signup_content_creator/signup_content_creator_sixth_page.dart';
+import '../ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
+import '../ui/signup_page/signup_user/signup_user.dart';
+import '../ui/splash_page/splash_page.dart';
 
 class Routes {
   static final sailor = Sailor();
@@ -111,21 +115,21 @@ class Routes {
         SailorRoute(
           name: 'user_home_page',
           builder: (context, args, params) {
-            return UserHomePage();
+            return HomePage();
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),
         SailorRoute(
           name: 'user_profile_page',
           builder: (context, args, params) {
-            return UserContentCreatorProfilePage();
+            return ContentCreatorProfilePage();
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         ),
         SailorRoute(
           name: 'user_add_content_page',
           builder: (context, args, params) {
-            return UserAddContentPage(
+            return ContentCreatorAddContentPage(
               args: args,
             );
           },
@@ -139,7 +143,7 @@ class Routes {
         SailorRoute(
           name: 'user_edit_profile_page',
           builder: (context, args, params) {
-            return UserEditProfilePage(args: args);
+            return ContentCreatorEditProfilePage(args: args);
           },
           defaultTransitions: [SailorTransition.slide_from_right],
         )

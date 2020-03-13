@@ -8,6 +8,8 @@ import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
 import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
+import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
@@ -57,12 +59,32 @@ class _LoginPageState extends State<LoginPage> {
                       LoggedIn(user: state.user),
                     );
                 }
-
                 progressDialog.dismiss();
+              } else if (state is LoginSuccessUnregistered) {
+                Flushbar(
+                  backgroundColor: reclipBlackDark,
+                  duration: Duration(seconds: 3),
+                  messageText: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'User not registered!',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      Icon(
+                        FontAwesomeIcons.exclamationCircle,
+                        color: Colors.red,
+                      ),
+                    ],
+                  ),
+                )..show(context);
+                Routes.sailor.navigate('signup_page/content_creator/first_page',
+                    args: SignupContentCreatorFirstArgs(
+                      contentCreator: state.unregisteredUser,
+                    ));
               } else if (state is LoginError) {
                 progressDialog.dismiss();
 
-                BlocProvider.of<LoginBloc>(context).add(SignOut());
                 Flushbar(
                   backgroundColor: reclipBlackDark,
                   duration: Duration(seconds: 3),
@@ -116,19 +138,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(ShowBottomNavbarController(user: state.user));
-              } else if (state is Unregistered) {
-                // BlocProvider.of<YoutubeBloc>(context)
-                //   ..add(
-                //     AddYoutubeChannel(user: state.user),
-                //   );
-
-                // BlocProvider.of<UserBloc>(context)
-                //   ..add(GetUser(email: state.user.email));
-
-                // BlocProvider.of<NavigationBloc>(context)
-                //   ..add(
-                //     ShowBottomNavbarController(user: state.user),
-                //   );
               }
             },
           ),

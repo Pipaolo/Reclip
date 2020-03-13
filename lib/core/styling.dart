@@ -25,15 +25,14 @@ class AppTheme {
     accentColor: appAccentColor,
     appBarTheme: appBarTheme,
     bottomSheetTheme: bottomSheetThemeData,
+    textTheme: TextTheme().apply(fontFamily: "GothamHTF"),
   );
 
   static final AppBarTheme appBarTheme = AppBarTheme(
     color: Colors.black,
     textTheme: TextTheme(
-      headline4: TextStyle(
-        color: Colors.white,
-        fontSize: 20,
-      ),
+      headline4:
+          TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'GothamHTF'),
     ),
   );
   static final BottomSheetThemeData bottomSheetThemeData = BottomSheetThemeData(
