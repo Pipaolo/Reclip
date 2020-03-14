@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/other_user/other_user_bloc.dart';
@@ -63,13 +65,18 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                 SizedBox(
                   height: ScreenUtil().setHeight(10),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    user.imageUrl,
-                    fit: BoxFit.cover,
-                    height: ScreenUtil().setHeight(100),
-                    width: ScreenUtil().setWidth(100),
+                CircleAvatar(
+                  radius: ScreenUtil().setSp(130),
+                  child: Stack(
+                    children: <Widget>[
+                      TransitionToImage(
+                        image: AdvancedNetworkImage(user.imageUrl),
+                        borderRadius: BorderRadius.circular(200),
+                        height: ScreenUtil().setHeight(400),
+                        width: ScreenUtil().setWidth(400),
+                        fit: BoxFit.cover,
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -80,7 +87,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       user.name,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(20),
+                        fontSize: ScreenUtil().setSp(40),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -98,7 +105,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(13),
+                        fontSize: ScreenUtil().setSp(40),
                       ),
                     ),
                     AutoSizeText(
@@ -107,7 +114,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(13),
+                        fontSize: ScreenUtil().setSp(40),
                       ),
                     ),
                     AutoSizeText(
@@ -116,7 +123,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(13),
+                        fontSize: ScreenUtil().setSp(40),
                       ),
                     ),
                   ],

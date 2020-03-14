@@ -51,6 +51,10 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
             listener: (context, state) {
           if (state is UploadingVideo) {
             DialogCollection.showProgressDialog(context);
+          } else if (state is UploadVideoSuccess) {
+            Future.delayed(
+                Duration(seconds: 2), () => Navigator.of(context).pop());
+            DialogCollection.showSuccessDialog('Video Uploaded!', context);
           }
         }),
       ],
@@ -68,7 +72,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                 if (videoThumbnail == null) _buildEmptyContainer(),
                 if (videoThumbnail != null) _buildThumbnail(),
                 Container(
-                  height: ScreenUtil().setHeight(700),
+                  height: ScreenUtil().setHeight(600),
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: FormBuilder(
                     key: _fbKey,
@@ -153,20 +157,30 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                       );
 
                       FocusScope.of(context).unfocus();
-                      _compressVideo().then((value) {
-                        if (value != null) {
-                          BlocProvider.of<AddContentBloc>(context)
-                            ..add(VideoAdded(
-                              contentCreator: widget.args.contentCreator,
-                              rawVideo: value,
-                              thumbnail: videoThumbnail,
-                              video: video,
-                              isAdded: false,
-                            ));
-                        } else {
-                          print('An error has occured');
-                        }
-                      });
+                      PaintingBinding.instance.imageCache.clear();
+                      BlocProvider.of<AddContentBloc>(context)
+                        ..add(VideoAdded(
+                          contentCreator: widget.args.contentCreator,
+                          rawVideo: widget.args.video,
+                          thumbnail: videoThumbnail,
+                          video: video,
+                          isAdded: false,
+                        ));
+                      // _compressVideo().then((value) {
+                      //   if (value != null) {
+                      //     PaintingBinding.instance.imageCache.clear();
+                      //     BlocProvider.of<AddContentBloc>(context)
+                      //       ..add(VideoAdded(
+                      //         contentCreator: widget.args.contentCreator,
+                      //         rawVideo: value,
+                      //         thumbnail: videoThumbnail,
+                      //         video: video,
+                      //         isAdded: false,
+                      //       ));
+                      //   } else {
+                      //     print('An error has occured');
+                      //   }
+                      // });
                     },
                   ),
                 ),
@@ -178,30 +192,30 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
     );
   }
 
-  Future<File> _compressVideo() async {
-    final compressor = FlutterFFmpeg();
-    final config = FlutterFFmpegConfig();
-    return await showDialog<File>(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Compressing Video', style: TextStyle(color: reclipBlack)),
-        content: VideoCompressingProgress(
-          video: widget.args.video,
-          ffmpegCompressor: compressor,
-          ffmpegConfig: config,
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Cancel'),
-            onPressed: () {
-              compressor.cancel();
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // Future<File> _compressVideo() async {
+  //   final compressor = FlutterFFmpeg();
+  //   final config = FlutterFFmpegConfig();
+  //   return await showDialog<File>(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  //       title: Text('Compressing Video', style: TextStyle(color: reclipBlack)),
+  //       content: VideoCompressingProgress(
+  //         video: widget.args.video,
+  //         ffmpegCompressor: compressor,
+  //         ffmpegConfig: config,
+  //       ),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //           child: Text('Cancel'),
+  //           onPressed: () {
+  //             compressor.cancel();
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   _buildThumbnail() {
     return Padding(
@@ -226,8 +240,8 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
             ),
             onTap: () async {
               try {
-                videoThumbnail =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                videoThumbnail = await ImagePicker.pickImage(
+                    source: ImageSource.gallery, imageQuality: 50);
                 setState(() {});
               } catch (e) {
                 print(e.toString());

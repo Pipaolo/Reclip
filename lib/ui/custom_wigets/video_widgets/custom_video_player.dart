@@ -54,7 +54,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Colors.black,
       child: Stack(
         children: <Widget>[
           Positioned.fill(

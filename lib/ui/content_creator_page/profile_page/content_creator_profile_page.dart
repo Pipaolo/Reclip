@@ -86,19 +86,6 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   width: ScreenUtil().setWidth(400),
                                   fit: BoxFit.cover,
                                 ),
-                                Positioned.fill(
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: Ink(
-                                      child: InkWell(
-                                        borderRadius:
-                                            BorderRadius.circular(200),
-                                        onTap: () => Routes.sailor.navigate(
-                                            'other_user_profile_page'),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -132,7 +119,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                 minFontSize: 12,
                                 style: TextStyle(
                                   color: reclipBlack,
-                                  fontSize: ScreenUtil().setSp(20),
+                                  fontSize: ScreenUtil().setSp(40),
                                 ),
                               ),
                               AutoSizeText(
@@ -141,7 +128,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                 minFontSize: 12,
                                 style: TextStyle(
                                   color: reclipBlack,
-                                  fontSize: ScreenUtil().setSp(20),
+                                  fontSize: ScreenUtil().setSp(40),
                                 ),
                               ),
                               AutoSizeText(
@@ -150,7 +137,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                 minFontSize: 12,
                                 style: TextStyle(
                                   color: reclipBlack,
-                                  fontSize: ScreenUtil().setSp(25),
+                                  fontSize: ScreenUtil().setSp(40),
                                 ),
                               ),
                             ],
