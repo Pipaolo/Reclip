@@ -18,7 +18,6 @@ class ReclipContentCreator extends Equatable {
   final String facebook;
   final String twitter;
   final String instagram;
-  final YoutubeChannel channel;
   final List<Illustration> illustrations;
   final GoogleSignInAccount googleAccount;
 
@@ -34,7 +33,6 @@ class ReclipContentCreator extends Equatable {
     this.password,
     this.description,
     this.contactNumber,
-    this.channel,
     this.illustrations,
     this.googleAccount,
   });
@@ -52,11 +50,11 @@ class ReclipContentCreator extends Equatable {
       twitter: snap.data['twitter'] ?? '',
       birthDate: snap.data['birthDate'] ?? '',
       illustrations: Illustration().fromList(snap.data['illustrations']),
-      channel: YoutubeChannel.fromUserMap(snap.data['channel']),
     );
   }
 
   ReclipContentCreator copyWith({
+    String id,
     String username,
     String password,
     String email,
@@ -75,12 +73,11 @@ class ReclipContentCreator extends Equatable {
       illustrations.add(illustration);
     }
     return ReclipContentCreator(
-      id: this.id,
+      id: id ?? this.id,
       name: username ?? this.name,
       password: password ?? this.password,
       email: this.email,
       imageUrl: imageUrl ?? this.imageUrl,
-      channel: channel ?? this.channel,
       facebook: facebook ?? this.facebook,
       twitter: twitter ?? this.twitter,
       instagram: instagram ?? this.instagram,
@@ -109,7 +106,6 @@ class ReclipContentCreator extends Equatable {
               .map((illustration) => illustration.toDocument())
               .toList()
           : [],
-      'channel': (channel.title != null) ? channel.toDocument() : {},
     };
   }
 
@@ -124,7 +120,6 @@ class ReclipContentCreator extends Equatable {
         contactNumber,
         imageUrl,
         illustrations,
-        channel,
         facebook,
         instagram,
         twitter,

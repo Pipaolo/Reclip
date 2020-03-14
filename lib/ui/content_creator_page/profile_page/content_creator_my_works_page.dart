@@ -1,19 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:progressive_image/progressive_image.dart';
-import 'package:reclip/bloc/other_user/other_user_bloc.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/custom_wigets/illustration_bottom_sheet/illustration_bottom_sheet.dart';
-import 'package:reclip/ui/custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
 
 import '../../../bloc/illustration/illustrations_bloc.dart';
-import '../../../bloc/youtube/youtube_bloc.dart';
+import '../../../bloc/other_user/other_user_bloc.dart';
+import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/illustration.dart';
-import '../../../data/model/youtube_vid.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../../data/model/video.dart';
+import '../../custom_wigets/illustration_bottom_sheet/illustration_bottom_sheet.dart';
+import '../../custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
 
 class ContentCreatorMyWorksPage extends StatefulWidget {
   final ReclipContentCreator user;
@@ -36,7 +37,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<YoutubeVideo> creatorVideos = List();
+    List<Video> creatorVideos = List();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -60,13 +61,13 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
               ],
             ),
           ),
-          BlocBuilder<YoutubeBloc, YoutubeState>(
+          BlocBuilder<VideoBloc, VideoState>(
             builder: (context, state) {
-              if (state is YoutubeSuccess) {
-                if (state.ytVideos != null && widget.user.channel.id != null) {
-                  creatorVideos.addAll(state.ytVideos);
+              if (state is VideoSuccess) {
+                if (state.videos != null) {
+                  creatorVideos.addAll(state.videos);
                   creatorVideos.retainWhere((video) =>
-                      video.channelId.contains(widget.user.channel.id));
+                      video.contentCreatorEmail.contains(widget.user.email));
                   return _buildListView(creatorVideos);
                 } else {
                   return Container(
@@ -78,13 +79,14 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                     ),
                   );
                 }
-              } else if (state is YoutubeLoading) {
+              } else if (state is VideoLoading) {
                 return Center(
                   child: SpinKitCircle(color: tomato),
                 );
-              } else if (state is YoutubeError) {
+              } else if (state is VideoError) {
                 return Center(
-                  child: Text('Woops Something Bad Happend! : ${state.error}'),
+                  child:
+                      Text('Woops Something Bad Happend! : ${state.errorText}'),
                 );
               }
               return Container();
@@ -200,14 +202,14 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
     );
   }
 
-  _buildListView(List<YoutubeVideo> ytVids) {
+  _buildListView(List<Video> videos) {
     return Container(
       decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
       height: ScreenUtil().setHeight(450),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: ytVids.length,
+        itemCount: videos.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(5),
@@ -219,19 +221,11 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                   children: <Widget>[
                     Positioned.fill(
                       child: Hero(
-                        tag: ytVids[index].id,
-                        child: ProgressiveImage(
-                          height:
-                              ytVids[index].images['high']['width'].toDouble(),
-                          width:
-                              ytVids[index].images['high']['height'].toDouble(),
-                          placeholder: NetworkImage(
-                              ytVids[index].images['default']['url']),
-                          thumbnail: NetworkImage(
-                              ytVids[index].images['medium']['url']),
-                          image:
-                              NetworkImage(ytVids[index].images['high']['url']),
-                          fit: BoxFit.cover,
+                        tag: videos[index].videoId,
+                        child: TransitionToImage(
+                          image: AdvancedNetworkImage(
+                            videos[index].thumbnailUrl,
+                          ),
                         ),
                       ),
                     ),
@@ -250,10 +244,10 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                                       expand: true,
                                       builder: (context, scrollController) {
                                         return VideoBottomSheet(
-                                          ytChannel: widget.user.channel,
-                                          ytVid: ytVids[index],
-                                          isLiked: ytVids[index]
-                                                  .likedUsers
+                                          contentCreator: widget.user,
+                                          video: videos[index],
+                                          isLiked: videos[index]
+                                                  .likedBy
                                                   .contains(widget.user.email)
                                               ? true
                                               : false,

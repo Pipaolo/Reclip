@@ -13,7 +13,7 @@ class GetLikedVideos extends ReclipUserEvent {
 }
 
 class ShowLikedVideos extends ReclipUserEvent {
-  final List<YoutubeVideo> likedVideos;
+  final List<Video> likedVideos;
 
   ShowLikedVideos({this.likedVideos});
 

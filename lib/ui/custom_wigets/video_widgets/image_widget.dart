@@ -5,14 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/info/info_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
+import 'package:reclip/data/model/video.dart';
+
 import 'package:shimmer/shimmer.dart';
 
 class ImageWidget extends StatefulWidget {
-  final List<YoutubeVideo> ytVideos;
+  final List<Video> videos;
   final bool isExpanded;
 
-  ImageWidget({Key key, @required this.ytVideos, this.isExpanded})
+  ImageWidget({Key key, @required this.videos, this.isExpanded})
       : super(key: key);
 
   @override
@@ -32,7 +33,7 @@ class _ImageWidgetState extends State<ImageWidget> {
       color: reclipIndigoDark,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: widget.ytVideos.length,
+        itemCount: widget.videos.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(5),
@@ -48,7 +49,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                     Positioned.fill(
                       child: TransitionToImage(
                         image: AdvancedNetworkImage(
-                          widget.ytVideos[index].images['medium']['url'],
+                          widget.videos[index].thumbnailUrl,
                           useDiskCache: true,
                           cacheRule: CacheRule(maxAge: Duration(days: 2)),
                           disableMemoryCache: true,
@@ -71,7 +72,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                             BlocProvider.of<InfoBloc>(context)
                               ..add(
                                 ShowVideo(
-                                  video: widget.ytVideos[index],
+                                  video: widget.videos[index],
                                 ),
                               );
                           },

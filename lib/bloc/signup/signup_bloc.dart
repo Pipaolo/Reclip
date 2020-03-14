@@ -7,7 +7,6 @@ import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
-import 'package:reclip/repository/youtube_repository.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';
@@ -15,12 +14,10 @@ part 'signup_state.dart';
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final UserRepository userRepository;
   final FirebaseReclipRepository firebaseReclipRepository;
-  final YoutubeRepository youtubeRepository;
 
   SignupBloc({
     this.userRepository,
     this.firebaseReclipRepository,
-    this.youtubeRepository,
   });
   @override
   SignupState get initialState => SignupInitial();
@@ -32,19 +29,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     if (event is SignupWithGoogle) {
       yield SignupLoading();
       final user = await userRepository.signInWithGoogle();
-      final userWithChannel = await youtubeRepository.getYoutubeChannel(user);
 
       yield SignupContentCreatorSuccess(
-        user: userWithChannel.copyWith(
+        user: user.copyWith(
           username: event.user.name,
           birthDate: event.user.birthDate,
           contactNumber: event.user.contactNumber,
           email: event.user.email,
           description: event.user.description,
           password: event.user.password,
-          channel: userWithChannel.channel.copyWith(
-            ownerEmail: event.user.email,
-          ),
         ),
       );
     } else if (event is SignupContentCreator) {
@@ -53,10 +46,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           event.user, event.profileImage);
       await firebaseReclipRepository
           .addContentCreator(event.user.copyWith(imageUrl: imageUrl));
-
-      if (event.user.channel != null) {
-        await firebaseReclipRepository.addChannel(event.user.channel);
-      }
 
       yield SignupContentCreatorSuccess(
           user: await firebaseReclipRepository

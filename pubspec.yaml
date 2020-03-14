@@ -1,7 +1,7 @@
 name: reclip
 description: A new Flutter project.
 
-version: 2.0.2+1
+version: 2.1.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -21,6 +21,11 @@ dependencies:
   curved_navigation_bar: ^0.3.2
   pull_to_refresh: ^1.5.8
   flushbar: ^1.9.1
+  flutter_svg: ^0.17.3+1
+  path_provider: ^1.6.5
+  flutter_ffmpeg: ^0.2.10
+  percent_indicator: ^2.1.1+1
+  chewie: ^0.9.10
 
   #Authentication Packages
   firebase_auth: ^0.15.4
@@ -29,6 +34,7 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   googleapis: ^0.54.0
   googleapis_auth: ^0.2.11+1
+  uuid: ^2.0.4 #This is used for generating random content creator ids
 
   url_launcher: ^5.4.1
   youtube_player_flutter: ^6.0.3+2

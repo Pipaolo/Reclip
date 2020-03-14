@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
+
+import '../../../data/model/video.dart';
 
 class PopularVideoImage extends StatelessWidget {
-  final YoutubeVideo popularVideo;
+  final Video popularVideo;
 
   const PopularVideoImage({Key key, this.popularVideo}) : super(key: key);
 
@@ -25,7 +26,7 @@ class PopularVideoImage extends StatelessWidget {
         ),
       ),
       child: CachedNetworkImage(
-        imageUrl: popularVideo.images['high']['url'],
+        imageUrl: popularVideo.thumbnailUrl,
         fit: BoxFit.cover,
       ),
     );

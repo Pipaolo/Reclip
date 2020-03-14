@@ -18,7 +18,7 @@ class UploadImageError extends AddContentState {
   List<Object> get props => [errorText];
 }
 
-class Uploading extends AddContentState {
+class UploadingImage extends AddContentState {
   @override
   List<Object> get props => [];
 }
@@ -34,4 +34,18 @@ class UploadImageSuccess extends AddContentState {
   UploadImageSuccess({this.illustration});
   @override
   List<Object> get props => [illustration];
+}
+
+class UploadingVideo extends AddContentState {
+  @override
+  List<Object> get props => [];
+}
+
+class UploadVideoSuccess extends AddContentState {
+  final Video video;
+
+  UploadVideoSuccess({this.video});
+
+  @override
+  List<Object> get props => [video];
 }

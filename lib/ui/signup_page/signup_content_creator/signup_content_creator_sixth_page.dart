@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
@@ -23,34 +24,6 @@ class SignupContentCreatorSixthArgs extends BaseArguments {
 class SignupContentCreatorSixthPage extends StatelessWidget {
   final SignupContentCreatorSixthArgs args;
   const SignupContentCreatorSixthPage({Key key, this.args}) : super(key: key);
-
-  _showSuccessDialog(BuildContext context) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(180),
-              width: ScreenUtil().setWidth(180),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Icon(
-                    FontAwesomeIcons.checkCircle,
-                    color: Colors.green,
-                    size: ScreenUtil().setSp(60),
-                  ),
-                  Material(child: Text('Sign up Success!'))
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   _showErrorDialog(BuildContext context) {
     return showDialog(
@@ -80,35 +53,15 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
         });
   }
 
-  _showLoadingDialog(BuildContext context) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(100),
-              width: ScreenUtil().setWidth(100),
-              alignment: Alignment.center,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignupBloc, SignupState>(
       listener: (context, state) {
         if (state is SignupLoading) {
-          _showLoadingDialog(context);
+          DialogCollection.showLoadingDialog('', context);
         }
         if (state is SignupContentCreatorSuccess) {
-          _showSuccessDialog(context);
+          DialogCollection.showSuccessDialog('Sign up Success!', context);
           Future.delayed(Duration(seconds: 3), () {
             Navigator.of(context).pop();
             BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
@@ -135,7 +88,7 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
                   'My Profile',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: ScreenUtil().setSp(60),
+                    fontSize: ScreenUtil().setSp(100),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -147,7 +100,7 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
                   children: <Widget>[
                     CircleAvatar(
                       backgroundImage: FileImage(args.profileImage),
-                      radius: ScreenUtil().setSp(80),
+                      radius: ScreenUtil().setSp(200),
                     ),
                     SignupContactInfo(
                       title: 'Email',
@@ -169,7 +122,6 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
                       title: 'Description',
                       content: args.user.description,
                     ),
-                    if (args.user.channel != null) _buildChannelInfo(),
                     RaisedButton(
                       color: reclipIndigo,
                       shape: RoundedRectangleBorder(
@@ -186,36 +138,6 @@ class SignupContentCreatorSixthPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  _buildChannelInfo() {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Text(
-            'Channel',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: ScreenUtil().setSp(24),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        SignupContactInfo(
-          title: 'Title',
-          content: args.user.channel.title,
-        ),
-        ContactInfoDescription(
-          title: 'Description',
-          content: args.user.channel.description,
-        ),
-        SignupContactInfo(
-          title: 'Email',
-          content: args.user.channel.email,
-        ),
-      ],
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:reclip/ui/content_creator_page/add_content/add_content_image/add_content_image_page.dart';
+import 'package:reclip/ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
 import 'package:reclip/ui/content_creator_page/add_content/content_creator_add_content_page.dart';
 import 'package:reclip/ui/content_creator_page/profile_page/content_creator_profile_page.dart';
 import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/content_creator_edit_profile_page.dart';
@@ -81,6 +82,13 @@ class Routes {
           name: 'add_content_image_page',
           builder: (context, args, params) {
             return AddContentImagePage(
+              args: args,
+            );
+          }),
+      SailorRoute(
+          name: 'add_content_video_page',
+          builder: (context, args, params) {
+            return AddContentVideoPage(
               args: args,
             );
           }),

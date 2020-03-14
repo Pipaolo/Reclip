@@ -137,7 +137,7 @@ class _SignupContentCreatorFifthPageState
           ),
         ),
         body: Container(
-          height: ScreenUtil().uiHeightPx,
+          height: ScreenUtil().uiHeightPx.toDouble(),
           padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -150,14 +150,14 @@ class _SignupContentCreatorFifthPageState
                   'Almost there',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(40),
+                    fontSize: ScreenUtil().setSp(80),
                   ),
                 ),
               ),
               Text(
                 '''Please link up your youtube channel so we can transfer your videos to the app''',
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(20),
+                  fontSize: ScreenUtil().setSp(40),
                 ),
               ),
               Flexible(
@@ -172,7 +172,7 @@ class _SignupContentCreatorFifthPageState
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: ScreenUtil().setSp(
-                      16,
+                      40,
                     ),
                   ),
                 ),
@@ -243,7 +243,7 @@ class _SignupContentCreatorFifthPageState
     return Routes.sailor.navigate(
       'signup_page/content_creator/sixth_page',
       args: SignupContentCreatorSixthArgs(
-        user: widget.args.user.copyWith(channel: user.channel),
+        user: widget.args.user,
         profileImage: widget.args.profileImage,
       ),
     );
@@ -251,7 +251,7 @@ class _SignupContentCreatorFifthPageState
 
   _buildYoutubeButton() {
     return Container(
-      width: ScreenUtil().setWidth(200),
+      width: ScreenUtil().setWidth(550),
       child: MaterialButton(
         color: reclipIndigo,
         child: Row(

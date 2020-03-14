@@ -1,32 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:progressive_image/progressive_image.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../bloc/youtube/youtube_bloc.dart';
+import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../data/model/youtube_channel.dart';
-import '../../../data/model/youtube_vid.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../../data/model/video.dart';
 import '../flushbars/flushbar_collection.dart';
-import '../yt_player.dart';
+import '../video_widgets/custom_video_player.dart';
 import 'creator_videos.dart';
 import 'video_description.dart';
 
 class VideoBottomSheet extends StatefulWidget {
-  final YoutubeVideo ytVid;
+  final Video video;
   final bool isLiked;
-  final YoutubeChannel ytChannel;
+  final ReclipContentCreator contentCreator;
   final ScrollController controller;
 
   const VideoBottomSheet({
     Key key,
     @required this.controller,
-    @required this.ytVid,
-    @required this.ytChannel,
+    @required this.video,
+    @required this.contentCreator,
     @required this.isLiked,
   }) : super(key: key);
 
@@ -35,25 +35,6 @@ class VideoBottomSheet extends StatefulWidget {
 }
 
 class _VideoDescriptionState extends State<VideoBottomSheet> {
-  YoutubePlayerController _ytController;
-
-  @override
-  void initState() {
-    _ytController = YoutubePlayerController(
-      initialVideoId: widget.ytVid.id,
-      flags: YoutubePlayerFlags(
-        mute: false,
-        disableDragSeek: true,
-        autoPlay: true,
-        controlsVisibleAtStart: false,
-        forceHideAnnotation: true,
-        hideControls: false,
-      ),
-    );
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -64,14 +45,14 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           _buildHeader(),
           _buildPlayOverlay(),
         ]),
-        _buildDescription(widget.ytChannel.id, widget.ytVid.id, context),
+        _buildDescription(
+            widget.contentCreator.email, widget.video.videoId, context),
       ],
     );
   }
 
   @override
   void dispose() {
-    _ytController.dispose();
     super.dispose();
   }
 
@@ -93,15 +74,19 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                 color: Colors.white.withAlpha(180),
               ),
             ),
-            onTap: () => _launchUrl(widget.ytVid.id),
+            onTap: () {
+              _watchVideo();
+            },
           ),
         ),
       ),
     );
   }
 
-  _buildDescription(String channelId, String videoId, BuildContext context) {
-    final convertedDate = widget.ytVid.publishedAt.split('T').removeAt(0);
+  _buildDescription(
+      String contentCreatorEmail, String videoId, BuildContext context) {
+    final convertedDate =
+        widget.video.publishedAt.toString().split('T').removeAt(0);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -122,7 +107,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                       height: ScreenUtil().setHeight(450),
                       width: ScreenUtil().setWidth(280),
                       child: CachedNetworkImage(
-                        imageUrl: widget.ytVid.images['high']['url'],
+                        imageUrl: widget.video.thumbnailUrl,
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -131,8 +116,8 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
               ),
               VideoDescription(
                 convertedDate: convertedDate,
-                title: widget.ytVid.title,
-                description: widget.ytVid.description,
+                title: widget.video.title,
+                description: widget.video.description,
               ),
             ],
           ),
@@ -146,11 +131,11 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               VideoShareButton(
-                channelId: channelId,
+                contentCreatorEmail: contentCreatorEmail,
                 videoId: videoId,
               ),
               VideoLikeButton(
-                channelId: channelId,
+                contentCreatorEmail: contentCreatorEmail,
                 videoId: videoId,
                 isLiked: widget.isLiked,
               ),
@@ -164,8 +149,8 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
           ),
           CreatorVideos(
             context: context,
-            title: widget.ytVid.title,
-            creatorChannel: widget.ytChannel,
+            title: widget.video.title,
+            contentCreator: widget.contentCreator,
           ),
         ],
       ),
@@ -174,7 +159,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
 
   _buildHeader() {
     return Hero(
-      tag: widget.ytVid.id,
+      tag: widget.video.videoId,
       child: Container(
         width: ScreenUtil().uiHeightPx.toDouble(),
         height: ScreenUtil().setHeight(700),
@@ -192,13 +177,10 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
             Positioned.fill(
               child: FittedBox(
                 fit: BoxFit.cover,
-                child: ProgressiveImage(
-                  height: widget.ytVid.images['high']['height'].toDouble(),
-                  width: widget.ytVid.images['high']['width'].toDouble(),
-                  placeholder:
-                      NetworkImage(widget.ytVid.images['default']['url']),
-                  thumbnail: NetworkImage(widget.ytVid.images['medium']['url']),
-                  image: NetworkImage(widget.ytVid.images['high']['url']),
+                child: TransitionToImage(
+                  image: AdvancedNetworkImage(
+                    widget.video.thumbnailUrl,
+                  ),
                 ),
               ),
             ),
@@ -208,22 +190,25 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
     );
   }
 
-  _launchUrl(String videoId) async {
-    BlocProvider.of<YoutubeBloc>(context)
-      ..add(AddView(channelId: widget.ytChannel.id, videoId: videoId));
+  _watchVideo() async {
+    BlocProvider.of<VideoBloc>(context)
+      ..add(
+        ViewAdded(
+            contentCreatorEmail: widget.contentCreator.email,
+            videoId: widget.video.videoId),
+      );
     await showGeneralDialog(
       context: context,
       barrierDismissible: false,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       transitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (context, anim, anim1) {
-        return YTPlayer(
-          youtubePlayerController: _ytController,
-          youtubeVideo: widget.ytVid,
+        return CustomVideoPlayer(
+          contentCreator: widget.contentCreator,
+          video: widget.video,
         );
       },
     ).then((_) {
-      _ytController.reset();
       SystemChrome.setEnabledSystemUIOverlays(
           [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
@@ -240,13 +225,13 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
 }
 
 class VideoLikeButton extends StatefulWidget {
-  final String channelId;
+  final String contentCreatorEmail;
   final String videoId;
   final bool isLiked;
 
   VideoLikeButton({
     Key key,
-    this.channelId,
+    this.contentCreatorEmail,
     this.videoId,
     this.isLiked,
   }) : super(key: key);
@@ -300,10 +285,10 @@ class _VideoLikeButtonState extends State<VideoLikeButton> {
           setState(() {
             liked = false;
           });
-          BlocProvider.of<YoutubeBloc>(context)
+          BlocProvider.of<VideoBloc>(context)
             ..add(
-              RemoveLike(
-                channelId: widget.channelId,
+              LikeRemoved(
+                contentCreatorEmail: widget.contentCreatorEmail,
                 videoId: widget.videoId,
               ),
             );
@@ -311,10 +296,10 @@ class _VideoLikeButtonState extends State<VideoLikeButton> {
           setState(() {
             liked = true;
           });
-          BlocProvider.of<YoutubeBloc>(context)
+          BlocProvider.of<VideoBloc>(context)
             ..add(
-              AddLike(
-                channelId: widget.channelId,
+              LikeAdded(
+                contentCreatorEmail: widget.contentCreatorEmail,
                 videoId: widget.videoId,
               ),
             );
@@ -325,12 +310,12 @@ class _VideoLikeButtonState extends State<VideoLikeButton> {
 }
 
 class VideoShareButton extends StatelessWidget {
-  final String channelId;
+  final String contentCreatorEmail;
   final String videoId;
 
   const VideoShareButton({
     Key key,
-    this.channelId,
+    this.contentCreatorEmail,
     this.videoId,
   }) : super(key: key);
   @override

@@ -28,7 +28,7 @@ class ContentCreatorAboutMePage extends StatelessWidget {
         child: AutoSizeText(
           (user.description != null && user.description.isNotEmpty)
               ? user.description
-              : user.channel.description,
+              : '',
           maxLines: 8,
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),

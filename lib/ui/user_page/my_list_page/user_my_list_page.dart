@@ -3,11 +3,12 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
+
+import '../../../bloc/info/info_bloc.dart';
+import '../../../bloc/reclip_user/reclipuser_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/video.dart';
+import '../../custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
 
 class UserMyListPage extends StatelessWidget {
   const UserMyListPage({Key key}) : super(key: key);
@@ -24,8 +25,8 @@ class UserMyListPage extends StatelessWidget {
                     initialChildSize: 1.0,
                     builder: (context, scrollController) {
                       return VideoBottomSheet(
-                        ytChannel: state.channel,
-                        ytVid: state.video,
+                        contentCreator: state.contentCreator,
+                        video: state.video,
                         isLiked: state.isLiked,
                         controller: scrollController,
                       );
@@ -45,7 +46,7 @@ class UserMyListPage extends StatelessWidget {
                     'Liked Videos',
                     style: TextStyle(
                       color: reclipBlack,
-                      fontSize: ScreenUtil().setSp(48),
+                      fontSize: ScreenUtil().setSp(100),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -76,14 +77,14 @@ class UserMyListPage extends StatelessWidget {
     );
   }
 
-  _buildSuccessState(List<YoutubeVideo> likedVideos) {
+  _buildSuccessState(List<Video> likedVideos) {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: likedVideos.length,
       itemBuilder: (context, index) {
         return Container(
-          height: ScreenUtil().setHeight(120),
-          width: ScreenUtil().setWidth(120),
+          height: ScreenUtil().setHeight(300),
+          width: ScreenUtil().setWidth(300),
           child: Stack(
             children: <Widget>[
               Card(
@@ -96,11 +97,11 @@ class UserMyListPage extends StatelessWidget {
                         bottomLeft: Radius.circular(5),
                       ),
                       child: Container(
-                        height: ScreenUtil().setHeight(135),
-                        width: ScreenUtil().setWidth(135),
+                        height: ScreenUtil().setHeight(300),
+                        width: ScreenUtil().setWidth(300),
                         child: TransitionToImage(
                           image: AdvancedNetworkImage(
-                              likedVideos[index].images['default']['url']),
+                              likedVideos[index].thumbnailUrl),
                           loadingWidget:
                               Center(child: CircularProgressIndicator()),
                           fit: BoxFit.fitHeight,
@@ -117,7 +118,7 @@ class UserMyListPage extends StatelessWidget {
                             Text(
                               likedVideos[index].title,
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(20),
+                                fontSize: ScreenUtil().setSp(48),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -129,6 +130,9 @@ class UserMyListPage extends StatelessWidget {
                                   ? 'No Description Provided'
                                   : likedVideos[index].description,
                               overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(40),
+                              ),
                               maxLines: 3,
                             ),
                           ],

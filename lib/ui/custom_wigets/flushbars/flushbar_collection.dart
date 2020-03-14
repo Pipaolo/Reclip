@@ -1,5 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/core/reclip_colors.dart';
 
 class FlushbarCollection {
   FlushbarCollection._();
@@ -19,6 +21,71 @@ class FlushbarCollection {
         style: TextStyle(
           color: Colors.white,
         ),
+      ),
+    )..show(context);
+  }
+
+  static void showFlushbarWarning(
+      String title, String noticeText, BuildContext context) {
+    Flushbar(
+      backgroundColor: reclipBlackDark,
+      margin: EdgeInsets.all(8),
+      borderRadius: 20,
+      duration: Duration(seconds: 3),
+      titleText: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(color: Colors.yellow),
+          ),
+        ],
+      ),
+      messageText: Text(
+        noticeText,
+        style: TextStyle(color: Colors.white),
+      ),
+    )..show(context);
+  }
+
+  static void showFlushbarNotice(
+      String title, String noticeText, BuildContext context) {
+    Flushbar(
+      backgroundColor: reclipBlackDark,
+      duration: Duration(seconds: 3),
+      titleText: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(color: Colors.blue),
+          ),
+        ],
+      ),
+      messageText: Text(
+        noticeText,
+        style: TextStyle(color: Colors.white),
+      ),
+      showProgressIndicator: true,
+    )..show(context);
+  }
+
+  static void showFlushbarError(String errorText, BuildContext context) {
+    Flushbar(
+      backgroundColor: reclipBlackDark,
+      duration: Duration(seconds: 3),
+      messageText: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            errorText,
+            style: TextStyle(color: Colors.red),
+          ),
+          Icon(
+            FontAwesomeIcons.exclamationCircle,
+            color: Colors.red,
+          ),
+        ],
       ),
     )..show(context);
   }

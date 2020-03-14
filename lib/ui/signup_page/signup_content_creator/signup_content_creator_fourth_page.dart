@@ -4,13 +4,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:sailor/sailor.dart';
 
+import '../../../core/reclip_colors.dart';
+import '../../../core/route_generator.dart';
+import '../../../data/model/reclip_content_creator.dart';
 import 'signup_content_creator_fifth_page.dart';
 
 class SignupContentCreatorFourthArgs extends BaseArguments {
@@ -46,7 +45,7 @@ class _SignupContentCreatorFourthPageState
       body: Center(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: ScreenUtil().setHeight(400),
+            height: ScreenUtil().setHeight(1200),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -65,7 +64,7 @@ class _SignupContentCreatorFourthPageState
                 ),
                 _buildImagePicker(),
                 SizedBox(
-                  width: ScreenUtil().setWidth(150),
+                  width: ScreenUtil().setWidth(300),
                   child: MaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -114,21 +113,18 @@ class _SignupContentCreatorFourthPageState
   _buildImagePicker() {
     if (_image == null) {
       return Material(
-        borderRadius: BorderRadius.circular(200),
+        color: reclipBlack,
+        shape: CircleBorder(),
+        clipBehavior: Clip.hardEdge,
         child: Ink(
-          decoration: BoxDecoration(
-            color: reclipBlackLight,
-            borderRadius: BorderRadius.circular(200),
-          ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(200),
             child: Container(
-              height: ScreenUtil().setHeight(200),
-              width: ScreenUtil().setWidth(200),
+              width: ScreenUtil().setWidth(500),
+              height: ScreenUtil().setHeight(500),
               child: Icon(
                 Icons.add,
                 color: reclipIndigo,
-                size: ScreenUtil().setSp(100),
+                size: ScreenUtil().setSp(180),
               ),
             ),
             onTap: () => _addPicture(),
@@ -136,35 +132,35 @@ class _SignupContentCreatorFourthPageState
         ),
       );
     } else {
-      return Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(200),
-            child: Container(
-              height: ScreenUtil().setHeight(200),
-              width: ScreenUtil().setWidth(200),
-              child: Image.file(
-                _image,
-                fit: BoxFit.cover,
+      return CircleAvatar(
+        backgroundImage: FileImage(_image),
+        radius: ScreenUtil().setSp(180),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              bottom: 0,
+              right: 10,
+              child: Material(
+                color: reclipBlack,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                child: Ink(
+                  child: InkWell(
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      child: Icon(
+                        Icons.add,
+                        color: reclipIndigo,
+                        size: ScreenUtil().setSp(80),
+                      ),
+                    ),
+                    onTap: () => _addPicture(),
+                  ),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 10,
-            right: 20,
-            child: IconButton(
-              icon: Icon(
-                FontAwesomeIcons.plusCircle,
-                size: ScreenUtil().setSp(45),
-                color: reclipIndigo,
-              ),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              alignment: Alignment.center,
-              onPressed: () => _addPicture(),
-            ),
-          ),
-        ],
+          ],
+        ),
       );
     }
   }

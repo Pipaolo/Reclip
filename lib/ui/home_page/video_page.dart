@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/ui/custom_wigets/home_page_appbar.dart';
-import 'package:reclip/ui/custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
-import 'package:reclip/ui/custom_wigets/video_widgets/popular_video.dart';
-import 'package:reclip/ui/custom_wigets/video_widgets/youtube_style_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../bloc/info/info_bloc.dart';
+import '../../bloc/video/video_bloc.dart';
+import '../../core/reclip_colors.dart';
+import '../../data/model/video.dart';
+import '../custom_wigets/home_page_appbar.dart';
+import '../custom_wigets/video_bottom_sheet/video_bottom_sheet.dart';
+import '../custom_wigets/video_widgets/popular_video.dart';
+import '../custom_wigets/video_widgets/youtube_style_widget.dart';
 
 class VideoPage extends StatelessWidget {
   VideoPage({Key key}) : super(key: key);
@@ -29,8 +30,8 @@ class VideoPage extends StatelessWidget {
                       initialChildSize: 1.0,
                       builder: (context, scrollController) {
                         return VideoBottomSheet(
-                          ytChannel: state.channel,
-                          ytVid: state.video,
+                          contentCreator: state.contentCreator,
+                          video: state.video,
                           isLiked: state.isLiked,
                           controller: scrollController,
                         );
@@ -38,40 +39,82 @@ class VideoPage extends StatelessWidget {
                 });
           }
         },
-        child: BlocBuilder<YoutubeBloc, YoutubeState>(
+        child: BlocBuilder<VideoBloc, VideoState>(
           builder: (context, state) {
-            if (state is YoutubeError) {
+            if (state is VideoError) {
               return Center(
                   child: Text(
-                state.error,
+                state.errorText,
                 style: TextStyle(color: Colors.black),
               ));
             }
-            if (state is YoutubeLoading) {
+            if (state is VideoLoading) {
               return Center(
                 child: SpinKitCircle(
                   color: reclipIndigo,
                 ),
               );
             }
-            if (state is YoutubeSuccess) {
-              return CustomScrollView(
-                slivers: <Widget>[
-                  HomePageAppBar(),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      Column(
-                        children: <Widget>[
-                          PopularVideo(
-                            video: state.ytVideos[0],
-                          ),
-                          _buildVideoList(state.ytVideos),
-                        ],
+            if (state is VideoSuccess) {
+              if (state.videos.isNotEmpty) {
+                return CustomScrollView(
+                  slivers: <Widget>[
+                    HomePageAppBar(),
+                    SliverList(
+                      delegate: SliverChildListDelegate([
+                        Column(
+                          children: <Widget>[
+                            PopularVideo(
+                              video: state.videos[0],
+                            ),
+                            _buildVideoList(state.videos),
+                          ],
+                        ),
+                      ]),
+                    )
+                  ],
+                );
+              } else {
+                return CustomScrollView(
+                  slivers: <Widget>[
+                    HomePageAppBar(),
+                    SliverFillRemaining(
+                      child: Container(
+                        margin: EdgeInsets.all(50),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: reclipIndigo,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              'assets/images/under-construction.svg',
+                              height: ScreenUtil().setHeight(500),
+                              width: ScreenUtil().setWidth(500),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                '''No Videos Found! Kindly wait for the Content Creators to upload. \nThank you!''',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: ScreenUtil().setSp(45)),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ]),
-                  )
-                ],
-              );
+                    ),
+                  ],
+                );
+              }
             }
             return Container();
           },
@@ -81,7 +124,7 @@ class VideoPage extends StatelessWidget {
   }
 
   _buildVideoList(
-    List<YoutubeVideo> youtubeVideos,
+    List<Video> videos,
   ) {
     return Column(
       children: <Widget>[
@@ -107,7 +150,7 @@ class VideoPage extends StatelessWidget {
         //   ytVideos: youtubeVideos,
         // ),
         YoutubeStyleWidget(
-          youtubeVideos: youtubeVideos,
+          videos: videos,
         ),
       ],
     );

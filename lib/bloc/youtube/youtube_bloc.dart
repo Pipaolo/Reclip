@@ -8,19 +8,16 @@ import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:reclip/repository/user_repository.dart';
-import 'package:reclip/repository/youtube_repository.dart';
 
 part 'youtube_event.dart';
 part 'youtube_state.dart';
 
 class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
-  final YoutubeRepository youtubeRepository;
   final FirebaseReclipRepository firebaseReclipRepository;
   final UserRepository userRepository;
   StreamSubscription videoStream;
 
   YoutubeBloc({
-    @required this.youtubeRepository,
     @required this.userRepository,
     this.firebaseReclipRepository,
   });
@@ -60,12 +57,6 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
       try {
         print("Add YoutubeChannel: {User: ${event.user.name}}");
         videoStream?.cancel();
-        final user = await youtubeRepository.getYoutubeChannel(event.user);
-        if (user.channel != null) {
-          await firebaseReclipRepository.addChannel(user.channel);
-        }
-
-        await firebaseReclipRepository.addContentCreator(user);
 
         videoStream =
             firebaseReclipRepository.getYoutubeVideos().listen((videos) {
@@ -79,11 +70,6 @@ class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
       yield YoutubeSuccess(ytVideos: event.videos);
     } else if (event is UpdateYoutubeChannel) {
       videoStream?.cancel();
-      final user = await youtubeRepository.getYoutubeChannel(event.user);
-      if (user.channel != null) {
-        await firebaseReclipRepository.updateChannel(user.channel);
-      }
-
       videoStream =
           firebaseReclipRepository.getYoutubeVideos().listen((videos) {
         add(FetchYoutubeVideos(videos: videos));

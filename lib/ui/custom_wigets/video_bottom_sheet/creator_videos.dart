@@ -1,31 +1,33 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:progressive_image/progressive_image.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/bloc/other_user/other_user_bloc.dart';
-import 'package:reclip/bloc/youtube/youtube_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
+
+import '../../../bloc/info/info_bloc.dart';
+import '../../../bloc/other_user/other_user_bloc.dart';
+import '../../../bloc/video/video_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../core/route_generator.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../../data/model/video.dart';
 
 class CreatorVideos extends StatelessWidget {
-  final YoutubeChannel creatorChannel;
+  final ReclipContentCreator contentCreator;
   final String title;
   final BuildContext context;
 
   const CreatorVideos({
     Key key,
-    @required this.creatorChannel,
+    @required this.contentCreator,
     @required this.title,
     @required this.context,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<YoutubeVideo> creatorVideos = List();
+    final List<Video> creatorVideos = List();
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -40,7 +42,7 @@ class CreatorVideos extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
                     BlocProvider.of<OtherUserBloc>(context)
-                      ..add(GetOtherUser(email: creatorChannel.ownerEmail));
+                      ..add(GetOtherUser(email: contentCreator.email));
                     return Routes.sailor('other_user_profile_page');
                   },
                   child: Container(
@@ -49,7 +51,7 @@ class CreatorVideos extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     alignment: Alignment.center,
                     child: AutoSizeText(
-                      'More Videos of ${creatorChannel.title.toUpperCase()}',
+                      'More Videos of ${contentCreator.name.toUpperCase()}',
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(16),
                         fontWeight: FontWeight.bold,
@@ -61,12 +63,12 @@ class CreatorVideos extends StatelessWidget {
               ),
             ),
           ),
-          BlocBuilder<YoutubeBloc, YoutubeState>(
+          BlocBuilder<VideoBloc, VideoState>(
             builder: (context, state) {
-              if (state is YoutubeSuccess) {
-                creatorVideos.addAll(state.ytVideos);
-                creatorVideos.retainWhere(
-                    (video) => video.channelId.contains(creatorChannel.id));
+              if (state is VideoSuccess) {
+                creatorVideos.addAll(state.videos);
+                creatorVideos.retainWhere((video) =>
+                    video.contentCreatorEmail.contains(contentCreator.email));
                 return _buildListView(creatorVideos);
               }
               return Container();
@@ -77,9 +79,9 @@ class CreatorVideos extends StatelessWidget {
     );
   }
 
-  _buildListView(List<YoutubeVideo> ytVids) {
-    final List<YoutubeVideo> filteredVideos = List();
-    for (var video in ytVids) {
+  _buildListView(List<Video> videos) {
+    final List<Video> filteredVideos = List();
+    for (var video in videos) {
       filteredVideos.add(video);
     }
 
@@ -115,21 +117,11 @@ class CreatorVideos extends StatelessWidget {
                     children: <Widget>[
                       Positioned.fill(
                         child: Hero(
-                          tag: filteredVideos[index].id,
-                          child: ProgressiveImage(
-                            height: filteredVideos[index]
-                                .images['high']['width']
-                                .toDouble(),
-                            width: filteredVideos[index]
-                                .images['high']['height']
-                                .toDouble(),
-                            placeholder: NetworkImage(
-                                filteredVideos[index].images['default']['url']),
-                            thumbnail: NetworkImage(
-                                filteredVideos[index].images['medium']['url']),
-                            image: NetworkImage(
-                                filteredVideos[index].images['high']['url']),
-                            fit: BoxFit.cover,
+                          tag: filteredVideos[index].videoId,
+                          child: TransitionToImage(
+                            image: AdvancedNetworkImage(
+                              filteredVideos[index].thumbnailUrl,
+                            ),
                           ),
                         ),
                       ),

@@ -7,6 +7,7 @@ import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/data/model/youtube_channel.dart';
 import 'package:reclip/data/model/youtube_vid.dart';
+import 'package:uuid/uuid.dart';
 import '../data/model/illustration.dart';
 
 class FirebaseReclipRepository {
@@ -91,9 +92,11 @@ class FirebaseReclipRepository {
   }
 
   Future<void> addContentCreator(ReclipContentCreator user) async {
+    final uuid = Uuid();
+    final contentCreatorId = uuid.v5(user.name, user.email);
     return await contentCreatorCollection
         .document(user.email)
-        .setData(user.toDocument());
+        .setData(user.copyWith(id: contentCreatorId).toDocument());
   }
 
   Future<ReclipUser> getUser(String email) async {
@@ -124,6 +127,7 @@ class FirebaseReclipRepository {
       return ReclipContentCreator.fromSnapshot(
           await contentCreatorCollection.document(email).get());
     } catch (e) {
+      print(e);
       return null;
     }
   }
@@ -179,7 +183,6 @@ class FirebaseReclipRepository {
         .document(videoId)
         .updateData({'statistics.viewCount': FieldValue.increment(1)});
   }
-
 
   Future<void> removeVideoLike(
       String channelId, String videoId, String email) async {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
+import 'package:reclip/ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
 import 'package:reclip/ui/custom_wigets/flushbars/flushbar_collection.dart';
 import 'package:sailor/sailor.dart';
 
@@ -101,8 +102,28 @@ class AddContentButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           onTap: () async {
             if (pageName.isEmpty) {
-              FlushbarCollection.showFlushbarDevelopment(
-                  '👷‍♂️🛠 Under Construction ⚒👷‍♀️', context);
+              try {
+                final fileSizeLimit = 1e9;
+                final video =
+                    await ImagePicker.pickVideo(source: ImageSource.gallery);
+                if (video.lengthSync() > fileSizeLimit) {
+                  FlushbarCollection.showFlushbarWarning(
+                      'Invalid File Size 🎬❌',
+                      'The maximum file size of a video is limited to 1gb only.',
+                      context);
+                } else {
+                  Routes.sailor.navigate(
+                    'add_content_video_page',
+                    args: AddContentVideoArgs(
+                      video: video,
+                      contentCreator: user,
+                    ),
+                  );
+                }
+              } catch (e) {
+                print("Image Canceled");
+              }
+
               print("EMPTY");
             } else {
               try {

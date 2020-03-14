@@ -3,16 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../bloc/info/info_bloc.dart';
-import '../../../data/model/youtube_channel.dart';
-import '../../../data/model/youtube_vid.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../../data/model/video.dart';
 import 'popular_video_image.dart';
 import 'popular_video_info.dart';
 
 class PopularVideo extends StatelessWidget {
-  final YoutubeVideo video;
-  final YoutubeChannel channel;
+  final Video video;
+  final ReclipContentCreator contentCreator;
 
-  const PopularVideo({Key key, this.video, this.channel}) : super(key: key);
+  const PopularVideo({Key key, this.video, this.contentCreator})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class PopularVideo extends StatelessWidget {
                   popularVideo: video,
                 ),
                 PopularVideoInfo(
-                  popularChannel: channel,
+                  popularContentCreator: contentCreator,
                   popularVideo: video,
                 ),
               ],

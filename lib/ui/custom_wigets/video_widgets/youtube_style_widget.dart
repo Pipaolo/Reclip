@@ -3,20 +3,21 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
+
+import '../../../bloc/info/info_bloc.dart';
+import '../../../data/model/video.dart';
 
 class YoutubeStyleWidget extends StatelessWidget {
-  final List<YoutubeVideo> youtubeVideos;
+  final List<Video> videos;
 
-  const YoutubeStyleWidget({Key key, this.youtubeVideos}) : super(key: key);
+  const YoutubeStyleWidget({Key key, this.videos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: youtubeVideos.length,
+      itemCount: videos.length,
       itemBuilder: (context, index) {
         return Container(
           height: ScreenUtil().setHeight(320),
@@ -36,8 +37,8 @@ class YoutubeStyleWidget extends StatelessWidget {
                         height: ScreenUtil().setHeight(320),
                         width: ScreenUtil().setWidth(320),
                         child: TransitionToImage(
-                          image: AdvancedNetworkImage(
-                              youtubeVideos[index].images['default']['url']),
+                          image:
+                              AdvancedNetworkImage(videos[index].thumbnailUrl),
                           loadingWidget:
                               Center(child: CircularProgressIndicator()),
                           fit: BoxFit.fitHeight,
@@ -52,7 +53,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              youtubeVideos[index].title,
+                              videos[index].title,
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(40),
                                 fontWeight: FontWeight.bold,
@@ -62,9 +63,9 @@ class YoutubeStyleWidget extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              (youtubeVideos[index].description.isEmpty)
+                              (videos[index].description.isEmpty)
                                   ? 'No Description Provided'
-                                  : youtubeVideos[index].description,
+                                  : videos[index].description,
                               overflow: TextOverflow.ellipsis,
                               style:
                                   TextStyle(fontSize: ScreenUtil().setSp(30)),
@@ -85,7 +86,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       onTap: () {
                         BlocProvider.of<InfoBloc>(context)
-                          ..add(ShowVideo(video: youtubeVideos[index]));
+                          ..add(ShowVideo(video: videos[index]));
                       },
                     ),
                   ),

@@ -10,17 +10,17 @@ class Idle extends InfoState {
 }
 
 class ShowVideoInfo extends InfoState {
-  final YoutubeVideo video;
-  final YoutubeChannel channel;
+  final Video video;
+  final ReclipContentCreator contentCreator;
   final bool isLiked;
 
   ShowVideoInfo({
     this.video,
-    this.channel,
+    this.contentCreator,
     this.isLiked,
   });
   @override
-  List<Object> get props => [isLiked, video, channel];
+  List<Object> get props => [isLiked, video, contentCreator];
 }
 
 class ShowIllustrationInfo extends InfoState {

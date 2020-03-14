@@ -116,7 +116,7 @@ class _SignupContentCreatorSecondFormState
       },
       autovalidate: true,
       child: SizedBox(
-        height: ScreenUtil().setHeight(300),
+        height: ScreenUtil().setHeight(1200),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(

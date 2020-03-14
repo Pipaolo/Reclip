@@ -21,7 +21,7 @@ class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
     }
   }
 
-  showNavigationDrawer(GlobalKey<ScaffoldState> scaffoldKey) {
+  void showNavigationDrawer(GlobalKey<ScaffoldState> scaffoldKey) {
     scaffoldKey.currentState.openDrawer();
   }
 }

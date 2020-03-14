@@ -76,7 +76,7 @@ class _SignupContentCreatorThirdFormState
     return FormBuilder(
       key: _fbKey,
       child: SizedBox(
-        height: ScreenUtil().setHeight(300),
+        height: ScreenUtil().setHeight(1200),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:intl/intl.dart';
 
-class PopularVideoInfo extends StatelessWidget {
-  final YoutubeVideo popularVideo;
-  final YoutubeChannel popularChannel;
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../../data/model/video.dart';
 
-  const PopularVideoInfo({Key key, this.popularVideo, this.popularChannel})
+class PopularVideoInfo extends StatelessWidget {
+  final Video popularVideo;
+  final ReclipContentCreator popularContentCreator;
+
+  const PopularVideoInfo(
+      {Key key, this.popularVideo, this.popularContentCreator})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final convertedDate = popularVideo.publishedAt.split('T').removeAt(0);
+    final convertedDate =
+        popularVideo.publishedAt.toString().split('T').removeAt(0);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
@@ -33,7 +36,7 @@ class PopularVideoInfo extends StatelessWidget {
                     size: ScreenUtil().setSp(60),
                   ),
                   Text(
-                    popularVideo.statistics.likeCount.toString(),
+                    popularVideo.likeCount.toString(),
                     style: TextStyle(
                       color: reclipBlack,
                       fontSize: ScreenUtil().setSp(30),

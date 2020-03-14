@@ -14,3 +14,21 @@ class AddIllustration extends AddContentEvent {
   @override
   List<Object> get props => [user, illustration, image];
 }
+
+class VideoAdded extends AddContentEvent {
+  final ReclipContentCreator contentCreator;
+  final Video video;
+  final File rawVideo;
+  final File thumbnail;
+  final bool isAdded;
+
+  VideoAdded(
+      {this.contentCreator,
+      this.video,
+      this.rawVideo,
+      this.thumbnail,
+      this.isAdded});
+  @override
+  List<Object> get props =>
+      [contentCreator, video, rawVideo, thumbnail, isAdded];
+}

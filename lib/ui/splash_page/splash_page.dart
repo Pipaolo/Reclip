@@ -3,17 +3,17 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
-import 'package:reclip/bloc/user/user_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
 import 'package:sailor/sailor.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
-import '../../bloc/youtube/youtube_bloc.dart';
+import '../../bloc/reclip_user/reclipuser_bloc.dart';
+import '../../bloc/user/user_bloc.dart';
+import '../../bloc/video/video_bloc.dart';
 import '../../bottom_nav_controller.dart';
+import '../../core/reclip_colors.dart';
 import '../../core/route_generator.dart';
+import '../../data/model/reclip_content_creator.dart';
+import '../../data/model/reclip_user.dart';
 
 class SplashPageArgs extends BaseArguments {
   final FirebaseUser user;
@@ -45,8 +45,7 @@ class _SplashPageState extends State<SplashPage> {
               if (state is Unauthenticated) {
                 isAuthenticated = false;
               } else if (state is AuthenticatedContentCreator) {
-                BlocProvider.of<YoutubeBloc>(context)
-                  ..add(FetchYoutubeChannel());
+                BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.user.email));
                 isAuthenticated = true;
@@ -54,8 +53,7 @@ class _SplashPageState extends State<SplashPage> {
               } else if (state is AuthenticatedUser) {
                 BlocProvider.of<ReclipUserBloc>(context)
                   ..add(GetLikedVideos(email: state.user.email));
-                BlocProvider.of<YoutubeBloc>(context)
-                  ..add(FetchYoutubeChannel());
+                BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
                 isAuthenticated = true;

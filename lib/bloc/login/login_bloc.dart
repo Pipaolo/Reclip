@@ -64,7 +64,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await _firebaseReclipRepository.getContentCreator(rawUser.email);
         if (storedUser == null) {
           print("User is not Existing");
-          yield LoginSuccessUnregistered(unregisteredUser: rawUser);
+          if (!rawUser.email.toLowerCase().contains('@ciit')) {
+            yield LoginError(error: 'Invalid Email');
+          } else {
+            yield LoginSuccessUnregistered(unregisteredUser: rawUser);
+          }
         } else {
           print("User is Existing");
           // await _firebaseReclipRepository.updateChannel(userInitial.channel);

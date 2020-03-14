@@ -50,8 +50,8 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
-              height: ScreenUtil().setHeight(160),
-              width: ScreenUtil().setWidth(160),
+              height: ScreenUtil().setHeight(300),
+              width: ScreenUtil().setWidth(300),
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -64,7 +64,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                       'Uploading Image...',
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(12),
+                        fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                   )
@@ -88,8 +88,8 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(200),
-              width: ScreenUtil().setWidth(200),
+              height: ScreenUtil().setHeight(400),
+              width: ScreenUtil().setWidth(400),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,14 +97,14 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                     Icon(
                       FontAwesomeIcons.checkCircle,
                       color: Colors.green,
-                      size: ScreenUtil().setSp(80),
+                      size: ScreenUtil().setSp(100),
                     ),
                     Material(
                       color: Colors.transparent,
                       child: Text(
                         'Image uploaded!',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(14),
+                          fontSize: ScreenUtil().setSp(40),
                         ),
                       ),
                     ),
@@ -170,8 +170,8 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(200),
-              width: ScreenUtil().setWidth(200),
+              height: ScreenUtil().setHeight(400),
+              width: ScreenUtil().setWidth(400),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -186,7 +186,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                       child: Text(
                         'Uploading Error!',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(14),
+                          fontSize: ScreenUtil().setSp(40),
                         ),
                       ),
                     ),
@@ -202,7 +202,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
   Widget build(BuildContext context) {
     return BlocListener<AddContentBloc, AddContentState>(
       listener: (context, state) {
-        if (state is Uploading) {
+        if (state is UploadingImage) {
           _showLoadingDialog(context);
         } else if (state is UploadImageSuccess) {
           _showSuccessDialog(context);
@@ -237,21 +237,23 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: reclipBlack,
-                    border: Border.all(color: reclipIndigo, width: 3),
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: FileImage(widget.args.image),
-                      fit: BoxFit.fitHeight,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: reclipBlack,
+                      border: Border.all(color: reclipIndigo, width: 3),
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: FileImage(widget.args.image),
+                        fit: BoxFit.fitHeight,
+                      ),
                     ),
+                    height: ScreenUtil().setHeight(800),
                   ),
-                  height: ScreenUtil().setHeight(300),
-                  width: ScreenUtil().setWidth(350),
                 ),
                 Container(
-                  height: ScreenUtil().setHeight(250),
+                  height: ScreenUtil().setHeight(700),
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: FormBuilder(
                     key: _fbKey,
