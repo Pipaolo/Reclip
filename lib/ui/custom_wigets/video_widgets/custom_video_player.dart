@@ -39,7 +39,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     setState(() {
       _controller = VideoPlayerController.network(widget.video.videoUrl);
       _chewieController = ChewieController(
-        aspectRatio: 16 / 9,
+        aspectRatio: widget.video.height / widget.video.width,
         showControls: true,
         autoPlay: true,
         videoPlayerController: _controller,

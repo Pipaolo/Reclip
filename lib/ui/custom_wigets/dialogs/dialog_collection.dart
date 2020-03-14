@@ -25,8 +25,8 @@ class DialogCollection {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
-              height: ScreenUtil().setHeight(400),
-              width: ScreenUtil().setWidth(400),
+              height: ScreenUtil().setHeight(300),
+              width: ScreenUtil().setWidth(300),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

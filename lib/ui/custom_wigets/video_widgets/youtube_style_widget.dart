@@ -3,6 +3,7 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/core/reclip_colors.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../data/model/video.dart';
@@ -36,6 +37,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                       child: Container(
                         height: ScreenUtil().setHeight(320),
                         width: ScreenUtil().setWidth(320),
+                        color: reclipBlack,
                         child: TransitionToImage(
                           image:
                               AdvancedNetworkImage(videos[index].thumbnailUrl),

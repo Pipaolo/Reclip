@@ -81,7 +81,8 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     LoggedOut(),
                   );
-                FlushbarCollection.showFlushbarError(state.error, context);
+                FlushbarCollection.showFlushbarError(
+                    '❌Woops Something Bad Happened!❌', context);
               }
             },
           ),

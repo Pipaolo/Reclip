@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/core/reclip_colors.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../data/model/reclip_content_creator.dart';
@@ -23,6 +24,8 @@ class PopularVideo extends StatelessWidget {
         width: ScreenUtil().setWidth(500),
         height: ScreenUtil().setHeight(800),
         decoration: BoxDecoration(
+          color: reclipBlack,
+          borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
               offset: Offset(3, 2),

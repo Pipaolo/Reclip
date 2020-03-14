@@ -106,6 +106,7 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                     child: Container(
                       height: ScreenUtil().setHeight(450),
                       width: ScreenUtil().setWidth(280),
+                      color: reclipBlack,
                       child: CachedNetworkImage(
                         imageUrl: widget.video.thumbnailUrl,
                         fit: BoxFit.fitHeight,

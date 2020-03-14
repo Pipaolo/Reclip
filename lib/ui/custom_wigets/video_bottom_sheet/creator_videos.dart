@@ -122,6 +122,7 @@ class CreatorVideos extends StatelessWidget {
                             image: AdvancedNetworkImage(
                               filteredVideos[index].thumbnailUrl,
                             ),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

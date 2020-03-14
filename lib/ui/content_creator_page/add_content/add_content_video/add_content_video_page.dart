@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -140,6 +141,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                     ),
                     color: reclipIndigo,
                     onPressed: () async {
+                      final ffmpegProbe = FlutterFFprobe();
                       final Uuid randomIdGenerator = Uuid();
                       final video = Video(
                         contentCreatorEmail: widget.args.contentCreator.email,
@@ -154,14 +156,24 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                         viewCount: 0,
                       );
 
-                      FocusScope.of(context).unfocus();
+                      //Get Video Height and Width
+                      final videoMetadata = await ffmpegProbe
+                          .getMediaInformation(widget.args.video.path);
+
+                      print(videoMetadata['streams'][0]['width']);
+
                       PaintingBinding.instance.imageCache.clear();
                       BlocProvider.of<AddContentBloc>(context)
                         ..add(VideoAdded(
                           contentCreator: widget.args.contentCreator,
                           rawVideo: widget.args.video,
                           thumbnail: videoThumbnail,
-                          video: video,
+                          video: video.copyWith(
+                            width:
+                                videoMetadata['streams'][0]['width'].toDouble(),
+                            height: videoMetadata['streams'][0]['height']
+                                .toDouble(),
+                          ),
                           isAdded: false,
                         ));
                       // _compressVideo().then((value) {

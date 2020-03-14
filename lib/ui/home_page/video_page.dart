@@ -146,9 +146,6 @@ class VideoPage extends StatelessWidget {
             ),
           ),
         ),
-        // ImageWidget(
-        //   ytVideos: youtubeVideos,
-        // ),
         YoutubeStyleWidget(
           videos: videos,
         ),

@@ -3,6 +3,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 import 'package:sailor/sailor.dart';
@@ -59,6 +60,7 @@ class SignupCategoryPage extends StatelessWidget {
               ],
             ),
           )..show(context);
+          BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut()); 
         } else if (state is VerificationSuccess) {
           loadingFlushbar.dismiss();
           Flushbar(

@@ -25,6 +25,7 @@ class PopularVideoImage extends StatelessWidget {
           end: Alignment.topCenter,
         ),
       ),
+      alignment: Alignment.center,
       child: CachedNetworkImage(
         imageUrl: popularVideo.thumbnailUrl,
         fit: BoxFit.cover,

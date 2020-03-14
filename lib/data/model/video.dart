@@ -8,6 +8,8 @@ class Video extends Equatable {
   final String description;
   final String videoUrl;
   final String thumbnailUrl;
+  final double height;
+  final double width;
   final DateTime publishedAt;
   final List<dynamic> likedBy;
   final int likeCount;
@@ -22,6 +24,8 @@ class Video extends Equatable {
     @required this.likedBy,
     @required this.likeCount,
     @required this.viewCount,
+    this.height,
+    this.width,
     this.videoUrl,
     this.thumbnailUrl,
   });
@@ -36,6 +40,8 @@ class Video extends Equatable {
         likeCount = json['likeCount'],
         viewCount = json['viewCount'],
         thumbnailUrl = json['thumbnailUrl'],
+        height = json['height'],
+        width = json['width'],
         videoUrl = json['videoUrl'];
 
   Map<String, dynamic> toJson() => {
@@ -48,6 +54,8 @@ class Video extends Equatable {
         'likeCount': likeCount,
         'viewCount': viewCount,
         'thumbnailUrl': thumbnailUrl,
+        'height': height,
+        'width': width,
         'videoUrl': videoUrl,
       };
 
@@ -63,6 +71,8 @@ class Video extends Equatable {
         viewCount,
         videoUrl,
         thumbnailUrl,
+        height,
+        width,
       ];
 
   Video copyWith({
@@ -74,6 +84,8 @@ class Video extends Equatable {
     String thumbnailUrl,
     DateTime publishedAt,
     List<dynamic> likedBy,
+    double height,
+    double width,
     int likeCount,
     int viewCount,
   }) {
@@ -88,6 +100,8 @@ class Video extends Equatable {
       likedBy: likedBy ?? this.likedBy,
       likeCount: likeCount ?? this.likeCount,
       viewCount: viewCount ?? this.viewCount,
+      height: height ?? this.height,
+      width: width ?? this.width,
     );
   }
 }

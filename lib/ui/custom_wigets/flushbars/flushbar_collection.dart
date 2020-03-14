@@ -53,6 +53,8 @@ class FlushbarCollection {
     Flushbar(
       backgroundColor: reclipBlackDark,
       duration: Duration(seconds: 3),
+      margin: EdgeInsets.all(8),
+      borderRadius: 20,
       titleText: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -74,12 +76,14 @@ class FlushbarCollection {
     Flushbar(
       backgroundColor: reclipBlackDark,
       duration: Duration(seconds: 3),
+      margin: EdgeInsets.all(8),
+      borderRadius: 20,
       messageText: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             errorText,
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: Colors.white),
           ),
           Icon(
             FontAwesomeIcons.exclamationCircle,
