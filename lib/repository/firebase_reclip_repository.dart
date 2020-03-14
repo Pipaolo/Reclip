@@ -5,8 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
 import 'package:uuid/uuid.dart';
 import '../data/model/illustration.dart';
 
@@ -103,20 +101,6 @@ class FirebaseReclipRepository {
     return ReclipUser.fromSnapshot(await userCollection.document(email).get());
   }
 
-  Stream<List<YoutubeVideo>> getUserLikedVideos(String email) {
-    return userCollection
-        .document(email)
-        .collection('likedVideos')
-        .snapshots()
-        .map(
-          (videos) => videos.documents
-              .map(
-                (video) => YoutubeVideo.fromSnapshot(video),
-              )
-              .toList(),
-        );
-  }
-
   Future<ReclipContentCreator> getOtherContentCreator(String email) async {
     return ReclipContentCreator.fromSnapshot(
         await contentCreatorCollection.document(email).get());
@@ -139,41 +123,6 @@ class FirebaseReclipRepository {
         .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
 
     return (user != null) ? true : false;
-  }
-
-  Future<void> updateChannel(YoutubeChannel channel) async {
-    return await channelCollection
-        .document(channel.id)
-        .updateData(channel.toDocument())
-        .then((_) async {
-      for (var video in channel.videos) {
-        await channelCollection
-            .document(channel.id)
-            .collection('videos')
-            .document(video.id)
-            .setData(video.toDocument());
-      }
-    });
-  }
-
-  Future<YoutubeChannel> getChannel(String channelId) async {
-    return YoutubeChannel.fromSnapshot(
-        await channelCollection.document(channelId).get());
-  }
-
-  Future<void> addChannel(YoutubeChannel channel) async {
-    return await channelCollection
-        .document(channel.id)
-        .setData(channel.toDocument())
-        .then((_) async {
-      for (var video in channel.videos) {
-        await channelCollection
-            .document(channel.id)
-            .collection('videos')
-            .document(video.id)
-            .setData(video.toDocument());
-      }
-    });
   }
 
   Future<void> addVideoView(String channelId, String videoId) async {
@@ -202,51 +151,5 @@ class FirebaseReclipRepository {
           .document(videoId)
           .delete();
     }
-  }
-
-  Future<void> addVideoLike(
-      String channelId, String videoId, String email) async {
-    //Get Liked youtube Video
-    final video = YoutubeVideo.fromSnapshot(await channelCollection
-        .document(channelId)
-        .collection('videos')
-        .document(videoId)
-        .get());
-    //Add Youtube Video
-    //Get User
-    final reclipUser = await userCollection.document(email).get();
-    if (reclipUser.exists) {
-      await userCollection
-          .document(email)
-          .collection('likedVideos')
-          .document(videoId)
-          .setData(video.toDocument());
-    } else {
-      await contentCreatorCollection
-          .document(email)
-          .collection('likedVideos')
-          .document(videoId)
-          .setData(video.toDocument());
-    }
-  }
-
-  Stream<List<YoutubeVideo>> getYoutubeVideos() {
-    final videos = Firestore.instance
-        .collectionGroup('videos')
-        .orderBy('statistics.likeCount', descending: true)
-        .snapshots();
-    return videos.map((snapshot) {
-      return snapshot.documents.map((document) {
-        return YoutubeVideo.fromSnapshot(document);
-      }).toList();
-    });
-  }
-
-  Stream<List<YoutubeChannel>> getYoutubeChannels() {
-    return channelCollection.snapshots().map((snapshot) {
-      return snapshot.documents.map((document) {
-        return YoutubeChannel.fromSnapshot(document);
-      }).toList();
-    });
   }
 }

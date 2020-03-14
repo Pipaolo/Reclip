@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +14,6 @@ import '../../../../core/reclip_colors.dart';
 import '../../../../data/model/reclip_content_creator.dart';
 import '../../../../data/model/video.dart';
 import '../../../custom_wigets/dialogs/dialog_collection.dart';
-import '../../../custom_wigets/video_widgets/video_compressing_progress.dart';
 
 class AddContentVideoArgs extends BaseArguments {
   final File video;
