@@ -4,6 +4,7 @@ import 'package:reclip/ui/content_creator_page/add_content/content_creator_add_c
 import 'package:reclip/ui/content_creator_page/profile_page/content_creator_profile_page.dart';
 import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/content_creator_edit_profile_page.dart';
 import 'package:reclip/ui/custom_wigets/other_profile_page/other_profile_page.dart';
+import 'package:reclip/ui/custom_wigets/video_content_page/video_content_page.dart';
 import 'package:reclip/ui/home_page/home_page.dart';
 import 'package:reclip/ui/login_page/login_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fifth_page.dart';
@@ -96,6 +97,15 @@ class Routes {
             args: args,
           );
         }));
+
+    sailor.addRoute(SailorRoute(
+        name: 'video_content_page',
+        builder: (context, args, params) {
+          return VideoContentPage(
+            args: args,
+          );
+        },
+        defaultTransitions: [SailorTransition.slide_from_bottom]));
 
     sailor.addRoutes(
       [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/bloc/notification/notification_bloc.dart';
 
 import 'bloc/add_content/add_content_bloc.dart';
 import 'bloc/add_video/add_video_bloc.dart';
@@ -34,9 +35,20 @@ void main() {
   final VideoRepository videoRepository = VideoRepository();
 
   runApp(
-    BlocProvider(
-      create: (context) =>
-          AuthenticationBloc(userRepository: userRepository)..add(AppStarted()),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) =>
+              AuthenticationBloc(userRepository: userRepository)
+                ..add(
+                  AppStarted(),
+                ),
+        ),
+        BlocProvider<NotificationBloc>(
+          create: (context) =>
+              NotificationBloc()..add(NotificationConfigured()),
+        ),
+      ],
       child: Reclip(
         firebaseReclipRepository: firebaseReclipRepository,
         userRepository: userRepository,

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reclip/core/route_generator.dart';
+import 'package:reclip/ui/custom_wigets/video_content_page/video_content_page.dart';
 
 import '../../bloc/info/info_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
@@ -23,20 +25,26 @@ class VideoPage extends StatelessWidget {
       body: BlocListener<InfoBloc, InfoState>(
         listener: (context, state) {
           if (state is ShowVideoInfo) {
-            showBottomSheet(
-                context: context,
-                builder: (context) {
-                  return DraggableScrollableSheet(
-                      initialChildSize: 1.0,
-                      builder: (context, scrollController) {
-                        return VideoBottomSheet(
-                          contentCreator: state.contentCreator,
-                          video: state.video,
-                          isLiked: state.isLiked,
-                          controller: scrollController,
-                        );
-                      });
-                });
+            Routes.sailor.navigate('video_content_page',
+                args: VideoContentPageArgs(
+                  contentCreator: state.contentCreator,
+                  isLiked: state.isLiked,
+                  video: state.video,
+                ));
+            // showBottomSheet(
+            //     context: context,
+            //     builder: (context) {
+            //       return DraggableScrollableSheet(
+            //           initialChildSize: 1.0,
+            //           builder: (context, scrollController) {
+            //             return VideoBottomSheet(
+            //               contentCreator: state.contentCreator,
+            //               video: state.video,
+            //               isLiked: state.isLiked,
+            //               controller: scrollController,
+            //             );
+            //           });
+            //     });
           }
         },
         child: BlocBuilder<VideoBloc, VideoState>(
