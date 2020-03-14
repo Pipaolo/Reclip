@@ -216,6 +216,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Container(
+                color: reclipBlack,
                 width: 100,
                 child: Stack(
                   children: <Widget>[
@@ -226,6 +227,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                           image: AdvancedNetworkImage(
                             videos[index].thumbnailUrl,
                           ),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

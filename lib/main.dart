@@ -11,7 +11,6 @@ import 'bloc/info/info_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/navigation/navigation_bloc.dart';
 import 'bloc/other_user/other_user_bloc.dart';
-import 'bloc/playback/playback_bloc.dart';
 import 'bloc/reclip_user/reclipuser_bloc.dart';
 import 'bloc/signup/signup_bloc.dart';
 import 'bloc/user/user_bloc.dart';
@@ -130,9 +129,6 @@ class Reclip extends StatelessWidget {
             userRepository: _userRepository,
             firebaseReclipRepository: _firebaseReclipRepository,
           ),
-        ),
-        BlocProvider<PlaybackBloc>(
-          create: (context) => PlaybackBloc(),
         ),
         BlocProvider<DrawerBloc>(
           create: (context) => DrawerBloc(),

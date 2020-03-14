@@ -4,8 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:reclip/data/model/illustration.dart';
 
-import 'youtube_channel.dart';
-
 class ReclipContentCreator extends Equatable {
   final String id;
   final String name;
@@ -66,7 +64,6 @@ class ReclipContentCreator extends Equatable {
     String instagram,
     String imageUrl,
     GoogleSignInAccount googleAccount,
-    YoutubeChannel channel,
     Illustration illustration,
   }) {
     if (illustration != null) {
