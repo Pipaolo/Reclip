@@ -69,7 +69,7 @@ class DialogCollection {
               ),
               FlatButton(
                 child: Text(
-                  'Delete',
+                  'Confirm',
                   style: TextStyle(color: reclipIndigoDark),
                 ),
                 onPressed: () {

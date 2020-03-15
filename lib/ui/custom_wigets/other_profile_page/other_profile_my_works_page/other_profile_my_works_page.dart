@@ -136,8 +136,6 @@ class _OtherProfileMyWorksPageState extends State<OtherProfileMyWorksPage> {
   }
 
   _buildListView(List<Video> videos) {
-    if (videos.isNotEmpty) {
-      return OtherProfileVideos(user: widget.user, videos: videos);
-    }
+    return OtherProfileVideos(user: widget.user, videos: videos);
   }
 }

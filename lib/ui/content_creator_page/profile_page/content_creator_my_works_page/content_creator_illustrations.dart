@@ -80,7 +80,7 @@ class ContentCreatorIllustrations extends StatelessWidget {
                           onLongPress: () {
                             DialogCollection.showConfirmationDialog(
                                     'Delete Illustration?',
-                                    'You ca\'t undo this action.',
+                                    'You can\'t undo this action.',
                                     context)
                                 .then((value) {
                               if (value) {
