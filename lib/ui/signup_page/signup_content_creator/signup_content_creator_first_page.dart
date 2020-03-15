@@ -263,10 +263,8 @@ class _SignupContentCreatorFirstFormState
                             'Password needs to be atleast 6 letters or numbers'),
                     // ignore: missing_return
                     (val) {
-                      if (!_fbKey
-                          .currentState.fields['password'].currentState.value
-                          .toString()
-                          .contains(confirmPasswordController.text))
+                      if (passwordController.text !=
+                          confirmPasswordController.text)
                         return 'Password is not the same';
                     },
                   ],
