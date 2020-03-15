@@ -76,7 +76,7 @@ class _OtherProfileMyWorksPageState extends State<OtherProfileMyWorksPage> {
                 }
               } else if (state is VideoLoading) {
                 return Center(
-                  child: SpinKitCircle(color: tomato),
+                  child: SpinKitCircle(color: reclipIndigo),
                 );
               } else if (state is VideoError) {
                 return Center(
