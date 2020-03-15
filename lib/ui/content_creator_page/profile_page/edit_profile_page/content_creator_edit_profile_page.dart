@@ -7,20 +7,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:sailor/sailor.dart';
-
-class ContentCreatorEditProfilePageArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  ContentCreatorEditProfilePageArgs({this.user});
-}
 
 class ContentCreatorEditProfilePage extends StatefulWidget {
-  final ContentCreatorEditProfilePageArgs args;
-  const ContentCreatorEditProfilePage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  ContentCreatorEditProfilePage({
+    Key key,
+    this.user,
+  }) : super(key: key);
 
   @override
   _ContentCreatorEditProfilePageState createState() =>
@@ -51,16 +48,15 @@ class _ContentCreatorEditProfilePageState
 
   @override
   void initState() {
-    if (widget.args.user.description != null &&
-        widget.args.user.description.isNotEmpty) {
-      _aboutMeTextEditingController.text = widget.args.user.description;
+    if (widget.user.description != null && widget.user.description.isNotEmpty) {
+      _aboutMeTextEditingController.text = widget.user.description;
     }
-    _emailTextEditingController.text = widget.args.user.email ?? '';
-    _contactNoTextEditingController.text = widget.args.user.contactNumber ?? '';
-    _userNameTextEditingController.text = widget.args.user.name ?? '';
-    _facebookTextEditingController.text = widget.args.user.facebook ?? '';
-    _twitterTextEditingController.text = widget.args.user.twitter ?? '';
-    _instagramTextEditingController.text = widget.args.user.instagram ?? '';
+    _emailTextEditingController.text = widget.user.email ?? '';
+    _contactNoTextEditingController.text = widget.user.contactNumber ?? '';
+    _userNameTextEditingController.text = widget.user.name ?? '';
+    _facebookTextEditingController.text = widget.user.facebook ?? '';
+    _twitterTextEditingController.text = widget.user.twitter ?? '';
+    _instagramTextEditingController.text = widget.user.instagram ?? '';
     super.initState();
   }
 
@@ -163,9 +159,8 @@ class _ContentCreatorEditProfilePageState
                       child: CircleAvatar(
                         backgroundImage: (profileImage != null)
                             ? FileImage(profileImage)
-                            : AdvancedNetworkImage(
-                                widget.args.user.imageUrl,
-                              ),
+                            : AdvancedNetworkImage(widget.user.imageUrl,
+                                useDiskCache: true),
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
@@ -462,7 +457,7 @@ class _ContentCreatorEditProfilePageState
                                       ),
                                       onPressed: () {
                                         final updatedUser =
-                                            widget.args.user.copyWith(
+                                            widget.user.copyWith(
                                           contactNumber:
                                               _contactNoTextEditingController
                                                   .text,

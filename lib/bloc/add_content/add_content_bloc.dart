@@ -7,15 +7,15 @@ import 'package:reclip/bloc/add_video/add_video_bloc.dart';
 import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/video.dart';
-import 'package:reclip/repository/firebase_reclip_repository.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/repository/illustration_repository.dart';
 import 'package:reclip/repository/video_repository.dart';
 
 part 'add_content_event.dart';
 part 'add_content_state.dart';
 
 class AddContentBloc extends Bloc<AddContentEvent, AddContentState> {
-  final FirebaseReclipRepository reclipRepository;
+  final IllustrationRepository illustrationRepository;
   final VideoRepository videoRepository;
   final AddVideoBloc addVideoBloc;
   StreamSubscription addVideoSubscription;
@@ -24,7 +24,7 @@ class AddContentBloc extends Bloc<AddContentEvent, AddContentState> {
   String videoUrl;
 
   AddContentBloc(
-      {@required this.reclipRepository,
+      {@required this.illustrationRepository,
       @required this.videoRepository,
       this.addVideoBloc});
   @override
@@ -37,17 +37,10 @@ class AddContentBloc extends Bloc<AddContentEvent, AddContentState> {
     if (event is AddIllustration) {
       try {
         yield UploadingImage();
-        final isIllustrationExisting =
-            await reclipRepository.isIllustrationExist(event.illustration);
-        print(isIllustrationExisting);
-        if (isIllustrationExisting) {
-          yield UploadImageDuplicate();
-        } else {
-          final illustration = await reclipRepository.addImage(
-              event.user, event.illustration, event.image);
-          await reclipRepository.addIllustration(illustration);
-          yield UploadImageSuccess();
-        }
+        final illustration = await illustrationRepository.addImage(
+            event.user, event.illustration, event.image);
+        await illustrationRepository.addIllustration(illustration);
+        yield UploadImageSuccess();
       } catch (e) {
         yield UploadImageError(
           errorText: e.toString(),

@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:reclip/data/model/video.dart';
 import 'package:meta/meta.dart';
-import 'package:reclip/repository/user_repository.dart';
-import 'package:reclip/repository/video_repository.dart';
+
+import '../../data/model/video.dart';
+import '../../repository/user_repository.dart';
+import '../../repository/video_repository.dart';
 
 part 'video_event.dart';
 part 'video_state.dart';
@@ -28,7 +29,6 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
   ) async* {
     if (event is VideosFetched) {
       _videoRepository.fetchVideos().listen((videos) {
-        print(videos);
         add(VideosShowed(videos: videos));
       });
     } else if (event is VideosShowed) {

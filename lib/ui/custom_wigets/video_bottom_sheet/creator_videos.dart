@@ -4,12 +4,13 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/other_user/other_user_bloc.dart';
 import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
+
 import '../../../data/model/reclip_content_creator.dart';
 import '../../../data/model/video.dart';
 
@@ -43,7 +44,8 @@ class CreatorVideos extends StatelessWidget {
                   onTap: () {
                     BlocProvider.of<OtherUserBloc>(context)
                       ..add(GetOtherUser(email: contentCreator.email));
-                    return Routes.sailor('other_user_profile_page');
+                    return Router.navigator
+                        .pushNamed(Router.otherProfilePageRoute);
                   },
                   child: Container(
                     height: ScreenUtil().setHeight(100),
@@ -120,8 +122,8 @@ class CreatorVideos extends StatelessWidget {
                           tag: filteredVideos[index].videoId,
                           child: TransitionToImage(
                             image: AdvancedNetworkImage(
-                              filteredVideos[index].thumbnailUrl,
-                            ),
+                                filteredVideos[index].thumbnailUrl,
+                                useDiskCache: true),
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/notification/notification_bloc.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
+import 'package:reclip/repository/illustration_repository.dart';
 
 import 'bloc/add_content/add_content_bloc.dart';
 import 'bloc/add_video/add_video_bloc.dart';
@@ -18,7 +20,6 @@ import 'bloc/user/user_bloc.dart';
 import 'bloc/verification/verification_bloc.dart';
 import 'bloc/video/video_bloc.dart';
 import 'core/reclip_colors.dart';
-import 'core/route_generator.dart';
 import 'core/styling.dart';
 import 'repository/firebase_reclip_repository.dart';
 import 'repository/user_repository.dart';
@@ -27,55 +28,44 @@ import 'ui/splash_page/splash_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Routes.createRoutes();
-
-  final UserRepository userRepository = UserRepository();
-  final FirebaseReclipRepository firebaseReclipRepository =
-      FirebaseReclipRepository();
-  final VideoRepository videoRepository = VideoRepository();
 
   runApp(
-    MultiBlocProvider(
+    MultiRepositoryProvider(
       providers: [
-        BlocProvider<AuthenticationBloc>(
-          create: (context) =>
-              AuthenticationBloc(userRepository: userRepository)
-                ..add(
-                  AppStarted(),
-                ),
+        RepositoryProvider<UserRepository>(
+          create: (context) => UserRepository(),
         ),
-        BlocProvider<NotificationBloc>(
-          create: (context) =>
-              NotificationBloc()..add(NotificationConfigured()),
+        RepositoryProvider<FirebaseReclipRepository>(
+          create: (context) => FirebaseReclipRepository(),
+        ),
+        RepositoryProvider<VideoRepository>(
+          create: (context) => VideoRepository(),
+        ),
+        RepositoryProvider<IllustrationRepository>(
+          create: (context) => IllustrationRepository(),
         ),
       ],
-      child: Reclip(
-        firebaseReclipRepository: firebaseReclipRepository,
-        userRepository: userRepository,
-        videoRepository: videoRepository,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+            create: (context) => AuthenticationBloc(
+                userRepository: RepositoryProvider.of<UserRepository>(context))
+              ..add(
+                AppStarted(),
+              ),
+          ),
+          BlocProvider<NotificationBloc>(
+            create: (context) =>
+                NotificationBloc()..add(NotificationConfigured()),
+          ),
+        ],
+        child: Reclip(),
       ),
     ),
   );
 }
 
 class Reclip extends StatelessWidget {
-  final FirebaseReclipRepository _firebaseReclipRepository;
-  final UserRepository _userRepository;
-  final VideoRepository _videoRepository;
-
-  const Reclip(
-      {Key key,
-      @required UserRepository userRepository,
-      @required FirebaseReclipRepository firebaseReclipRepository,
-      @required VideoRepository videoRepository})
-      : assert(userRepository != null),
-        assert(firebaseReclipRepository != null),
-        assert(videoRepository != null),
-        _videoRepository = videoRepository,
-        _firebaseReclipRepository = firebaseReclipRepository,
-        _userRepository = userRepository,
-        super(key: key);
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -88,58 +78,65 @@ class Reclip extends StatelessWidget {
         ),
         BlocProvider<AddContentBloc>(
           create: (context) => AddContentBloc(
-            reclipRepository: _firebaseReclipRepository,
-            videoRepository: _videoRepository,
+            illustrationRepository:
+                RepositoryProvider.of<IllustrationRepository>(context),
+            videoRepository: RepositoryProvider.of<VideoRepository>(context),
             addVideoBloc: BlocProvider.of<AddVideoBloc>(context),
           ),
         ),
         BlocProvider<VideoBloc>(
           create: (context) => VideoBloc(
-            videoRepository: _videoRepository,
-            userRepository: _userRepository,
+            videoRepository: RepositoryProvider.of<VideoRepository>(context),
+            userRepository: RepositoryProvider.of<UserRepository>(context),
           ),
         ),
         BlocProvider<IllustrationsBloc>(
           create: (context) => IllustrationsBloc(
-            reclipRepository: _firebaseReclipRepository,
+            illustrationRepository:
+                RepositoryProvider.of<IllustrationRepository>(context),
           )..add(FetchIllustrations()),
         ),
         BlocProvider<UserBloc>(
-          create: (context) =>
-              UserBloc(reclipRepository: _firebaseReclipRepository),
+          create: (context) => UserBloc(
+              reclipRepository:
+                  RepositoryProvider.of<FirebaseReclipRepository>(context)),
         ),
         BlocProvider<OtherUserBloc>(
-          create: (context) =>
-              OtherUserBloc(reclipRepository: _firebaseReclipRepository),
+          create: (context) => OtherUserBloc(
+              reclipRepository:
+                  RepositoryProvider.of<FirebaseReclipRepository>(context)),
         ),
         BlocProvider<ReclipUserBloc>(
           create: (context) => ReclipUserBloc(
-            reclipRepository: _firebaseReclipRepository,
-            videoRepository: _videoRepository,
+            reclipRepository:
+                RepositoryProvider.of<FirebaseReclipRepository>(context),
+            videoRepository: RepositoryProvider.of<VideoRepository>(context),
           ),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => NavigationBloc(
-            navigatorKey: Routes.sailor.navigatorKey,
+            navigatorKey: Router.navigator.key,
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           ),
         ),
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(
-            userRepository: _userRepository,
-            firebaseReclipRepository: _firebaseReclipRepository,
+            userRepository: RepositoryProvider.of<UserRepository>(context),
+            firebaseReclipRepository:
+                RepositoryProvider.of<FirebaseReclipRepository>(context),
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
           ),
         ),
         BlocProvider<VerificationBloc>(
           create: (context) => VerificationBloc(
-            userRepository: _userRepository,
+            userRepository: RepositoryProvider.of<UserRepository>(context),
           ),
         ),
         BlocProvider<SignupBloc>(
           create: (context) => SignupBloc(
-            userRepository: _userRepository,
-            firebaseReclipRepository: _firebaseReclipRepository,
+            userRepository: RepositoryProvider.of<UserRepository>(context),
+            firebaseReclipRepository:
+                RepositoryProvider.of<FirebaseReclipRepository>(context),
           ),
         ),
         BlocProvider<DrawerBloc>(
@@ -147,17 +144,19 @@ class Reclip extends StatelessWidget {
         ),
         BlocProvider<InfoBloc>(
           create: (context) => InfoBloc(
-            reclipRepository: _firebaseReclipRepository,
-            userRepository: _userRepository,
-            videoRepository: _videoRepository,
+            reclipRepository:
+                RepositoryProvider.of<FirebaseReclipRepository>(context),
+            userRepository: RepositoryProvider.of<UserRepository>(context),
+            videoRepository: RepositoryProvider.of<VideoRepository>(context),
           ),
         )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.reclipTheme,
-        onGenerateRoute: Routes.sailor.generator(),
-        navigatorKey: Routes.sailor.navigatorKey,
+        onGenerateRoute: Router.onGenerateRoute,
+        navigatorKey: Router.navigator.key,
+        initialRoute: Router.splashPageRoute,
         home: SplashPage(),
       ),
     );

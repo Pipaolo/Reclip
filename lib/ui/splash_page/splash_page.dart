@@ -3,27 +3,22 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/reclip_user/reclipuser_bloc.dart';
 import '../../bloc/user/user_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
-import '../../bottom_nav_controller.dart';
 import '../../core/reclip_colors.dart';
-import '../../core/route_generator.dart';
+import '../../core/router/route_generator.gr.dart';
 import '../../data/model/reclip_content_creator.dart';
 import '../../data/model/reclip_user.dart';
 
-class SplashPageArgs extends BaseArguments {
-  final FirebaseUser user;
-
-  SplashPageArgs({this.user});
-}
-
 class SplashPage extends StatefulWidget {
-  final SplashPageArgs args;
-  SplashPage({Key key, this.args}) : super(key: key);
+  final FirebaseUser user;
+  SplashPage({
+    Key key,
+    this.user,
+  }) : super(key: key);
 
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -84,18 +79,15 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _navigateToHomeScreen() {
-    Routes.sailor.navigate('bottom_nav_bar_controller',
-        navigationType: NavigationType.pushReplace,
-        args: BottomNavBarControllerArgs(
-          contentCreator: contentCreator,
-          user: user,
-        ));
+    Router.navigator
+        .pushReplacementNamed(Router.bottomNavBarControllerScreenRoute,
+            arguments: BottomNavBarControllerArguments(
+              contentCreator: contentCreator,
+              user: user,
+            ));
   }
 
   _navigateToLoginScreen() {
-    Routes.sailor.navigate(
-      'login_page',
-      navigationType: NavigationType.pushReplace,
-    );
+    Router.navigator.pushReplacementNamed(Router.loginPageRoute);
   }
 }

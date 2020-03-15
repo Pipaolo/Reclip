@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/illustration/illustrations_bloc.dart';
@@ -11,9 +10,8 @@ import '../../bloc/reclip_user/reclipuser_bloc.dart';
 import '../../bloc/user/user_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
 import '../../core/reclip_colors.dart';
-import '../../core/route_generator.dart';
+import '../../core/router/route_generator.gr.dart';
 import '../custom_wigets/flushbars/flushbar_collection.dart';
-import '../signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,14 +24,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog progressDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    progressDialog.style(
-      progressWidget: CircularProgressIndicator(),
-    );
     return Scaffold(
       backgroundColor: reclipBlack,
       body: MultiBlocListener(
@@ -41,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
           BlocListener<LoginBloc, LoginState>(
             listener: (context, state) async {
               if (state is LoginLoading) {
-                progressDialog.show();
               } else if (state is LoginSuccessContentCreator) {
                 if (state.user != null) {
                   BlocProvider.of<AuthenticationBloc>(context)
@@ -49,8 +38,6 @@ class _LoginPageState extends State<LoginPage> {
                       LoggedIn(contentCreator: state.user),
                     );
                 }
-
-                progressDialog.dismiss();
               } else if (state is LoginSuccessUser) {
                 if (state.user != null) {
                   BlocProvider.of<AuthenticationBloc>(context)
@@ -58,14 +45,13 @@ class _LoginPageState extends State<LoginPage> {
                       LoggedIn(user: state.user),
                     );
                 }
-                progressDialog.dismiss();
               } else if (state is LoginSuccessUnregistered) {
-                Routes.sailor.pop();
+                Router.navigator.pop();
                 Future.delayed(
                   Duration(seconds: 3),
-                  () => Routes.sailor.navigate(
-                    'signup_page/content_creator/first_page',
-                    args: SignupContentCreatorFirstArgs(
+                  () => Router.navigator.pushNamed(
+                    Router.signupContentCreatorFirstPageRoute,
+                    arguments: SignupContentCreatorFirstPageArguments(
                       contentCreator: state.unregisteredUser,
                     ),
                   ),
@@ -76,7 +62,6 @@ class _LoginPageState extends State<LoginPage> {
                   context,
                 );
               } else if (state is LoginError) {
-                progressDialog.dismiss();
                 BlocProvider.of<AuthenticationBloc>(context)
                   ..add(
                     LoggedOut(),

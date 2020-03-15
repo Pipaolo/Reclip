@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sailor/sailor.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
+
 import '../../../data/model/reclip_user.dart';
 
 class SignupUserPage extends StatelessWidget {
@@ -102,11 +102,8 @@ class SignupUserPage extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
             Future.delayed(Duration(seconds: 3), () {
               Navigator.of(context).pop();
-              Routes.sailor.navigate(
-                'login_page',
-                navigationType: NavigationType.pushAndRemoveUntil,
-                removeUntilPredicate: ModalRoute.withName('login_page'),
-              );
+              Router.navigator.pushNamedAndRemoveUntil(Router.loginPageRoute,
+                  ModalRoute.withName(Router.loginPageRoute));
             });
           }
         } else if (state is SignupError) {

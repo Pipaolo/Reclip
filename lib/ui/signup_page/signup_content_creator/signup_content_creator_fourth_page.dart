@@ -5,22 +5,17 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
+import '../../../core/router/route_generator.gr.dart';
 import '../../../data/model/reclip_content_creator.dart';
-import 'signup_content_creator_fifth_page.dart';
-
-class SignupContentCreatorFourthArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  SignupContentCreatorFourthArgs({this.user});
-}
 
 class SignupContentCreatorFourthPage extends StatefulWidget {
-  final SignupContentCreatorFourthArgs args;
-  const SignupContentCreatorFourthPage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  SignupContentCreatorFourthPage({
+    Key key,
+    this.user,
+  }) : super(key: key);
 
   @override
   _SignupContentCreatorFourthPageState createState() =>
@@ -86,9 +81,11 @@ class _SignupContentCreatorFourthPageState
 
   _navigateToFifthPage() {
     if (_image != null) {
-      Routes.sailor.navigate('signup_page/content_creator/fifth_page',
-          args: SignupContentCreatorFifthArgs(
-              profileImage: _image, user: widget.args.user));
+      Router.navigator.pushNamed(Router.signupContentCreatorFifthPageRoute,
+          arguments: SignupContentCreatorFifthPageArguments(
+            profileImage: _image,
+            user: widget.user,
+          ));
     } else {
       Flushbar(
         duration: Duration(seconds: 3),

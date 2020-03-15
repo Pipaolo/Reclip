@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
@@ -107,9 +106,13 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
                       height: ScreenUtil().setHeight(450),
                       width: ScreenUtil().setWidth(280),
                       color: reclipBlack,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.video.thumbnailUrl,
+                      child: TransitionToImage(
+                        image: AdvancedNetworkImage(widget.video.thumbnailUrl,
+                            useDiskCache: true),
                         fit: BoxFit.fitHeight,
+                        loadingWidget: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     ),
                   ),
@@ -179,9 +182,8 @@ class _VideoDescriptionState extends State<VideoBottomSheet> {
               child: FittedBox(
                 fit: BoxFit.cover,
                 child: TransitionToImage(
-                  image: AdvancedNetworkImage(
-                    widget.video.thumbnailUrl,
-                  ),
+                  image: AdvancedNetworkImage(widget.video.thumbnailUrl,
+                      useDiskCache: true),
                 ),
               ),
             ),

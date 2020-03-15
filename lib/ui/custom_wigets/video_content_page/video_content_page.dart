@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
@@ -7,11 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/core/route_generator.dart';
+
 import 'package:reclip/hooks/scroll_controller_for_anim.dart';
 import 'package:reclip/ui/custom_wigets/video_bottom_sheet/creator_videos.dart';
 import 'package:reclip/ui/custom_wigets/video_bottom_sheet/video_description.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
@@ -20,20 +18,16 @@ import '../../../data/model/video.dart';
 import '../flushbars/flushbar_collection.dart';
 import '../video_widgets/custom_video_player.dart';
 
-class VideoContentPageArgs extends BaseArguments {
+class VideoContentPage extends HookWidget {
   final Video video;
   final bool isLiked;
   final ReclipContentCreator contentCreator;
 
-  VideoContentPageArgs({this.video, this.isLiked, this.contentCreator});
-}
-
-class VideoContentPage extends HookWidget {
-  final VideoContentPageArgs args;
-
-  var totalPosition;
-
-  VideoContentPage({this.args});
+  VideoContentPage({
+    this.video,
+    this.isLiked,
+    this.contentCreator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,38 +46,37 @@ class VideoContentPage extends HookWidget {
                 Stack(children: [
                   _buildHeader(),
                   _buildPlayOverlay(context),
-                ]),
-                _buildDescription(
-                    args.contentCreator.email, args.video.videoId, context),
-              ],
-            ),
-            Positioned(
-                top: 10,
-                right: 10,
-                child: FadeTransition(
-                  opacity: hideCloseButtonAnimController,
-                  child: Material(
-                    color: reclipBlack.withOpacity(0.5),
-                    shape: CircleBorder(),
-                    child: Ink(
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Icon(
-                            Icons.close,
-                            color: reclipIndigo,
-                            size: ScreenUtil().setSp(60),
-                            textDirection: TextDirection.rtl,
+                  Positioned(
+                      top: 10,
+                      right: 10,
+                      child: FadeTransition(
+                        opacity: hideCloseButtonAnimController,
+                        child: Material(
+                          color: reclipBlack.withOpacity(0.5),
+                          shape: CircleBorder(),
+                          child: Ink(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Icon(
+                                  Icons.close,
+                                  color: reclipIndigo,
+                                  size: ScreenUtil().setSp(60),
+                                  textDirection: TextDirection.rtl,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
                           ),
                         ),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  ),
-                )),
+                      )),
+                ]),
+                _buildDescription(contentCreator.email, video.videoId, context),
+              ],
+            ),
           ],
         ),
       ),
@@ -119,8 +112,7 @@ class VideoContentPage extends HookWidget {
 
   _buildDescription(
       String contentCreatorEmail, String videoId, BuildContext context) {
-    final convertedDate =
-        args.video.publishedAt.toString().split('T').removeAt(0);
+    final convertedDate = video.publishedAt.toString().split('T').removeAt(0);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -141,8 +133,9 @@ class VideoContentPage extends HookWidget {
                       height: ScreenUtil().setHeight(450),
                       width: ScreenUtil().setWidth(280),
                       color: reclipBlack,
-                      child: CachedNetworkImage(
-                        imageUrl: args.video.thumbnailUrl,
+                      child: TransitionToImage(
+                        image: AdvancedNetworkImage(video.thumbnailUrl,
+                            useDiskCache: true),
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -151,8 +144,8 @@ class VideoContentPage extends HookWidget {
               ),
               VideoDescription(
                 convertedDate: convertedDate,
-                title: args.video.title,
-                description: args.video.description,
+                title: video.title,
+                description: video.description,
               ),
             ],
           ),
@@ -172,7 +165,7 @@ class VideoContentPage extends HookWidget {
               VideoLikeButton(
                 contentCreatorEmail: contentCreatorEmail,
                 videoId: videoId,
-                isLiked: args.isLiked,
+                isLiked: isLiked,
               ),
             ],
           ),
@@ -184,8 +177,8 @@ class VideoContentPage extends HookWidget {
           ),
           CreatorVideos(
             context: context,
-            title: args.video.title,
-            contentCreator: args.contentCreator,
+            title: video.title,
+            contentCreator: contentCreator,
           ),
         ],
       ),
@@ -193,34 +186,30 @@ class VideoContentPage extends HookWidget {
   }
 
   _buildHeader() {
-    return Hero(
-      tag: args.video.videoId,
-      child: Container(
-        width: ScreenUtil().uiHeightPx.toDouble(),
-        height: ScreenUtil().setHeight(700),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(180),
-              blurRadius: 5,
-              offset: Offset(5, 5),
-            ),
-          ],
-        ),
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: TransitionToImage(
-                  image: AdvancedNetworkImage(
-                    args.video.thumbnailUrl,
-                  ),
-                ),
+    return Container(
+      width: ScreenUtil().uiWidthPx.toDouble(),
+      height: ScreenUtil().setHeight(700),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(180),
+            blurRadius: 5,
+            offset: Offset(5, 5),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: TransitionToImage(
+                image: AdvancedNetworkImage(video.thumbnailUrl,
+                    useDiskCache: true),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -229,8 +218,7 @@ class VideoContentPage extends HookWidget {
     BlocProvider.of<VideoBloc>(context)
       ..add(
         ViewAdded(
-            contentCreatorEmail: args.contentCreator.email,
-            videoId: args.video.videoId),
+            contentCreatorEmail: contentCreator.email, videoId: video.videoId),
       );
     await showGeneralDialog(
       context: context,
@@ -239,8 +227,8 @@ class VideoContentPage extends HookWidget {
       transitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (context, anim, anim1) {
         return CustomVideoPlayer(
-          contentCreator: args.contentCreator,
-          video: args.video,
+          contentCreator: contentCreator,
+          video: video,
         );
       },
     ).then((_) {

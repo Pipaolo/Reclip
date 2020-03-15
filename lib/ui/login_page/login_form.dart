@@ -3,10 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../bloc/login/login_bloc.dart';
 import '../../core/reclip_colors.dart';
-import '../../core/route_generator.dart';
 import 'google_button.dart';
 
 class LoginForm extends StatefulWidget {
@@ -155,7 +155,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   _navigateToSignupPage() {
-    return Routes.sailor.navigate('signup_page/category');
+    return Router.navigator.pushNamed(Router.signupCategoryPageRoute);
   }
 
   _submitLogin(BuildContext context) {

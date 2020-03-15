@@ -72,6 +72,28 @@ class FlushbarCollection {
     )..show(context);
   }
 
+  static void showFlushbarSuccess(String successText, BuildContext context) {
+    Flushbar(
+      backgroundColor: reclipBlackDark,
+      duration: Duration(seconds: 3),
+      margin: EdgeInsets.all(8),
+      borderRadius: 20,
+      messageText: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            successText,
+            style: TextStyle(color: Colors.white),
+          ),
+          Icon(
+            FontAwesomeIcons.checkCircle,
+            color: Colors.green,
+          ),
+        ],
+      ),
+    )..show(context);
+  }
+
   static void showFlushbarError(String errorText, BuildContext context) {
     Flushbar(
       backgroundColor: reclipBlackDark,

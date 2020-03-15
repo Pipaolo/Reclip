@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../bloc/add_video/add_video_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/video.dart';
 
 class DialogCollection {
   DialogCollection._();
@@ -12,7 +14,7 @@ class DialogCollection {
   static void showLoadingDialog(String loadingMessage, BuildContext context) {
     showDialog(
         context: context,
-        barrierDismissible: true,
+        barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
             title: Text('Loading...'),
@@ -39,6 +41,87 @@ class DialogCollection {
                 ),
               ),
             ),
+          );
+        });
+  }
+
+  static Future<bool> showVideoDeleteDialog(
+      BuildContext context, Video video) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: Colors.white,
+            title: Text('Delete Video?'),
+            content: Text('You can\'t undo this action'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: reclipIndigo),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  'Delete',
+                  style: TextStyle(color: reclipIndigoDark),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  static Future<bool> showConfirmationDialog(
+      String titleText, String contentText, BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: reclipBlack,
+            title: Text(
+              titleText,
+              style: TextStyle(
+                color: reclipIndigo,
+              ),
+            ),
+            content: Text(
+              contentText,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: reclipIndigoDark,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  'Confirm',
+                  style: TextStyle(color: reclipIndigoLight),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              )
+            ],
           );
         });
   }

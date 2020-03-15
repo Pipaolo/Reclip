@@ -3,24 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
-import 'package:reclip/ui/custom_wigets/flushbars/flushbar_collection.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
-import 'add_content_image/add_content_image_page.dart';
-
-class ContentCreatorAddContentPageArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  ContentCreatorAddContentPageArgs({@required this.user});
-}
+import '../../../core/router/route_generator.gr.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../custom_wigets/flushbars/flushbar_collection.dart';
 
 class ContentCreatorAddContentPage extends StatefulWidget {
-  final ContentCreatorAddContentPageArgs args;
-  const ContentCreatorAddContentPage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  const ContentCreatorAddContentPage({Key key, this.user}) : super(key: key);
 
   @override
   _ContentCreatorAddContentPageState createState() =>
@@ -54,7 +45,7 @@ class _ContentCreatorAddContentPageState
                 icon: FontAwesomeIcons.solidFileImage,
                 text: 'Add Illustration',
                 pageName: 'add_content_image_page',
-                user: widget.args.user,
+                user: widget.user,
               ),
               Divider(
                 color: reclipIndigo,
@@ -68,7 +59,7 @@ class _ContentCreatorAddContentPageState
                 icon: FontAwesomeIcons.solidFileVideo,
                 text: 'Add Video',
                 pageName: '',
-                user: widget.args.user,
+                user: widget.user,
               ),
             ],
           ),
@@ -112,30 +103,23 @@ class AddContentButton extends StatelessWidget {
                       'The maximum file size of a video is limited to 1gb only.',
                       context);
                 } else {
-                  Routes.sailor.navigate(
-                    'add_content_video_page',
-                    args: AddContentVideoArgs(
-                      video: video,
-                      contentCreator: user,
-                    ),
-                  );
+                  Navigator.of(context).pushNamed(
+                      Router.addContentVideoPageRoute,
+                      arguments: AddContentVideoPageArguments(
+                          contentCreator: user, video: video));
                 }
               } catch (e) {
                 print("Image Canceled");
               }
-
-              print("EMPTY");
             } else {
               try {
-                final image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
-                Routes.sailor.navigate(
-                  'add_content_image_page',
-                  args: AddContentImagePageArgs(
-                    image: image,
-                    user: user,
-                  ),
-                );
+                final image = await ImagePicker.pickImage(
+                    source: ImageSource.gallery, imageQuality: 80);
+                Navigator.of(context).pushNamed(Router.addContentImagePageRoute,
+                    arguments: AddContentImagePageArguments(
+                      image: image,
+                      user: user,
+                    ));
               } catch (e) {
                 print("Image Canceled");
               }

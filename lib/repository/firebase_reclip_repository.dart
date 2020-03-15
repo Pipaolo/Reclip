@@ -2,64 +2,20 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
 import 'package:uuid/uuid.dart';
-import '../data/model/illustration.dart';
+
+import '../data/model/reclip_content_creator.dart';
+import '../data/model/reclip_user.dart';
 
 class FirebaseReclipRepository {
   final userCollection = Firestore.instance.collection('users');
   final contentCreatorCollection =
       Firestore.instance.collection('content_creators');
-  final channelCollection = Firestore.instance.collection('channels');
-  final illustrationCollection = Firestore.instance.collection('illustrations');
-  final illustrationReference = FirebaseStorage.instance.ref();
-
-  Future<Illustration> addImage(ReclipContentCreator user,
-      Illustration rawIllustration, File image) async {
-    final imageName = image.path.split('/').last;
-    final reference = illustrationReference.child('${user.email}/$imageName');
-    final uploadTask = reference.putData(await image.readAsBytes());
-    await uploadTask.onComplete;
-    final imageUrl = await reference.getDownloadURL();
-    final uploadIllustration = rawIllustration.copyWith(
-      imageUrl: imageUrl,
-    );
-
-    await contentCreatorCollection.document(user.email).setData(
-          user.copyWith(illustration: uploadIllustration).toDocument(),
-        );
-
-    return uploadIllustration;
-  }
-
-  Future<bool> isIllustrationExist(Illustration illustration) async {
-    final illustrationDocument =
-        await illustrationCollection.document(illustration.title).get();
-
-    return (illustrationDocument.exists) ? true : false;
-  }
-
-  Future<void> addIllustration(Illustration illustration) async {
-    return await illustrationCollection
-        .document(illustration.title)
-        .setData(illustration.toDocument());
-  }
-
-  Stream<List<Illustration>> getIllustrations() {
-    return illustrationCollection.snapshots().map(
-      (snapshot) {
-        return snapshot.documents.map((illustration) {
-          return Illustration.fromSnapshot(illustration);
-        }).toList();
-      },
-    );
-  }
+  final storageReference = FirebaseStorage.instance.ref();
 
   Future<String> addProfilePicture(
       ReclipContentCreator user, File image) async {
-    final reference = illustrationReference.child('${user.email}/profileImage');
+    final reference = storageReference.child('${user.email}/profileImage');
     final uploadTask = reference.putData(await image.readAsBytes());
     await uploadTask.onComplete;
     final imageUrl = await reference.getDownloadURL();
@@ -123,33 +79,5 @@ class FirebaseReclipRepository {
         .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
 
     return (user != null) ? true : false;
-  }
-
-  Future<void> addVideoView(String channelId, String videoId) async {
-    return await channelCollection
-        .document(channelId)
-        .collection('videos')
-        .document(videoId)
-        .updateData({'statistics.viewCount': FieldValue.increment(1)});
-  }
-
-  Future<void> removeVideoLike(
-      String channelId, String videoId, String email) async {
-    //Remove Youtube Video
-    //Get User
-    final reclipUser = await userCollection.document(email).get();
-    if (reclipUser.exists) {
-      await userCollection
-          .document(email)
-          .collection('likedVideos')
-          .document(videoId)
-          .delete();
-    } else {
-      await contentCreatorCollection
-          .document(email)
-          .collection('likedVideos')
-          .document(videoId)
-          .delete();
-    }
   }
 }

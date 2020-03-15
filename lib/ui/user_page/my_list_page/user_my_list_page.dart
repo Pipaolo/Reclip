@@ -101,7 +101,8 @@ class UserMyListPage extends StatelessWidget {
                         width: ScreenUtil().setWidth(300),
                         child: TransitionToImage(
                           image: AdvancedNetworkImage(
-                              likedVideos[index].thumbnailUrl),
+                              likedVideos[index].thumbnailUrl,
+                              useDiskCache: true),
                           loadingWidget:
                               Center(child: CircularProgressIndicator()),
                           fit: BoxFit.fitHeight,

@@ -2,21 +2,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
-import 'package:sailor/sailor.dart';
 
-class SignupContentCreatorThirdArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  SignupContentCreatorThirdArgs({@required this.user});
-}
+import '../../../core/reclip_colors.dart';
+import '../../../core/router/route_generator.gr.dart';
+import '../../../data/model/reclip_content_creator.dart';
 
 class SignupContentCreatorThirdPage extends StatelessWidget {
-  final SignupContentCreatorThirdArgs args;
-  const SignupContentCreatorThirdPage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  SignupContentCreatorThirdPage({
+    Key key,
+    this.user,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +43,7 @@ class SignupContentCreatorThirdPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                SignupContentCreatorThirdForm(user: args.user),
+                SignupContentCreatorThirdForm(user: user),
               ],
             ),
           ),
@@ -139,8 +135,9 @@ class _SignupContentCreatorThirdFormState
       final user = widget.user.copyWith(
         description: descriptionController.text,
       );
-      Routes.sailor.navigate('signup_page/content_creator/fourth_page',
-          args: SignupContentCreatorFourthArgs(
+
+      Router.navigator.pushNamed(Router.signupContentCreatorFourthPageRoute,
+          arguments: SignupContentCreatorFourthPageArguments(
             user: user,
           ));
     }

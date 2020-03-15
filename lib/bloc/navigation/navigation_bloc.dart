@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:sailor/sailor.dart';
 
-import '../../bottom_nav_controller.dart';
-import '../../core/route_generator.dart';
+import '../../core/router/route_generator.gr.dart';
 import '../../data/model/reclip_content_creator.dart';
 import '../../data/model/reclip_user.dart';
-import '../../ui/signup_page/signup_category_page.dart';
 import '../authentication/authentication_bloc.dart';
 
 part 'navigation_event.dart';
@@ -51,10 +48,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     });
 
     if (event is ShowHomePage) {
-      Routes.sailor.navigate(
-        'user_home_page',
-        navigationType: NavigationType.pushReplace,
-      );
+      Router.navigator.pushNamed(Router.homePageRoute);
       yield HomePageState();
     }
 
@@ -67,28 +61,18 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     if (event is ShowLoginPage) {
       authenticationBloc.add(LoggedOut());
       authSubscription.cancel();
-      Routes.sailor.navigate(
-        'login_page',
-        navigationType: NavigationType.pushAndRemoveUntil,
-      );
+      Router.navigator.pushNamedAndRemoveUntil(
+          Router.loginPageRoute, ModalRoute.withName(Router.loginPageRoute));
     }
     if (event is ShowSignupPage) {
-      Routes.sailor.navigate(
-        'signup_page/category',
-        args: SignupCategoryPageArgs(
-          user: event.user,
-        ),
-      );
+      Router.navigator.pushNamed(Router.signupCategoryPageRoute);
     }
     if (event is ShowBottomNavbarController) {
-      Routes.sailor.navigate(
-        'bottom_nav_bar_controller',
-        args: BottomNavBarControllerArgs(
-          contentCreator: event.contentCreator,
-          user: event.user,
-        ),
-        navigationType: NavigationType.pushReplace,
-      );
+      Router.navigator.pushNamed(Router.bottomNavBarControllerScreenRoute,
+          arguments: BottomNavBarControllerArguments(
+            contentCreator: event.contentCreator,
+            user: event.user,
+          ));
     }
   }
 }

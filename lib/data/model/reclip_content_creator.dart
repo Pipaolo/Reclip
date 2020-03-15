@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import 'package:reclip/data/model/illustration.dart';
 
 class ReclipContentCreator extends Equatable {
   final String id;
@@ -16,7 +15,6 @@ class ReclipContentCreator extends Equatable {
   final String facebook;
   final String twitter;
   final String instagram;
-  final List<Illustration> illustrations;
   final GoogleSignInAccount googleAccount;
 
   ReclipContentCreator({
@@ -31,7 +29,6 @@ class ReclipContentCreator extends Equatable {
     this.password,
     this.description,
     this.contactNumber,
-    this.illustrations,
     this.googleAccount,
   });
 
@@ -47,7 +44,6 @@ class ReclipContentCreator extends Equatable {
       instagram: snap.data['instagram'] ?? '',
       twitter: snap.data['twitter'] ?? '',
       birthDate: snap.data['birthDate'] ?? '',
-      illustrations: Illustration().fromList(snap.data['illustrations']),
     );
   }
 
@@ -64,11 +60,7 @@ class ReclipContentCreator extends Equatable {
     String instagram,
     String imageUrl,
     GoogleSignInAccount googleAccount,
-    Illustration illustration,
   }) {
-    if (illustration != null) {
-      illustrations.add(illustration);
-    }
     return ReclipContentCreator(
       id: id ?? this.id,
       name: username ?? this.name,
@@ -82,7 +74,6 @@ class ReclipContentCreator extends Equatable {
       contactNumber: contactNumber ?? this.contactNumber,
       description: description ?? this.description,
       birthDate: birthDate ?? this.birthDate,
-      illustrations: illustrations,
     );
   }
 
@@ -98,11 +89,6 @@ class ReclipContentCreator extends Equatable {
       'facebook': facebook,
       'instagram': instagram,
       'twitter': twitter,
-      'illustrations': (illustrations != null)
-          ? illustrations
-              .map((illustration) => illustration.toDocument())
-              .toList()
-          : [],
     };
   }
 
@@ -116,7 +102,6 @@ class ReclipContentCreator extends Equatable {
         birthDate,
         contactNumber,
         imageUrl,
-        illustrations,
         facebook,
         instagram,
         twitter,

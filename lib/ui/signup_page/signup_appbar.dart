@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:reclip/core/route_generator.dart';
-
 class SignupAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SignupAppBar({Key key}) : super(key: key);
 
@@ -16,7 +14,7 @@ class SignupAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.arrow_back,
         ),
-        onPressed: () => Routes.sailor.pop(),
+        onPressed: () => Navigator.of(context).pop(),
       ),
       centerTitle: true,
     );

@@ -4,12 +4,13 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/other_user/other_user_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/content_creator_page/profile_page/content_creator_about_me_page.dart';
-import 'package:reclip/ui/content_creator_page/profile_page/content_creator_contact_info_page.dart';
-import 'package:reclip/ui/content_creator_page/profile_page/content_creator_my_works_page.dart';
+
+import '../../../bloc/other_user/other_user_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import 'other_profile_about_me_page.dart';
+import 'other_profile_contact_info_page.dart';
+import 'other_profile_my_works_page/other_profile_my_works_page.dart';
 
 class OtherProfilePage extends StatefulWidget {
   @override
@@ -70,7 +71,8 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   child: Stack(
                     children: <Widget>[
                       TransitionToImage(
-                        image: AdvancedNetworkImage(user.imageUrl),
+                        image: AdvancedNetworkImage(user.imageUrl,
+                            useDiskCache: true),
                         borderRadius: BorderRadius.circular(200),
                         height: ScreenUtil().setHeight(400),
                         width: ScreenUtil().setWidth(400),
@@ -134,9 +136,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
           Flexible(
             child: TabBarView(
               children: <Widget>[
-                ContentCreatorAboutMePage(user: user),
-                ContentCreatorMyWorksPage(user: user),
-                ContentCreatorContactInfoPage(
+                OtherProfileAboutMePage(user: user),
+                OtherProfileMyWorksPage(user: user),
+                OtherProfileContactInfoPage(
                   user: user,
                 ),
               ],

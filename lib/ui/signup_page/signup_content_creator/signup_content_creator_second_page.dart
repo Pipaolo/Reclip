@@ -3,23 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/core/reclip_colors.dart';
 import 'package:intl/intl.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
-import 'package:sailor/sailor.dart';
 
-class SignupContentCreatorSecondArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  SignupContentCreatorSecondArgs({@required this.user});
-}
+import '../../../core/reclip_colors.dart';
+import '../../../core/router/route_generator.gr.dart';
+import '../../../data/model/reclip_content_creator.dart';
 
 class SignupContentCreatorSecondPage extends StatelessWidget {
-  final SignupContentCreatorSecondArgs args;
-
-  const SignupContentCreatorSecondPage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  SignupContentCreatorSecondPage({
+    Key key,
+    this.user,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +44,7 @@ class SignupContentCreatorSecondPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
-                SignupContentCreatorSecondForm(user: args.user),
+                SignupContentCreatorSecondForm(user: user),
               ],
             ),
           ),
@@ -215,10 +210,10 @@ class _SignupContentCreatorSecondFormState
         birthDate: birthDateController.text,
         contactNumber: contactNumberController.text,
       );
-      Routes.sailor.navigate(
-        'signup_page/content_creator/third_page',
-        args: SignupContentCreatorThirdArgs(user: user),
-      );
+      Router.navigator.pushNamed(Router.signupContentCreatorThirdPageRoute,
+          arguments: SignupContentCreatorThirdPageArguments(
+            user: user,
+          ));
     }
   }
 }

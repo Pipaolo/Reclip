@@ -7,7 +7,6 @@ import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sailor/sailor.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../bloc/add_content/add_content_bloc.dart';
@@ -16,16 +15,14 @@ import '../../../../data/model/reclip_content_creator.dart';
 import '../../../../data/model/video.dart';
 import '../../../custom_wigets/dialogs/dialog_collection.dart';
 
-class AddContentVideoArgs extends BaseArguments {
+class AddContentVideoPage extends StatefulWidget {
   final File video;
   final ReclipContentCreator contentCreator;
-
-  AddContentVideoArgs({this.video, this.contentCreator});
-}
-
-class AddContentVideoPage extends StatefulWidget {
-  final AddContentVideoArgs args;
-  AddContentVideoPage({Key key, this.args}) : super(key: key);
+  AddContentVideoPage({
+    Key key,
+    @required this.video,
+    @required this.contentCreator,
+  }) : super(key: key);
 
   @override
   _AddContentVideoPageState createState() => _AddContentVideoPageState();
@@ -144,7 +141,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                       final ffmpegProbe = FlutterFFprobe();
                       final Uuid randomIdGenerator = Uuid();
                       final video = Video(
-                        contentCreatorEmail: widget.args.contentCreator.email,
+                        contentCreatorEmail: widget.contentCreator.email,
                         title: _titleTextEditingController.text,
                         description: _descriptionTextEditingController.text,
                         videoId: randomIdGenerator.v5(
@@ -158,15 +155,15 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
 
                       //Get Video Height and Width
                       final videoMetadata = await ffmpegProbe
-                          .getMediaInformation(widget.args.video.path);
+                          .getMediaInformation(widget.video.path);
 
                       print(videoMetadata['streams'][0]['width']);
 
                       PaintingBinding.instance.imageCache.clear();
                       BlocProvider.of<AddContentBloc>(context)
                         ..add(VideoAdded(
-                          contentCreator: widget.args.contentCreator,
-                          rawVideo: widget.args.video,
+                          contentCreator: widget.contentCreator,
+                          rawVideo: widget.video,
                           thumbnail: videoThumbnail,
                           video: video.copyWith(
                             width:

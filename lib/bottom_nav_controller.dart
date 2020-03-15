@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+
+import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/content_creator_page/add_content/content_creator_add_content_page.dart';
 import 'package:reclip/ui/content_creator_page/profile_page/content_creator_profile_page.dart';
@@ -7,22 +9,16 @@ import 'package:reclip/ui/home_page/home_page.dart';
 import 'package:reclip/ui/user_page/my_list_page/user_my_list_page.dart';
 import 'package:reclip/ui/user_page/user_profile_page.dart';
 
-import 'package:sailor/sailor.dart';
-
-import 'package:reclip/data/model/reclip_content_creator.dart';
-
 import 'core/reclip_colors.dart';
 
-class BottomNavBarControllerArgs extends BaseArguments {
+class BottomNavBarController extends StatefulWidget {
   final ReclipContentCreator contentCreator;
   final ReclipUser user;
-
-  BottomNavBarControllerArgs({this.contentCreator, this.user});
-}
-
-class BottomNavBarController extends StatefulWidget {
-  final BottomNavBarControllerArgs args;
-  BottomNavBarController({Key key, this.args}) : super(key: key);
+  BottomNavBarController({
+    Key key,
+    this.contentCreator,
+    this.user,
+  }) : super(key: key);
 
   @override
   _BottomNavBarControllerState createState() => _BottomNavBarControllerState();
@@ -77,15 +73,14 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
 
   @override
   void initState() {
-    if (widget.args.contentCreator != null) {
+    if (widget.contentCreator != null) {
       pages = [
         HomePage(
           key: PageStorageKey('UserHomePage'),
         ),
         ContentCreatorAddContentPage(
           key: PageStorageKey('UserAddContentPage'),
-          args: ContentCreatorAddContentPageArgs(
-              user: widget.args.contentCreator),
+          user: widget.contentCreator,
         ),
         ContentCreatorProfilePage(
           key: PageStorageKey('UserProfilePage'),
@@ -111,7 +106,7 @@ class _BottomNavBarControllerState extends State<BottomNavBarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: (widget.args.contentCreator != null)
+      bottomNavigationBar: (widget.contentCreator != null)
           ? _buildContentCreatorNavbar(_selectedIndex)
           : _buildUserNavbar(_selectedIndex),
       body: PageStorage(

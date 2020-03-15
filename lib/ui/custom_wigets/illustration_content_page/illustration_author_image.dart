@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
 
-import '../../../core/route_generator.dart';
 import '../../../data/model/reclip_content_creator.dart';
 
 class IllustrationAuthorImage extends StatelessWidget {
@@ -20,7 +20,7 @@ class IllustrationAuthorImage extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           TransitionToImage(
-            image: AdvancedNetworkImage(user.imageUrl),
+            image: AdvancedNetworkImage(user.imageUrl, useDiskCache: true),
             borderRadius: BorderRadius.circular(200),
             height: ScreenUtil().setHeight(300),
             width: ScreenUtil().setWidth(300),
@@ -33,7 +33,7 @@ class IllustrationAuthorImage extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(200),
                   onTap: () =>
-                      Routes.sailor.navigate('other_user_profile_page'),
+                      Router.navigator.pushNamed(Router.otherProfilePageRoute),
                 ),
               ),
             ),

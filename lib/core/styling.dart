@@ -31,7 +31,7 @@ class AppTheme {
   static final AppBarTheme appBarTheme = AppBarTheme(
     color: Colors.black,
     textTheme: TextTheme(
-      headline:
+      headline4:
           TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'GothamHTF'),
     ),
   );

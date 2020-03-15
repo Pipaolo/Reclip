@@ -5,25 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
+
 import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
 import '../../../data/model/reclip_content_creator.dart';
 
-class SignupContentCreatorFifthArgs extends BaseArguments {
+class SignupContentCreatorFifthPage extends StatelessWidget {
   final ReclipContentCreator user;
   final File profileImage;
-
-  SignupContentCreatorFifthArgs({this.user, this.profileImage});
-}
-
-class SignupContentCreatorFifthPage extends StatelessWidget {
-  final SignupContentCreatorFifthArgs args;
-  const SignupContentCreatorFifthPage({Key key, this.args}) : super(key: key);
+  SignupContentCreatorFifthPage({
+    Key key,
+    this.user,
+    this.profileImage,
+  }) : super(key: key);
 
   _showErrorDialog(BuildContext context) {
     return showDialog(
@@ -79,8 +77,7 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
         BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             if (state is AuthenticatedContentCreator) {
-              Routes.sailor.navigate('user_home_page',
-                  navigationType: NavigationType.pushReplace);
+              Router.navigator.pushReplacementNamed(Router.homePageRoute);
             }
           },
         ),
@@ -106,7 +103,7 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
                 ),
                 Center(
                   child: CircleAvatar(
-                    backgroundImage: FileImage(args.profileImage),
+                    backgroundImage: FileImage(profileImage),
                     radius: ScreenUtil().setSp(200),
                   ),
                 ),
@@ -116,23 +113,23 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
                     children: <Widget>[
                       SignupContactInfo(
                         title: 'Email',
-                        content: args.user.email,
+                        content: user.email,
                       ),
                       SignupContactInfo(
                         title: 'Name',
-                        content: args.user.name,
+                        content: user.name,
                       ),
                       SignupContactInfo(
                         title: 'Mobile Number',
-                        content: args.user.contactNumber,
+                        content: user.contactNumber,
                       ),
                       SignupContactInfo(
                         title: 'Birthday',
-                        content: args.user.birthDate,
+                        content: user.birthDate,
                       ),
                       ContactInfoDescription(
                         title: 'Description',
-                        content: args.user.description,
+                        content: user.description,
                       ),
                       Center(
                         child: RaisedButton(
@@ -192,7 +189,7 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
                   Navigator.of(context).pop();
                   BlocProvider.of<SignupBloc>(context)
                     ..add(SignupContentCreator(
-                        user: args.user, profileImage: args.profileImage));
+                        user: user, profileImage: profileImage));
                 },
               ),
             ],

@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/model/video.dart';
@@ -26,8 +27,9 @@ class PopularVideoImage extends StatelessWidget {
         ),
       ),
       alignment: Alignment.center,
-      child: CachedNetworkImage(
-        imageUrl: popularVideo.thumbnailUrl,
+      child: TransitionToImage(
+        image:
+            AdvancedNetworkImage(popularVideo.thumbnailUrl, useDiskCache: true),
         fit: BoxFit.cover,
       ),
     );
