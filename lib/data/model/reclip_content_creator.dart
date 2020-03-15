@@ -35,11 +35,11 @@ class ReclipContentCreator extends Equatable {
   factory ReclipContentCreator.fromSnapshot(DocumentSnapshot snap) {
     return ReclipContentCreator(
       id: snap.data['id'] ?? '',
-      name: snap.data['name'],
-      email: snap.data['email'],
+      name: snap.data['name'] ?? '',
+      email: snap.data['email'] ?? '',
       description: snap.data['description'] ?? '',
       contactNumber: snap.data['contactNumber'] ?? '',
-      imageUrl: snap.data['imageUrl'],
+      imageUrl: snap.data['imageUrl'] ?? '',
       facebook: snap.data['facebook'] ?? '',
       instagram: snap.data['instagram'] ?? '',
       twitter: snap.data['twitter'] ?? '',

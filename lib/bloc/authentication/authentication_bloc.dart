@@ -43,7 +43,11 @@ class AuthenticationBloc
           yield AuthenticatedUser(user: user);
         } else {
           final contentCreator = await _userRepository.getContentCreator();
-          yield AuthenticatedContentCreator(user: contentCreator);
+          if (contentCreator != null) {
+            yield AuthenticatedContentCreator(user: contentCreator);
+          } else {
+            add(LoggedOut());
+          }
         }
       } else {
         yield Unauthenticated();

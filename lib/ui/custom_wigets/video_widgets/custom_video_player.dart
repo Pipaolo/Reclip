@@ -37,9 +37,15 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       DeviceOrientation.landscapeRight,
     ]);
     setState(() {
+      double aspectRatio = 0;
+      if (widget.video.height > widget.video.width) {
+        aspectRatio = widget.video.width / widget.video.height;
+      } else {
+        aspectRatio = widget.video.height / widget.video.width;
+      }
       _controller = VideoPlayerController.network(widget.video.videoUrl);
       _chewieController = ChewieController(
-        aspectRatio: widget.video.height / widget.video.width,
+        aspectRatio: aspectRatio,
         showControls: true,
         autoPlay: true,
         videoPlayerController: _controller,

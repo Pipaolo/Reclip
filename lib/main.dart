@@ -94,7 +94,7 @@ class Reclip extends StatelessWidget {
           create: (context) => IllustrationsBloc(
             illustrationRepository:
                 RepositoryProvider.of<IllustrationRepository>(context),
-          )..add(FetchIllustrations()),
+          ),
         ),
         BlocProvider<UserBloc>(
           create: (context) => UserBloc(

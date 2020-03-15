@@ -67,7 +67,6 @@ class FirebaseReclipRepository {
       return ReclipContentCreator.fromSnapshot(
           await contentCreatorCollection.document(email).get());
     } catch (e) {
-      print(e);
       return null;
     }
   }

@@ -48,7 +48,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     });
 
     if (event is ShowHomePage) {
-      Router.navigator.pushNamed(Router.homePageRoute);
+      Router.navigator.pushReplacementNamed(Router.homePageRoute);
       yield HomePageState();
     }
 
@@ -68,11 +68,12 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       Router.navigator.pushNamed(Router.signupCategoryPageRoute);
     }
     if (event is ShowBottomNavbarController) {
-      Router.navigator.pushNamed(Router.bottomNavBarControllerScreenRoute,
-          arguments: BottomNavBarControllerArguments(
-            contentCreator: event.contentCreator,
-            user: event.user,
-          ));
+      Router.navigator
+          .pushReplacementNamed(Router.bottomNavBarControllerScreenRoute,
+              arguments: BottomNavBarControllerArguments(
+                contentCreator: event.contentCreator,
+                user: event.user,
+              ));
     }
   }
 }

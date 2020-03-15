@@ -77,11 +77,9 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                           BlocProvider.of<AuthenticationBloc>(
                                               context)
                                             ..add(LoggedOut());
-                                          Router.navigator
-                                              .pushNamedAndRemoveUntil(
-                                                  Router.loginPageRoute,
-                                                  ModalRoute.withName(
-                                                      Router.loginPageRoute));
+                                          Router.navigator.pushReplacementNamed(
+                                            Router.loginPageRoute,
+                                          );
                                         }
                                       });
                                     },

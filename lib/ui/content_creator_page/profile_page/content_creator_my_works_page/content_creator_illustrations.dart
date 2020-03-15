@@ -3,13 +3,13 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/other_user/other_user_bloc.dart';
-import 'package:reclip/bloc/remove_illustration/remove_illustration_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
-import 'package:intl/intl.dart';
+
+import '../../../../bloc/other_user/other_user_bloc.dart';
+import '../../../../bloc/remove_illustration/remove_illustration_bloc.dart';
+import '../../../../core/reclip_colors.dart';
+import '../../../../core/router/route_generator.gr.dart';
+import '../../../../data/model/illustration.dart';
+import '../../../custom_wigets/dialogs/dialog_collection.dart';
 
 class ContentCreatorIllustrations extends StatelessWidget {
   final List<Illustration> illustrations;

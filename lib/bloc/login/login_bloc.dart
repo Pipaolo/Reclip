@@ -48,10 +48,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final reclipUser = await _userRepository.getUser();
         if (reclipUser != null) {
           yield LoginSuccessUser(user: reclipUser);
-        } else {
-          final reclipContentCreator =
-              await _userRepository.getContentCreator();
-          yield LoginSuccessContentCreator(user: reclipContentCreator);
         }
       } catch (_) {
         yield LoginError(error: _.toString());
@@ -71,12 +67,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           }
         } else {
           print("User is Existing");
-          // await _firebaseReclipRepository.updateChannel(userInitial.channel);
-          final user =
-              await _firebaseReclipRepository.getContentCreator(rawUser.email);
 
           yield LoginSuccessContentCreator(
-            user: user,
+            user: storedUser,
           );
         }
       } catch (_) {

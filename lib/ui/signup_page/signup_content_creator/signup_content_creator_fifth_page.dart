@@ -64,8 +64,9 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
               Navigator.of(context).pop();
               DialogCollection.showSuccessDialog('Sign up Success!', context);
               Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop();
-                BlocProvider.of<AuthenticationBloc>(context)..add(LoggedIn());
+                Router.navigator
+                    .popUntil(ModalRoute.withName(Router.loginPageRoute));
+                BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
               });
             }
             if (state is SignupError) {

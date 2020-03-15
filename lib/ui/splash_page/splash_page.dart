@@ -48,7 +48,9 @@ class _SplashPageState extends State<SplashPage> {
               } else if (state is AuthenticatedUser) {
                 BlocProvider.of<ReclipUserBloc>(context)
                   ..add(GetLikedVideos(email: state.user.email));
+
                 BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
+
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
                 isAuthenticated = true;

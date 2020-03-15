@@ -66,9 +66,9 @@ class UserProfilePage extends StatelessWidget {
                   Navigator.of(context).pop();
                   BlocProvider.of<AuthenticationBloc>(context)
                     ..add(LoggedOut());
-                  Router.navigator.pushNamedAndRemoveUntil(
-                      Router.loginPageRoute,
-                      ModalRoute.withName(Router.loginPageRoute));
+                  Router.navigator.pushReplacementNamed(
+                    Router.loginPageRoute,
+                  );
                 },
               ),
             ],
