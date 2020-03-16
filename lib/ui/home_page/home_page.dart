@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     isDismissible: false,
     message: 'No Internet Connection',
     flushbarPosition: FlushbarPosition.TOP,
-    padding: EdgeInsets.all(2),
+    padding: EdgeInsets.all(10),
   );
 
   @override
