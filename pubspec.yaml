@@ -1,7 +1,7 @@
 name: reclip
 description: A new Flutter project.
 
-version: 2.2.1+1
+version: 2.2.2+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,8 +11,6 @@ dependencies:
     sdk: flutter
   http: ^0.12.0+4
   cloud_firestore: ^0.13.0+1
-  flutter_spinkit: ^4.1.1+1
-  flutter_custom_dialog: ^1.0.16
   image_picker: ^0.6.3+1
   flutter_screenutil: ^1.0.2
   firebase_storage: ^3.1.1
@@ -26,6 +24,10 @@ dependencies:
   flutter_ffmpeg: ^0.2.10
   firebase_messaging: ^6.0.12
   flutter_hooks: ^0.8.0
+  connectivity: ^0.4.8+2
+  provider: ^4.0.4
+
+  #Utilities
 
   #Authentication Packages
   firebase_auth: ^0.15.4

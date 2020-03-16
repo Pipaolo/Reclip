@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:reclip/bloc/remove_illustration/remove_illustration_bloc.dart';
 import 'package:reclip/bloc/remove_video/remove_video_bloc.dart';
 import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
@@ -107,7 +106,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                   }
                 } else if (state is VideoLoading) {
                   return Center(
-                    child: SpinKitCircle(color: reclipIndigo),
+                    child: CircularProgressIndicator(),
                   );
                 } else if (state is VideoError) {
                   return Center(

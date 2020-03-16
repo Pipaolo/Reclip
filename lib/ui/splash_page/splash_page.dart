@@ -3,6 +3,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/reclip_user/reclipuser_bloc.dart';
@@ -41,6 +42,8 @@ class _SplashPageState extends State<SplashPage> {
                 isAuthenticated = false;
               } else if (state is AuthenticatedContentCreator) {
                 BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
+                BlocProvider.of<IllustrationsBloc>(context)
+                  ..add(IllustrationFetched());
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.user.email));
                 isAuthenticated = true;
@@ -50,7 +53,8 @@ class _SplashPageState extends State<SplashPage> {
                   ..add(GetLikedVideos(email: state.user.email));
 
                 BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
-
+                BlocProvider.of<IllustrationsBloc>(context)
+                  ..add(IllustrationFetched());
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
                 isAuthenticated = true;

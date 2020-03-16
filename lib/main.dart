@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/bloc/bloc/connectivity_bloc.dart';
 import 'package:reclip/bloc/notification/notification_bloc.dart';
 import 'package:reclip/core/router/route_generator.gr.dart';
 import 'package:reclip/repository/illustration_repository.dart';
@@ -149,6 +150,12 @@ class Reclip extends StatelessWidget {
             userRepository: RepositoryProvider.of<UserRepository>(context),
             videoRepository: RepositoryProvider.of<VideoRepository>(context),
           ),
+        ),
+        BlocProvider<ConnectivityBloc>(
+          create: (context) => ConnectivityBloc()
+            ..add(
+              ConnectivityConfigured(),
+            ),
         )
       ],
       child: MaterialApp(

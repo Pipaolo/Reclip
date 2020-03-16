@@ -8,8 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:reclip/hooks/scroll_controller_for_anim.dart';
-import 'package:reclip/ui/custom_wigets/video_bottom_sheet/creator_videos.dart';
-import 'package:reclip/ui/custom_wigets/video_bottom_sheet/video_description.dart';
+import 'package:reclip/ui/custom_wigets/video_content_page/video_description.dart';
 
 import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
@@ -17,6 +16,7 @@ import '../../../data/model/reclip_content_creator.dart';
 import '../../../data/model/video.dart';
 import '../flushbars/flushbar_collection.dart';
 import '../video_widgets/custom_video_player.dart';
+import 'creator_videos.dart';
 
 class VideoContentPage extends HookWidget {
   final Video video;

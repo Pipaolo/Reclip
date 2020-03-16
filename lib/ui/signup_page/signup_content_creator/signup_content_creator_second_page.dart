@@ -86,13 +86,15 @@ class _SignupContentCreatorSecondFormState
           yearBegin: 1800,
           yearEnd: 2050,
         ),
-        hideHeader: true,
-        title: Text('Enter Birthday'),
         confirmTextStyle: TextStyle(color: reclipIndigoDark),
         cancelTextStyle: TextStyle(color: reclipIndigoLight),
+        headerDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        hideHeader: true,
         containerColor: reclipBlack,
-        headercolor: reclipBlack,
         backgroundColor: reclipIndigoLight,
+        title: Text('Enter Birthday'),
         onConfirm: (picker, value) {
           final date = (picker.adapter as DateTimePickerAdapter).value;
           final convertedDate = DateFormat('MM/dd/yyyy').format(date);

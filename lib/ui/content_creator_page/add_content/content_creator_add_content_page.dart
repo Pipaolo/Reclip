@@ -115,11 +115,20 @@ class AddContentButton extends StatelessWidget {
               try {
                 final image = await ImagePicker.pickImage(
                     source: ImageSource.gallery, imageQuality: 80);
-                Navigator.of(context).pushNamed(Router.addContentImagePageRoute,
-                    arguments: AddContentImagePageArguments(
-                      image: image,
-                      user: user,
-                    ));
+
+                if (image != null) {
+                  Navigator.of(context)
+                      .pushNamed(Router.addContentImagePageRoute,
+                          arguments: AddContentImagePageArguments(
+                            image: image,
+                            user: user,
+                          ));
+                } else {
+                  FlushbarCollection.showFlushbarNotice(
+                      'Image Selection Cancelled',
+                      'No image selected',
+                      context);
+                }
               } catch (e) {
                 print("Image Canceled");
               }

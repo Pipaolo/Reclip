@@ -87,7 +87,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   InkWell(
                                     child: Icon(
                                       FontAwesomeIcons.solidEdit,
-                                      size: ScreenUtil().setSp(50),
+                                      size: ScreenUtil().setSp(70),
                                     ),
                                     onTap: () {
                                       Router.navigator.pushNamed(

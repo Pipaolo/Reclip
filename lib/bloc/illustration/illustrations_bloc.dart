@@ -21,7 +21,7 @@ class IllustrationsBloc extends Bloc<IllustrationsEvent, IllustrationsState> {
   Stream<IllustrationsState> mapEventToState(
     IllustrationsEvent event,
   ) async* {
-    if (event is FetchIllustrations) {
+    if (event is IllustrationFetched) {
       illustrationRepository.getIllustrations().listen((illustrations) {
         add(ShowIllustrations(illustrations: illustrations));
       });

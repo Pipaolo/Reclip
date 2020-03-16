@@ -4,7 +4,7 @@ abstract class IllustrationsEvent extends Equatable {
   const IllustrationsEvent();
 }
 
-class FetchIllustrations extends IllustrationsEvent {
+class IllustrationFetched extends IllustrationsEvent {
   @override
   List<Object> get props => [];
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
 import 'package:reclip/bloc/video/video_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
@@ -76,7 +75,7 @@ class _OtherProfileMyWorksPageState extends State<OtherProfileMyWorksPage> {
                 }
               } else if (state is VideoLoading) {
                 return Center(
-                  child: SpinKitCircle(color: reclipIndigo),
+                  child: CircularProgressIndicator(),
                 );
               } else if (state is VideoError) {
                 return Center(

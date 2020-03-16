@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/illustration/illustrations_bloc.dart';
@@ -31,7 +32,9 @@ class _LoginPageState extends State<LoginPage> {
           BlocListener<LoginBloc, LoginState>(
             listener: (context, state) async {
               if (state is LoginLoading) {
+                DialogCollection.showLoadingDialog('Logging in...', context);
               } else if (state is LoginSuccessContentCreator) {
+                Navigator.of(context).pop();
                 if (state.user != null) {
                   BlocProvider.of<AuthenticationBloc>(context)
                     ..add(
@@ -62,12 +65,13 @@ class _LoginPageState extends State<LoginPage> {
                   context,
                 );
               } else if (state is LoginError) {
+                Navigator.of(context).pop();
                 BlocProvider.of<AuthenticationBloc>(context)
                   ..add(
                     LoggedOut(),
                   );
                 FlushbarCollection.showFlushbarError(
-                    '❌Woops Something Bad Happened!❌', context);
+                    'Woops Something Bad Happened! Please try again', context);
               }
             },
           ),
@@ -80,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                   );
 
                 BlocProvider.of<IllustrationsBloc>(context)
-                  ..add(FetchIllustrations());
+                  ..add(IllustrationFetched());
 
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.user.email));
@@ -98,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(GetLikedVideos(email: state.user.email));
 
                 BlocProvider.of<IllustrationsBloc>(context)
-                  ..add(FetchIllustrations());
+                  ..add(IllustrationFetched());
 
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
