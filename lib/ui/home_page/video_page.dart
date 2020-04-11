@@ -51,7 +51,7 @@ class VideoPage extends StatelessWidget {
         HomePageAppBar(),
         SliverFillRemaining(
           child: Container(
-            margin: EdgeInsets.all(50),
+            margin: EdgeInsets.all(25),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: reclipIndigo,
@@ -60,13 +60,14 @@ class VideoPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SvgPicture.asset(
-                  'assets/images/under-construction.svg',
-                  height: ScreenUtil().setHeight(500),
-                  width: ScreenUtil().setWidth(500),
-                ),
-                SizedBox(
-                  height: 50,
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  height: ScreenUtil().setHeight(150),
+                  width: ScreenUtil().setWidth(150),
+                  child: SvgPicture.asset(
+                    'assets/images/under-construction.svg',
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -74,7 +75,7 @@ class VideoPage extends StatelessWidget {
                     '''No Videos Found! Kindly wait for the Content Creators to upload. \nThank you!''',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(45)),
+                        fontSize: ScreenUtil().setSp(18)),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -92,31 +93,35 @@ class VideoPage extends StatelessWidget {
         HomePageAppBar(),
         SliverFillRemaining(
           child: Container(
-            margin: EdgeInsets.all(50),
+            margin: EdgeInsets.all(25),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: reclipIndigo,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SvgPicture.asset(
-                  'assets/images/error.svg',
-                  height: ScreenUtil().setHeight(400),
-                  width: ScreenUtil().setWidth(400),
+                Container(
+                  width: ScreenUtil().setWidth(150),
+                  height: ScreenUtil().setHeight(150),
+                  padding: const EdgeInsets.all(10),
+                  child: SvgPicture.asset(
+                    'assets/images/error.svg',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                SizedBox(
-                  height: 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    '''Woops something bad happened! Please contact the developers, \nthank you!''',
-                    style: TextStyle(
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      '''Woops something bad happened! Please contact the developers, \nthank you!''',
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(45)),
-                    textAlign: TextAlign.center,
+                        fontSize: ScreenUtil().setSp(18),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

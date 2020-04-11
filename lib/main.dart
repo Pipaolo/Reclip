@@ -1,8 +1,8 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/authentication/authentication_bloc.dart';
-import 'bloc/notification/notification_bloc.dart';
 import 'repository/firebase_reclip_repository.dart';
 import 'repository/illustration_repository.dart';
 import 'repository/user_repository.dart';
@@ -28,21 +28,10 @@ void main() {
           create: (context) => IllustrationRepository(),
         ),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthenticationBloc>(
-            create: (context) => AuthenticationBloc(
-                userRepository: RepositoryProvider.of<UserRepository>(context))
-              ..add(
-                AppStarted(),
-              ),
-          ),
-          BlocProvider<NotificationBloc>(
-            create: (context) =>
-                NotificationBloc()..add(NotificationConfigured()),
-          ),
-        ],
-        child: ReclipApp(),
+      child: DevicePreview(
+        enabled: false,
+        areSettingsEnabled: true,
+        builder: (context) => ReclipApp(),
       ),
     ),
   );

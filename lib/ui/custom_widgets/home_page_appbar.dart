@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,27 +19,51 @@ class HomePageAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Image.asset(
-              'assets/images/reclip_logo_no_text.png',
-              height: 80,
-              width: 80,
+            Container(
+              height: ScreenUtil().setHeight(80),
+              width: ScreenUtil().setHeight(80),
+              child: Image.asset(
+                'assets/images/reclip_logo_no_text.png',
+                fit: BoxFit.fill,
+              ),
             ),
-            SizedBox(
-              width: ScreenUtil().setWidth(8),
-            ),
-            InkWell(
-              child: Text('Videos'),
-              onTap: () => BlocProvider.of<NavigationBloc>(context)
-                ..add(ShowVideoPage()),
-            ),
-            SizedBox(
-              width: ScreenUtil().setWidth(30),
-            ),
-            InkWell(
-              child: Text('Illustrations'),
-              onTap: () => BlocProvider.of<NavigationBloc>(context)
-                ..add(ShowIllustrationPage()),
-            ),
+            Flexible(
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    flex: 2,
+                    child: InkWell(
+                      child: AutoSizeText(
+                        'Videos',
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(20),
+                        ),
+                      ),
+                      onTap: () => BlocProvider.of<NavigationBloc>(context)
+                        ..add(ShowVideoPage()),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: InkWell(
+                      child: AutoSizeText(
+                        'Illustrations',
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(20),
+                        ),
+                      ),
+                      onTap: () => BlocProvider.of<NavigationBloc>(context)
+                        ..add(ShowIllustrationPage()),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

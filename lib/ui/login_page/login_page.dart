@@ -122,7 +122,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
         child: Container(
-          height: ScreenUtil().uiHeightPx.toDouble(),
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
@@ -130,15 +133,15 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: ScreenUtil().setHeight(735),
-                  width: ScreenUtil().uiWidthPx.toDouble(),
+                  height: ScreenUtil().setHeight(100),
+                  width: ScreenUtil().setWidth(100),
                   child: Image.asset('assets/images/reclip_logo.png',
-                      fit: BoxFit.cover),
+                      fit: BoxFit.contain),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: LoginForm(),
+                const SizedBox(
+                  height: 20,
                 ),
+                LoginForm(),
               ],
             ),
           ),

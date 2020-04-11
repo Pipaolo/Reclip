@@ -65,7 +65,7 @@ class UserMyListPage extends StatelessWidget {
               'Liked Videos',
               style: TextStyle(
                 color: reclipBlack,
-                fontSize: ScreenUtil().setSp(100),
+                fontSize: ScreenUtil().setSp(34),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -75,68 +75,78 @@ class UserMyListPage extends StatelessWidget {
             itemCount: likedVideos.length,
             itemBuilder: (context, index) {
               return Container(
-                height: ScreenUtil().setHeight(300),
-                width: ScreenUtil().setWidth(300),
+                width: double.infinity,
                 child: Stack(
                   children: <Widget>[
-                    Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                            ),
-                            child: Container(
-                              height: ScreenUtil().setHeight(300),
-                              width: ScreenUtil().setWidth(300),
-                              color: reclipBlack,
-                              child: TransitionToImage(
-                                image: AdvancedNetworkImage(
-                                    likedVideos[index].thumbnailUrl,
-                                    useDiskCache: true),
-                                loadingWidget:
-                                    Center(child: CircularProgressIndicator()),
-                                fit: BoxFit.fitHeight,
+                    SizedBox(
+                      width: double.infinity,
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Flexible(
+                              flex: 1,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                ),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.15,
+                                  width: 300,
+                                  color: reclipBlack,
+                                  child: TransitionToImage(
+                                    image: AdvancedNetworkImage(
+                                        likedVideos[index].thumbnailUrl,
+                                        useDiskCache: true),
+                                    loadingWidget: Center(
+                                        child: CircularProgressIndicator()),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    likedVideos[index].title,
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(48),
-                                      fontWeight: FontWeight.bold,
+                            Flexible(
+                              flex: 2,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      likedVideos[index].title,
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(16),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    (likedVideos[index].description.isEmpty)
-                                        ? 'No Description Provided'
-                                        : likedVideos[index].description,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(40),
+                                    SizedBox(
+                                      height: 10,
                                     ),
-                                    maxLines: 3,
-                                  ),
-                                ],
+                                    Text(
+                                      (likedVideos[index].description.isEmpty)
+                                          ? 'No Description Provided'
+                                          : likedVideos[index].description,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(12),
+                                      ),
+                                      maxLines: 3,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Positioned.fill(
@@ -168,7 +178,7 @@ class UserMyListPage extends StatelessWidget {
             'You have no liked videos',
             style: TextStyle(
               color: reclipIndigo.withOpacity(0.8),
-              fontSize: ScreenUtil().setSp(50),
+              fontSize: ScreenUtil().setSp(18),
             ),
           ),
         ),

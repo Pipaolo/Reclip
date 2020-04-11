@@ -18,7 +18,7 @@ class VideoPlayOverlayWidget extends StatelessWidget {
             highlightColor: Colors.black.withAlpha(180),
             child: Container(
               width: ScreenUtil().uiWidthPx.toDouble(),
-              height: ScreenUtil().setHeight(700),
+              height: ScreenUtil().setHeight(200),
               child: Icon(
                 FontAwesomeIcons.play,
                 size: ScreenUtil().setSp(100),

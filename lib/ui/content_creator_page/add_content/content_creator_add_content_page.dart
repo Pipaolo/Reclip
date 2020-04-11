@@ -35,35 +35,46 @@ class _ContentCreatorAddContentPageState
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              AddContentButton(
-                textStyle: _textStyle,
-                icon: FontAwesomeIcons.solidFileImage,
-                text: 'Add Illustration',
-                pageName: 'add_content_image_page',
-                contentCreator: widget.user,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                child: AddContentButton(
+                  textStyle: _textStyle,
+                  icon: FontAwesomeIcons.solidFileImage,
+                  text: 'Add Illustration',
+                  pageName: 'add_content_image_page',
+                  contentCreator: widget.user,
+                ),
               ),
-              Divider(
-                color: reclipIndigo,
-                height: ScreenUtil().setHeight(50),
-                endIndent: ScreenUtil().setWidth(80),
-                indent: ScreenUtil().setWidth(80),
-                thickness: ScreenUtil().setHeight(2),
+            ),
+            Divider(
+              color: reclipIndigo,
+              height: ScreenUtil().setHeight(40),
+              endIndent: ScreenUtil().setWidth(80),
+              indent: ScreenUtil().setWidth(80),
+              thickness: ScreenUtil().setHeight(2),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: AddContentButton(
+                  textStyle: _textStyle,
+                  icon: FontAwesomeIcons.solidFileVideo,
+                  text: 'Add Video',
+                  pageName: '',
+                  contentCreator: widget.user,
+                ),
               ),
-              AddContentButton(
-                textStyle: _textStyle,
-                icon: FontAwesomeIcons.solidFileVideo,
-                text: 'Add Video',
-                pageName: '',
-                contentCreator: widget.user,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -96,8 +107,9 @@ class AddContentButton extends StatelessWidget {
             if (pageName.isEmpty) {
               try {
                 final fileSizeLimit = 1e9;
-                final video =
-                    await ImagePicker.pickVideo(source: ImageSource.gallery);
+                final video = await ImagePicker.pickVideo(
+                  source: ImageSource.gallery,
+                );
                 if (video.lengthSync() > fileSizeLimit) {
                   FlushbarCollection.showFlushbarWarning(
                       'Invalid File Size 🎬❌',
@@ -143,14 +155,12 @@ class AddContentButton extends StatelessWidget {
                 width: ScreenUtil().setWidth(5),
               ),
             ),
-            height: ScreenUtil().setHeight(500),
-            width: ScreenUtil().setWidth(500),
             child: Stack(
               children: <Widget>[
                 Positioned.fill(
                   child: Icon(
                     icon,
-                    size: ScreenUtil().setSp(250),
+                    size: ScreenUtil().setSp(80),
                   ),
                 ),
                 Align(
@@ -160,7 +170,7 @@ class AddContentButton extends StatelessWidget {
                     child: AutoSizeText(
                       text,
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(45),
+                        fontSize: ScreenUtil().setSp(25),
                       ),
                     ),
                   ),

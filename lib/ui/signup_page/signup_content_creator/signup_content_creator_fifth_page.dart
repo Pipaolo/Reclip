@@ -33,8 +33,8 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(180),
-              width: ScreenUtil().setWidth(180),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,7 +42,7 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
                   Icon(
                     FontAwesomeIcons.exclamationCircle,
                     color: Colors.red,
-                    size: ScreenUtil().setSp(60),
+                    size: ScreenUtil().setSp(40),
                   ),
                   Material(child: Text('Error!'))
                 ],
@@ -91,30 +91,33 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: reclipBlack,
           body: Container(
+            height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'My Profile',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: ScreenUtil().setSp(120),
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    'My Profile',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: ScreenUtil().setSp(50),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setHeight(120),
-                ),
-                Center(
-                  child: CircleAvatar(
-                    backgroundImage: FileImage(profileImage),
-                    radius: ScreenUtil().setSp(200),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(40),
                   ),
-                ),
-                Expanded(
-                  child: Column(
+                  Center(
+                    child: CircleAvatar(
+                      backgroundImage: FileImage(profileImage),
+                      radius: ScreenUtil().setSp(80),
+                    ),
+                  ),
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       SignupContactInfo(
                         title: 'Email',
@@ -149,8 +152,8 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -220,7 +223,7 @@ class SignupContactInfo extends StatelessWidget {
           AutoSizeText(
             title,
             style: TextStyle(
-                color: reclipIndigo, fontSize: ScreenUtil().setSp(40)),
+                color: reclipIndigo, fontSize: ScreenUtil().setSp(18)),
           ),
           Container(
             width: double.infinity,
@@ -233,7 +236,7 @@ class SignupContactInfo extends StatelessWidget {
             child: AutoSizeText(
               content,
               style: TextStyle(
-                  color: Colors.white, fontSize: ScreenUtil().setSp(35)),
+                  color: Colors.white, fontSize: ScreenUtil().setSp(14)),
             ),
           ),
         ],
@@ -259,7 +262,7 @@ class ContactInfoDescription extends StatelessWidget {
           AutoSizeText(
             title,
             style: TextStyle(
-                color: reclipIndigo, fontSize: ScreenUtil().setSp(35)),
+                color: reclipIndigo, fontSize: ScreenUtil().setSp(18)),
           ),
           Container(
             width: double.infinity,
@@ -273,7 +276,7 @@ class ContactInfoDescription extends StatelessWidget {
               content,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ScreenUtil().setSp(35),
+                fontSize: ScreenUtil().setSp(14),
               ),
               maxLines: 5,
             ),

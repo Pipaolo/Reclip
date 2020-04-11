@@ -18,7 +18,7 @@ class OtherProfileIllustrations extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
-      height: ScreenUtil().setHeight(450),
+      height: ScreenUtil().setHeight(120),
       alignment: Alignment.center,
       child: Text(
         'No Illustrations Found',
@@ -32,7 +32,7 @@ class OtherProfileIllustrations extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
-      height: ScreenUtil().setHeight(450),
+      height: ScreenUtil().setHeight(120),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: illustrations.length,

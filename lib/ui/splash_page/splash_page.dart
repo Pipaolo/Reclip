@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
   ReclipUser user;
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, allowFontScaling: true);
+    ScreenUtil.init(context, allowFontScaling: true, width: 320, height: 568);
     return Scaffold(
       backgroundColor: reclipBlack,
       body: MultiBlocListener(
@@ -74,8 +74,8 @@ class _SplashPageState extends State<SplashPage> {
               animation: 'splash',
               callback: (_) {
                 return (isAuthenticated)
-                    ? _navigateToHomeScreen()
-                    : _navigateToLoginScreen();
+                    ? _navigateToHomeScreen(context)
+                    : _navigateToLoginScreen(context);
               },
             ),
           ),
@@ -84,8 +84,8 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  _navigateToHomeScreen() {
-    ExtendedNavigator.rootNavigator
+  _navigateToHomeScreen(BuildContext context) {
+    ExtendedNavigator.of(context)
         .pushReplacementNamed(Routes.bottomNavBarControllerScreenRoute,
             arguments: BottomNavBarControllerArguments(
               contentCreator: contentCreator,
@@ -93,7 +93,7 @@ class _SplashPageState extends State<SplashPage> {
             ));
   }
 
-  _navigateToLoginScreen() {
-    ExtendedNavigator.rootNavigator.pushReplacementNamed(Routes.loginPageRoute);
+  _navigateToLoginScreen(BuildContext context) {
+    ExtendedNavigator.of(context).pushReplacementNamed(Routes.loginPageRoute);
   }
 }

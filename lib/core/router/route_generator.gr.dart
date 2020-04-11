@@ -270,7 +270,8 @@ class Router extends RouterBase {
         return PageRouteBuilder<dynamic>(
           pageBuilder: (ctx, animation, secondaryAnimation) =>
               IllustrationContentPage(
-                  key: typedArgs.key, illustration: typedArgs.illustration),
+                      key: typedArgs.key, illustration: typedArgs.illustration)
+                  .wrappedRoute,
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
           transitionDuration: const Duration(milliseconds: 200),

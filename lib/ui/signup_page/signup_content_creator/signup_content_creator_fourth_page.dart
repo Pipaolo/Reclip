@@ -41,7 +41,6 @@ class _SignupContentCreatorFourthPageState
       body: Center(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: ScreenUtil().setHeight(1200),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -59,6 +58,9 @@ class _SignupContentCreatorFourthPageState
                   ),
                 ),
                 _buildImagePicker(),
+                const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                   width: ScreenUtil().setWidth(300),
                   child: MaterialButton(
@@ -118,12 +120,10 @@ class _SignupContentCreatorFourthPageState
         child: Ink(
           child: InkWell(
             child: Container(
-              width: ScreenUtil().setWidth(500),
-              height: ScreenUtil().setHeight(500),
               child: Icon(
                 Icons.add,
                 color: reclipIndigo,
-                size: ScreenUtil().setSp(180),
+                size: ScreenUtil().setSp(200),
               ),
             ),
             onTap: () => _addPicture(),
@@ -133,7 +133,7 @@ class _SignupContentCreatorFourthPageState
     } else {
       return CircleAvatar(
         backgroundImage: FileImage(_image),
-        radius: ScreenUtil().setSp(180),
+        radius: ScreenUtil().setSp(100),
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -150,7 +150,7 @@ class _SignupContentCreatorFourthPageState
                       child: Icon(
                         Icons.add,
                         color: reclipIndigo,
-                        size: ScreenUtil().setSp(80),
+                        size: ScreenUtil().setSp(60),
                       ),
                     ),
                     onTap: () => _addPicture(),

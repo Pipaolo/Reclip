@@ -90,7 +90,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   InkWell(
                                     child: Icon(
                                       FontAwesomeIcons.solidEdit,
-                                      size: ScreenUtil().setSp(70),
+                                      size: ScreenUtil().setSp(20),
                                     ),
                                     onTap: () {
                                       ExtendedNavigator.rootNavigator.pushNamed(
@@ -106,7 +106,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                               ),
                             ),
                             CircleAvatar(
-                              radius: ScreenUtil().setSp(130),
+                              radius: ScreenUtil().setSp(40),
                               child: Stack(
                                 children: <Widget>[
                                   TransitionToImage(
@@ -129,7 +129,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   state.contentCreator.name,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(40),
+                                    fontSize: ScreenUtil().setSp(18),
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -151,7 +151,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   minFontSize: 12,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(40),
+                                    fontSize: ScreenUtil().setSp(12),
                                   ),
                                 ),
                                 AutoSizeText(
@@ -160,7 +160,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   minFontSize: 12,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(40),
+                                    fontSize: ScreenUtil().setSp(12),
                                   ),
                                 ),
                                 AutoSizeText(
@@ -169,7 +169,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   minFontSize: 12,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(40),
+                                    fontSize: ScreenUtil().setSp(12),
                                   ),
                                 ),
                               ],

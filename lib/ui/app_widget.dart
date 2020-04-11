@@ -1,29 +1,30 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reclip/bloc/add_content/add_content_bloc.dart';
-import 'package:reclip/bloc/add_video/add_video_bloc.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/bloc/bloc/connectivity_bloc.dart';
-import 'package:reclip/bloc/drawer/drawer_bloc.dart';
-import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/bloc/login/login_bloc.dart';
-import 'package:reclip/bloc/other_user/other_user_bloc.dart';
-import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
-import 'package:reclip/bloc/signup/signup_bloc.dart';
-import 'package:reclip/bloc/user/user_bloc.dart';
-import 'package:reclip/bloc/verification/verification_bloc.dart';
-import 'package:reclip/bloc/video/video_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
-import 'package:reclip/core/styling.dart';
-import 'package:reclip/repository/firebase_reclip_repository.dart';
-import 'package:reclip/repository/illustration_repository.dart';
-import 'package:reclip/repository/user_repository.dart';
-import 'package:reclip/repository/video_repository.dart';
 
+import '../bloc/add_content/add_content_bloc.dart';
+import '../bloc/add_video/add_video_bloc.dart';
+import '../bloc/authentication/authentication_bloc.dart';
+import '../bloc/bloc/connectivity_bloc.dart';
+import '../bloc/drawer/drawer_bloc.dart';
+import '../bloc/illustration/illustrations_bloc.dart';
+import '../bloc/info/info_bloc.dart';
+import '../bloc/login/login_bloc.dart';
+import '../bloc/other_user/other_user_bloc.dart';
+import '../bloc/reclip_user/reclipuser_bloc.dart';
+import '../bloc/signup/signup_bloc.dart';
+import '../bloc/user/user_bloc.dart';
+import '../bloc/verification/verification_bloc.dart';
+import '../bloc/video/video_bloc.dart';
+import '../core/reclip_colors.dart';
+import '../core/router/route_generator.gr.dart';
+import '../core/styling.dart';
+import '../repository/firebase_reclip_repository.dart';
+import '../repository/illustration_repository.dart';
+import '../repository/user_repository.dart';
+import '../repository/video_repository.dart';
 import 'bloc/navigation_bloc.dart';
 
 class ReclipApp extends StatelessWidget {
@@ -36,6 +37,13 @@ class ReclipApp extends StatelessWidget {
     ));
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) => AuthenticationBloc(
+              userRepository: RepositoryProvider.of<UserRepository>(context))
+            ..add(
+              AppStarted(),
+            ),
+        ),
         BlocProvider<AddVideoBloc>(
           create: (context) => AddVideoBloc(),
         ),
@@ -120,9 +128,17 @@ class ReclipApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.reclipTheme,
-        builder: ExtendedNavigator<Router>(
-          router: Router(),
-          initialRoute: Routes.splashPageRoute,
+        builder: (context, widget) => MediaQuery(
+          data: DevicePreview.mediaQuery(context),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              platform: DevicePreview.platform(context),
+            ),
+            child: ExtendedNavigator<Router>(
+              router: Router(),
+              initialRoute: Routes.splashPageRoute,
+            ),
+          ),
         ),
       ),
     );

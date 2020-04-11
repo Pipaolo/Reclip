@@ -26,7 +26,7 @@ class VideoList extends StatelessWidget {
             style: TextStyle(
               color: reclipBlack,
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setSp(45),
+              fontSize: ScreenUtil().setSp(18),
               wordSpacing: 2,
             ),
           ),

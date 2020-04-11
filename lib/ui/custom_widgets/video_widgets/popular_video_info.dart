@@ -33,13 +33,13 @@ class PopularVideoInfo extends StatelessWidget {
                   Icon(
                     FontAwesomeIcons.solidHeart,
                     color: reclipIndigoLight,
-                    size: ScreenUtil().setSp(60),
+                    size: ScreenUtil().setSp(25),
                   ),
                   Text(
                     popularVideo.likeCount.toString(),
                     style: TextStyle(
                       color: reclipBlack,
-                      fontSize: ScreenUtil().setSp(30),
+                      fontSize: ScreenUtil().setSp(12),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -56,7 +56,7 @@ class PopularVideoInfo extends StatelessWidget {
                   style: TextStyle(
                     color: reclipIndigo,
                     fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(40),
+                    fontSize: ScreenUtil().setSp(18),
                   ),
                 ),
               ),

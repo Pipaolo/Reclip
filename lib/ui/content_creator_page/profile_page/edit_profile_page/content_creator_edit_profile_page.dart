@@ -65,16 +65,10 @@ class _ContentCreatorEditProfilePageState
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              height: ScreenUtil().setHeight(300),
-              width: ScreenUtil().setWidth(300),
-              child: Center(child: CircularProgressIndicator()),
-            ),
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Center(child: CircularProgressIndicator()),
           );
         });
   }
@@ -91,8 +85,8 @@ class _ContentCreatorEditProfilePageState
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(400),
-              width: ScreenUtil().setWidth(400),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,14 +94,14 @@ class _ContentCreatorEditProfilePageState
                     Icon(
                       FontAwesomeIcons.checkCircle,
                       color: Colors.green,
-                      size: ScreenUtil().setSp(150),
+                      size: ScreenUtil().setSp(80),
                     ),
                     Material(
                       color: Colors.transparent,
                       child: Text(
                         'Profile Updated',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                     ),
@@ -134,7 +128,6 @@ class _ContentCreatorEditProfilePageState
           _showSuccessDialog(context);
         } else if (state is UserError) {
           Navigator.of(context).pop();
-          print(state.error);
           _showErrorDialog(context);
         }
       },
@@ -170,7 +163,7 @@ class _ContentCreatorEditProfilePageState
                                 icon: Icon(
                                   FontAwesomeIcons.plusCircle,
                                   color: Colors.white,
-                                  size: ScreenUtil().setSp(80),
+                                  size: ScreenUtil().setSp(40),
                                 ),
                                 onPressed: () async {
                                   profileImage = await ImagePicker.pickImage(
@@ -181,7 +174,7 @@ class _ContentCreatorEditProfilePageState
                             )
                           ],
                         ),
-                        radius: ScreenUtil().setSp(180),
+                        radius: ScreenUtil().setSp(80),
                         backgroundColor: reclipBlackLight,
                       ),
                     ),
@@ -191,7 +184,7 @@ class _ContentCreatorEditProfilePageState
                         'Display Name',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -219,7 +212,7 @@ class _ContentCreatorEditProfilePageState
                         'Description',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -248,7 +241,7 @@ class _ContentCreatorEditProfilePageState
                           'Contact Info',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: ScreenUtil().setSp(45),
+                            fontSize: ScreenUtil().setSp(18),
                           ),
                         ),
                       ),
@@ -259,7 +252,7 @@ class _ContentCreatorEditProfilePageState
                         'Email',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -292,7 +285,7 @@ class _ContentCreatorEditProfilePageState
                         'Facebook',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -320,7 +313,7 @@ class _ContentCreatorEditProfilePageState
                         'Instagram',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -348,7 +341,7 @@ class _ContentCreatorEditProfilePageState
                         'Twitter',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -376,7 +369,7 @@ class _ContentCreatorEditProfilePageState
                         'Mobile Number',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -417,7 +410,7 @@ class _ContentCreatorEditProfilePageState
                           child: Text(
                             'Update Profile',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setSp(38),
+                              fontSize: ScreenUtil().setSp(16),
                             ),
                           ),
                           onPressed: () {
@@ -434,7 +427,7 @@ class _ContentCreatorEditProfilePageState
                                   content: Text(
                                     'Are you sure of all the information that you have entered?',
                                     style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(40),
+                                      fontSize: ScreenUtil().setSp(14),
                                       color: Colors.white,
                                     ),
                                   ),

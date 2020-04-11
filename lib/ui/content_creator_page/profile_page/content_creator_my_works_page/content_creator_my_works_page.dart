@@ -79,7 +79,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                     'Clips and Films',
                     style: TextStyle(
                       color: reclipBlack,
-                      fontSize: ScreenUtil().setSp(40),
+                      fontSize: ScreenUtil().setSp(18),
                     ),
                   ),
                 ],
@@ -98,7 +98,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                     return Container(
                       decoration: BoxDecoration(color: reclipIndigoDark),
                       width: double.infinity,
-                      height: ScreenUtil().setHeight(450),
+                      height: ScreenUtil().setHeight(120),
                       child: Center(
                         child: Text('No Videos'),
                       ),
@@ -131,7 +131,7 @@ class _ContentCreatorMyWorksPageState extends State<ContentCreatorMyWorksPage> {
                     'Illustrations',
                     style: TextStyle(
                       color: reclipBlack,
-                      fontSize: ScreenUtil().setSp(40),
+                      fontSize: ScreenUtil().setSp(18),
                     ),
                   ),
                 ],

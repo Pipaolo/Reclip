@@ -67,7 +67,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   height: ScreenUtil().setHeight(10),
                 ),
                 CircleAvatar(
-                  radius: ScreenUtil().setSp(130),
+                  radius: ScreenUtil().setSp(40),
                   child: Stack(
                     children: <Widget>[
                       TransitionToImage(
@@ -89,7 +89,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       user.name,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(40),
+                        fontSize: ScreenUtil().setSp(18),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -107,7 +107,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(40),
+                        fontSize: ScreenUtil().setSp(12),
                       ),
                     ),
                     AutoSizeText(
@@ -116,7 +116,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(40),
+                        fontSize: ScreenUtil().setSp(12),
                       ),
                     ),
                     AutoSizeText(
@@ -125,7 +125,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(40),
+                        fontSize: ScreenUtil().setSp(12),
                       ),
                     ),
                   ],

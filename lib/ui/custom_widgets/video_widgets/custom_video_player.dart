@@ -39,9 +39,9 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     setState(() {
       double aspectRatio = 0;
       if (widget.video.height > widget.video.width) {
-        aspectRatio = widget.video.width / widget.video.height;
+        aspectRatio = 4 / 5;
       } else {
-        aspectRatio = widget.video.height / widget.video.width;
+        aspectRatio = 16 / 9;
       }
       _controller = VideoPlayerController.network(widget.video.videoUrl);
       _chewieController = ChewieController(

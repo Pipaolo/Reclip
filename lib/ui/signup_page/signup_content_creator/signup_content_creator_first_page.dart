@@ -3,12 +3,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
+import '../../../bloc/authentication/authentication_bloc.dart';
+import '../../../core/reclip_colors.dart';
+import '../../../core/router/route_generator.gr.dart';
+import '../../../data/model/reclip_content_creator.dart';
 
 class SignupContentCreatorFirstPage extends StatelessWidget {
   final ReclipContentCreator contentCreator;
@@ -105,184 +104,190 @@ class _SignupContentCreatorFirstFormState
           'confirm password': '',
         },
         autovalidate: true,
-        child: SizedBox(
-          height: ScreenUtil().setHeight(1200),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                FormBuilderTextField(
-                  attribute: 'username',
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              FormBuilderTextField(
+                attribute: 'username',
+                controller: usernameController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    hintText: 'Username',
                   ),
-                  textInputAction: TextInputAction.next,
-                  maxLines: 1,
-                  focusNode: usernameFocus,
-                  validators: [
-                    FormBuilderValidators.required(),
-                  ],
-                  onFieldSubmitted: (_) =>
-                      changeFocusField(context, usernameFocus, emailFocus),
-                ),
-                FormBuilderTextField(
-                  attribute: 'email',
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    hintText: 'Email',
                   ),
-                  validators: [
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.email(),
-                  ],
-                  onFieldSubmitted: (_) =>
-                      changeFocusField(context, emailFocus, passwordFocus),
-                  textInputAction: TextInputAction.next,
-                  maxLines: 1,
-                  focusNode: emailFocus,
-                ),
-                FormBuilderTextField(
-                  attribute: 'password',
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    hintText: 'Password',
                   ),
-                  obscureText: true,
-                  maxLines: 1,
-                  textInputAction: TextInputAction.next,
-                  focusNode: passwordFocus,
-                  validators: [
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.minLength(6,
-                        errorText:
-                            'Password needs to be atleast 6 letters or numbers'),
-                  ],
-                  onFieldSubmitted: (_) => changeFocusField(
-                      context, passwordFocus, confirmPasswordFocus),
+                  hintText: 'Username',
                 ),
-                FormBuilderTextField(
-                  attribute: 'confirm password',
-                  controller: confirmPasswordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
+                textInputAction: TextInputAction.next,
+                maxLines: 1,
+                focusNode: usernameFocus,
+                validators: [
+                  FormBuilderValidators.required(),
+                ],
+                onFieldSubmitted: (_) =>
+                    changeFocusField(context, usernameFocus, emailFocus),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              FormBuilderTextField(
+                attribute: 'email',
+                controller: emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: reclipIndigo,
-                        width: 2,
-                      ),
-                    ),
-                    hintText: 'Confirm Password',
                   ),
-                  obscureText: true,
-                  maxLines: 1,
-                  focusNode: confirmPasswordFocus,
-                  textInputAction: TextInputAction.done,
-                  validators: [
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.minLength(6,
-                        errorText:
-                            'Password needs to be atleast 6 letters or numbers'),
-                    // ignore: missing_return
-                    (val) {
-                      if (passwordController.text !=
-                          confirmPasswordController.text)
-                        return 'Password is not the same';
-                    },
-                  ],
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
                     ),
-                    color: reclipIndigo,
-                    child: Text('Next'.toUpperCase()),
-                    onPressed: () => _navigateToNextPage(),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  hintText: 'Email',
                 ),
-              ],
-            ),
+                validators: [
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.email(),
+                ],
+                onFieldSubmitted: (_) =>
+                    changeFocusField(context, emailFocus, passwordFocus),
+                textInputAction: TextInputAction.next,
+                maxLines: 1,
+                focusNode: emailFocus,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              FormBuilderTextField(
+                attribute: 'password',
+                controller: passwordController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  hintText: 'Password',
+                ),
+                obscureText: true,
+                maxLines: 1,
+                textInputAction: TextInputAction.next,
+                focusNode: passwordFocus,
+                validators: [
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.minLength(6,
+                      errorText:
+                          'Password needs to be atleast 6 letters or numbers'),
+                ],
+                onFieldSubmitted: (_) => changeFocusField(
+                    context, passwordFocus, confirmPasswordFocus),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              FormBuilderTextField(
+                attribute: 'confirm password',
+                controller: confirmPasswordController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: reclipIndigo,
+                      width: 2,
+                    ),
+                  ),
+                  hintText: 'Confirm Password',
+                ),
+                obscureText: true,
+                maxLines: 1,
+                focusNode: confirmPasswordFocus,
+                textInputAction: TextInputAction.done,
+                validators: [
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.minLength(6,
+                      errorText:
+                          'Password needs to be atleast 6 letters or numbers'),
+                  // ignore: missing_return
+                  (val) {
+                    if (passwordController.text !=
+                        confirmPasswordController.text)
+                      return 'Password is not the same';
+                  },
+                ],
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.35,
+                child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: reclipIndigo,
+                  child: Text('Next'.toUpperCase()),
+                  onPressed: () => _navigateToNextPage(),
+                ),
+              ),
+            ],
           ),
         ),
       ),

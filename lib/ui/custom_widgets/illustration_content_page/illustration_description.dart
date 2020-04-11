@@ -38,7 +38,7 @@ class IllustrationDescription extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(
-            height: 10,
+            height: 15,
           ),
           IllustrationAuthorImage(
             user: user,
@@ -49,14 +49,15 @@ class IllustrationDescription extends StatelessWidget {
               user.name,
               maxLines: 1,
               style: TextStyle(
-                fontSize: ScreenUtil().setSp(35),
-                color: Colors.white,
+                fontSize: ScreenUtil().setSp(16),
+                color: reclipBlackDark,
+                fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 35,
           ),
           Container(
             decoration: BoxDecoration(
@@ -69,13 +70,13 @@ class IllustrationDescription extends StatelessWidget {
                     offset: Offset(0, 10),
                   ),
                 ]),
-            height: ScreenUtil().setHeight(600),
+            height: ScreenUtil().setHeight(400),
             width: double.infinity,
             alignment: Alignment.center,
             child: AutoSizeText(
               illustration.description,
               style: TextStyle(
-                fontSize: ScreenUtil().setSp(40),
+                fontSize: ScreenUtil().setSp(18),
               ),
               textAlign: TextAlign.center,
               maxLines: 5,

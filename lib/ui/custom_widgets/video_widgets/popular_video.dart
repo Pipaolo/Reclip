@@ -19,10 +19,10 @@ class PopularVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 80),
       child: Container(
-        width: ScreenUtil().setWidth(500),
-        height: ScreenUtil().setHeight(800),
+        width: ScreenUtil().setWidth(200),
+        height: ScreenUtil().setHeight(260),
         decoration: BoxDecoration(
           color: reclipBlack,
           borderRadius: BorderRadius.circular(10),

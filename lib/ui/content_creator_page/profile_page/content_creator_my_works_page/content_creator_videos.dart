@@ -22,12 +22,12 @@ class ContentCreatorVideos extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
-      height: ScreenUtil().setHeight(450),
+      height: ScreenUtil().setHeight(120),
       alignment: Alignment.center,
       child: Text(
         'No Videos Found',
         style: TextStyle(
-            color: reclipIndigoLight, fontSize: ScreenUtil().setSp(50)),
+            color: reclipIndigoLight, fontSize: ScreenUtil().setSp(18)),
       ),
     );
   }
@@ -36,7 +36,7 @@ class ContentCreatorVideos extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: reclipIndigoDark),
       width: double.infinity,
-      height: ScreenUtil().setHeight(450),
+      height: ScreenUtil().setHeight(120),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: videos.length,

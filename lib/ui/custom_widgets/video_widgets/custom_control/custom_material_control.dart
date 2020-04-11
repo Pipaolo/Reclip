@@ -184,7 +184,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls> {
             widget.title,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(45),
+              fontSize: ScreenUtil().setSp(18),
               color: Colors.white,
             ),
             maxLines: 2,
@@ -260,7 +260,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls> {
                           padding: EdgeInsets.all(12.0),
                           child: Icon(
                             Icons.pause,
-                            size: ScreenUtil().setSp(160),
+                            size: ScreenUtil().setSp(80),
                             color: reclipIndigo,
                           ),
                         ),
@@ -283,7 +283,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls> {
                           padding: EdgeInsets.all(12.0),
                           child: Icon(
                             Icons.play_arrow,
-                            size: ScreenUtil().setSp(160),
+                            size: ScreenUtil().setSp(80),
                             color: reclipIndigo,
                           ),
                         ),

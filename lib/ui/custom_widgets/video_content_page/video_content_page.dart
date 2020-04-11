@@ -72,7 +72,7 @@ class VideoContentPage extends HookWidget {
                                     child: Icon(
                                       Icons.close,
                                       color: reclipIndigo,
-                                      size: ScreenUtil().setSp(60),
+                                      size: ScreenUtil().setSp(20),
                                       textDirection: TextDirection.rtl,
                                     ),
                                   ),
@@ -106,8 +106,9 @@ class VideoContentPage extends HookWidget {
 
   _buildHeader() {
     return Container(
-      width: ScreenUtil().uiWidthPx.toDouble(),
-      height: ScreenUtil().setHeight(700),
+      width: double.infinity,
+      height: ScreenUtil().setHeight(200),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -118,14 +119,13 @@ class VideoContentPage extends HookWidget {
         ],
       ),
       child: Stack(
+        alignment: Alignment.center,
         children: <Widget>[
           Positioned.fill(
-            child: FittedBox(
+            child: TransitionToImage(
+              image:
+                  AdvancedNetworkImage(video.thumbnailUrl, useDiskCache: true),
               fit: BoxFit.cover,
-              child: TransitionToImage(
-                image: AdvancedNetworkImage(video.thumbnailUrl,
-                    useDiskCache: true),
-              ),
             ),
           ),
         ],
@@ -196,7 +196,7 @@ class _VideoLikeButtonState extends State<VideoLikeButton> {
       child: Icon(
         (liked) ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp,
         color: reclipIndigo,
-        size: ScreenUtil().setSp(60),
+        size: ScreenUtil().setSp(20),
       ),
       onPressed: () {
         if (liked) {
@@ -242,7 +242,7 @@ class VideoShareButton extends StatelessWidget {
       child: Icon(
         FontAwesomeIcons.shareAlt,
         color: reclipIndigo,
-        size: ScreenUtil().setSp(60),
+        size: ScreenUtil().setSp(20),
       ),
       onPressed: () {
         FlushbarCollection.showFlushbarDevelopment(

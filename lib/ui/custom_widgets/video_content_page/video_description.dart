@@ -49,24 +49,27 @@ class VideoDescription extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      height: ScreenUtil().setHeight(450),
-                      width: ScreenUtil().setWidth(280),
-                      color: reclipBlack,
-                      child: TransitionToImage(
-                        image: AdvancedNetworkImage(thumbnailUrl,
-                            useDiskCache: true),
-                        fit: BoxFit.fitHeight,
+              Flexible(
+                child: Column(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        height: ScreenUtil().setHeight(140),
+                        width: ScreenUtil().setWidth(200),
+                        color: reclipBlack,
+                        child: TransitionToImage(
+                          image: AdvancedNetworkImage(thumbnailUrl,
+                              useDiskCache: true),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Expanded(
+              Flexible(
+                flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
@@ -79,14 +82,14 @@ class VideoDescription extends StatelessWidget {
                         ),
                         style: TextStyle(
                           color: reclipIndigo,
-                          fontSize: ScreenUtil().setSp(35),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                       AutoSizeText(
                         title,
                         style: TextStyle(
                           color: reclipBlack,
-                          fontSize: ScreenUtil().setSp(60),
+                          fontSize: ScreenUtil().setSp(20),
                         ),
                         maxLines: 2,
                       ),
@@ -98,7 +101,7 @@ class VideoDescription extends StatelessWidget {
                         minMessage: 'Show More',
                         maxMessage: 'Show Less',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ],

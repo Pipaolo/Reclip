@@ -72,60 +72,60 @@ class _SignupContentCreatorThirdFormState
   Widget build(BuildContext context) {
     return FormBuilder(
       key: _fbKey,
-      child: SizedBox(
-        height: ScreenUtil().setHeight(1200),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              FormBuilderTextField(
-                attribute: 'description',
-                decoration: InputDecoration(
-                  hintText: 'Description',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            const SizedBox(
+              height: 20,
+            ),
+            FormBuilderTextField(
+              attribute: 'description',
+              decoration: InputDecoration(
+                hintText: 'Description',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
                   ),
                 ),
-                maxLines: 5,
-                validators: [
-                  FormBuilderValidators.required(),
-                ],
-                controller: descriptionController,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.35,
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
                   ),
-                  color: reclipIndigo,
-                  child: Text(
-                    'Next'.toUpperCase(),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
                   ),
-                  onPressed: () => _navigateToFourthPage(),
                 ),
               ),
-            ],
-          ),
+              maxLines: 5,
+              validators: [
+                FormBuilderValidators.required(),
+              ],
+              controller: descriptionController,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                color: reclipIndigo,
+                child: Text(
+                  'Next'.toUpperCase(),
+                ),
+                onPressed: () => _navigateToFourthPage(),
+              ),
+            ),
+          ],
         ),
       ),
     );

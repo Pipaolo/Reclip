@@ -60,7 +60,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                       child: Text(
                         'Existing Image!',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(14),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                     ),
@@ -73,7 +73,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
   }
 
   _showErrorDialog(BuildContext context) {
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
     Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
     showDialog(
         context: context,
@@ -85,8 +85,8 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(400),
-              width: ScreenUtil().setWidth(400),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,7 +101,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                       child: Text(
                         'Uploading Error!',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                     ),
@@ -146,80 +146,91 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
           title: Text('Add Image'),
           centerTitle: true,
         ),
-        body: Center(
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: reclipBlack,
-                      border: Border.all(color: reclipIndigo, width: 3),
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                        image: FileImage(widget.image),
-                        fit: BoxFit.fitHeight,
+                Flexible(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      decoration: BoxDecoration(
+                        color: reclipBlack,
+                        border: Border.all(color: reclipIndigo, width: 3),
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          image: FileImage(widget.image),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
-                    height: ScreenUtil().setHeight(800),
                   ),
                 ),
+                const SizedBox(height: 20),
                 Container(
-                  height: ScreenUtil().setHeight(700),
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: FormBuilder(
                     key: _fbKey,
                     autovalidate: true,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        FormBuilderTextField(
-                          attribute: 'title',
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
+                        Flexible(
+                          child: FormBuilderTextField(
+                            attribute: 'title',
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              hintText: 'Title',
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            hintText: 'Title',
+                            controller: _titleTextEditingController,
+                            autovalidate: true,
+                            validators: [
+                              FormBuilderValidators.required(),
+                            ],
+                            maxLines: 1,
                           ),
-                          controller: _titleTextEditingController,
-                          autovalidate: true,
-                          validators: [
-                            FormBuilderValidators.required(),
-                          ],
-                          maxLines: 1,
                         ),
-                        FormBuilderTextField(
-                          attribute: 'description',
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
+                        Flexible(
+                          child: FormBuilderTextField(
+                            attribute: 'description',
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              hintText: 'Description',
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            hintText: 'Description',
+                            controller: _descriptionTextEditingController,
+                            maxLines: 5,
+                            validators: [
+                              FormBuilderValidators.required(),
+                            ],
                           ),
-                          controller: _descriptionTextEditingController,
-                          maxLines: 5,
-                          validators: [
-                            FormBuilderValidators.required(),
-                          ],
                         ),
                       ],
                     ),
@@ -234,7 +245,9 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     color: reclipIndigo,
-                    onPressed: () => _uploadImage(context),
+                    onPressed: () {
+                      return _uploadImage(context);
+                    },
                   ),
                 ),
               ],

@@ -50,6 +50,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
           } else if (state is UploadVideoSuccess) {
             Future.delayed(
                 Duration(seconds: 2), () => Navigator.of(context).pop());
+
             DialogCollection.showSuccessDialog('Video Uploaded!', context);
           }
         }),
@@ -64,67 +65,71 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
         body: Center(
           child: SingleChildScrollView(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 if (videoThumbnail == null) _buildEmptyContainer(),
                 if (videoThumbnail != null) _buildThumbnail(),
-                Container(
-                  height: ScreenUtil().setHeight(600),
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: FormBuilder(
-                    key: _fbKey,
-                    autovalidate: true,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        FormBuilderTextField(
-                          attribute: 'title',
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
+                const SizedBox(height: 15),
+                Flexible(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: FormBuilder(
+                      key: _fbKey,
+                      autovalidate: true,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          FormBuilderTextField(
+                            attribute: 'title',
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              hintText: 'Title',
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            hintText: 'Title',
+                            controller: _titleTextEditingController,
+                            autovalidate: true,
+                            validators: [
+                              FormBuilderValidators.required(),
+                            ],
+                            maxLines: 1,
                           ),
-                          controller: _titleTextEditingController,
-                          autovalidate: true,
-                          validators: [
-                            FormBuilderValidators.required(),
-                          ],
-                          maxLines: 1,
-                        ),
-                        FormBuilderTextField(
-                          attribute: 'description',
-                          autofocus: false,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
+                          const SizedBox(height: 15),
+                          FormBuilderTextField(
+                            attribute: 'description',
+                            autofocus: false,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: reclipIndigo),
+                              ),
+                              hintText: 'Description',
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: reclipIndigo),
-                            ),
-                            hintText: 'Description',
+                            controller: _descriptionTextEditingController,
+                            maxLines: 5,
+                            validators: [
+                              FormBuilderValidators.required(),
+                            ],
                           ),
-                          controller: _descriptionTextEditingController,
-                          maxLines: 5,
-                          validators: [
-                            FormBuilderValidators.required(),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -182,31 +187,6 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
     );
   }
 
-  // Future<File> _compressVideo() async {
-  //   final compressor = FlutterFFmpeg();
-  //   final config = FlutterFFmpegConfig();
-  //   return await showDialog<File>(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-  //       title: Text('Compressing Video', style: TextStyle(color: reclipBlack)),
-  //       content: VideoCompressingProgress(
-  //         video: widget.args.video,
-  //         ffmpegCompressor: compressor,
-  //         ffmpegConfig: config,
-  //       ),
-  //       actions: <Widget>[
-  //         FlatButton(
-  //           child: Text('Cancel'),
-  //           onPressed: () {
-  //             compressor.cancel();
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   _buildThumbnail() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30),
@@ -217,7 +197,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
             child: Container(
-              height: ScreenUtil().setHeight(800),
+              height: MediaQuery.of(context).size.height * 0.45,
               width: double.infinity,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -225,6 +205,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
                   image: FileImage(videoThumbnail),
+                  fit: BoxFit.fitHeight,
                 ),
               ),
             ),
@@ -253,7 +234,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
             child: Container(
-              height: ScreenUtil().setHeight(800),
+              height: MediaQuery.of(context).size.height * 0.45,
               width: double.infinity,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -265,7 +246,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                       'Add Thumbnail',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: ScreenUtil().setSp(50),
+                        fontSize: ScreenUtil().setSp(18),
                       ),
                     )
                   : Container(),

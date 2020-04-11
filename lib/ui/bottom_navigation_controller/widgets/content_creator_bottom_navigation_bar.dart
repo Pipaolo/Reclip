@@ -17,7 +17,10 @@ class ContentCreatorBottomNavigationBar extends StatelessWidget {
           color: reclipBlack,
           backgroundColor: Colors.white,
           items: <Widget>[
-            Icon(Icons.home, color: Colors.white),
+            Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
             Icon(Icons.add, color: Colors.white),
             Icon(Icons.person, color: Colors.white),
           ],

@@ -20,33 +20,35 @@ class YoutubeStyleWidget extends StatelessWidget {
       itemCount: videos.length,
       itemBuilder: (context, index) {
         return Container(
-          height: ScreenUtil().setHeight(320),
-          width: ScreenUtil().setWidth(320),
           child: Stack(
             children: <Widget>[
               Card(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        bottomLeft: Radius.circular(5),
-                      ),
-                      child: Container(
-                        height: ScreenUtil().setHeight(320),
-                        width: ScreenUtil().setWidth(320),
-                        color: reclipBlack,
-                        child: TransitionToImage(
-                          image:
-                              AdvancedNetworkImage(videos[index].thumbnailUrl),
-                          loadingWidget:
-                              Center(child: CircularProgressIndicator()),
-                          fit: BoxFit.fitHeight,
+                    Flexible(
+                      flex: 1,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
+                        ),
+                        child: Container(
+                          height: ScreenUtil().setHeight(100),
+                          width: ScreenUtil().setWidth(100),
+                          color: reclipBlack,
+                          child: TransitionToImage(
+                            image: AdvancedNetworkImage(
+                                videos[index].thumbnailUrl),
+                            loadingWidget:
+                                Center(child: CircularProgressIndicator()),
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
                     ),
                     Flexible(
+                      flex: 2,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: Column(
@@ -56,7 +58,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                             Text(
                               videos[index].title,
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
+                                fontSize: ScreenUtil().setSp(20),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -69,7 +71,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                                   : videos[index].description,
                               overflow: TextOverflow.ellipsis,
                               style:
-                                  TextStyle(fontSize: ScreenUtil().setSp(30)),
+                                  TextStyle(fontSize: ScreenUtil().setSp(14)),
                               maxLines: 3,
                             ),
                           ],

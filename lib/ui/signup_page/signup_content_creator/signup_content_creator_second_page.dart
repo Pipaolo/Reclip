@@ -86,112 +86,114 @@ class _SignupContentCreatorSecondFormState
         'contact_number': ''
       },
       autovalidate: true,
-      child: SizedBox(
-        height: ScreenUtil().setHeight(1200),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              FormBuilderTextField(
-                attribute: 'birth_date',
-                decoration: InputDecoration(
-                  hintText: 'Birth Date (mm/dd/yy)',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            FormBuilderTextField(
+              attribute: 'birth_date',
+              decoration: InputDecoration(
+                hintText: 'Birth Date (mm/dd/yy)',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
                   ),
                 ),
-                controller: birthDateController,
-                focusNode: birthDateFocus,
-                keyboardType: TextInputType.datetime,
-                validators: [
-                  FormBuilderValidators.required(),
-                  //ignore: missing_return
-                  (val) {
-                    try {
-                      if (val.split('/').last.length < 4) {
-                        return 'Invalid Date, please follow the format (mm/dd/yyyy)';
-                      } else {
-                        DateFormat('MM/dd/yyyy').parse(val);
-                      }
-                    } catch (e) {
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
+                  ),
+                ),
+              ),
+              controller: birthDateController,
+              focusNode: birthDateFocus,
+              keyboardType: TextInputType.datetime,
+              validators: [
+                FormBuilderValidators.required(),
+                //ignore: missing_return
+                (val) {
+                  try {
+                    if (val.split('/').last.length < 4) {
                       return 'Invalid Date, please follow the format (mm/dd/yyyy)';
+                    } else {
+                      DateFormat('MM/dd/yyyy').parse(val);
                     }
+                  } catch (e) {
+                    return 'Invalid Date, please follow the format (mm/dd/yyyy)';
                   }
-                ],
-              ),
-              FormBuilderTextField(
-                attribute: 'contact_number',
-                decoration: InputDecoration(
-                  hintText: 'Contact Number',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: reclipIndigo,
-                      width: 2,
-                    ),
+                }
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            FormBuilderTextField(
+              attribute: 'contact_number',
+              decoration: InputDecoration(
+                hintText: 'Contact Number',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
                   ),
                 ),
-                controller: contactNumberController,
-                focusNode: contactNumberFocus,
-                keyboardType: TextInputType.number,
-                validators: [
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.numeric(),
-                  // ignore: missing_return
-                  (val) {
-                    final regex = RegExp(r"^(\+63|0|63)?(9){1}?[0-9]{9}$");
-                    if (!val.toString().contains(regex))
-                      return 'Invalid Number';
-                  }
-                ],
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.35,
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
                   ),
-                  color: reclipIndigo,
-                  child: Text('Next'.toUpperCase()),
-                  onPressed: () => _navigateToThirdPage(),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(
+                    color: reclipIndigo,
+                    width: 2,
+                  ),
                 ),
               ),
-            ],
-          ),
+              controller: contactNumberController,
+              focusNode: contactNumberFocus,
+              keyboardType: TextInputType.number,
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.numeric(),
+                // ignore: missing_return
+                (val) {
+                  final regex = RegExp(r"^(\+63|0|63)?(9){1}?[0-9]{9}$");
+                  if (!val.toString().contains(regex)) return 'Invalid Number';
+                }
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                color: reclipIndigo,
+                child: Text('Next'.toUpperCase()),
+                onPressed: () => _navigateToThirdPage(),
+              ),
+            ),
+          ],
         ),
       ),
     );

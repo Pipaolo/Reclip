@@ -121,27 +121,26 @@ class SignupUserPage extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: Center(
-          child: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
-                    child: AutoSizeText(
-                      'ENTER THE FOLLOWING \nDETAILS:',
-                      style: TextStyle(
-                        color: reclipBlackLight,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                AutoSizeText(
+                  'ENTER THE FOLLOWING \nDETAILS:',
+                  style: TextStyle(
+                    color: reclipBlackLight,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
                   ),
-                  SignupContentCreatorFirstForm(),
-                ],
-              ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
+                SignupContentCreatorFirstForm(),
+              ],
             ),
           ),
         ),
@@ -184,14 +183,16 @@ class _SignupContentCreatorFirstFormState
         'confirm password': '',
       },
       autovalidate: true,
-      child: SizedBox(
-        height: ScreenUtil().setHeight(500),
+      child: Flexible(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+              const SizedBox(
+                height: 20,
+              ),
               FormBuilderTextField(
                 attribute: 'firstName',
                 controller: firstNameController,
@@ -227,6 +228,9 @@ class _SignupContentCreatorFirstFormState
                 ],
                 onFieldSubmitted: (_) =>
                     changeFocusField(context, firstNameFocus, lastNameFocus),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               FormBuilderTextField(
                 attribute: 'lastName',
@@ -264,6 +268,9 @@ class _SignupContentCreatorFirstFormState
                 onFieldSubmitted: (_) =>
                     changeFocusField(context, lastNameFocus, emailFocus),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               FormBuilderTextField(
                 attribute: 'email',
                 controller: emailController,
@@ -300,6 +307,9 @@ class _SignupContentCreatorFirstFormState
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
                 focusNode: emailFocus,
+              ),
+              const SizedBox(
+                height: 20,
               ),
               FormBuilderTextField(
                 attribute: 'password',
@@ -340,6 +350,9 @@ class _SignupContentCreatorFirstFormState
                 ],
                 onFieldSubmitted: (_) => changeFocusField(
                     context, passwordFocus, confirmPasswordFocus),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               FormBuilderTextField(
                 attribute: 'confirm password',

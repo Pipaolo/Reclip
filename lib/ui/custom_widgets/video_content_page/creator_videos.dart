@@ -5,13 +5,12 @@ import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/other_user/other_user_bloc.dart';
 import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
-
+import '../../../core/router/route_generator.gr.dart';
 import '../../../data/model/reclip_content_creator.dart';
 import '../../../data/model/video.dart';
 
@@ -29,14 +28,13 @@ class CreatorVideos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Video> creatorVideos = List();
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Material(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Material(
               color: reclipIndigo,
               borderRadius: BorderRadius.circular(5),
               child: Ink(
@@ -49,14 +47,14 @@ class CreatorVideos extends StatelessWidget {
                         .pushNamed(Routes.otherProfilePageRoute);
                   },
                   child: Container(
-                    height: ScreenUtil().setHeight(100),
                     width: double.infinity,
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                     alignment: Alignment.center,
                     child: AutoSizeText(
                       'More Videos of ${contentCreator.name.toUpperCase()}',
+                      maxLines: 1,
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(16),
+                        fontSize: ScreenUtil().setSp(14),
                         fontWeight: FontWeight.bold,
                         color: Colors.black.withAlpha(180),
                       ),
@@ -65,19 +63,19 @@ class CreatorVideos extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          BlocBuilder<VideoBloc, VideoState>(
-            builder: (context, state) {
-              if (state is VideoSuccess) {
-                creatorVideos.addAll(state.videos);
-                creatorVideos.retainWhere((video) =>
-                    video.contentCreatorEmail.contains(contentCreator.email));
-                return _buildListView(creatorVideos);
-              }
-              return Container();
-            },
-          )
-        ],
+            BlocBuilder<VideoBloc, VideoState>(
+              builder: (context, state) {
+                if (state is VideoSuccess) {
+                  return _buildListView(state.videos
+                      .where((element) =>
+                          element.contentCreatorEmail == contentCreator.email)
+                      .toList());
+                }
+                return Container();
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -95,17 +93,20 @@ class CreatorVideos extends StatelessWidget {
     if (filteredVideos.length == 0) {
       return Container(
         width: double.infinity,
-        height: ScreenUtil().setHeight(400),
+        height: ScreenUtil().setHeight(120),
         alignment: Alignment.center,
         child: Text(
           'No Videos Found',
-          style: TextStyle(color: reclipIndigo, fontSize: 20),
+          style: TextStyle(
+            color: reclipIndigo,
+            fontSize: ScreenUtil().setSp(16),
+          ),
         ),
       );
     } else {
       return Container(
         width: double.infinity,
-        height: ScreenUtil().setHeight(380),
+        height: ScreenUtil().setHeight(120),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: filteredVideos.length,
@@ -115,7 +116,7 @@ class CreatorVideos extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
-                  width: ScreenUtil().setWidth(230),
+                  width: 100,
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(

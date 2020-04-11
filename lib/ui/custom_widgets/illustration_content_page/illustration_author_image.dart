@@ -17,14 +17,14 @@ class IllustrationAuthorImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: ScreenUtil().setSp(100),
+      radius: ScreenUtil().setSp(40),
       child: Stack(
         children: <Widget>[
           TransitionToImage(
             image: AdvancedNetworkImage(user.imageUrl, useDiskCache: true),
             borderRadius: BorderRadius.circular(200),
-            height: ScreenUtil().setHeight(300),
-            width: ScreenUtil().setWidth(300),
+            height: ScreenUtil().setHeight(90),
+            width: ScreenUtil().setWidth(90),
             fit: BoxFit.cover,
           ),
           Positioned.fill(

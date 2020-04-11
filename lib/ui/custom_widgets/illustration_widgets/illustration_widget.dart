@@ -26,7 +26,7 @@ class IllustrationWidget extends StatelessWidget {
               style: TextStyle(
                 color: reclipBlack,
                 fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setSp(45),
+                fontSize: ScreenUtil().setSp(14),
                 wordSpacing: 2,
               ),
             ),
@@ -54,7 +54,7 @@ class IllustrationWidget extends StatelessWidget {
   _buildSuccessState(List<Illustration> illustrations) {
     return Container(
       width: double.infinity,
-      height: ScreenUtil().setHeight(400),
+      height: ScreenUtil().setHeight(120),
       color: reclipIndigoDark,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -65,7 +65,7 @@ class IllustrationWidget extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Container(
-                width: ScreenUtil().setWidth(235),
+                width: ScreenUtil().setWidth(80),
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(

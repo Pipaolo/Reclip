@@ -13,10 +13,14 @@ class PopularIllustrationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 110),
       child: Container(
-        width: ScreenUtil().setWidth(500),
-        height: ScreenUtil().setHeight(800),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.black, width: 2),
+        ),
+        width: double.infinity,
+        height: ScreenUtil().setHeight(200),
         child: InkWell(
           onTap: () {
             BlocProvider.of<InfoBloc>(context)

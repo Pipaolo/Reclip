@@ -15,7 +15,7 @@ class PopularIllustrationImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(800),
+      height: ScreenUtil().setHeight(600),
       child: TransitionToImage(
         image: AdvancedNetworkImage(
           popularIllustration.imageUrl,

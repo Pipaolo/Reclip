@@ -14,7 +14,7 @@ class DialogCollection {
   static void showLoadingDialog(String loadingMessage, BuildContext context) {
     showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true,
         builder: (context) {
           return AlertDialog(
             title: Text('Loading...'),
@@ -27,8 +27,8 @@ class DialogCollection {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
-              height: ScreenUtil().setHeight(300),
-              width: ScreenUtil().setWidth(300),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -154,8 +154,8 @@ class DialogCollection {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    height: ScreenUtil().setHeight(400),
-                    width: ScreenUtil().setWidth(400),
+                    height: ScreenUtil().setHeight(100),
+                    width: ScreenUtil().setWidth(100),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -179,8 +179,8 @@ class DialogCollection {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    height: ScreenUtil().setHeight(400),
-                    width: ScreenUtil().setWidth(400),
+                    height: ScreenUtil().setHeight(100),
+                    width: ScreenUtil().setWidth(100),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -211,8 +211,8 @@ class DialogCollection {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(400),
-              width: ScreenUtil().setWidth(400),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -220,14 +220,14 @@ class DialogCollection {
                     Icon(
                       FontAwesomeIcons.checkCircle,
                       color: Colors.green,
-                      size: ScreenUtil().setSp(150),
+                      size: ScreenUtil().setSp(80),
                     ),
                     Material(
                       color: Colors.transparent,
                       child: Text(
                         successMessage,
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                     ),

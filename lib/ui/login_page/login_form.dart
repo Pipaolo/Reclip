@@ -4,10 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../bloc/login/login_bloc.dart';
 import '../../core/reclip_colors.dart';
+import '../../core/router/route_generator.gr.dart';
 import 'google_button.dart';
 
 class LoginForm extends StatefulWidget {
@@ -38,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(bottom: 25),
+            padding: EdgeInsets.only(bottom: 10),
             child: Text(
               'Login with',
               style: TextStyle(color: Colors.white),
