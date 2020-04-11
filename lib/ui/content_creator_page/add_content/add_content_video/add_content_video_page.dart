@@ -157,8 +157,6 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                       final videoMetadata = await ffmpegProbe
                           .getMediaInformation(widget.video.path);
 
-                      print(videoMetadata['streams'][0]['width']);
-
                       PaintingBinding.instance.imageCache.clear();
                       BlocProvider.of<AddContentBloc>(context)
                         ..add(VideoAdded(
@@ -173,21 +171,6 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                           ),
                           isAdded: false,
                         ));
-                      // _compressVideo().then((value) {
-                      //   if (value != null) {
-                      //     PaintingBinding.instance.imageCache.clear();
-                      //     BlocProvider.of<AddContentBloc>(context)
-                      //       ..add(VideoAdded(
-                      //         contentCreator: widget.args.contentCreator,
-                      //         rawVideo: value,
-                      //         thumbnail: videoThumbnail,
-                      //         video: video,
-                      //         isAdded: false,
-                      //       ));
-                      //   } else {
-                      //     print('An error has occured');
-                      //   }
-                      // });
                     },
                   ),
                 ),
