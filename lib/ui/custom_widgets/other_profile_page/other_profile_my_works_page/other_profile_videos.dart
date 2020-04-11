@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
@@ -62,16 +63,12 @@ class OtherProfileVideos extends StatelessWidget {
                           splashColor: Colors.black.withAlpha(100),
                           highlightColor: Colors.black.withAlpha(180),
                           onTap: () {
-                            Router.navigator.pushNamed(
-                                Router.videoContentPageRoute,
-                                arguments: VideoContentPageArguments(
-                                  contentCreator: user,
-                                  video: videos[index],
-                                  isLiked:
-                                      videos[index].likedBy.contains(user.email)
-                                          ? true
-                                          : false,
-                                ));
+                            ExtendedNavigator.rootNavigator
+                                .pushNamed(Routes.videoContentPageRoute,
+                                    arguments: VideoContentPageArguments(
+                                      contentCreator: user,
+                                      video: videos[index],
+                                    ));
                           },
                         ),
                       ),

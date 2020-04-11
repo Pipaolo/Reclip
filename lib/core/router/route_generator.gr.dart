@@ -26,15 +26,15 @@ import 'package:reclip/ui/content_creator_page/profile_page/content_creator_prof
 import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/content_creator_edit_profile_page.dart';
 import 'package:reclip/ui/content_creator_page/add_content/add_content_image/add_content_image_page.dart';
 import 'package:reclip/ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
-import 'package:reclip/bottom_nav_controller.dart';
+import 'package:reclip/ui/bottom_navigation_controller/bottom_nav_controller.dart';
 import 'package:reclip/data/model/reclip_user.dart';
-import 'package:reclip/ui/custom_wigets/video_content_page/video_content_page.dart';
+import 'package:reclip/ui/custom_widgets/video_content_page/video_content_page.dart';
 import 'package:reclip/data/model/video.dart';
-import 'package:reclip/ui/custom_wigets/illustration_content_page/illustration_content_page.dart';
+import 'package:reclip/ui/custom_widgets/illustration_content_page/illustration_content_page.dart';
 import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/ui/custom_wigets/other_profile_page/other_profile_page.dart';
+import 'package:reclip/ui/custom_widgets/other_profile_page/other_profile_page.dart';
 
-class Router {
+abstract class Routes {
   static const splashPageRoute = '/';
   static const loginPageRoute = '/login-page-route';
   static const homePageRoute = '/home-page-route';
@@ -64,11 +64,19 @@ class Router {
   static const illustrationContentPageRoute =
       '/illustration-content-page-route';
   static const otherProfilePageRoute = '/other-profile-page-route';
-  static final navigator = ExtendedNavigator();
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+}
+
+class Router extends RouterBase {
+  //This will probably be removed in future versions
+  //you should call ExtendedNavigator.ofRouter<Router>() directly
+  static ExtendedNavigatorState get navigator =>
+      ExtendedNavigator.ofRouter<Router>();
+
+  @override
+  Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
-      case Router.splashPageRoute:
+      case Routes.splashPageRoute:
         if (hasInvalidArgs<SplashPageArguments>(args)) {
           return misTypedArgsRoute<SplashPageArguments>(args);
         }
@@ -77,35 +85,35 @@ class Router {
           builder: (_) => SplashPage(key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
-      case Router.loginPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+      case Routes.loginPageRoute:
+        if (hasInvalidArgs<LoginPageArguments>(args)) {
+          return misTypedArgsRoute<LoginPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as LoginPageArguments ?? LoginPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => LoginPage(key: typedArgs),
+          builder: (_) => LoginPage(key: typedArgs.key),
           settings: settings,
         );
-      case Router.homePageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+      case Routes.homePageRoute:
+        if (hasInvalidArgs<HomePageArguments>(args)) {
+          return misTypedArgsRoute<HomePageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as HomePageArguments ?? HomePageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => HomePage(key: typedArgs),
+          builder: (_) => HomePage(key: typedArgs.key),
           settings: settings,
         );
-      case Router.signupCategoryPageRoute:
+      case Routes.signupCategoryPageRoute:
         return MaterialPageRoute<dynamic>(
           builder: (_) => SignupCategoryPage(),
           settings: settings,
         );
-      case Router.signupUserPageRoute:
+      case Routes.signupUserPageRoute:
         return MaterialPageRoute<dynamic>(
           builder: (_) => SignupUserPage(),
           settings: settings,
         );
-      case Router.signupContentCreatorFirstPageRoute:
+      case Routes.signupContentCreatorFirstPageRoute:
         if (hasInvalidArgs<SignupContentCreatorFirstPageArguments>(args)) {
           return misTypedArgsRoute<SignupContentCreatorFirstPageArguments>(
               args);
@@ -117,7 +125,7 @@ class Router {
               key: typedArgs.key, contentCreator: typedArgs.contentCreator),
           settings: settings,
         );
-      case Router.signupContentCreatorSecondPageRoute:
+      case Routes.signupContentCreatorSecondPageRoute:
         if (hasInvalidArgs<SignupContentCreatorSecondPageArguments>(args)) {
           return misTypedArgsRoute<SignupContentCreatorSecondPageArguments>(
               args);
@@ -129,7 +137,7 @@ class Router {
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
-      case Router.signupContentCreatorThirdPageRoute:
+      case Routes.signupContentCreatorThirdPageRoute:
         if (hasInvalidArgs<SignupContentCreatorThirdPageArguments>(args)) {
           return misTypedArgsRoute<SignupContentCreatorThirdPageArguments>(
               args);
@@ -141,7 +149,7 @@ class Router {
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
-      case Router.signupContentCreatorFourthPageRoute:
+      case Routes.signupContentCreatorFourthPageRoute:
         if (hasInvalidArgs<SignupContentCreatorFourthPageArguments>(args)) {
           return misTypedArgsRoute<SignupContentCreatorFourthPageArguments>(
               args);
@@ -153,7 +161,7 @@ class Router {
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
-      case Router.signupContentCreatorFifthPageRoute:
+      case Routes.signupContentCreatorFifthPageRoute:
         if (hasInvalidArgs<SignupContentCreatorFifthPageArguments>(args)) {
           return misTypedArgsRoute<SignupContentCreatorFifthPageArguments>(
               args);
@@ -167,7 +175,7 @@ class Router {
               profileImage: typedArgs.profileImage),
           settings: settings,
         );
-      case Router.contentCreatorAddContentPageRoute:
+      case Routes.contentCreatorAddContentPageRoute:
         if (hasInvalidArgs<ContentCreatorAddContentPageArguments>(args)) {
           return misTypedArgsRoute<ContentCreatorAddContentPageArguments>(args);
         }
@@ -178,16 +186,17 @@ class Router {
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
-      case Router.contentCreatorProfilePageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+      case Routes.contentCreatorProfilePageRoute:
+        if (hasInvalidArgs<ContentCreatorProfilePageArguments>(args)) {
+          return misTypedArgsRoute<ContentCreatorProfilePageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as ContentCreatorProfilePageArguments ??
+            ContentCreatorProfilePageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ContentCreatorProfilePage(key: typedArgs),
+          builder: (_) => ContentCreatorProfilePage(key: typedArgs.key),
           settings: settings,
         );
-      case Router.contentCreatorEditProfilePageRoute:
+      case Routes.contentCreatorEditProfilePageRoute:
         if (hasInvalidArgs<ContentCreatorEditProfilePageArguments>(args)) {
           return misTypedArgsRoute<ContentCreatorEditProfilePageArguments>(
               args);
@@ -199,7 +208,7 @@ class Router {
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
-      case Router.addContentImagePageRoute:
+      case Routes.addContentImagePageRoute:
         if (hasInvalidArgs<AddContentImagePageArguments>(args,
             isRequired: true)) {
           return misTypedArgsRoute<AddContentImagePageArguments>(args);
@@ -210,7 +219,7 @@ class Router {
               key: typedArgs.key, image: typedArgs.image, user: typedArgs.user),
           settings: settings,
         );
-      case Router.addContentVideoPageRoute:
+      case Routes.addContentVideoPageRoute:
         if (hasInvalidArgs<AddContentVideoPageArguments>(args,
             isRequired: true)) {
           return misTypedArgsRoute<AddContentVideoPageArguments>(args);
@@ -223,7 +232,7 @@ class Router {
               contentCreator: typedArgs.contentCreator),
           settings: settings,
         );
-      case Router.bottomNavBarControllerScreenRoute:
+      case Routes.bottomNavBarControllerScreenRoute:
         if (hasInvalidArgs<BottomNavBarControllerArguments>(args)) {
           return misTypedArgsRoute<BottomNavBarControllerArguments>(args);
         }
@@ -231,12 +240,13 @@ class Router {
             BottomNavBarControllerArguments();
         return MaterialPageRoute<dynamic>(
           builder: (_) => BottomNavBarController(
-              key: typedArgs.key,
-              contentCreator: typedArgs.contentCreator,
-              user: typedArgs.user),
+                  key: typedArgs.key,
+                  contentCreator: typedArgs.contentCreator,
+                  user: typedArgs.user)
+              .wrappedRoute,
           settings: settings,
         );
-      case Router.videoContentPageRoute:
+      case Routes.videoContentPageRoute:
         if (hasInvalidArgs<VideoContentPageArguments>(args)) {
           return misTypedArgsRoute<VideoContentPageArguments>(args);
         }
@@ -245,13 +255,13 @@ class Router {
         return PageRouteBuilder<dynamic>(
           pageBuilder: (ctx, animation, secondaryAnimation) => VideoContentPage(
               video: typedArgs.video,
-              isLiked: typedArgs.isLiked,
+              email: typedArgs.email,
               contentCreator: typedArgs.contentCreator),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
-          transitionDuration: Duration(milliseconds: 400),
+          transitionDuration: const Duration(milliseconds: 200),
         );
-      case Router.illustrationContentPageRoute:
+      case Routes.illustrationContentPageRoute:
         if (hasInvalidArgs<IllustrationContentPageArguments>(args,
             isRequired: true)) {
           return misTypedArgsRoute<IllustrationContentPageArguments>(args);
@@ -263,9 +273,9 @@ class Router {
                   key: typedArgs.key, illustration: typedArgs.illustration),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
-          transitionDuration: Duration(milliseconds: 200),
+          transitionDuration: const Duration(milliseconds: 200),
         );
-      case Router.otherProfilePageRoute:
+      case Routes.otherProfilePageRoute:
         return MaterialPageRoute<dynamic>(
           builder: (_) => OtherProfilePage(),
           settings: settings,
@@ -285,6 +295,18 @@ class SplashPageArguments {
   final Key key;
   final FirebaseUser user;
   SplashPageArguments({this.key, this.user});
+}
+
+//LoginPage arguments holder class
+class LoginPageArguments {
+  final Key key;
+  LoginPageArguments({this.key});
+}
+
+//HomePage arguments holder class
+class HomePageArguments {
+  final Key key;
+  HomePageArguments({this.key});
 }
 
 //SignupContentCreatorFirstPage arguments holder class
@@ -331,6 +353,12 @@ class ContentCreatorAddContentPageArguments {
   ContentCreatorAddContentPageArguments({this.key, this.user});
 }
 
+//ContentCreatorProfilePage arguments holder class
+class ContentCreatorProfilePageArguments {
+  final Key key;
+  ContentCreatorProfilePageArguments({this.key});
+}
+
 //ContentCreatorEditProfilePage arguments holder class
 class ContentCreatorEditProfilePageArguments {
   final Key key;
@@ -366,9 +394,9 @@ class BottomNavBarControllerArguments {
 //VideoContentPage arguments holder class
 class VideoContentPageArguments {
   final Video video;
-  final bool isLiked;
+  final String email;
   final ReclipContentCreator contentCreator;
-  VideoContentPageArguments({this.video, this.isLiked, this.contentCreator});
+  VideoContentPageArguments({this.video, this.email, this.contentCreator});
 }
 
 //IllustrationContentPage arguments holder class

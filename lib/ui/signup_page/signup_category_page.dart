@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -186,14 +187,16 @@ class SignupCategoryPage extends StatelessWidget {
   }
 
   _signupContentCreator(ReclipContentCreator contentCreator) {
-    return Router.navigator.pushNamed(Router.signupContentCreatorFirstPageRoute,
-        arguments: SignupContentCreatorFirstPageArguments(
-          contentCreator: contentCreator,
-        ));
+    return ExtendedNavigator.rootNavigator
+        .pushNamed(Routes.signupContentCreatorFirstPageRoute,
+            arguments: SignupContentCreatorFirstPageArguments(
+              contentCreator: contentCreator,
+            ));
   }
 
   _signupUser() {
-    return Router.navigator.pushNamed(Router.signupUserPageRoute);
+    return ExtendedNavigator.rootNavigator
+        .pushNamed(Routes.signupUserPageRoute);
   }
 }
 

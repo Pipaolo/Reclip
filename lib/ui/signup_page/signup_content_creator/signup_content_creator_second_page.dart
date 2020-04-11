@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
@@ -74,33 +74,7 @@ class _SignupContentCreatorSecondFormState
 
   @override
   void initState() {
-    birthDateFocus.addListener(onDateFocused);
     super.initState();
-  }
-
-  void onDateFocused() {
-    birthDateFocus.unfocus();
-    Picker picker = Picker(
-        adapter: DateTimePickerAdapter(
-          isNumberMonth: true,
-          yearBegin: 1800,
-          yearEnd: 2050,
-        ),
-        confirmTextStyle: TextStyle(color: reclipIndigoDark),
-        cancelTextStyle: TextStyle(color: reclipIndigoLight),
-        headerDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        hideHeader: true,
-        containerColor: reclipBlack,
-        backgroundColor: reclipIndigoLight,
-        title: Text('Enter Birthday'),
-        onConfirm: (picker, value) {
-          final date = (picker.adapter as DateTimePickerAdapter).value;
-          final convertedDate = DateFormat('MM/dd/yyyy').format(date);
-          birthDateController.text = convertedDate;
-        });
-    picker.showDialog(context);
   }
 
   @override
@@ -123,7 +97,7 @@ class _SignupContentCreatorSecondFormState
               FormBuilderTextField(
                 attribute: 'birth_date',
                 decoration: InputDecoration(
-                  hintText: 'Birth Date',
+                  hintText: 'Birth Date (mm/dd/yy)',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
@@ -148,7 +122,22 @@ class _SignupContentCreatorSecondFormState
                 ),
                 controller: birthDateController,
                 focusNode: birthDateFocus,
-                validators: [FormBuilderValidators.required()],
+                keyboardType: TextInputType.datetime,
+                validators: [
+                  FormBuilderValidators.required(),
+                  //ignore: missing_return
+                  (val) {
+                    try {
+                      if (val.split('/').last.length < 4) {
+                        return 'Invalid Date, please follow the format (mm/dd/yyyy)';
+                      } else {
+                        DateFormat('MM/dd/yyyy').parse(val);
+                      }
+                    } catch (e) {
+                      return 'Invalid Date, please follow the format (mm/dd/yyyy)';
+                    }
+                  }
+                ],
               ),
               FormBuilderTextField(
                 attribute: 'contact_number',
@@ -182,10 +171,12 @@ class _SignupContentCreatorSecondFormState
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(),
-                  FormBuilderValidators.minLength(11,
-                      errorText: 'Invalid Contact Number'),
-                  FormBuilderValidators.maxLength(11,
-                      errorText: 'Invalid Contact Number'),
+                  // ignore: missing_return
+                  (val) {
+                    final regex = RegExp(r"^(\+63|0|63)?(9){1}?[0-9]{9}$");
+                    if (!val.toString().contains(regex))
+                      return 'Invalid Number';
+                  }
                 ],
               ),
               SizedBox(
@@ -212,10 +203,11 @@ class _SignupContentCreatorSecondFormState
         birthDate: birthDateController.text,
         contactNumber: contactNumberController.text,
       );
-      Router.navigator.pushNamed(Router.signupContentCreatorThirdPageRoute,
-          arguments: SignupContentCreatorThirdPageArguments(
-            user: user,
-          ));
+      ExtendedNavigator.rootNavigator
+          .pushNamed(Routes.signupContentCreatorThirdPageRoute,
+              arguments: SignupContentCreatorThirdPageArguments(
+                user: user,
+              ));
     }
   }
 }

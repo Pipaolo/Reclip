@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
@@ -66,8 +67,8 @@ class UserProfilePage extends StatelessWidget {
                   Navigator.of(context).pop();
                   BlocProvider.of<AuthenticationBloc>(context)
                     ..add(LoggedOut());
-                  Router.navigator.pushReplacementNamed(
-                    Router.loginPageRoute,
+                  ExtendedNavigator.rootNavigator.pushReplacementNamed(
+                    Routes.loginPageRoute,
                   );
                 },
               ),

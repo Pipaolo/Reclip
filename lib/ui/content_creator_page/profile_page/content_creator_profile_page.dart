@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
@@ -9,7 +10,7 @@ import 'package:reclip/bloc/remove_illustration/remove_illustration_bloc.dart';
 import 'package:reclip/bloc/remove_video/remove_video_bloc.dart';
 import 'package:reclip/repository/illustration_repository.dart';
 import 'package:reclip/repository/video_repository.dart';
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/user/user_bloc.dart';
@@ -77,8 +78,10 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                           BlocProvider.of<AuthenticationBloc>(
                                               context)
                                             ..add(LoggedOut());
-                                          Router.navigator.pushReplacementNamed(
-                                            Router.loginPageRoute,
+
+                                          ExtendedNavigator.rootNavigator
+                                              .pushReplacementNamed(
+                                            Routes.loginPageRoute,
                                           );
                                         }
                                       });
@@ -90,8 +93,8 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                       size: ScreenUtil().setSp(70),
                                     ),
                                     onTap: () {
-                                      Router.navigator.pushNamed(
-                                          Router
+                                      ExtendedNavigator.rootNavigator.pushNamed(
+                                          Routes
                                               .contentCreatorEditProfilePageRoute,
                                           arguments:
                                               ContentCreatorEditProfilePageArguments(

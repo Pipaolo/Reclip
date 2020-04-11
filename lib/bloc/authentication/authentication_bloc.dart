@@ -44,7 +44,7 @@ class AuthenticationBloc
         } else {
           final contentCreator = await _userRepository.getContentCreator();
           if (contentCreator != null) {
-            yield AuthenticatedContentCreator(user: contentCreator);
+            yield AuthenticatedContentCreator(contentCreator: contentCreator);
           } else {
             add(LoggedOut());
           }
@@ -68,7 +68,7 @@ class AuthenticationBloc
       final reclipContentCreator = await _userRepository.getContentCreator();
       print("CONTENT CREATOR FOUND!");
       yield AuthenticatedContentCreator(
-        user: reclipContentCreator,
+        contentCreator: reclipContentCreator,
       );
     }
   }

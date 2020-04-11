@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
@@ -32,8 +33,8 @@ class IllustrationAuthorImage extends StatelessWidget {
               child: Ink(
                 child: InkWell(
                   borderRadius: BorderRadius.circular(200),
-                  onTap: () =>
-                      Router.navigator.pushNamed(Router.otherProfilePageRoute),
+                  onTap: () => ExtendedNavigator.rootNavigator
+                      .pushNamed(Routes.otherProfilePageRoute),
                 ),
               ),
             ),

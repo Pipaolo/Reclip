@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -81,11 +82,12 @@ class _SignupContentCreatorFourthPageState
 
   _navigateToFifthPage() {
     if (_image != null) {
-      Router.navigator.pushNamed(Router.signupContentCreatorFifthPageRoute,
-          arguments: SignupContentCreatorFifthPageArguments(
-            profileImage: _image,
-            user: widget.user,
-          ));
+      ExtendedNavigator.rootNavigator
+          .pushNamed(Routes.signupContentCreatorFifthPageRoute,
+              arguments: SignupContentCreatorFifthPageArguments(
+                profileImage: _image,
+                user: widget.user,
+              ));
     } else {
       Flushbar(
         duration: Duration(seconds: 3),

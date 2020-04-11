@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/remove_video/remove_video_bloc.dart';
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../../../core/reclip_colors.dart';
 import '../../../../core/router/route_generator.gr.dart';
@@ -63,16 +64,13 @@ class ContentCreatorVideos extends StatelessWidget {
                           splashColor: Colors.black.withAlpha(100),
                           highlightColor: Colors.black.withAlpha(180),
                           onTap: () {
-                            Router.navigator.pushNamed(
-                                Router.videoContentPageRoute,
-                                arguments: VideoContentPageArguments(
-                                  contentCreator: user,
-                                  video: videos[index],
-                                  isLiked:
-                                      videos[index].likedBy.contains(user.email)
-                                          ? true
-                                          : false,
-                                ));
+                            ExtendedNavigator.rootNavigator.pushNamed(
+                              Routes.videoContentPageRoute,
+                              arguments: VideoContentPageArguments(
+                                contentCreator: user,
+                                video: videos[index],
+                              ),
+                            );
                           },
                           onLongPress: () {
                             DialogCollection.showVideoDeleteDialog(

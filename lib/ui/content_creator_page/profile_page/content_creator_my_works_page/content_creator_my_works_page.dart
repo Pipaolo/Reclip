@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/bloc/remove_illustration/remove_illustration_bloc.dart';
 import 'package:reclip/bloc/remove_video/remove_video_bloc.dart';
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
-import 'package:reclip/ui/custom_wigets/flushbars/flushbar_collection.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
+import 'package:reclip/ui/custom_widgets/flushbars/flushbar_collection.dart';
 
 import '../../../../bloc/illustration/illustrations_bloc.dart';
 import '../../../../bloc/video/video_bloc.dart';

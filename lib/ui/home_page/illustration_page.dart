@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,9 +10,9 @@ import '../../bloc/illustration/illustrations_bloc.dart';
 import '../../bloc/info/info_bloc.dart';
 import '../../bloc/other_user/other_user_bloc.dart';
 import '../../core/router/route_generator.gr.dart';
-import '../custom_wigets/home_page_appbar.dart';
-import '../custom_wigets/illustration_widgets/illustration_widget.dart';
-import '../custom_wigets/illustration_widgets/popular_illustration_widget.dart';
+import '../custom_widgets/home_page_appbar.dart';
+import '../custom_widgets/illustration_widgets/illustration_widget.dart';
+import '../custom_widgets/illustration_widgets/popular_illustration_widget.dart';
 
 class IllustrationPage extends StatelessWidget {
   const IllustrationPage({Key key}) : super(key: key);
@@ -145,10 +146,11 @@ class IllustrationPage extends StatelessWidget {
           if (state is ShowIllustrationInfo) {
             BlocProvider.of<OtherUserBloc>(context)
               ..add(GetOtherUser(email: state.illustration.authorEmail));
-            Router.navigator.pushNamed(Router.illustrationContentPageRoute,
-                arguments: IllustrationContentPageArguments(
-                  illustration: state.illustration,
-                ));
+            ExtendedNavigator.rootNavigator
+                .pushNamed(Routes.illustrationContentPageRoute,
+                    arguments: IllustrationContentPageArguments(
+                      illustration: state.illustration,
+                    ));
           }
         },
         child: BlocBuilder<IllustrationsBloc, IllustrationsState>(

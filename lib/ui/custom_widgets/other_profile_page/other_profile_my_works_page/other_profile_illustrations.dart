@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
@@ -68,8 +69,8 @@ class OtherProfileIllustrations extends StatelessWidget {
                             BlocProvider.of<OtherUserBloc>(context)
                               ..add(GetOtherUser(
                                   email: illustrations[index].authorEmail));
-                            Router.navigator
-                                .pushNamed(Router.illustrationContentPageRoute,
+                            ExtendedNavigator.rootNavigator
+                                .pushNamed(Routes.illustrationContentPageRoute,
                                     arguments: IllustrationContentPageArguments(
                                       illustration: illustrations[index],
                                     ));

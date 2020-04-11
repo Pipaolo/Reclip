@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -155,7 +156,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   _navigateToSignupPage() {
-    return Router.navigator.pushNamed(Router.signupCategoryPageRoute);
+    return ExtendedNavigator.rootNavigator
+        .pushNamed(Routes.signupCategoryPageRoute);
   }
 
   _submitLogin(BuildContext context) {

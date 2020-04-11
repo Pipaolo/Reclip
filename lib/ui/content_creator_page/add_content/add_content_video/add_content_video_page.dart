@@ -13,7 +13,7 @@ import '../../../../bloc/add_content/add_content_bloc.dart';
 import '../../../../core/reclip_colors.dart';
 import '../../../../data/model/reclip_content_creator.dart';
 import '../../../../data/model/video.dart';
-import '../../../custom_wigets/dialogs/dialog_collection.dart';
+import '../../../custom_widgets/dialogs/dialog_collection.dart';
 
 class AddContentVideoPage extends StatefulWidget {
   final File video;

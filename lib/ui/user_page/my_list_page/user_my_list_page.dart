@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
@@ -18,12 +19,12 @@ class UserMyListPage extends StatelessWidget {
     return BlocListener<InfoBloc, InfoState>(
       listener: (context, state) {
         if (state is ShowVideoInfo) {
-          Router.navigator.pushNamed(Router.videoContentPageRoute,
-              arguments: VideoContentPageArguments(
-                contentCreator: state.contentCreator,
-                isLiked: state.isLiked,
-                video: state.video,
-              ));
+          ExtendedNavigator.rootNavigator
+              .pushNamed(Routes.videoContentPageRoute,
+                  arguments: VideoContentPageArguments(
+                    contentCreator: state.contentCreator,
+                    video: state.video,
+                  ));
         }
       },
       child: SafeArea(

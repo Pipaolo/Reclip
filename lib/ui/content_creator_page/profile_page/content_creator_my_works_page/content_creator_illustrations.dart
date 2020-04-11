@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
@@ -9,7 +10,7 @@ import '../../../../bloc/remove_illustration/remove_illustration_bloc.dart';
 import '../../../../core/reclip_colors.dart';
 import '../../../../core/router/route_generator.gr.dart';
 import '../../../../data/model/illustration.dart';
-import '../../../custom_wigets/dialogs/dialog_collection.dart';
+import '../../../custom_widgets/dialogs/dialog_collection.dart';
 
 class ContentCreatorIllustrations extends StatelessWidget {
   final List<Illustration> illustrations;
@@ -71,8 +72,8 @@ class ContentCreatorIllustrations extends StatelessWidget {
                             BlocProvider.of<OtherUserBloc>(context)
                               ..add(GetOtherUser(
                                   email: illustrations[index].authorEmail));
-                            Router.navigator
-                                .pushNamed(Router.illustrationContentPageRoute,
+                            ExtendedNavigator.rootNavigator
+                                .pushNamed(Routes.illustrationContentPageRoute,
                                     arguments: IllustrationContentPageArguments(
                                       illustration: illustrations[index],
                                     ));

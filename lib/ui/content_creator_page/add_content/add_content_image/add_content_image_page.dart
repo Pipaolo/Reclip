@@ -7,10 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/core/router/route_generator.gr.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../../../bloc/add_content/add_content_bloc.dart';
-import '../../../../bloc/navigation/navigation_bloc.dart';
 import '../../../../core/reclip_colors.dart';
 
 import '../../../../data/model/illustration.dart';
@@ -135,8 +134,6 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
             Duration(seconds: 2),
             () {
               Router.navigator.pop();
-              BlocProvider.of<NavigationBloc>(context)
-                ..add(ShowBottomNavbarController());
             },
           );
         } else if (state is UploadImageError) {

@@ -35,13 +35,10 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
       try {
         final contentCreator = await videoRepository
             .fetchContentCreator(event.video.contentCreatorEmail);
-        final isLiked = await userRepository.getCurrentUser().then(
-              (email) => (event.video.likedBy.contains(email) ? true : false),
-            );
         yield ShowVideoInfo(
-            contentCreator: contentCreator,
-            video: event.video,
-            isLiked: isLiked);
+          contentCreator: contentCreator,
+          video: event.video,
+        );
       } catch (e) {
         print(e);
       }

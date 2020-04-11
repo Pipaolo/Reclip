@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:reclip/ui/custom_wigets/illustration_content_page/illustration_content_page.dart';
 
-import '../../bottom_nav_controller.dart';
+import '../../ui/bottom_navigation_controller/bottom_nav_controller.dart';
 import '../../ui/content_creator_page/add_content/add_content_image/add_content_image_page.dart';
 import '../../ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
 import '../../ui/content_creator_page/add_content/content_creator_add_content_page.dart';
 import '../../ui/content_creator_page/profile_page/content_creator_profile_page.dart';
 import '../../ui/content_creator_page/profile_page/edit_profile_page/content_creator_edit_profile_page.dart';
-import '../../ui/custom_wigets/other_profile_page/other_profile_page.dart';
-import '../../ui/custom_wigets/video_content_page/video_content_page.dart';
+import '../../ui/custom_widgets/illustration_content_page/illustration_content_page.dart';
+import '../../ui/custom_widgets/other_profile_page/other_profile_page.dart';
+import '../../ui/custom_widgets/video_content_page/video_content_page.dart';
 import '../../ui/home_page/home_page.dart';
 import '../../ui/login_page/login_page.dart';
 import '../../ui/signup_page/signup_category_page.dart';
@@ -56,8 +56,9 @@ class $Router {
 
   //Content Pages
   @CustomRoute(
-      transitionsBuilder: TransitionsBuilders.slideBottom,
-      durationInMilliseconds: 400)
+    transitionsBuilder: TransitionsBuilders.slideBottom,
+    durationInMilliseconds: 200,
+  )
   VideoContentPage videoContentPageRoute;
   @CustomRoute(
       transitionsBuilder: TransitionsBuilders.slideBottom,

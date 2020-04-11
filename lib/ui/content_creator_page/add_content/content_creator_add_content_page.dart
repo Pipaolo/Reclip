@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../core/router/route_generator.gr.dart';
 import '../../../data/model/reclip_content_creator.dart';
-import '../../custom_wigets/flushbars/flushbar_collection.dart';
+import '../../custom_widgets/flushbars/flushbar_collection.dart';
 
 class ContentCreatorAddContentPage extends StatefulWidget {
   final ReclipContentCreator user;
@@ -45,7 +46,7 @@ class _ContentCreatorAddContentPageState
                 icon: FontAwesomeIcons.solidFileImage,
                 text: 'Add Illustration',
                 pageName: 'add_content_image_page',
-                user: widget.user,
+                contentCreator: widget.user,
               ),
               Divider(
                 color: reclipIndigo,
@@ -59,7 +60,7 @@ class _ContentCreatorAddContentPageState
                 icon: FontAwesomeIcons.solidFileVideo,
                 text: 'Add Video',
                 pageName: '',
-                user: widget.user,
+                contentCreator: widget.user,
               ),
             ],
           ),
@@ -73,14 +74,14 @@ class AddContentButton extends StatelessWidget {
   final String text;
   final IconData icon;
   final String pageName;
-  final ReclipContentCreator user;
+  final ReclipContentCreator contentCreator;
   const AddContentButton({
     Key key,
     @required this.textStyle,
     @required this.text,
     @required this.icon,
     @required this.pageName,
-    @required this.user,
+    @required this.contentCreator,
   }) : super(key: key);
 
   final TextStyle textStyle;
@@ -103,10 +104,10 @@ class AddContentButton extends StatelessWidget {
                       'The maximum file size of a video is limited to 1gb only.',
                       context);
                 } else {
-                  Navigator.of(context).pushNamed(
-                      Router.addContentVideoPageRoute,
+                  ExtendedNavigator.of(context).pushNamed(
+                      Routes.addContentVideoPageRoute,
                       arguments: AddContentVideoPageArguments(
-                          contentCreator: user, video: video));
+                          video: video, contentCreator: contentCreator));
                 }
               } catch (e) {
                 print("Image Canceled");
@@ -115,14 +116,14 @@ class AddContentButton extends StatelessWidget {
               try {
                 final image = await ImagePicker.pickImage(
                     source: ImageSource.gallery, imageQuality: 80);
-
                 if (image != null) {
-                  Navigator.of(context)
-                      .pushNamed(Router.addContentImagePageRoute,
-                          arguments: AddContentImagePageArguments(
-                            image: image,
-                            user: user,
-                          ));
+                  ExtendedNavigator.of(context).pushNamed(
+                    Routes.addContentImagePageRoute,
+                    arguments: AddContentImagePageArguments(
+                      image: image,
+                      user: contentCreator,
+                    ),
+                  );
                 } else {
                   FlushbarCollection.showFlushbarNotice(
                       'Image Selection Cancelled',

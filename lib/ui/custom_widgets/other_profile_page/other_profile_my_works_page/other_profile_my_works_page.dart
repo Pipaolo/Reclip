@@ -7,8 +7,8 @@ import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/illustration.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/video.dart';
-import 'package:reclip/ui/custom_wigets/other_profile_page/other_profile_my_works_page/other_profile_illustrations.dart';
-import 'package:reclip/ui/custom_wigets/other_profile_page/other_profile_my_works_page/other_profile_videos.dart';
+import 'package:reclip/ui/custom_widgets/other_profile_page/other_profile_my_works_page/other_profile_illustrations.dart';
+import 'package:reclip/ui/custom_widgets/other_profile_page/other_profile_my_works_page/other_profile_videos.dart';
 
 class OtherProfileMyWorksPage extends StatefulWidget {
   final ReclipContentCreator user;

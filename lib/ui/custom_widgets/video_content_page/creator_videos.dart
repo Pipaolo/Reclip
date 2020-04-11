@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
@@ -44,8 +45,8 @@ class CreatorVideos extends StatelessWidget {
                   onTap: () {
                     BlocProvider.of<OtherUserBloc>(context)
                       ..add(GetOtherUser(email: contentCreator.email));
-                    return Router.navigator
-                        .pushNamed(Router.otherProfilePageRoute);
+                    return ExtendedNavigator.rootNavigator
+                        .pushNamed(Routes.otherProfilePageRoute);
                   },
                   child: Container(
                     height: ScreenUtil().setHeight(100),

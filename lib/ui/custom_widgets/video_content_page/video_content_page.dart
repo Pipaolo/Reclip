@@ -7,25 +7,25 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:reclip/hooks/scroll_controller_for_anim.dart';
-import 'package:reclip/ui/custom_wigets/video_content_page/video_description.dart';
-
+import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/video/video_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/reclip_content_creator.dart';
 import '../../../data/model/video.dart';
+import '../../../hooks/scroll_controller_for_anim.dart';
 import '../flushbars/flushbar_collection.dart';
 import '../video_widgets/custom_video_player.dart';
-import 'creator_videos.dart';
+import 'video_description.dart';
+import 'widgets/video_play_overlay_widget.dart';
 
 class VideoContentPage extends HookWidget {
   final Video video;
-  final bool isLiked;
+  final String email;
   final ReclipContentCreator contentCreator;
 
   VideoContentPage({
     this.video,
-    this.isLiked,
+    this.email,
     this.contentCreator,
   });
 
@@ -35,153 +35,72 @@ class VideoContentPage extends HookWidget {
         duration: kThemeAnimationDuration, initialValue: 1);
     final scrollController =
         useScrollControllerForAnimation(hideCloseButtonAnimController);
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            ListView(
-              controller: scrollController,
-              physics: BouncingScrollPhysics(),
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        bool isLiked = false;
+        if (state is AuthenticatedContentCreator) {
+          isLiked = video.likedBy.contains(state.contentCreator.email);
+        } else if (state is AuthenticatedUser) {
+          isLiked = video.likedBy.contains(state.user.email);
+        }
+        return SafeArea(
+          child: Scaffold(
+            body: Stack(
               children: <Widget>[
-                Stack(children: [
-                  _buildHeader(),
-                  _buildPlayOverlay(context),
-                  Positioned(
-                      top: 10,
-                      right: 10,
-                      child: FadeTransition(
-                        opacity: hideCloseButtonAnimController,
-                        child: Material(
-                          color: reclipBlack.withOpacity(0.5),
-                          shape: CircleBorder(),
-                          child: Ink(
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.close,
-                                  color: reclipIndigo,
-                                  size: ScreenUtil().setSp(60),
-                                  textDirection: TextDirection.rtl,
+                ListView(
+                  controller: scrollController,
+                  physics: BouncingScrollPhysics(),
+                  children: <Widget>[
+                    Stack(children: [
+                      _buildHeader(),
+                      VideoPlayOverlayWidget(
+                        onPressed: () => _watchVideo(context),
+                      ),
+                      Positioned(
+                          top: 10,
+                          right: 10,
+                          child: FadeTransition(
+                            opacity: hideCloseButtonAnimController,
+                            child: Material(
+                              color: reclipBlack.withOpacity(0.5),
+                              shape: CircleBorder(),
+                              child: Ink(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: reclipIndigo,
+                                      size: ScreenUtil().setSp(60),
+                                      textDirection: TextDirection.rtl,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
-                          ),
-                        ),
-                      )),
-                ]),
-                _buildDescription(contentCreator.email, video.videoId, context),
+                          )),
+                    ]),
+                    VideoDescription(
+                      publishedAt: video.publishedAt,
+                      contentCreatorEmail: contentCreator.email,
+                      isLiked: isLiked,
+                      videoId: video.videoId,
+                      thumbnailUrl: video.thumbnailUrl,
+                      title: video.title,
+                      description: video.description,
+                      contentCreator: contentCreator,
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _buildPlayOverlay(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Material(
-        color: Colors.transparent,
-        child: Ink(
-          child: InkWell(
-            splashColor: Colors.black.withAlpha(100),
-            highlightColor: Colors.black.withAlpha(180),
-            child: Container(
-              width: ScreenUtil().uiWidthPx.toDouble(),
-              height: ScreenUtil().setHeight(700),
-              child: Icon(
-                FontAwesomeIcons.play,
-                size: ScreenUtil().setSp(100),
-                color: Colors.white.withAlpha(180),
-              ),
-            ),
-            onTap: () {
-              _watchVideo(context);
-            },
           ),
-        ),
-      ),
-    );
-  }
-
-  _buildDescription(
-      String contentCreatorEmail, String videoId, BuildContext context) {
-    final convertedDate = video.publishedAt.toString().split('T').removeAt(0);
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      padding: EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      height: ScreenUtil().setHeight(450),
-                      width: ScreenUtil().setWidth(280),
-                      color: reclipBlack,
-                      child: TransitionToImage(
-                        image: AdvancedNetworkImage(video.thumbnailUrl,
-                            useDiskCache: true),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              VideoDescription(
-                convertedDate: convertedDate,
-                title: video.title,
-                description: video.description,
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 2,
-            endIndent: 10,
-            indent: 10,
-            color: reclipIndigo,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              VideoShareButton(
-                contentCreatorEmail: contentCreatorEmail,
-                videoId: videoId,
-              ),
-              VideoLikeButton(
-                contentCreatorEmail: contentCreatorEmail,
-                videoId: videoId,
-                isLiked: isLiked,
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 2,
-            endIndent: 10,
-            indent: 10,
-            color: reclipIndigo,
-          ),
-          CreatorVideos(
-            context: context,
-            title: video.title,
-            contentCreator: contentCreator,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 

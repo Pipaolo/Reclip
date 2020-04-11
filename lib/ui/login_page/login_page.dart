@@ -1,18 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
+import 'package:reclip/ui/bloc/navigation_bloc.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/illustration/illustrations_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
-import '../../bloc/navigation/navigation_bloc.dart';
 import '../../bloc/reclip_user/reclipuser_bloc.dart';
 import '../../bloc/user/user_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
 import '../../core/reclip_colors.dart';
 import '../../core/router/route_generator.gr.dart';
-import '../custom_wigets/flushbars/flushbar_collection.dart';
+import '../custom_widgets/flushbars/flushbar_collection.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -52,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
                 Router.navigator.pop();
                 Future.delayed(
                   Duration(seconds: 3),
-                  () => Router.navigator.pushNamed(
-                    Router.signupContentCreatorFirstPageRoute,
+                  () => ExtendedNavigator.rootNavigator.pushNamed(
+                    Routes.signupContentCreatorFirstPageRoute,
                     arguments: SignupContentCreatorFirstPageArguments(
                       contentCreator: state.unregisteredUser,
                     ),
@@ -82,16 +83,21 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     VideosFetched(),
                   );
-
                 BlocProvider.of<IllustrationsBloc>(context)
                   ..add(IllustrationFetched());
 
                 BlocProvider.of<UserBloc>(context)
-                  ..add(GetContentCreator(email: state.user.email));
+                  ..add(GetContentCreator(email: state.contentCreator.email));
 
+                ExtendedNavigator.of(context)
+                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
+                        arguments: BottomNavBarControllerArguments(
+                          contentCreator: state.contentCreator,
+                        ));
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowBottomNavbarController(contentCreator: state.user),
+                    ShowBottomNavbarController(
+                        contentCreator: state.contentCreator),
                   );
               } else if (state is AuthenticatedUser) {
                 BlocProvider.of<VideoBloc>(context)
@@ -106,9 +112,11 @@ class _LoginPageState extends State<LoginPage> {
 
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
-
-                BlocProvider.of<NavigationBloc>(context)
-                  ..add(ShowBottomNavbarController(user: state.user));
+                ExtendedNavigator.of(context)
+                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
+                        arguments: BottomNavBarControllerArguments(
+                          user: state.user,
+                        ));
               }
             },
           ),

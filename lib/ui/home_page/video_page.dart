@@ -1,16 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reclip/core/router/route_generator.gr.dart';
-import 'package:reclip/ui/custom_wigets/video_widgets/video_list/video_list.dart';
+import 'package:reclip/ui/custom_widgets/video_widgets/video_list/video_list.dart';
 
 import '../../bloc/info/info_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
 import '../../core/reclip_colors.dart';
 import '../../data/model/video.dart';
-import '../custom_wigets/home_page_appbar.dart';
-import '../custom_wigets/video_widgets/popular_video.dart';
+import '../custom_widgets/home_page_appbar.dart';
+import '../custom_widgets/video_widgets/popular_video.dart';
 
 class VideoPage extends StatelessWidget {
   VideoPage({Key key}) : super(key: key);
@@ -146,12 +147,12 @@ class VideoPage extends StatelessWidget {
       body: BlocListener<InfoBloc, InfoState>(
         listener: (context, state) {
           if (state is ShowVideoInfo) {
-            Router.navigator.pushNamed(Router.videoContentPageRoute,
-                arguments: VideoContentPageArguments(
-                  contentCreator: state.contentCreator,
-                  isLiked: state.isLiked,
-                  video: state.video,
-                ));
+            ExtendedNavigator.rootNavigator
+                .pushNamed(Routes.videoContentPageRoute,
+                    arguments: VideoContentPageArguments(
+                      contentCreator: state.contentCreator,
+                      video: state.video,
+                    ));
           }
         },
         child: BlocBuilder<VideoBloc, VideoState>(

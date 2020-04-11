@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reclip/core/router/route_generator.gr.dart';
 
-import 'package:reclip/ui/custom_wigets/dialogs/dialog_collection.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
@@ -65,9 +66,9 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
               DialogCollection.showSuccessDialog('Sign up Success!', context);
               Future.delayed(Duration(seconds: 3), () {
                 BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
-                Router.navigator.pushNamedAndRemoveUntil(
-                  Router.loginPageRoute,
-                  ModalRoute.withName(Router.splashPageRoute),
+                ExtendedNavigator.rootNavigator.pushNamedAndRemoveUntil(
+                  Routes.loginPageRoute,
+                  ModalRoute.withName(Routes.splashPageRoute),
                 );
               });
             }
@@ -80,7 +81,8 @@ class SignupContentCreatorFifthPage extends StatelessWidget {
         BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             if (state is AuthenticatedContentCreator) {
-              Router.navigator.pushReplacementNamed(Router.homePageRoute);
+              ExtendedNavigator.rootNavigator
+                  .pushReplacementNamed(Routes.homePageRoute);
             }
           },
         ),

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,8 +103,9 @@ class SignupUserPage extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
             Future.delayed(Duration(seconds: 3), () {
               Navigator.of(context).pop();
-              Router.navigator.pushNamedAndRemoveUntil(Router.loginPageRoute,
-                  ModalRoute.withName(Router.loginPageRoute));
+              ExtendedNavigator.rootNavigator.pushNamedAndRemoveUntil(
+                  Routes.loginPageRoute,
+                  ModalRoute.withName(Routes.loginPageRoute));
             });
           }
         } else if (state is SignupError) {

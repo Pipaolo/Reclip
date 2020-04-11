@@ -1,5 +1,7 @@
 import 'dart:async';
 
+//ignore_for_file: implementation_imports
+
 import 'package:chewie/src/chewie_player.dart';
 import 'package:flutter/services.dart';
 import 'package:reclip/core/reclip_colors.dart';

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -45,13 +46,12 @@ class _SplashPageState extends State<SplashPage> {
                 BlocProvider.of<IllustrationsBloc>(context)
                   ..add(IllustrationFetched());
                 BlocProvider.of<UserBloc>(context)
-                  ..add(GetContentCreator(email: state.user.email));
+                  ..add(GetContentCreator(email: state.contentCreator.email));
                 isAuthenticated = true;
-                contentCreator = state.user;
+                contentCreator = state.contentCreator;
               } else if (state is AuthenticatedUser) {
                 BlocProvider.of<ReclipUserBloc>(context)
                   ..add(GetLikedVideos(email: state.user.email));
-
                 BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
                 BlocProvider.of<IllustrationsBloc>(context)
                   ..add(IllustrationFetched());
@@ -85,8 +85,8 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _navigateToHomeScreen() {
-    Router.navigator
-        .pushReplacementNamed(Router.bottomNavBarControllerScreenRoute,
+    ExtendedNavigator.rootNavigator
+        .pushReplacementNamed(Routes.bottomNavBarControllerScreenRoute,
             arguments: BottomNavBarControllerArguments(
               contentCreator: contentCreator,
               user: user,
@@ -94,6 +94,6 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _navigateToLoginScreen() {
-    Router.navigator.pushReplacementNamed(Router.loginPageRoute);
+    ExtendedNavigator.rootNavigator.pushReplacementNamed(Routes.loginPageRoute);
   }
 }
