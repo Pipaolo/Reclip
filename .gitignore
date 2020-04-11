@@ -29,6 +29,9 @@
 .pub-cache/
 .pub/
 /build/
+/android/key.properties
+/android/app/google-services.json
+*.keystore
 
 # Web related
 lib/generated_plugin_registrant.dart
