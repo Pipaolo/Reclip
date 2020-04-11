@@ -1,27 +1,22 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:sailor/sailor.dart';
 
-import 'signup_content_creator_fifth_page.dart';
-
-class SignupContentCreatorFourthArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  SignupContentCreatorFourthArgs({this.user});
-}
+import '../../../core/reclip_colors.dart';
+import '../../../core/router/route_generator.gr.dart';
+import '../../../data/model/reclip_content_creator.dart';
 
 class SignupContentCreatorFourthPage extends StatefulWidget {
-  final SignupContentCreatorFourthArgs args;
-  const SignupContentCreatorFourthPage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  SignupContentCreatorFourthPage({
+    Key key,
+    this.user,
+  }) : super(key: key);
 
   @override
   _SignupContentCreatorFourthPageState createState() =>
@@ -46,7 +41,6 @@ class _SignupContentCreatorFourthPageState
       body: Center(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: ScreenUtil().setHeight(400),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -64,8 +58,11 @@ class _SignupContentCreatorFourthPageState
                   ),
                 ),
                 _buildImagePicker(),
+                const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
-                  width: ScreenUtil().setWidth(150),
+                  width: ScreenUtil().setWidth(300),
                   child: MaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -87,9 +84,12 @@ class _SignupContentCreatorFourthPageState
 
   _navigateToFifthPage() {
     if (_image != null) {
-      Routes.sailor.navigate('signup_page/content_creator/fifth_page',
-          args: SignupContentCreatorFifthArgs(
-              profileImage: _image, user: widget.args.user));
+      ExtendedNavigator.rootNavigator
+          .pushNamed(Routes.signupContentCreatorFifthPageRoute,
+              arguments: SignupContentCreatorFifthPageArguments(
+                profileImage: _image,
+                user: widget.user,
+              ));
     } else {
       Flushbar(
         duration: Duration(seconds: 3),
@@ -114,21 +114,16 @@ class _SignupContentCreatorFourthPageState
   _buildImagePicker() {
     if (_image == null) {
       return Material(
-        borderRadius: BorderRadius.circular(200),
+        color: reclipBlack,
+        shape: CircleBorder(),
+        clipBehavior: Clip.hardEdge,
         child: Ink(
-          decoration: BoxDecoration(
-            color: reclipBlackLight,
-            borderRadius: BorderRadius.circular(200),
-          ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(200),
             child: Container(
-              height: ScreenUtil().setHeight(200),
-              width: ScreenUtil().setWidth(200),
               child: Icon(
                 Icons.add,
                 color: reclipIndigo,
-                size: ScreenUtil().setSp(100),
+                size: ScreenUtil().setSp(200),
               ),
             ),
             onTap: () => _addPicture(),
@@ -136,35 +131,35 @@ class _SignupContentCreatorFourthPageState
         ),
       );
     } else {
-      return Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(200),
-            child: Container(
-              height: ScreenUtil().setHeight(200),
-              width: ScreenUtil().setWidth(200),
-              child: Image.file(
-                _image,
-                fit: BoxFit.cover,
+      return CircleAvatar(
+        backgroundImage: FileImage(_image),
+        radius: ScreenUtil().setSp(100),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              bottom: 0,
+              right: 10,
+              child: Material(
+                color: reclipBlack,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                child: Ink(
+                  child: InkWell(
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      child: Icon(
+                        Icons.add,
+                        color: reclipIndigo,
+                        size: ScreenUtil().setSp(60),
+                      ),
+                    ),
+                    onTap: () => _addPicture(),
+                  ),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 10,
-            right: 20,
-            child: IconButton(
-              icon: Icon(
-                FontAwesomeIcons.plusCircle,
-                size: ScreenUtil().setSp(45),
-                color: reclipIndigo,
-              ),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              alignment: Alignment.center,
-              onPressed: () => _addPicture(),
-            ),
-          ),
-        ],
+          ],
+        ),
       );
     }
   }

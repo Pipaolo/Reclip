@@ -5,7 +5,7 @@ abstract class InfoEvent extends Equatable {
 }
 
 class ShowVideo extends InfoEvent {
-  final YoutubeVideo video;
+  final Video video;
 
   ShowVideo({this.video});
   @override

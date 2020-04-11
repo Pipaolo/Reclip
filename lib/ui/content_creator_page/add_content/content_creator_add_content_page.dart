@@ -1,25 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/custom_wigets/flushbars/flushbar_collection.dart';
-import 'package:sailor/sailor.dart';
 
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
-import 'add_content_image/add_content_image_page.dart';
-
-class ContentCreatorAddContentPageArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  ContentCreatorAddContentPageArgs({@required this.user});
-}
+import '../../../core/router/route_generator.gr.dart';
+import '../../../data/model/reclip_content_creator.dart';
+import '../../custom_widgets/flushbars/flushbar_collection.dart';
 
 class ContentCreatorAddContentPage extends StatefulWidget {
-  final ContentCreatorAddContentPageArgs args;
-  const ContentCreatorAddContentPage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  const ContentCreatorAddContentPage({Key key, this.user}) : super(key: key);
 
   @override
   _ContentCreatorAddContentPageState createState() =>
@@ -42,35 +35,46 @@ class _ContentCreatorAddContentPageState
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              AddContentButton(
-                textStyle: _textStyle,
-                icon: FontAwesomeIcons.solidFileImage,
-                text: 'Add Illustration',
-                pageName: 'add_content_image_page',
-                user: widget.args.user,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                child: AddContentButton(
+                  textStyle: _textStyle,
+                  icon: FontAwesomeIcons.solidFileImage,
+                  text: 'Add Illustration',
+                  pageName: 'add_content_image_page',
+                  contentCreator: widget.user,
+                ),
               ),
-              Divider(
-                color: reclipIndigo,
-                height: ScreenUtil().setHeight(50),
-                endIndent: ScreenUtil().setWidth(80),
-                indent: ScreenUtil().setWidth(80),
-                thickness: ScreenUtil().setHeight(2),
+            ),
+            Divider(
+              color: reclipIndigo,
+              height: ScreenUtil().setHeight(40),
+              endIndent: ScreenUtil().setWidth(80),
+              indent: ScreenUtil().setWidth(80),
+              thickness: ScreenUtil().setHeight(2),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: AddContentButton(
+                  textStyle: _textStyle,
+                  icon: FontAwesomeIcons.solidFileVideo,
+                  text: 'Add Video',
+                  pageName: '',
+                  contentCreator: widget.user,
+                ),
               ),
-              AddContentButton(
-                textStyle: _textStyle,
-                icon: FontAwesomeIcons.solidFileVideo,
-                text: 'Add Video',
-                pageName: '',
-                user: widget.args.user,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -81,14 +85,14 @@ class AddContentButton extends StatelessWidget {
   final String text;
   final IconData icon;
   final String pageName;
-  final ReclipContentCreator user;
+  final ReclipContentCreator contentCreator;
   const AddContentButton({
     Key key,
     @required this.textStyle,
     @required this.text,
     @required this.icon,
     @required this.pageName,
-    @required this.user,
+    @required this.contentCreator,
   }) : super(key: key);
 
   final TextStyle textStyle;
@@ -101,20 +105,43 @@ class AddContentButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           onTap: () async {
             if (pageName.isEmpty) {
-              FlushbarCollection.showFlushbarDevelopment(
-                  '👷‍♂️🛠 Under Construction ⚒👷‍♀️', context);
-              print("EMPTY");
+              try {
+                final fileSizeLimit = 1e9;
+                final video = await ImagePicker.pickVideo(
+                  source: ImageSource.gallery,
+                );
+                if (video.lengthSync() > fileSizeLimit) {
+                  FlushbarCollection.showFlushbarWarning(
+                      'Invalid File Size 🎬❌',
+                      'The maximum file size of a video is limited to 1gb only.',
+                      context);
+                } else {
+                  ExtendedNavigator.of(context).pushNamed(
+                      Routes.addContentVideoPageRoute,
+                      arguments: AddContentVideoPageArguments(
+                          video: video, contentCreator: contentCreator));
+                }
+              } catch (e) {
+                print("Image Canceled");
+              }
             } else {
               try {
-                final image =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
-                Routes.sailor.navigate(
-                  'add_content_image_page',
-                  args: AddContentImagePageArgs(
-                    image: image,
-                    user: user,
-                  ),
-                );
+                final image = await ImagePicker.pickImage(
+                    source: ImageSource.gallery, imageQuality: 80);
+                if (image != null) {
+                  ExtendedNavigator.of(context).pushNamed(
+                    Routes.addContentImagePageRoute,
+                    arguments: AddContentImagePageArguments(
+                      image: image,
+                      user: contentCreator,
+                    ),
+                  );
+                } else {
+                  FlushbarCollection.showFlushbarNotice(
+                      'Image Selection Cancelled',
+                      'No image selected',
+                      context);
+                }
               } catch (e) {
                 print("Image Canceled");
               }
@@ -128,14 +155,12 @@ class AddContentButton extends StatelessWidget {
                 width: ScreenUtil().setWidth(5),
               ),
             ),
-            height: ScreenUtil().setHeight(500),
-            width: ScreenUtil().setWidth(500),
             child: Stack(
               children: <Widget>[
                 Positioned.fill(
                   child: Icon(
                     icon,
-                    size: ScreenUtil().setSp(250),
+                    size: ScreenUtil().setSp(80),
                   ),
                 ),
                 Align(
@@ -145,7 +170,7 @@ class AddContentButton extends StatelessWidget {
                     child: AutoSizeText(
                       text,
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(45),
+                        fontSize: ScreenUtil().setSp(25),
                       ),
                     ),
                   ),

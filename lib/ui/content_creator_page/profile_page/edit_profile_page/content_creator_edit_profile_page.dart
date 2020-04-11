@@ -7,20 +7,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:sailor/sailor.dart';
-
-class ContentCreatorEditProfilePageArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  ContentCreatorEditProfilePageArgs({this.user});
-}
 
 class ContentCreatorEditProfilePage extends StatefulWidget {
-  final ContentCreatorEditProfilePageArgs args;
-  const ContentCreatorEditProfilePage({Key key, this.args}) : super(key: key);
+  final ReclipContentCreator user;
+  ContentCreatorEditProfilePage({
+    Key key,
+    this.user,
+  }) : super(key: key);
 
   @override
   _ContentCreatorEditProfilePageState createState() =>
@@ -51,18 +48,15 @@ class _ContentCreatorEditProfilePageState
 
   @override
   void initState() {
-    if (widget.args.user.description != null &&
-        widget.args.user.description.isNotEmpty) {
-      _aboutMeTextEditingController.text = widget.args.user.description;
-    } else {
-      _aboutMeTextEditingController.text = widget.args.user.channel.description;
+    if (widget.user.description != null && widget.user.description.isNotEmpty) {
+      _aboutMeTextEditingController.text = widget.user.description;
     }
-    _emailTextEditingController.text = widget.args.user.email ?? '';
-    _contactNoTextEditingController.text = widget.args.user.contactNumber ?? '';
-    _userNameTextEditingController.text = widget.args.user.name ?? '';
-    _facebookTextEditingController.text = widget.args.user.facebook ?? '';
-    _twitterTextEditingController.text = widget.args.user.twitter ?? '';
-    _instagramTextEditingController.text = widget.args.user.instagram ?? '';
+    _emailTextEditingController.text = widget.user.email ?? '';
+    _contactNoTextEditingController.text = widget.user.contactNumber ?? '';
+    _userNameTextEditingController.text = widget.user.name ?? '';
+    _facebookTextEditingController.text = widget.user.facebook ?? '';
+    _twitterTextEditingController.text = widget.user.twitter ?? '';
+    _instagramTextEditingController.text = widget.user.instagram ?? '';
     super.initState();
   }
 
@@ -71,16 +65,10 @@ class _ContentCreatorEditProfilePageState
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              height: ScreenUtil().setHeight(300),
-              width: ScreenUtil().setWidth(300),
-              child: Center(child: CircularProgressIndicator()),
-            ),
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Center(child: CircularProgressIndicator()),
           );
         });
   }
@@ -97,8 +85,8 @@ class _ContentCreatorEditProfilePageState
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: ScreenUtil().setHeight(400),
-              width: ScreenUtil().setWidth(400),
+              height: ScreenUtil().setHeight(200),
+              width: ScreenUtil().setWidth(200),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,14 +94,14 @@ class _ContentCreatorEditProfilePageState
                     Icon(
                       FontAwesomeIcons.checkCircle,
                       color: Colors.green,
-                      size: ScreenUtil().setSp(150),
+                      size: ScreenUtil().setSp(80),
                     ),
                     Material(
                       color: Colors.transparent,
                       child: Text(
                         'Profile Updated',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
+                          fontSize: ScreenUtil().setSp(18),
                         ),
                       ),
                     ),
@@ -140,7 +128,6 @@ class _ContentCreatorEditProfilePageState
           _showSuccessDialog(context);
         } else if (state is UserError) {
           Navigator.of(context).pop();
-          print(state.error);
           _showErrorDialog(context);
         }
       },
@@ -165,9 +152,8 @@ class _ContentCreatorEditProfilePageState
                       child: CircleAvatar(
                         backgroundImage: (profileImage != null)
                             ? FileImage(profileImage)
-                            : AdvancedNetworkImage(
-                                widget.args.user.imageUrl,
-                              ),
+                            : AdvancedNetworkImage(widget.user.imageUrl,
+                                useDiskCache: true),
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
@@ -177,7 +163,7 @@ class _ContentCreatorEditProfilePageState
                                 icon: Icon(
                                   FontAwesomeIcons.plusCircle,
                                   color: Colors.white,
-                                  size: ScreenUtil().setSp(80),
+                                  size: ScreenUtil().setSp(40),
                                 ),
                                 onPressed: () async {
                                   profileImage = await ImagePicker.pickImage(
@@ -188,7 +174,7 @@ class _ContentCreatorEditProfilePageState
                             )
                           ],
                         ),
-                        radius: ScreenUtil().setSp(180),
+                        radius: ScreenUtil().setSp(80),
                         backgroundColor: reclipBlackLight,
                       ),
                     ),
@@ -198,7 +184,7 @@ class _ContentCreatorEditProfilePageState
                         'Display Name',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -226,7 +212,7 @@ class _ContentCreatorEditProfilePageState
                         'Description',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -255,7 +241,7 @@ class _ContentCreatorEditProfilePageState
                           'Contact Info',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: ScreenUtil().setSp(45),
+                            fontSize: ScreenUtil().setSp(18),
                           ),
                         ),
                       ),
@@ -266,7 +252,7 @@ class _ContentCreatorEditProfilePageState
                         'Email',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -299,7 +285,7 @@ class _ContentCreatorEditProfilePageState
                         'Facebook',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -327,7 +313,7 @@ class _ContentCreatorEditProfilePageState
                         'Instagram',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -355,7 +341,7 @@ class _ContentCreatorEditProfilePageState
                         'Twitter',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -383,7 +369,7 @@ class _ContentCreatorEditProfilePageState
                         'Mobile Number',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: ScreenUtil().setSp(38),
+                          fontSize: ScreenUtil().setSp(16),
                         ),
                       ),
                     ),
@@ -424,7 +410,7 @@ class _ContentCreatorEditProfilePageState
                           child: Text(
                             'Update Profile',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setSp(38),
+                              fontSize: ScreenUtil().setSp(16),
                             ),
                           ),
                           onPressed: () {
@@ -441,7 +427,7 @@ class _ContentCreatorEditProfilePageState
                                   content: Text(
                                     'Are you sure of all the information that you have entered?',
                                     style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(40),
+                                      fontSize: ScreenUtil().setSp(14),
                                       color: Colors.white,
                                     ),
                                   ),
@@ -464,7 +450,7 @@ class _ContentCreatorEditProfilePageState
                                       ),
                                       onPressed: () {
                                         final updatedUser =
-                                            widget.args.user.copyWith(
+                                            widget.user.copyWith(
                                           contactNumber:
                                               _contactNoTextEditingController
                                                   .text,

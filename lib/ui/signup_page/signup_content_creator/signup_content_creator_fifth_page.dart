@@ -1,64 +1,28 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/bloc/authentication/authentication_bloc.dart';
-import 'package:sailor/sailor.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
 
-import '../../../bloc/login/login_bloc.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
+
+import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
 import '../../../data/model/reclip_content_creator.dart';
-import 'signup_content_creator_sixth_page.dart';
 
-class SignupContentCreatorFifthArgs extends BaseArguments {
+class SignupContentCreatorFifthPage extends StatelessWidget {
   final ReclipContentCreator user;
   final File profileImage;
-
-  SignupContentCreatorFifthArgs({this.user, this.profileImage});
-}
-
-class SignupContentCreatorFifthPage extends StatefulWidget {
-  final SignupContentCreatorFifthArgs args;
-  const SignupContentCreatorFifthPage({Key key, this.args}) : super(key: key);
-
-  @override
-  _SignupContentCreatorFifthPageState createState() =>
-      _SignupContentCreatorFifthPageState();
-}
-
-class _SignupContentCreatorFifthPageState
-    extends State<SignupContentCreatorFifthPage> {
-  _showSuccessDialog(BuildContext context) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(180),
-              width: ScreenUtil().setWidth(180),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Icon(
-                    FontAwesomeIcons.checkCircle,
-                    color: Colors.green,
-                    size: ScreenUtil().setSp(60),
-                  ),
-                  Material(child: Text('Channel Linked!'))
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  SignupContentCreatorFifthPage({
+    Key key,
+    this.user,
+    this.profileImage,
+  }) : super(key: key);
 
   _showErrorDialog(BuildContext context) {
     return showDialog(
@@ -69,8 +33,8 @@ class _SignupContentCreatorFifthPageState
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(180),
-              width: ScreenUtil().setWidth(180),
+              height: ScreenUtil().setHeight(100),
+              width: ScreenUtil().setWidth(100),
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,7 +42,7 @@ class _SignupContentCreatorFifthPageState
                   Icon(
                     FontAwesomeIcons.exclamationCircle,
                     color: Colors.red,
-                    size: ScreenUtil().setSp(60),
+                    size: ScreenUtil().setSp(40),
                   ),
                   Material(child: Text('Error!'))
                 ],
@@ -88,99 +52,109 @@ class _SignupContentCreatorFifthPageState
         });
   }
 
-  _showLoadingDialog(BuildContext context) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(100),
-              width: ScreenUtil().setWidth(100),
-              alignment: Alignment.center,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignupBloc, SignupState>(
-      listener: (context, state) {
-        if (state is SignupLoading) {
-          _showLoadingDialog(context);
-        }
-        if (state is SignupContentCreatorSuccess) {
-          Navigator.of(context).pop();
-          _showSuccessDialog(context);
-          Future.delayed(Duration(seconds: 3), () {
-            _navigateToSixthPage(state.user);
-          });
-        }
-        if (state is SignupError) {
-          Navigator.of(context).pop();
-          _showErrorDialog(context);
-          BlocProvider.of<LoginBloc>(context).add(SignOut());
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            'SIGN UP',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SignupBloc, SignupState>(
+          listener: (context, state) {
+            if (state is SignupLoading) {
+              DialogCollection.showLoadingDialog('', context);
+            }
+            if (state is SignupContentCreatorSuccess) {
+              Navigator.of(context).pop();
+              DialogCollection.showSuccessDialog('Sign up Success!', context);
+              Future.delayed(Duration(seconds: 3), () {
+                BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
+                ExtendedNavigator.rootNavigator.pushNamedAndRemoveUntil(
+                  Routes.loginPageRoute,
+                  ModalRoute.withName(Routes.splashPageRoute),
+                );
+              });
+            }
+            if (state is SignupError) {
+              Navigator.of(context).pop();
+              _showErrorDialog(context);
+            }
+          },
         ),
-        body: Container(
-          height: ScreenUtil().uiHeightPx,
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Almost there',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(40),
-                  ),
-                ),
-              ),
-              Text(
-                '''Please link up your youtube channel so we can transfer your videos to the app''',
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(20),
-                ),
-              ),
-              Flexible(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: _buildYoutubeButton(),
-                ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontSize: ScreenUtil().setSp(
-                      16,
+        BlocListener<AuthenticationBloc, AuthenticationState>(
+          listener: (context, state) {
+            if (state is AuthenticatedContentCreator) {
+              ExtendedNavigator.rootNavigator
+                  .pushReplacementNamed(Routes.homePageRoute);
+            }
+          },
+        ),
+      ],
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: reclipBlack,
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    'My Profile',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: ScreenUtil().setSp(50),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                onPressed: () {
-                  return _showConfirmationDialog(context);
-                },
+                  SizedBox(
+                    height: ScreenUtil().setHeight(40),
+                  ),
+                  Center(
+                    child: CircleAvatar(
+                      backgroundImage: FileImage(profileImage),
+                      radius: ScreenUtil().setSp(80),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SignupContactInfo(
+                        title: 'Email',
+                        content: user.email,
+                      ),
+                      SignupContactInfo(
+                        title: 'Name',
+                        content: user.name,
+                      ),
+                      SignupContactInfo(
+                        title: 'Mobile Number',
+                        content: user.contactNumber,
+                      ),
+                      SignupContactInfo(
+                        title: 'Birthday',
+                        content: user.birthDate,
+                      ),
+                      ContactInfoDescription(
+                        title: 'Description',
+                        content: user.description,
+                      ),
+                      Center(
+                        child: RaisedButton(
+                          color: reclipIndigo,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 100),
+                          child: Text('Sign up'),
+                          onPressed: () => _showConfirmationDialog(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -199,7 +173,7 @@ class _SignupContentCreatorFifthPageState
               style: TextStyle(color: Colors.white),
             ),
             content: Text(
-              '''If you don't link your Youtube Channel, you can no longer add videos to the app, are you sure about that?''',
+              '''Make sure that all information that you have entered is alright.''',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -221,52 +195,93 @@ class _SignupContentCreatorFifthPageState
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _navigateToSixthPageWithoutChannel();
+                  BlocProvider.of<SignupBloc>(context)
+                    ..add(SignupContentCreator(
+                        user: user, profileImage: profileImage));
                 },
               ),
             ],
           );
         });
   }
+}
 
-  _navigateToSixthPageWithoutChannel() {
-    return Routes.sailor.navigate(
-      'signup_page/content_creator/sixth_page',
-      args: SignupContentCreatorSixthArgs(
-        user: widget.args.user,
-        profileImage: widget.args.profileImage,
+class SignupContactInfo extends StatelessWidget {
+  final String title;
+  final String content;
+
+  const SignupContactInfo({Key key, this.title, this.content})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AutoSizeText(
+            title,
+            style: TextStyle(
+                color: reclipIndigo, fontSize: ScreenUtil().setSp(18)),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: reclipIndigo, width: 1),
+              ),
+            ),
+            child: AutoSizeText(
+              content,
+              style: TextStyle(
+                  color: Colors.white, fontSize: ScreenUtil().setSp(14)),
+            ),
+          ),
+        ],
       ),
     );
   }
+}
 
-  _navigateToSixthPage(ReclipContentCreator user) {
-    return Routes.sailor.navigate(
-      'signup_page/content_creator/sixth_page',
-      args: SignupContentCreatorSixthArgs(
-        user: widget.args.user.copyWith(channel: user.channel),
-        profileImage: widget.args.profileImage,
-      ),
-    );
-  }
+class ContactInfoDescription extends StatelessWidget {
+  final String title;
+  final String content;
 
-  _buildYoutubeButton() {
-    return Container(
-      width: ScreenUtil().setWidth(200),
-      child: MaterialButton(
-        color: reclipIndigo,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(FontAwesomeIcons.youtube),
-            Text('Link Youtube Account'),
-          ],
-        ),
-        onPressed: () {
-          BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
-          BlocProvider.of<SignupBloc>(context)
-            ..add(SignupWithGoogle(user: widget.args.user));
-        },
+  const ContactInfoDescription({Key key, this.title, this.content})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AutoSizeText(
+            title,
+            style: TextStyle(
+                color: reclipIndigo, fontSize: ScreenUtil().setSp(18)),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: reclipIndigo, width: 1),
+              ),
+            ),
+            child: AutoSizeText(
+              content,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ScreenUtil().setSp(14),
+              ),
+              maxLines: 5,
+            ),
+          ),
+        ],
       ),
     );
   }

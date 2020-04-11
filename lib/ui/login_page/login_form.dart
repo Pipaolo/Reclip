@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../bloc/login/login_bloc.dart';
 import '../../core/reclip_colors.dart';
-import '../../core/route_generator.dart';
+import '../../core/router/route_generator.gr.dart';
 import 'google_button.dart';
 
 class LoginForm extends StatefulWidget {
@@ -37,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(bottom: 25),
+            padding: EdgeInsets.only(bottom: 10),
             child: Text(
               'Login with',
               style: TextStyle(color: Colors.white),
@@ -155,7 +156,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   _navigateToSignupPage() {
-    return Routes.sailor.navigate('signup_page/category');
+    return ExtendedNavigator.rootNavigator
+        .pushNamed(Routes.signupCategoryPageRoute);
   }
 
   _submitLogin(BuildContext context) {

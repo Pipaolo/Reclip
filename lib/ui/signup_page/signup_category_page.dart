@@ -1,22 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
-import 'package:sailor/sailor.dart';
 
+import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/verification/verification_bloc.dart';
 import '../../core/reclip_colors.dart';
-import '../../core/route_generator.dart';
+import '../../core/router/route_generator.gr.dart';
+import '../../data/model/reclip_content_creator.dart';
 import 'signup_appbar.dart';
-
-class SignupCategoryPageArgs extends BaseArguments {
-  final ReclipContentCreator user;
-
-  SignupCategoryPageArgs({this.user});
-}
 
 class SignupCategoryPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -59,6 +53,7 @@ class SignupCategoryPage extends StatelessWidget {
               ],
             ),
           )..show(context);
+          BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
         } else if (state is VerificationSuccess) {
           loadingFlushbar.dismiss();
           Flushbar(
@@ -192,14 +187,16 @@ class SignupCategoryPage extends StatelessWidget {
   }
 
   _signupContentCreator(ReclipContentCreator contentCreator) {
-    return Routes.sailor.navigate(
-      'signup_page/content_creator/first_page',
-      args: SignupContentCreatorFirstArgs(contentCreator: contentCreator),
-    );
+    return ExtendedNavigator.rootNavigator
+        .pushNamed(Routes.signupContentCreatorFirstPageRoute,
+            arguments: SignupContentCreatorFirstPageArguments(
+              contentCreator: contentCreator,
+            ));
   }
 
   _signupUser() {
-    return Routes.sailor.navigate('signup_page/user');
+    return ExtendedNavigator.rootNavigator
+        .pushNamed(Routes.signupUserPageRoute);
   }
 }
 

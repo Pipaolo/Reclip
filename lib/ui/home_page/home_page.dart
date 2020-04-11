@@ -1,6 +1,8 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reclip/bloc/navigation/navigation_bloc.dart';
+import 'package:reclip/bloc/bloc/connectivity_bloc.dart';
+import 'package:reclip/ui/bloc/navigation_bloc.dart';
 
 import 'illustration_page.dart';
 import 'video_page.dart';
@@ -15,6 +17,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Widget> homePages = List();
   final PageStorageBucket bucket = PageStorageBucket();
+  final Flushbar noConnectionFlushbar = Flushbar(
+    backgroundColor: Colors.red,
+    isDismissible: false,
+    message: 'No Internet Connection',
+    flushbarPosition: FlushbarPosition.TOP,
+    padding: EdgeInsets.all(10),
+  );
 
   @override
   void initState() {
@@ -32,18 +41,27 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageStorage(
-        bucket: bucket,
-        child: BlocBuilder<NavigationBloc, NavigationState>(
-          builder: (context, state) {
-            if (state is VideoPageState) {
-              return homePages[state.index];
-            } else if (state is IllustrationPageState) {
-              return homePages[state.index];
-            }
-            return Container();
-          },
+    return BlocListener<ConnectivityBloc, ConnectivityState>(
+      listener: (context, state) {
+        if (state is ConnectivityHasNoInternet) {
+          noConnectionFlushbar..show(context);
+        } else if (state is ConnectivityHasInternet) {
+          noConnectionFlushbar..dismiss();
+        }
+      },
+      child: Scaffold(
+        body: PageStorage(
+          bucket: bucket,
+          child: BlocBuilder<NavigationBloc, NavigationState>(
+            builder: (context, state) {
+              if (state is VideoPageState) {
+                return homePages[state.index];
+              } else if (state is IllustrationPageState) {
+                return homePages[state.index];
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );

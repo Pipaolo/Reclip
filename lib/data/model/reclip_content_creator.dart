@@ -2,9 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import 'package:reclip/data/model/illustration.dart';
-
-import 'youtube_channel.dart';
 
 class ReclipContentCreator extends Equatable {
   final String id;
@@ -18,8 +15,6 @@ class ReclipContentCreator extends Equatable {
   final String facebook;
   final String twitter;
   final String instagram;
-  final YoutubeChannel channel;
-  final List<Illustration> illustrations;
   final GoogleSignInAccount googleAccount;
 
   ReclipContentCreator({
@@ -34,29 +29,26 @@ class ReclipContentCreator extends Equatable {
     this.password,
     this.description,
     this.contactNumber,
-    this.channel,
-    this.illustrations,
     this.googleAccount,
   });
 
   factory ReclipContentCreator.fromSnapshot(DocumentSnapshot snap) {
     return ReclipContentCreator(
       id: snap.data['id'] ?? '',
-      name: snap.data['name'],
-      email: snap.data['email'],
+      name: snap.data['name'] ?? '',
+      email: snap.data['email'] ?? '',
       description: snap.data['description'] ?? '',
       contactNumber: snap.data['contactNumber'] ?? '',
-      imageUrl: snap.data['imageUrl'],
+      imageUrl: snap.data['imageUrl'] ?? '',
       facebook: snap.data['facebook'] ?? '',
       instagram: snap.data['instagram'] ?? '',
       twitter: snap.data['twitter'] ?? '',
       birthDate: snap.data['birthDate'] ?? '',
-      illustrations: Illustration().fromList(snap.data['illustrations']),
-      channel: YoutubeChannel.fromUserMap(snap.data['channel']),
     );
   }
 
   ReclipContentCreator copyWith({
+    String id,
     String username,
     String password,
     String email,
@@ -68,19 +60,13 @@ class ReclipContentCreator extends Equatable {
     String instagram,
     String imageUrl,
     GoogleSignInAccount googleAccount,
-    YoutubeChannel channel,
-    Illustration illustration,
   }) {
-    if (illustration != null) {
-      illustrations.add(illustration);
-    }
     return ReclipContentCreator(
-      id: this.id,
+      id: id ?? this.id,
       name: username ?? this.name,
       password: password ?? this.password,
       email: this.email,
       imageUrl: imageUrl ?? this.imageUrl,
-      channel: channel ?? this.channel,
       facebook: facebook ?? this.facebook,
       twitter: twitter ?? this.twitter,
       instagram: instagram ?? this.instagram,
@@ -88,7 +74,6 @@ class ReclipContentCreator extends Equatable {
       contactNumber: contactNumber ?? this.contactNumber,
       description: description ?? this.description,
       birthDate: birthDate ?? this.birthDate,
-      illustrations: illustrations,
     );
   }
 
@@ -104,12 +89,6 @@ class ReclipContentCreator extends Equatable {
       'facebook': facebook,
       'instagram': instagram,
       'twitter': twitter,
-      'illustrations': (illustrations != null)
-          ? illustrations
-              .map((illustration) => illustration.toDocument())
-              .toList()
-          : [],
-      'channel': (channel.title != null) ? channel.toDocument() : {},
     };
   }
 
@@ -123,8 +102,6 @@ class ReclipContentCreator extends Equatable {
         birthDate,
         contactNumber,
         imageUrl,
-        illustrations,
-        channel,
         facebook,
         instagram,
         twitter,

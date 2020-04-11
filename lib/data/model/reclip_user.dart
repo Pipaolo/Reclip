@@ -18,8 +18,8 @@ class ReclipUser extends Equatable {
   factory ReclipUser.fromSnapshot(DocumentSnapshot snap) {
     return ReclipUser(
       firstName: snap.data['firstName'] ?? '',
-      lastName: snap.data['lastName'],
-      email: snap.data['email'],
+      lastName: snap.data['lastName'] ?? '',
+      email: snap.data['email'] ?? '',
       password: snap.data['password'] ?? '',
     );
   }

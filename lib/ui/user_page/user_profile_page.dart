@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:sailor/sailor.dart';
+
+import 'package:reclip/core/router/route_generator.gr.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({Key key}) : super(key: key);
@@ -66,10 +67,8 @@ class UserProfilePage extends StatelessWidget {
                   Navigator.of(context).pop();
                   BlocProvider.of<AuthenticationBloc>(context)
                     ..add(LoggedOut());
-                  Routes.sailor.navigate(
-                    'login_page',
-                    navigationType: NavigationType.pushAndRemoveUntil,
-                    removeUntilPredicate: ModalRoute.withName('login_page'),
+                  ExtendedNavigator.rootNavigator.pushReplacementNamed(
+                    Routes.loginPageRoute,
                   );
                 },
               ),

@@ -1,20 +1,19 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
-import 'package:reclip/bloc/reclip_user/reclipuser_bloc.dart';
-import 'package:reclip/bloc/user/user_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/core/route_generator.dart';
-import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
+import 'package:reclip/ui/bloc/navigation_bloc.dart';
+import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
+import '../../bloc/illustration/illustrations_bloc.dart';
 import '../../bloc/login/login_bloc.dart';
-import '../../bloc/navigation/navigation_bloc.dart';
-import '../../bloc/youtube/youtube_bloc.dart';
+import '../../bloc/reclip_user/reclipuser_bloc.dart';
+import '../../bloc/user/user_bloc.dart';
+import '../../bloc/video/video_bloc.dart';
+import '../../core/reclip_colors.dart';
+import '../../core/router/route_generator.gr.dart';
+import '../custom_widgets/flushbars/flushbar_collection.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,14 +26,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog progressDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    progressDialog.style(
-      progressWidget: CircularProgressIndicator(),
-    );
     return Scaffold(
       backgroundColor: reclipBlack,
       body: MultiBlocListener(
@@ -42,16 +33,15 @@ class _LoginPageState extends State<LoginPage> {
           BlocListener<LoginBloc, LoginState>(
             listener: (context, state) async {
               if (state is LoginLoading) {
-                progressDialog.show();
+                DialogCollection.showLoadingDialog('Logging in...', context);
               } else if (state is LoginSuccessContentCreator) {
+                Navigator.of(context).pop();
                 if (state.user != null) {
                   BlocProvider.of<AuthenticationBloc>(context)
                     ..add(
                       LoggedIn(contentCreator: state.user),
                     );
                 }
-
-                progressDialog.dismiss();
               } else if (state is LoginSuccessUser) {
                 if (state.user != null) {
                   BlocProvider.of<AuthenticationBloc>(context)
@@ -59,91 +49,83 @@ class _LoginPageState extends State<LoginPage> {
                       LoggedIn(user: state.user),
                     );
                 }
-                progressDialog.dismiss();
               } else if (state is LoginSuccessUnregistered) {
-                Flushbar(
-                  backgroundColor: reclipBlackDark,
-                  duration: Duration(seconds: 3),
-                  messageText: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'User not registered!',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      Icon(
-                        FontAwesomeIcons.exclamationCircle,
-                        color: Colors.red,
-                      ),
-                    ],
-                  ),
-                )..show(context);
-                Routes.sailor.navigate('signup_page/content_creator/first_page',
-                    args: SignupContentCreatorFirstArgs(
+                Router.navigator.pop();
+                Future.delayed(
+                  Duration(seconds: 3),
+                  () => ExtendedNavigator.rootNavigator.pushNamed(
+                    Routes.signupContentCreatorFirstPageRoute,
+                    arguments: SignupContentCreatorFirstPageArguments(
                       contentCreator: state.unregisteredUser,
-                    ));
-              } else if (state is LoginError) {
-                progressDialog.dismiss();
-
-                Flushbar(
-                  backgroundColor: reclipBlackDark,
-                  duration: Duration(seconds: 3),
-                  messageText: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'User not found!',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      Icon(
-                        FontAwesomeIcons.exclamationCircle,
-                        color: Colors.red,
-                      ),
-                    ],
+                    ),
                   ),
-                )..show(context);
+                );
+                FlushbarCollection.showFlushbarNotice(
+                  'Unregistered User',
+                  'Please wait while we redirect you to the sign up page...',
+                  context,
+                );
+              } else if (state is LoginError) {
+                Navigator.of(context).pop();
+                BlocProvider.of<AuthenticationBloc>(context)
+                  ..add(
+                    LoggedOut(),
+                  );
+                FlushbarCollection.showFlushbarError(
+                    'Woops Something Bad Happened! Please try again', context);
               }
             },
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state is AuthenticatedContentCreator) {
-                BlocProvider.of<YoutubeBloc>(context)
+                BlocProvider.of<VideoBloc>(context)
                   ..add(
-                    FetchYoutubeChannel(),
+                    VideosFetched(),
                   );
-
                 BlocProvider.of<IllustrationsBloc>(context)
-                  ..add(FetchIllustrations());
+                  ..add(IllustrationFetched());
 
                 BlocProvider.of<UserBloc>(context)
-                  ..add(GetContentCreator(email: state.user.email));
+                  ..add(GetContentCreator(email: state.contentCreator.email));
 
+                ExtendedNavigator.of(context)
+                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
+                        arguments: BottomNavBarControllerArguments(
+                          contentCreator: state.contentCreator,
+                        ));
                 BlocProvider.of<NavigationBloc>(context)
                   ..add(
-                    ShowBottomNavbarController(contentCreator: state.user),
+                    ShowBottomNavbarController(
+                        contentCreator: state.contentCreator),
                   );
               } else if (state is AuthenticatedUser) {
-                BlocProvider.of<YoutubeBloc>(context)
-                  ..add(FetchYoutubeChannel());
-
+                BlocProvider.of<VideoBloc>(context)
+                  ..add(
+                    VideosFetched(),
+                  );
                 BlocProvider.of<ReclipUserBloc>(context)
                   ..add(GetLikedVideos(email: state.user.email));
 
                 BlocProvider.of<IllustrationsBloc>(context)
-                  ..add(FetchIllustrations());
+                  ..add(IllustrationFetched());
 
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
-
-                BlocProvider.of<NavigationBloc>(context)
-                  ..add(ShowBottomNavbarController(user: state.user));
+                ExtendedNavigator.of(context)
+                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
+                        arguments: BottomNavBarControllerArguments(
+                          user: state.user,
+                        ));
               }
             },
           ),
         ],
         child: Container(
-          height: ScreenUtil().uiHeightPx,
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
@@ -151,15 +133,15 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: ScreenUtil().setHeight(250),
-                  width: ScreenUtil().uiWidthPx,
+                  height: ScreenUtil().setHeight(100),
+                  width: ScreenUtil().setWidth(100),
                   child: Image.asset('assets/images/reclip_logo.png',
-                      fit: BoxFit.cover),
+                      fit: BoxFit.contain),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: LoginForm(),
+                const SizedBox(
+                  height: 20,
                 ),
+                LoginForm(),
               ],
             ),
           ),

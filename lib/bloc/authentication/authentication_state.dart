@@ -19,12 +19,12 @@ class AuthenticatedUser extends AuthenticationState {
 }
 
 class AuthenticatedContentCreator extends AuthenticationState {
-  final ReclipContentCreator user;
+  final ReclipContentCreator contentCreator;
 
-  AuthenticatedContentCreator({this.user});
+  AuthenticatedContentCreator({this.contentCreator});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [contentCreator];
 }
 
 class Unauthenticated extends AuthenticationState {

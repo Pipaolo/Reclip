@@ -28,6 +28,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         final user = await _userRepository.signInWithGoogleVerification();
 
         if (user.email.toLowerCase().contains('@ciit.edu.ph')) {
+          await _userRepository.signOut();
           yield VerificationSuccess(
             contentCreator: ReclipContentCreator(
               id: user.uid,

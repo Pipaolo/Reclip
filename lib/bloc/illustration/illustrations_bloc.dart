@@ -3,17 +3,16 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:reclip/data/model/illustration.dart';
-
-import '../../repository/firebase_reclip_repository.dart';
+import '../../data/model/illustration.dart';
+import '../../repository/illustration_repository.dart';
 
 part 'illustrations_event.dart';
 part 'illustrations_state.dart';
 
 class IllustrationsBloc extends Bloc<IllustrationsEvent, IllustrationsState> {
-  final FirebaseReclipRepository reclipRepository;
+  final IllustrationRepository illustrationRepository;
 
-  IllustrationsBloc({this.reclipRepository});
+  IllustrationsBloc({this.illustrationRepository});
 
   @override
   IllustrationsState get initialState => IllustrationsInitial();
@@ -22,8 +21,8 @@ class IllustrationsBloc extends Bloc<IllustrationsEvent, IllustrationsState> {
   Stream<IllustrationsState> mapEventToState(
     IllustrationsEvent event,
   ) async* {
-    if (event is FetchIllustrations) {
-      reclipRepository.getIllustrations().listen((illustrations) {
+    if (event is IllustrationFetched) {
+      illustrationRepository.getIllustrations().listen((illustrations) {
         add(ShowIllustrations(illustrations: illustrations));
       });
     } else if (event is ShowIllustrations) {

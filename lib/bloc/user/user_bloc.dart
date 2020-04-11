@@ -25,7 +25,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     UserEvent event,
   ) async* {
     if (event is GetUser) {
-      print(event.email);
       yield UserLoading();
       try {
         final user = await _reclipRepository.getUser(event.email);
@@ -36,7 +35,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         );
       }
     } else if (event is GetContentCreator) {
-      print(event.email);
       yield UserLoading();
       try {
         final contentCreator =

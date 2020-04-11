@@ -15,7 +15,7 @@ class ReclipUserLoading extends ReclipUserState {
 }
 
 class ReclipUserSuccess extends ReclipUserState {
-  final List<YoutubeVideo> videos;
+  final List<Video> videos;
 
   ReclipUserSuccess({this.videos});
   @override

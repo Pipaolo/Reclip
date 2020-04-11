@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
 
-Color tomato = Color(0xFFED4E30);
-Color facebookBlue = Color(0xff3B5998);
-List<Color> instagramColors = [
-  Color(0xffFEDA74),
-  Color(0xffFA7E1E),
-  Color(0xffD62976),
-  Color(0xff962FBF),
-  Color(0xff4f5bd5),
-];
-Color googleColor = Color(0xFFD44638);
-Color darkBlue = Color(0xFF00093D);
-
 //Reclip Colors Primary
 const Color reclipBlack = Color(0xFF212121);
 const Color reclipBlackLight = Color(0xFF484848);

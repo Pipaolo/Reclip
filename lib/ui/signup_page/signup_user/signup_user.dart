@@ -1,15 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sailor/sailor.dart';
+import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../core/route_generator.dart';
+
 import '../../../data/model/reclip_user.dart';
 
 class SignupUserPage extends StatelessWidget {
@@ -102,11 +103,9 @@ class SignupUserPage extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
             Future.delayed(Duration(seconds: 3), () {
               Navigator.of(context).pop();
-              Routes.sailor.navigate(
-                'login_page',
-                navigationType: NavigationType.pushAndRemoveUntil,
-                removeUntilPredicate: ModalRoute.withName('login_page'),
-              );
+              ExtendedNavigator.rootNavigator.pushNamedAndRemoveUntil(
+                  Routes.loginPageRoute,
+                  ModalRoute.withName(Routes.loginPageRoute));
             });
           }
         } else if (state is SignupError) {
@@ -122,27 +121,26 @@ class SignupUserPage extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: Center(
-          child: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
-                    child: AutoSizeText(
-                      'ENTER THE FOLLOWING \nDETAILS:',
-                      style: TextStyle(
-                        color: reclipBlackLight,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                AutoSizeText(
+                  'ENTER THE FOLLOWING \nDETAILS:',
+                  style: TextStyle(
+                    color: reclipBlackLight,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
                   ),
-                  SignupContentCreatorFirstForm(),
-                ],
-              ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
+                SignupContentCreatorFirstForm(),
+              ],
             ),
           ),
         ),
@@ -185,14 +183,16 @@ class _SignupContentCreatorFirstFormState
         'confirm password': '',
       },
       autovalidate: true,
-      child: SizedBox(
-        height: ScreenUtil().setHeight(500),
+      child: Flexible(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+              const SizedBox(
+                height: 20,
+              ),
               FormBuilderTextField(
                 attribute: 'firstName',
                 controller: firstNameController,
@@ -228,6 +228,9 @@ class _SignupContentCreatorFirstFormState
                 ],
                 onFieldSubmitted: (_) =>
                     changeFocusField(context, firstNameFocus, lastNameFocus),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               FormBuilderTextField(
                 attribute: 'lastName',
@@ -265,6 +268,9 @@ class _SignupContentCreatorFirstFormState
                 onFieldSubmitted: (_) =>
                     changeFocusField(context, lastNameFocus, emailFocus),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               FormBuilderTextField(
                 attribute: 'email',
                 controller: emailController,
@@ -301,6 +307,9 @@ class _SignupContentCreatorFirstFormState
                 textInputAction: TextInputAction.next,
                 maxLines: 1,
                 focusNode: emailFocus,
+              ),
+              const SizedBox(
+                height: 20,
               ),
               FormBuilderTextField(
                 attribute: 'password',
@@ -341,6 +350,9 @@ class _SignupContentCreatorFirstFormState
                 ],
                 onFieldSubmitted: (_) => changeFocusField(
                     context, passwordFocus, confirmPasswordFocus),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               FormBuilderTextField(
                 attribute: 'confirm password',

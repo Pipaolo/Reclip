@@ -1,21 +1,28 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/data/model/youtube_channel.dart';
-import 'package:reclip/data/model/youtube_vid.dart';
-import 'package:reclip/repository/firebase_reclip_repository.dart';
-import 'package:reclip/repository/user_repository.dart';
+import 'package:meta/meta.dart';
+
+import '../../data/model/illustration.dart';
+import '../../data/model/reclip_content_creator.dart';
+import '../../data/model/video.dart';
+import '../../repository/firebase_reclip_repository.dart';
+import '../../repository/user_repository.dart';
+import '../../repository/video_repository.dart';
 
 part 'info_event.dart';
 part 'info_state.dart';
 
 class InfoBloc extends Bloc<InfoEvent, InfoState> {
   final FirebaseReclipRepository reclipRepository;
+  final VideoRepository videoRepository;
   final UserRepository userRepository;
 
-  InfoBloc({@required this.reclipRepository, @required this.userRepository});
+  InfoBloc(
+      {@required this.reclipRepository,
+      @required this.userRepository,
+      @required this.videoRepository});
   @override
   InfoState get initialState => Idle();
 
@@ -26,14 +33,12 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
     yield (Idle());
     if (event is ShowVideo) {
       try {
-        final channel =
-            await reclipRepository.getChannel(event.video.channelId);
-        final isLiked = await userRepository.getCurrentUser().then(
-              (email) =>
-                  (event.video.likedUsers.contains(email) ? true : false),
-            );
+        final contentCreator = await videoRepository
+            .fetchContentCreator(event.video.contentCreatorEmail);
         yield ShowVideoInfo(
-            channel: channel, video: event.video, isLiked: isLiked);
+          contentCreator: contentCreator,
+          video: event.video,
+        );
       } catch (e) {
         print(e);
       }
