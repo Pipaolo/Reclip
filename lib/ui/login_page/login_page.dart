@@ -71,14 +71,14 @@ class _LoginPageState extends State<LoginPage> {
                   ..add(
                     LoggedOut(),
                   );
-                FlushbarCollection.showFlushbarError(
-                    'Woops Something Bad Happened! Please try again', context);
+                FlushbarCollection.showFlushbarError(state.error, context);
               }
             },
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state is AuthenticatedContentCreator) {
+                ExtendedNavigator.of(context).pop();
                 BlocProvider.of<VideoBloc>(context)
                   ..add(
                     VideosFetched(),
@@ -89,17 +89,13 @@ class _LoginPageState extends State<LoginPage> {
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.contentCreator.email));
 
-                ExtendedNavigator.of(context)
-                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
-                        arguments: BottomNavBarControllerArguments(
-                          contentCreator: state.contentCreator,
-                        ));
-                BlocProvider.of<NavigationBloc>(context)
-                  ..add(
-                    ShowBottomNavbarController(
-                        contentCreator: state.contentCreator),
-                  );
+                ExtendedNavigator.of(context).pushReplacementNamed(
+                    Routes.bottomNavBarControllerScreenRoute,
+                    arguments: BottomNavBarControllerArguments(
+                      contentCreator: state.contentCreator,
+                    ));
               } else if (state is AuthenticatedUser) {
+                ExtendedNavigator.of(context).pop();
                 BlocProvider.of<VideoBloc>(context)
                   ..add(
                     VideosFetched(),
@@ -112,11 +108,11 @@ class _LoginPageState extends State<LoginPage> {
 
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
-                ExtendedNavigator.of(context)
-                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
-                        arguments: BottomNavBarControllerArguments(
-                          user: state.user,
-                        ));
+                ExtendedNavigator.of(context).pushReplacementNamed(
+                    Routes.bottomNavBarControllerScreenRoute,
+                    arguments: BottomNavBarControllerArguments(
+                      user: state.user,
+                    ));
               }
             },
           ),
@@ -133,8 +129,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: ScreenUtil().setHeight(100),
-                  width: ScreenUtil().setWidth(100),
+                  height: ScreenUtil.screenHeightDp * 0.25,
                   child: Image.asset('assets/images/reclip_logo.png',
                       fit: BoxFit.contain),
                 ),

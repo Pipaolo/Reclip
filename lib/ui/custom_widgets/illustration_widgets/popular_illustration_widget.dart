@@ -13,14 +13,14 @@ class PopularIllustrationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 110),
+      padding: EdgeInsets.symmetric(
+          vertical: 10, horizontal: MediaQuery.of(context).size.width * 0.28),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.black, width: 2),
         ),
         width: double.infinity,
-        height: ScreenUtil().setHeight(200),
+        height: MediaQuery.of(context).size.height * 0.35,
         child: InkWell(
           onTap: () {
             BlocProvider.of<InfoBloc>(context)
@@ -30,11 +30,8 @@ class PopularIllustrationWidget extends StatelessWidget {
                 ),
               );
           },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: PopularIllustrationImage(
-              popularIllustration: illustration,
-            ),
+          child: PopularIllustrationImage(
+            popularIllustration: illustration,
           ),
         ),
       ),

@@ -34,7 +34,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                           bottomLeft: Radius.circular(5),
                         ),
                         child: Container(
-                          height: ScreenUtil().setHeight(100),
+                          height: ScreenUtil().setHeight(80),
                           width: ScreenUtil().setWidth(100),
                           color: reclipBlack,
                           child: TransitionToImage(
@@ -58,7 +58,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                             Text(
                               videos[index].title,
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(20),
+                                fontSize: ScreenUtil().setSp(16),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -71,7 +71,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                                   : videos[index].description,
                               overflow: TextOverflow.ellipsis,
                               style:
-                                  TextStyle(fontSize: ScreenUtil().setSp(14)),
+                                  TextStyle(fontSize: ScreenUtil().setSp(12)),
                               maxLines: 3,
                             ),
                           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/core/reclip_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../data/model/illustration.dart';
@@ -14,20 +15,34 @@ class PopularIllustrationImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: ScreenUtil().setHeight(600),
-      child: TransitionToImage(
-        image: AdvancedNetworkImage(
-          popularIllustration.imageUrl,
-          useDiskCache: true,
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: TransitionToImage(
+              image: AdvancedNetworkImage(
+                popularIllustration.imageUrl,
+                useDiskCache: true,
+              ),
+              fit: BoxFit.cover,
+              loadingWidget: Shimmer.fromColors(
+                  child: Container(color: Colors.black),
+                  direction: ShimmerDirection.ltr,
+                  baseColor: Colors.grey,
+                  highlightColor: Colors.white54),
+            ),
+          ),
         ),
-        fit: BoxFit.cover,
-        loadingWidget: Shimmer.fromColors(
-            child: Container(color: Colors.black),
-            direction: ShimmerDirection.ltr,
-            baseColor: Colors.grey,
-            highlightColor: Colors.white54),
-      ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: reclipIndigoDark, width: 2),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

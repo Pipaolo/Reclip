@@ -43,6 +43,8 @@ class SignupUserPage extends StatelessWidget {
   }
 
   _showErrorDialog(BuildContext context) {
+    Future.delayed(
+        Duration(seconds: 2), () => ExtendedNavigator.of(context).pop());
     return showDialog(
         barrierDismissible: true,
         context: context,
@@ -102,13 +104,12 @@ class SignupUserPage extends StatelessWidget {
             _showSuccessDialog(context);
             BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
             Future.delayed(Duration(seconds: 3), () {
-              Navigator.of(context).pop();
-              ExtendedNavigator.rootNavigator.pushNamedAndRemoveUntil(
-                  Routes.loginPageRoute,
-                  ModalRoute.withName(Routes.loginPageRoute));
+              ExtendedNavigator.of(context)
+                  .popUntil(ModalRoute.withName(Routes.loginPageRoute));
             });
           }
         } else if (state is SignupError) {
+          ExtendedNavigator.of(context).pop();
           _showErrorDialog(context);
         }
       },

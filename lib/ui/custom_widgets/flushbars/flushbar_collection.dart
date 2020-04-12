@@ -98,20 +98,13 @@ class FlushbarCollection {
     Flushbar(
       backgroundColor: reclipBlackDark,
       duration: Duration(seconds: 3),
-      margin: EdgeInsets.all(8),
-      borderRadius: 20,
-      messageText: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            errorText,
-            style: TextStyle(color: Colors.white),
-          ),
-          Icon(
-            FontAwesomeIcons.exclamationCircle,
-            color: Colors.red,
-          ),
-        ],
+      icon: Icon(
+        FontAwesomeIcons.exclamationCircle,
+        color: Colors.red,
+      ),
+      messageText: Text(
+        errorText,
+        style: TextStyle(color: Colors.white),
       ),
     )..show(context);
   }

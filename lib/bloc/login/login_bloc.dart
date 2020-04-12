@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/core/auth_failure.dart';
 
 import '../../data/model/reclip_content_creator.dart';
 import '../../data/model/reclip_user.dart';
@@ -49,8 +51,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (reclipUser != null) {
           yield LoginSuccessUser(user: reclipUser);
         }
+      } on PlatformException catch (error) {
+        yield LoginError(error: AuthFailure.show(error.code));
       } catch (_) {
-        yield LoginError(error: _.toString());
+        yield LoginError(error: 'Something Bad Happened!');
       }
     } else if (event is LoginWithGooglePressed) {
       try {

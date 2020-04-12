@@ -20,8 +20,7 @@ class HomePageAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: ScreenUtil().setHeight(80),
-              width: ScreenUtil().setHeight(80),
+              height: MediaQuery.of(context).size.height * 0.10,
               child: Image.asset(
                 'assets/images/reclip_logo_no_text.png',
                 fit: BoxFit.fill,
@@ -37,7 +36,8 @@ class HomePageAppBar extends StatelessWidget {
                         'Videos',
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(20),
+                          fontSize: ScreenUtil()
+                              .setSp(16, allowFontScalingSelf: true),
                         ),
                       ),
                       onTap: () => BlocProvider.of<NavigationBloc>(context)
@@ -54,7 +54,8 @@ class HomePageAppBar extends StatelessWidget {
                         'Illustrations',
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(20),
+                          fontSize: ScreenUtil()
+                              .setSp(16, allowFontScalingSelf: true),
                         ),
                       ),
                       onTap: () => BlocProvider.of<NavigationBloc>(context)
