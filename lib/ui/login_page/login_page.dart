@@ -35,10 +35,10 @@ class _LoginPageState extends State<LoginPage> {
                 DialogCollection.showLoadingDialog('Logging in...', context);
               } else if (state is LoginSuccessContentCreator) {
                 Navigator.of(context).pop();
-                if (state.user != null) {
+                if (state.contentCreator != null) {
                   BlocProvider.of<AuthenticationBloc>(context)
                     ..add(
-                      LoggedIn(contentCreator: state.user),
+                      LoggedIn(contentCreator: state.contentCreator),
                     );
                 }
               } else if (state is LoginSuccessUser) {
@@ -48,14 +48,14 @@ class _LoginPageState extends State<LoginPage> {
                       LoggedIn(user: state.user),
                     );
                 }
-              } else if (state is LoginSuccessUnregistered) {
+              } else if (state is LoginSuccessUnregisteredContentCreator) {
                 Router.navigator.pop();
                 Future.delayed(
                   Duration(seconds: 3),
                   () => ExtendedNavigator.rootNavigator.pushNamed(
                     Routes.signupContentCreatorFirstPageRoute,
                     arguments: SignupContentCreatorFirstPageArguments(
-                      contentCreator: state.unregisteredUser,
+                      contentCreator: state.unregisteredContentCreator,
                     ),
                   ),
                 );
@@ -88,11 +88,11 @@ class _LoginPageState extends State<LoginPage> {
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.contentCreator.email));
 
-                ExtendedNavigator.of(context).pushReplacementNamed(
-                    Routes.bottomNavBarControllerScreenRoute,
-                    arguments: BottomNavBarControllerArguments(
-                      contentCreator: state.contentCreator,
-                    ));
+                ExtendedNavigator.of(context)
+                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
+                        arguments: BottomNavBarControllerArguments(
+                          contentCreator: state.contentCreator,
+                        ));
               } else if (state is AuthenticatedUser) {
                 ExtendedNavigator.of(context).pop();
                 BlocProvider.of<VideoBloc>(context)

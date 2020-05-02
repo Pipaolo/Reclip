@@ -28,10 +28,13 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   ) async* {
     if (event is SignupWithGoogle) {
       yield SignupLoading();
-      final user = await userRepository.signInWithGoogle();
+
+      await userRepository.signInWithGoogle();
+      final contentCreator = ReclipContentCreator.fromFirebaseUser(
+          await userRepository.getCurrentUser());
 
       yield SignupContentCreatorSuccess(
-        user: user.copyWith(
+        user: contentCreator.copyWith(
           username: event.user.name,
           birthDate: event.user.birthDate,
           contactNumber: event.user.contactNumber,
@@ -46,19 +49,28 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           event.user, event.profileImage);
       await firebaseReclipRepository
           .addContentCreator(event.user.copyWith(imageUrl: imageUrl));
-
       yield SignupContentCreatorSuccess(
           user: await firebaseReclipRepository
               .getContentCreator(event.user.email));
     } else if (event is SignupUser) {
       yield SignupLoading();
-      try {
-        await userRepository.signUpUser(event.user.email, event.user.password);
+      final String failureOrSuccess = await userRepository
+          .signUpUser(event.user.email, event.user.password)
+          .then((value) => value.fold(
+              (l) => l.map(
+                    cancelledByUser: (_) => 'Cancelled',
+                    serverError: (_) => 'Server error',
+                    emailAlreadyInUse: (_) => 'Email already in use',
+                    invalidEmailAndPasswordCombination: (_) =>
+                        'Invalid email and password combination',
+                  ),
+              (r) => ''));
+      if (failureOrSuccess.isEmpty) {
         await firebaseReclipRepository.addUser(event.user);
         final user = await firebaseReclipRepository.getUser(event.user.email);
         yield SignupUserSuccess(user: user);
-      } catch (e) {
-        yield SignupError(errorText: e.toString());
+      } else {
+        yield SignupError(errorText: failureOrSuccess);
       }
     }
   }

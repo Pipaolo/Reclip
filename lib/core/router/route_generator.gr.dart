@@ -13,6 +13,7 @@ import 'package:reclip/ui/login_page/login_page.dart';
 import 'package:reclip/ui/home_page/home_page.dart';
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
 import 'package:reclip/ui/signup_page/signup_user/signup_user.dart';
+import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
 import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
@@ -26,7 +27,6 @@ import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/co
 import 'package:reclip/ui/content_creator_page/add_content/add_content_image/add_content_image_page.dart';
 import 'package:reclip/ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
 import 'package:reclip/ui/bottom_navigation_controller/bottom_nav_controller.dart';
-import 'package:reclip/data/model/reclip_user.dart';
 import 'package:reclip/ui/custom_widgets/video_content_page/video_content_page.dart';
 import 'package:reclip/data/model/video.dart';
 import 'package:reclip/ui/custom_widgets/illustration_content_page/illustration_content_page.dart';
@@ -109,8 +109,14 @@ class Router extends RouterBase {
           settings: settings,
         );
       case Routes.signupUserPageRoute:
+        if (hasInvalidArgs<SignupUserPageArguments>(args)) {
+          return misTypedArgsRoute<SignupUserPageArguments>(args);
+        }
+        final typedArgs =
+            args as SignupUserPageArguments ?? SignupUserPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (context) => SignupUserPage(),
+          builder: (context) => SignupUserPage(
+              key: typedArgs.key, unregisteredUser: typedArgs.unregisteredUser),
           settings: settings,
         );
       case Routes.signupContentCreatorFirstPageRoute:
@@ -309,6 +315,13 @@ class LoginPageArguments {
 class HomePageArguments {
   final Key key;
   HomePageArguments({this.key});
+}
+
+//SignupUserPage arguments holder class
+class SignupUserPageArguments {
+  final Key key;
+  final ReclipUser unregisteredUser;
+  SignupUserPageArguments({this.key, this.unregisteredUser});
 }
 
 //SignupContentCreatorFirstPage arguments holder class

@@ -95,6 +95,8 @@ class ReclipApp extends StatelessWidget {
         BlocProvider<VerificationBloc>(
           create: (context) => VerificationBloc(
             userRepository: RepositoryProvider.of<UserRepository>(context),
+            firebaseReclipRepository:
+                RepositoryProvider.of<FirebaseReclipRepository>(context),
           ),
         ),
         BlocProvider<SignupBloc>(

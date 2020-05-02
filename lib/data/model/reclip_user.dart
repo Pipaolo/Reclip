@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,10 +10,10 @@ class ReclipUser extends Equatable {
   final String password;
 
   ReclipUser({
-    @required this.firstName,
-    @required this.lastName,
+    this.firstName,
+    this.lastName,
     @required this.email,
-    @required this.password,
+    this.password,
   });
 
   factory ReclipUser.fromSnapshot(DocumentSnapshot snap) {
@@ -23,6 +24,12 @@ class ReclipUser extends Equatable {
       password: snap.data['password'] ?? '',
     );
   }
+
+  factory ReclipUser.fromFirebaseUser(FirebaseUser firebaseUser) => ReclipUser(
+        email: firebaseUser.email,
+        firstName: firebaseUser.displayName,
+        lastName: '',
+      );
 
   ReclipUser copyWith({
     String firstName,

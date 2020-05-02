@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 
@@ -46,6 +47,14 @@ class ReclipContentCreator extends Equatable {
       birthDate: snap.data['birthDate'] ?? '',
     );
   }
+
+  factory ReclipContentCreator.fromFirebaseUser(FirebaseUser firebaseUser) =>
+      ReclipContentCreator(
+        email: firebaseUser.email,
+        name: firebaseUser.displayName,
+        id: firebaseUser.uid,
+        imageUrl: firebaseUser.photoUrl,
+      );
 
   ReclipContentCreator copyWith({
     String id,

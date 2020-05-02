@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,46 +15,25 @@ import 'signup_appbar.dart';
 
 class SignupCategoryPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final Flushbar loadingFlushbar = Flushbar(
+    backgroundColor: reclipBlack,
+    messageText: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          'Verifying email...',
+          style: TextStyle(color: Colors.white),
+        ),
+        CircularProgressIndicator(),
+      ],
+    ),
+  );
   @override
   Widget build(BuildContext context) {
-    final Flushbar loadingFlushbar = Flushbar(
-      backgroundColor: reclipBlack,
-      messageText: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Verifying email...',
-            style: TextStyle(color: Colors.white),
-          ),
-          CircularProgressIndicator(),
-        ],
-      ),
-    );
     return BlocListener<VerificationBloc, VerificationState>(
       listener: (context, state) {
         if (state is VerificationLoading) {
           loadingFlushbar.show(context);
-        } else if (state is VerificationInvalidEmail) {
-          loadingFlushbar.dismiss();
-          Flushbar(
-            backgroundColor: reclipBlack,
-            duration: Duration(seconds: 3),
-            messageText: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Use CIIT email!',
-                  style: TextStyle(color: Colors.white),
-                ),
-                Icon(
-                  FontAwesomeIcons.exclamationCircle,
-                  color: Colors.red,
-                ),
-              ],
-            ),
-          )..show(context);
-          BlocProvider.of<AuthenticationBloc>(context)..add(LoggedOut());
         } else if (state is VerificationSuccess) {
           loadingFlushbar.dismiss();
           Flushbar(
@@ -75,7 +55,10 @@ class SignupCategoryPage extends StatelessWidget {
           )..show(context)
               .then((_) => _signupContentCreator(state.contentCreator));
         } else if (state is VerificationError) {
-          print(state.errorText);
+          loadingFlushbar.dismiss();
+          FlushbarHelper.createError(
+              message: state.errorText, duration: Duration(seconds: 3))
+            ..show(context);
         }
       },
       child: Scaffold(

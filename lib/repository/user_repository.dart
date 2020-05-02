@@ -1,5 +1,8 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:reclip/core/failure/auth_failure.dart';
 
 import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:reclip/data/model/reclip_user.dart';
@@ -17,7 +20,7 @@ class UserRepository {
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn();
 
-  Future<FirebaseUser> signInWithGoogleVerification() async {
+  Future<void> signInWithGoogleVerification() async {
     //Set Scopes for Access to Youtube API
     final GoogleSignIn googleSignInVerification = GoogleSignIn();
     final GoogleSignInAccount googleUser =
@@ -31,38 +34,56 @@ class UserRepository {
       idToken: googleAuth.idToken,
     );
 
-    await _firebaseAuth.signInWithCredential(credential);
-    return await _firebaseAuth.currentUser();
+    return await _firebaseAuth.signInWithCredential(credential);
   }
 
-  Future<ReclipContentCreator> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+  Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    await _firebaseAuth.signInWithCredential(credential);
-    final rawUser = await _firebaseAuth.currentUser();
-    return ReclipContentCreator(
-      id: rawUser.uid,
-      email: rawUser.email,
-      name: rawUser.displayName,
-      imageUrl: rawUser.photoUrl,
-      googleAccount: googleUser,
-    );
+      await _firebaseAuth.signInWithCredential(credential);
+      return right(unit);
+    } on PlatformException catch (_) {
+      return left(const AuthFailure.serverError());
+    }
   }
 
-  Future<void> signInWithCredentials(String email, String password) {
-    return _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
+  Future<Either<AuthFailure, Unit>> signInWithCredentials(
+      String email, String password) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return right(unit);
+    } on PlatformException catch (e) {
+      if (e.code == 'ERROR_WRONG_PASSWORD' ||
+          e.code == 'ERROR_USER_NOT_FOUND') {
+        return left(const AuthFailure.invalidEmailAndPasswordCombination());
+      }
+      return left(const AuthFailure.serverError());
+    }
   }
 
-  Future<void> signUpUser(String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+  Future<Either<AuthFailure, Unit>> signUpUser(
+      String email, String password) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return right(unit);
+    } on PlatformException catch (e) {
+      if (e.code == 'ERROR_WRONG_PASSWORD' ||
+          e.code == 'ERROR_USER_NOT_FOUND') {
+        return left(const AuthFailure.invalidEmailAndPasswordCombination());
+      } else if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+        return left(const AuthFailure.emailAlreadyInUse());
+      }
+      return left(const AuthFailure.serverError());
+    }
   }
 
   Future<void> signOut() async {
@@ -79,9 +100,13 @@ class UserRepository {
     return currentUser != null;
   }
 
-  Future<String> getCurrentUser() async {
+  Future<String> getCurrentUserEmail() async {
     final rawUser = await _firebaseAuth.currentUser();
     return rawUser.email;
+  }
+
+  Future<FirebaseUser> getCurrentUser() async {
+    return await _firebaseAuth.currentUser();
   }
 
   Future<ReclipUser> getUser() async {

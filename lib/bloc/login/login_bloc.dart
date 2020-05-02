@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import 'package:reclip/core/auth_failure.dart';
 
 import '../../data/model/reclip_content_creator.dart';
 import '../../data/model/reclip_user.dart';
@@ -39,45 +37,74 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async* {
     yield LoginLoading();
     if (event is LoginWithCredentialsPressed) {
-      try {
-        await _userRepository.signInWithCredentials(
-            event.email, event.password);
-        /*
-        Try to get fetch user first, if user is not present
-        then go ahead and fetch content creator
-        */
-
-        final reclipUser = await _userRepository.getUser();
+      final String failureOrSuccess = await _userRepository
+          .signInWithCredentials(event.email, event.password)
+          .then((value) => value.fold(
+              (l) => l.map(
+                    cancelledByUser: (_) => 'Cancelled',
+                    serverError: (_) => 'Server error',
+                    emailAlreadyInUse: (_) => 'Email already in use',
+                    invalidEmailAndPasswordCombination: (_) =>
+                        'Invalid email and password combination',
+                  ),
+              (r) => ''));
+      final reclipUser = await _userRepository.getUser();
+      if (failureOrSuccess.isEmpty) {
         if (reclipUser != null) {
           yield LoginSuccessUser(user: reclipUser);
         }
-      } on PlatformException catch (error) {
-        yield LoginError(error: AuthFailure.show(error.code));
-      } catch (_) {
-        yield LoginError(error: 'Something Bad Happened!');
+      } else {
+        yield LoginError(error: failureOrSuccess);
       }
     } else if (event is LoginWithGooglePressed) {
-      try {
-        final rawUser = await _userRepository.signInWithGoogle();
+      final String failureOrSuccess =
+          await _userRepository.signInWithGoogle().then((value) => value.fold(
+              (l) => l.map(
+                    cancelledByUser: (_) => 'Cancelled',
+                    serverError: (_) => 'Server error',
+                    emailAlreadyInUse: (_) => 'Email already in use',
+                    invalidEmailAndPasswordCombination: (_) =>
+                        'Invalid email and password combination',
+                  ),
+              (r) => ''));
 
-        final storedUser =
-            await _firebaseReclipRepository.getContentCreator(rawUser.email);
-        if (storedUser == null) {
-          print("User is not Existing");
-          if (!rawUser.email.toLowerCase().contains('@ciit')) {
-            yield LoginError(error: 'Invalid Email');
+      if (failureOrSuccess.isEmpty) {
+        //If the sign in using google was a success then fetch the current user
+        final currentUser = await _userRepository.getCurrentUser();
+
+        //Check if the user is an content creator
+        final bool isContentCreator =
+            currentUser.email.contains('@ciit.edu.ph');
+
+        //Then fetch the corresponding data
+
+        if (isContentCreator) {
+          final storedContentCreator = await _firebaseReclipRepository
+              .getContentCreator(currentUser.email);
+          if (storedContentCreator != null) {
+            yield LoginSuccessContentCreator(
+                contentCreator: storedContentCreator);
           } else {
-            yield LoginSuccessUnregistered(unregisteredUser: rawUser);
+            yield LoginSuccessUnregisteredContentCreator(
+                unregisteredContentCreator:
+                    ReclipContentCreator.fromFirebaseUser(currentUser));
           }
         } else {
-          print("User is Existing");
+          final storedUser =
+              await _firebaseReclipRepository.getUser(currentUser.email);
+          if (storedUser != null) {
+            yield LoginSuccessUser(user: storedUser);
+          } else {
+            await _firebaseReclipRepository
+                .addUser(ReclipUser.fromFirebaseUser(currentUser));
 
-          yield LoginSuccessContentCreator(
-            user: storedUser,
-          );
+            yield LoginSuccessUser(
+                user:
+                    await _firebaseReclipRepository.getUser(currentUser.email));
+          }
         }
-      } catch (_) {
-        yield LoginError(error: _.toString());
+      } else {
+        yield LoginError(error: failureOrSuccess);
       }
     } else if (event is SignOut) {
       try {

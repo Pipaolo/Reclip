@@ -1,19 +1,26 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
 
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
-
+import '../../../core/router/route_generator.gr.dart';
 import '../../../data/model/reclip_user.dart';
 
 class SignupUserPage extends StatelessWidget {
+  final ReclipUser unregisteredUser;
+
+  const SignupUserPage({
+    Key key,
+    this.unregisteredUser,
+  }) : super(key: key);
+
   _showSuccessDialog(BuildContext context) {
     return showDialog(
         barrierDismissible: false,
@@ -35,36 +42,6 @@ class SignupUserPage extends StatelessWidget {
                     size: ScreenUtil().setSp(60),
                   ),
                   Material(child: Text('Sign up Success!'))
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  _showErrorDialog(BuildContext context) {
-    Future.delayed(
-        Duration(seconds: 2), () => ExtendedNavigator.of(context).pop());
-    return showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              height: ScreenUtil().setHeight(180),
-              width: ScreenUtil().setWidth(180),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Icon(
-                    FontAwesomeIcons.exclamationCircle,
-                    color: Colors.red,
-                    size: ScreenUtil().setSp(60),
-                  ),
-                  Material(child: Text('Error!'))
                 ],
               ),
             ),
@@ -110,7 +87,9 @@ class SignupUserPage extends StatelessWidget {
           }
         } else if (state is SignupError) {
           ExtendedNavigator.of(context).pop();
-          _showErrorDialog(context);
+          FlushbarHelper.createError(
+                  message: state.errorText, duration: Duration(seconds: 3))
+              .show(context);
         }
       },
       child: Scaffold(
@@ -140,7 +119,9 @@ class SignupUserPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 2,
                 ),
-                SignupContentCreatorFirstForm(),
+                SignupContentCreatorFirstForm(
+                  unregisteredUser: unregisteredUser,
+                ),
               ],
             ),
           ),
@@ -151,6 +132,11 @@ class SignupUserPage extends StatelessWidget {
 }
 
 class SignupContentCreatorFirstForm extends StatefulWidget {
+  final ReclipUser unregisteredUser;
+  const SignupContentCreatorFirstForm({
+    Key key,
+    this.unregisteredUser,
+  }) : super(key: key);
   @override
   _SignupContentCreatorFirstFormState createState() =>
       _SignupContentCreatorFirstFormState();
@@ -158,11 +144,11 @@ class SignupContentCreatorFirstForm extends StatefulWidget {
 
 class _SignupContentCreatorFirstFormState
     extends State<SignupContentCreatorFirstForm> {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController firstNameController;
+  TextEditingController lastNameController;
+  TextEditingController emailController;
+  TextEditingController passwordController;
+  TextEditingController confirmPasswordController;
 
   FocusNode firstNameFocus = FocusNode();
   FocusNode lastNameFocus = FocusNode();
@@ -171,6 +157,19 @@ class _SignupContentCreatorFirstFormState
   FocusNode confirmPasswordFocus = FocusNode();
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    emailController = TextEditingController(
+        text: widget.unregisteredUser != null
+            ? widget.unregisteredUser.email
+            : '');
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {

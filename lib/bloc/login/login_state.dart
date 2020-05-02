@@ -24,32 +24,36 @@ class LoginSuccessUser extends LoginState {
 }
 
 class LoginSuccessContentCreator extends LoginState {
-  final ReclipContentCreator user;
+  final ReclipContentCreator contentCreator;
 
-  LoginSuccessContentCreator({this.user});
+  LoginSuccessContentCreator({this.contentCreator});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [contentCreator];
 
   @override
   String toString() {
-    print('LoginSuccess: {User: ${user.name}}');
+    print('LoginSuccess: {User: ${contentCreator.name}}');
     return super.toString();
   }
 }
 
-class LoginSuccessUnregistered extends LoginState {
-  final ReclipContentCreator unregisteredUser;
+class LoginSuccessUnregisteredUser extends LoginState {
+  final ReclipUser unregisteredUser;
 
-  LoginSuccessUnregistered({this.unregisteredUser});
+  LoginSuccessUnregisteredUser({this.unregisteredUser});
 
   @override
   List<Object> get props => [unregisteredUser];
+}
+
+class LoginSuccessUnregisteredContentCreator extends LoginState {
+  final ReclipContentCreator unregisteredContentCreator;
+
+  LoginSuccessUnregisteredContentCreator({this.unregisteredContentCreator});
 
   @override
-  String toString() {
-    return 'Unregistered: ${unregisteredUser.name}';
-  }
+  List<Object> get props => [unregisteredContentCreator];
 }
 
 class LoginError extends LoginState {

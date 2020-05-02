@@ -10,6 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.0+4
+  dartz: ^0.9.0
+  media_info: ^0.6.1
+
+  freezed_annotation: ^0.7.1
+
+  json_annotation: ^3.0.1
 
   image_picker: ^0.6.5+3
   flutter_screenutil: ^1.0.2
@@ -62,7 +68,8 @@ dev_dependencies:
     sdk: flutter
   auto_route_generator: ^0.4.8
   build_runner: ^1.8.0
-
+  json_serializable: ^3.3.0
+  freezed: ^0.10.7
 flutter:
   uses-material-design: true
 

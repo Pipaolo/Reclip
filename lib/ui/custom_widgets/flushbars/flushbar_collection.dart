@@ -54,7 +54,6 @@ class FlushbarCollection {
       backgroundColor: reclipBlackDark,
       duration: Duration(seconds: 3),
       margin: EdgeInsets.all(8),
-      borderRadius: 20,
       titleText: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

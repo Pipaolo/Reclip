@@ -54,7 +54,12 @@ class FirebaseReclipRepository {
   }
 
   Future<ReclipUser> getUser(String email) async {
-    return ReclipUser.fromSnapshot(await userCollection.document(email).get());
+    try {
+      return ReclipUser.fromSnapshot(
+          await userCollection.document(email).get());
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<ReclipContentCreator> getOtherContentCreator(String email) async {
@@ -71,12 +76,14 @@ class FirebaseReclipRepository {
     }
   }
 
-  Future<bool> checkExistingUser(String email) async {
-    final user = await contentCreatorCollection
-        .where('channel.ownerEmail', isEqualTo: email)
-        .getDocuments()
-        .then((user) => ReclipContentCreator.fromSnapshot(user.documents[0]));
+  Future<bool> checkExistingContentCreator(String email) async {
+    final contentCreator = await contentCreatorCollection.document(email).get();
+    return contentCreator.exists;
+  }
 
-    return (user != null) ? true : false;
+  Future<bool> checkExistingUser(String email) async {
+    final user = await userCollection.document(email).get();
+
+    return user.exists;
   }
 }

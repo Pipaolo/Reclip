@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "314786042933-3kvcprpl36d5emko4idtnc25024gqii0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reclip.app",
+            "certificate_hash": "1a592dab4ea52360c0fdcbbf4cac2d0176d60602"
+          }
+        },
+        {
+          "client_id": "314786042933-0opkll5boh2s7u1h6eijehonaq8os5v6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reclip.app",
+            "certificate_hash": "0dbea942daca1c79e5e2d9b7428597d427fedaaa"
+          }
+        },
+        {
           "client_id": "314786042933-mtnold4etrbaqmpc8avu1iq73ijnolbm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

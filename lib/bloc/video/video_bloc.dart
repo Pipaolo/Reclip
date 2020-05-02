@@ -38,11 +38,11 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       await _videoRepository.addVideoView(
           event.contentCreatorEmail, event.videoId);
     } else if (event is LikeAdded) {
-      _userRepository.getCurrentUser().then((email) async =>
+      _userRepository.getCurrentUserEmail().then((email) async =>
           await _videoRepository.addVideoLike(
               event.contentCreatorEmail, event.videoId, email));
     } else if (event is LikeRemoved) {
-      _userRepository.getCurrentUser().then((email) async =>
+      _userRepository.getCurrentUserEmail().then((email) async =>
           await _videoRepository.removeVideoLike(
               event.contentCreatorEmail, event.videoId, email));
     }
