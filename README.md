@@ -1,16 +1,17 @@
-# reclip
+# Reclip
 
-A new Flutter project.
+Reclip is a multimedia platform, that showcases the works of Senior Highschool Students in CIIT Arts and Technology.
+This was built in order to provide enough exposure to students who can create beautiful projects. 
 
-## Getting Started
+This app is made out of pure Flutter, special thanks to the Flutter Dev Team for creating the wonderful framework.
 
-This project is a starting point for a Flutter application.
+## Technologies Used:
+- Firebase Cloud Firestore
+- Firebase Authentication
+- Firebase Storage
+- Flutter
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Development Team:
+- Vincent Alfaro
+- Ryan Gervacio
+- Paolo Tolentino
