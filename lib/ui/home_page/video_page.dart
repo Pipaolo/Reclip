@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
-import 'package:reclip/ui/custom_widgets/video_widgets/video_list/video_list.dart';
+import '../custom_widgets/ad_widget.dart';
+import '../../core/router/route_generator.gr.dart';
+import '../custom_widgets/video_widgets/video_list/video_list.dart';
 
 import '../../bloc/info/info_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
@@ -15,6 +16,41 @@ import '../custom_widgets/video_widgets/popular_video.dart';
 
 class VideoPage extends StatelessWidget {
   VideoPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: BlocListener<InfoBloc, InfoState>(
+        listener: (context, state) {
+          if (state is ShowVideoInfo) {
+            ExtendedNavigator.rootNavigator
+                .pushNamed(Routes.videoContentPageRoute,
+                    arguments: VideoContentPageArguments(
+                      contentCreator: state.contentCreator,
+                      video: state.video,
+                    ));
+          }
+        },
+        child: BlocBuilder<VideoBloc, VideoState>(
+          builder: (context, state) {
+            if (state is VideoSuccess) {
+              if (state.videos.isNotEmpty) {
+                return _buildListPopulated(state.videos, context);
+              } else {
+                return _buildListEmpty();
+              }
+            } else if (state is VideoLoading) {
+              return _buildLoading();
+            } else if (state is VideoError) {
+              return _buildError(state.errorText);
+            }
+            return Container();
+          },
+        ),
+      ),
+    );
+  }
 
   _buildListPopulated(List<Video> videos, BuildContext context) {
     return RefreshIndicator(
@@ -35,7 +71,10 @@ class VideoPage extends StatelessWidget {
                   ),
                   VideoList(
                     videos: videos,
-                  )
+                  ),
+                  AdWidget(
+                    adUnitId: 'ca-app-pub-5477568157944659/6678075258',
+                  ),
                 ],
               ),
             ]),
@@ -142,41 +181,6 @@ class VideoPage extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: BlocListener<InfoBloc, InfoState>(
-        listener: (context, state) {
-          if (state is ShowVideoInfo) {
-            ExtendedNavigator.rootNavigator
-                .pushNamed(Routes.videoContentPageRoute,
-                    arguments: VideoContentPageArguments(
-                      contentCreator: state.contentCreator,
-                      video: state.video,
-                    ));
-          }
-        },
-        child: BlocBuilder<VideoBloc, VideoState>(
-          builder: (context, state) {
-            if (state is VideoSuccess) {
-              if (state.videos.isNotEmpty) {
-                return _buildListPopulated(state.videos, context);
-              } else {
-                return _buildListEmpty();
-              }
-            } else if (state is VideoLoading) {
-              return _buildLoading();
-            } else if (state is VideoError) {
-              return _buildError(state.errorText);
-            }
-            return Container();
-          },
-        ),
-      ),
     );
   }
 }

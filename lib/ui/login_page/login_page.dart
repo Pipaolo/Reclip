@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/ui/bloc/navigation_bloc.dart';
-import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/illustration/illustrations_bloc.dart';
@@ -13,6 +11,7 @@ import '../../bloc/user/user_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
 import '../../core/reclip_colors.dart';
 import '../../core/router/route_generator.gr.dart';
+import '../custom_widgets/dialogs/dialog_collection.dart';
 import '../custom_widgets/flushbars/flushbar_collection.dart';
 import 'login_form.dart';
 

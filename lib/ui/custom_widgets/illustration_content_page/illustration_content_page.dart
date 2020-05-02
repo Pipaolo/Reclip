@@ -16,7 +16,7 @@ class IllustrationContentPage extends HookWidget implements AutoRouteWrapper {
   final Illustration illustration;
 
   @override
-  Widget get wrappedRoute => BlocProvider<IllustrationOverlayBloc>(
+  Widget wrappedRoute(context) => BlocProvider<IllustrationOverlayBloc>(
         create: (context) => IllustrationOverlayBloc(),
         child: this,
       );

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:reclip/data/model/reclip_content_creator.dart';
@@ -12,11 +11,10 @@ class UserRepository {
   final FirebaseReclipRepository firebaseReclipRepository =
       FirebaseReclipRepository();
 
-  UserRepository(
-      {FirebaseAuth firebaseAuth,
-      GoogleSignIn googleSignIn,
-      FacebookLogin facebookLogin})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+  UserRepository({
+    FirebaseAuth firebaseAuth,
+    GoogleSignIn googleSignIn,
+  })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn();
 
   Future<FirebaseUser> signInWithGoogleVerification() async {

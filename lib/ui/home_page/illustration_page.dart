@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/illustration.dart';
+import 'package:reclip/ui/custom_widgets/ad_widget.dart';
 
 import '../../bloc/illustration/illustrations_bloc.dart';
 import '../../bloc/info/info_bloc.dart';
@@ -34,6 +35,9 @@ class IllustrationPage extends StatelessWidget {
                   children: <Widget>[
                     PopularIllustrationWidget(illustration: illustrations[0]),
                     IllustrationWidget(),
+                    AdWidget(
+                      adUnitId: 'ca-app-pub-5477568157944659/6678075258',
+                    ),
                   ],
                 )
               ]),

@@ -4,8 +4,6 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
@@ -21,6 +19,7 @@ import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_crea
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fifth_page.dart';
+import 'dart:io';
 import 'package:reclip/ui/content_creator_page/add_content/content_creator_add_content_page.dart';
 import 'package:reclip/ui/content_creator_page/profile_page/content_creator_profile_page.dart';
 import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/content_creator_edit_profile_page.dart';
@@ -82,7 +81,8 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SplashPageArguments ?? SplashPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SplashPage(key: typedArgs.key, user: typedArgs.user),
+          builder: (context) =>
+              SplashPage(key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
       case Routes.loginPageRoute:
@@ -91,7 +91,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as LoginPageArguments ?? LoginPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => LoginPage(key: typedArgs.key),
+          builder: (context) => LoginPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.homePageRoute:
@@ -100,17 +100,17 @@ class Router extends RouterBase {
         }
         final typedArgs = args as HomePageArguments ?? HomePageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => HomePage(key: typedArgs.key),
+          builder: (context) => HomePage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.signupCategoryPageRoute:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupCategoryPage(),
+          builder: (context) => SignupCategoryPage(),
           settings: settings,
         );
       case Routes.signupUserPageRoute:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupUserPage(),
+          builder: (context) => SignupUserPage(),
           settings: settings,
         );
       case Routes.signupContentCreatorFirstPageRoute:
@@ -121,7 +121,7 @@ class Router extends RouterBase {
         final typedArgs = args as SignupContentCreatorFirstPageArguments ??
             SignupContentCreatorFirstPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupContentCreatorFirstPage(
+          builder: (context) => SignupContentCreatorFirstPage(
               key: typedArgs.key, contentCreator: typedArgs.contentCreator),
           settings: settings,
         );
@@ -133,7 +133,7 @@ class Router extends RouterBase {
         final typedArgs = args as SignupContentCreatorSecondPageArguments ??
             SignupContentCreatorSecondPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupContentCreatorSecondPage(
+          builder: (context) => SignupContentCreatorSecondPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
@@ -145,7 +145,7 @@ class Router extends RouterBase {
         final typedArgs = args as SignupContentCreatorThirdPageArguments ??
             SignupContentCreatorThirdPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupContentCreatorThirdPage(
+          builder: (context) => SignupContentCreatorThirdPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
@@ -157,7 +157,7 @@ class Router extends RouterBase {
         final typedArgs = args as SignupContentCreatorFourthPageArguments ??
             SignupContentCreatorFourthPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupContentCreatorFourthPage(
+          builder: (context) => SignupContentCreatorFourthPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
@@ -169,7 +169,7 @@ class Router extends RouterBase {
         final typedArgs = args as SignupContentCreatorFifthPageArguments ??
             SignupContentCreatorFifthPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SignupContentCreatorFifthPage(
+          builder: (context) => SignupContentCreatorFifthPage(
               key: typedArgs.key,
               user: typedArgs.user,
               profileImage: typedArgs.profileImage),
@@ -182,7 +182,7 @@ class Router extends RouterBase {
         final typedArgs = args as ContentCreatorAddContentPageArguments ??
             ContentCreatorAddContentPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ContentCreatorAddContentPage(
+          builder: (context) => ContentCreatorAddContentPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
@@ -193,7 +193,7 @@ class Router extends RouterBase {
         final typedArgs = args as ContentCreatorProfilePageArguments ??
             ContentCreatorProfilePageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ContentCreatorProfilePage(key: typedArgs.key),
+          builder: (context) => ContentCreatorProfilePage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.contentCreatorEditProfilePageRoute:
@@ -204,7 +204,7 @@ class Router extends RouterBase {
         final typedArgs = args as ContentCreatorEditProfilePageArguments ??
             ContentCreatorEditProfilePageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ContentCreatorEditProfilePage(
+          builder: (context) => ContentCreatorEditProfilePage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
         );
@@ -215,7 +215,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as AddContentImagePageArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => AddContentImagePage(
+          builder: (context) => AddContentImagePage(
               key: typedArgs.key, image: typedArgs.image, user: typedArgs.user),
           settings: settings,
         );
@@ -226,7 +226,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as AddContentVideoPageArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => AddContentVideoPage(
+          builder: (context) => AddContentVideoPage(
               key: typedArgs.key,
               video: typedArgs.video,
               contentCreator: typedArgs.contentCreator),
@@ -239,11 +239,11 @@ class Router extends RouterBase {
         final typedArgs = args as BottomNavBarControllerArguments ??
             BottomNavBarControllerArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => BottomNavBarController(
+          builder: (context) => BottomNavBarController(
                   key: typedArgs.key,
                   contentCreator: typedArgs.contentCreator,
                   user: typedArgs.user)
-              .wrappedRoute,
+              .wrappedRoute(context),
           settings: settings,
         );
       case Routes.videoContentPageRoute:
@@ -253,10 +253,11 @@ class Router extends RouterBase {
         final typedArgs =
             args as VideoContentPageArguments ?? VideoContentPageArguments();
         return PageRouteBuilder<dynamic>(
-          pageBuilder: (ctx, animation, secondaryAnimation) => VideoContentPage(
-              video: typedArgs.video,
-              email: typedArgs.email,
-              contentCreator: typedArgs.contentCreator),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              VideoContentPage(
+                  video: typedArgs.video,
+                  email: typedArgs.email,
+                  contentCreator: typedArgs.contentCreator),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
           transitionDuration: const Duration(milliseconds: 200),
@@ -268,17 +269,17 @@ class Router extends RouterBase {
         }
         final typedArgs = args as IllustrationContentPageArguments;
         return PageRouteBuilder<dynamic>(
-          pageBuilder: (ctx, animation, secondaryAnimation) =>
+          pageBuilder: (context, animation, secondaryAnimation) =>
               IllustrationContentPage(
                       key: typedArgs.key, illustration: typedArgs.illustration)
-                  .wrappedRoute,
+                  .wrappedRoute(context),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
           transitionDuration: const Duration(milliseconds: 200),
         );
       case Routes.otherProfilePageRoute:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => OtherProfilePage(),
+          builder: (context) => OtherProfilePage(),
           settings: settings,
         );
       default:

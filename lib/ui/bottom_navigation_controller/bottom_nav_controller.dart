@@ -19,7 +19,7 @@ class BottomNavBarController extends StatelessWidget
   final ReclipUser user;
 
   @override
-  Widget get wrappedRoute => BlocProvider<BottomNavigationBloc>(
+  Widget wrappedRoute(context) => BlocProvider<BottomNavigationBloc>(
         create: (context) => BottomNavigationBloc(),
         child: this,
       );

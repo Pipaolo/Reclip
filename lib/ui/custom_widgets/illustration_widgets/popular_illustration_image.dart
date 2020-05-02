@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/core/reclip_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../core/reclip_colors.dart';
 import '../../../data/model/illustration.dart';
 
 class PopularIllustrationImage extends StatelessWidget {

@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  admob_flutter:
+    dependency: "direct main"
+    description:
+      name: admob_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0-beta.2"
   analyzer:
     dependency: transitive
     description:
@@ -42,14 +49,14 @@ packages:
       name: auto_route
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.5"
   auto_route_generator:
     dependency: "direct dev"
     description:
       name: auto_route_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.8"
   auto_size_text:
     dependency: "direct main"
     description:
@@ -154,7 +161,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+1"
+    version: "0.13.5"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1+2"
   code_builder:
     dependency: transitive
     description:
@@ -259,7 +280,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.1"
   expand_widget:
     dependency: "direct main"
     description:
@@ -280,7 +301,7 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.5+3"
+    version: "0.16.0"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
@@ -329,7 +350,7 @@ packages:
       name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.5"
   fixnum:
     dependency: transitive
     description:
@@ -343,14 +364,14 @@ packages:
       name: flare_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.4"
   flare_flutter:
     dependency: "direct main"
     description:
       name: flare_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.3"
   flushbar:
     dependency: "direct main"
     description:
@@ -383,14 +404,14 @@ packages:
       name: flutter_chips_input
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
-  flutter_facebook_login:
-    dependency: "direct main"
+    version: "1.8.1"
+  flutter_colorpicker:
+    dependency: transitive
     description:
-      name: flutter_facebook_login
+      name: flutter_colorpicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "0.3.4"
   flutter_ffmpeg:
     dependency: "direct main"
     description:
@@ -404,14 +425,14 @@ packages:
       name: flutter_form_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.7.3"
+    version: "3.8.3"
   flutter_hooks:
     dependency: "direct main"
     description:
       name: flutter_hooks
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0"
+    version: "0.9.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -466,6 +487,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_touch_spin:
+    dependency: transitive
+    description:
+      name: flutter_touch_spin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter_typeahead:
     dependency: transitive
     description:
@@ -498,7 +526,7 @@ packages:
       name: google_sign_in
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.1"
+    version: "4.4.4"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -512,14 +540,7 @@ packages:
       name: google_sign_in_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.3"
-  googleapis_auth:
-    dependency: "direct main"
-    description:
-      name: googleapis_auth
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.11+1"
+    version: "0.9.1"
   graphs:
     dependency: transitive
     description:
@@ -568,7 +589,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3+1"
+    version: "0.6.5+3"
   intl:
     dependency: transitive
     description:
@@ -799,7 +820,7 @@ packages:
       name: shimmer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.1"
   simple_animations:
     dependency: "direct main"
     description:
@@ -895,7 +916,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.1"
+    version: "5.4.5"
   url_launcher_macos:
     dependency: transitive
     description:

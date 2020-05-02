@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/ui/custom_widgets/illustration_widgets/popular_illustration_image.dart';
+
+import '../../../bloc/info/info_bloc.dart';
+import '../../../data/model/illustration.dart';
+import 'popular_illustration_image.dart';
 
 class PopularIllustrationWidget extends StatelessWidget {
   final Illustration illustration;
