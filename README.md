@@ -15,3 +15,8 @@ This app is made out of pure Flutter, special thanks to the Flutter Dev Team for
 - Vincent Alfaro
 - Ryan Gervacio
 - Paolo Tolentino
+
+## Issues:
+- None at the moment
+
+
