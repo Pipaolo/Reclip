@@ -8,8 +8,8 @@ class Video extends Equatable {
   final String description;
   final String videoUrl;
   final String thumbnailUrl;
-  final double height;
-  final double width;
+  final int height;
+  final int width;
   final DateTime publishedAt;
   final List<dynamic> likedBy;
   final int likeCount;
@@ -40,8 +40,8 @@ class Video extends Equatable {
         likeCount = json['likeCount'],
         viewCount = json['viewCount'],
         thumbnailUrl = json['thumbnailUrl'],
-        height = json['height'],
-        width = json['width'],
+        height = json['height'].toInt(),
+        width = json['width'].toInt(),
         videoUrl = json['videoUrl'];
 
   Map<String, dynamic> toJson() => {

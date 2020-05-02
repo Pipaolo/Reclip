@@ -107,9 +107,11 @@ class AddContentButton extends StatelessWidget {
             if (pageName.isEmpty) {
               try {
                 final fileSizeLimit = 1e9;
+
                 final video = await ImagePicker.pickVideo(
                   source: ImageSource.gallery,
                 );
+
                 if (video.lengthSync() > fileSizeLimit) {
                   FlushbarCollection.showFlushbarWarning(
                       'Invalid File Size 🎬❌',

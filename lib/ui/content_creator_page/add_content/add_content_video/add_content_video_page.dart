@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:media_info/media_info.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../bloc/add_content/add_content_bloc.dart';
@@ -143,7 +143,11 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                     ),
                     color: reclipIndigo,
                     onPressed: () async {
-                      final ffmpegProbe = FlutterFFprobe();
+                      final mediaInfo = MediaInfo();
+                      final videoMetadata =
+                          await mediaInfo.getMediaInfo(widget.video.path);
+                      final height = videoMetadata['height'];
+                      final width = videoMetadata['width'];
                       final Uuid randomIdGenerator = Uuid();
                       final video = Video(
                         contentCreatorEmail: widget.contentCreator.email,
@@ -153,29 +157,24 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                             _titleTextEditingController.text,
                             _descriptionTextEditingController.text),
                         publishedAt: DateTime.now(),
+                        height: height,
+                        width: width,
                         likedBy: [],
                         likeCount: 0,
                         viewCount: 0,
                       );
 
-                      //Get Video Height and Width
-                      final videoMetadata = await ffmpegProbe
-                          .getMediaInformation(widget.video.path);
-
                       PaintingBinding.instance.imageCache.clear();
                       BlocProvider.of<AddContentBloc>(context)
-                        ..add(VideoAdded(
-                          contentCreator: widget.contentCreator,
-                          rawVideo: widget.video,
-                          thumbnail: videoThumbnail,
-                          video: video.copyWith(
-                            width:
-                                videoMetadata['streams'][0]['width'].toDouble(),
-                            height: videoMetadata['streams'][0]['height']
-                                .toDouble(),
+                        ..add(
+                          VideoAdded(
+                            contentCreator: widget.contentCreator,
+                            rawVideo: widget.video,
+                            thumbnail: videoThumbnail,
+                            video: video,
+                            isAdded: false,
                           ),
-                          isAdded: false,
-                        ));
+                        );
                     },
                   ),
                 ),
