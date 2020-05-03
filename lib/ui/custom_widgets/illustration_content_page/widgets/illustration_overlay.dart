@@ -20,7 +20,7 @@ class IllustrationOverlay extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: ControlledAnimation(
             duration: Duration(milliseconds: 180),
-            tween: Tween<double>(begin: 0, end: ScreenUtil().setHeight(80)),
+            tween: Tween<double>(begin: 0, end: ScreenUtil().setHeight(60)),
             playback:
                 (showOverlay) ? Playback.PLAY_FORWARD : Playback.PLAY_REVERSE,
             curve: Curves.easeInOutCubic,
@@ -41,8 +41,8 @@ class IllustrationOverlay extends StatelessWidget {
                     maxLines: 1,
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(30),
+                      fontWeight: FontWeight.w500,
+                      fontSize: ScreenUtil().setSp(20),
                     ),
                   ),
                 ),

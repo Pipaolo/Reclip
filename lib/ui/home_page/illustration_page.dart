@@ -3,20 +3,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/ui/custom_widgets/ad_widget.dart';
 
 import '../../bloc/illustration/illustrations_bloc.dart';
 import '../../bloc/info/info_bloc.dart';
 import '../../bloc/other_user/other_user_bloc.dart';
+import '../../core/reclip_colors.dart';
 import '../../core/router/route_generator.gr.dart';
+import '../../data/model/illustration.dart';
 import '../custom_widgets/home_page_appbar.dart';
-import '../custom_widgets/illustration_widgets/illustration_widget.dart';
-import '../custom_widgets/illustration_widgets/popular_illustration_widget.dart';
+import '../custom_widgets/illustration_widgets/illustration_list_widget.dart';
 
 class IllustrationPage extends StatelessWidget {
   const IllustrationPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocListener<InfoBloc, InfoState>(
+        listener: (context, state) {
+          if (state is ShowIllustrationInfo) {
+            BlocProvider.of<OtherUserBloc>(context)
+              ..add(GetOtherUser(email: state.illustration.authorEmail));
+            ExtendedNavigator.rootNavigator
+                .pushNamed(Routes.illustrationContentPageRoute,
+                    arguments: IllustrationContentPageArguments(
+                      illustration: state.illustration,
+                    ));
+          }
+        },
+        child: BlocBuilder<IllustrationsBloc, IllustrationsState>(
+          builder: (context, state) {
+            if (state is IllustrationsSuccess) {
+              if (state.illustrations.isNotEmpty) {
+                return _buildListPopulated(state.illustrations, context);
+              } else {
+                return _buildListEmpty();
+              }
+            } else if (state is IllustrationsError) {
+              return _buildError(state.errorText);
+            } else if (state is IllustrationsLoading) {
+              return _buildLoading();
+            }
+            return Container();
+          },
+        ),
+      ),
+    );
+  }
 
   _buildListPopulated(List<Illustration> illustrations, BuildContext context) {
     return RefreshIndicator(
@@ -28,20 +61,14 @@ class IllustrationPage extends StatelessWidget {
       child: CustomScrollView(
         slivers: <Widget>[
           HomePageAppBar(),
-          if (illustrations.isNotEmpty)
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Column(
-                  children: <Widget>[
-                    PopularIllustrationWidget(illustration: illustrations[0]),
-                    IllustrationWidget(),
-                    AdWidget(
-                      adUnitId: 'ca-app-pub-5477568157944659/6678075258',
-                    ),
-                  ],
-                )
-              ]),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: IllustrationListWidget(
+                illustrations: illustrations,
+              ),
             ),
+          ),
         ],
       ),
     );
@@ -144,41 +171,6 @@ class IllustrationPage extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<InfoBloc, InfoState>(
-        listener: (context, state) {
-          if (state is ShowIllustrationInfo) {
-            BlocProvider.of<OtherUserBloc>(context)
-              ..add(GetOtherUser(email: state.illustration.authorEmail));
-            ExtendedNavigator.rootNavigator
-                .pushNamed(Routes.illustrationContentPageRoute,
-                    arguments: IllustrationContentPageArguments(
-                      illustration: state.illustration,
-                    ));
-          }
-        },
-        child: BlocBuilder<IllustrationsBloc, IllustrationsState>(
-          builder: (context, state) {
-            if (state is IllustrationsSuccess) {
-              if (state.illustrations.isNotEmpty) {
-                return _buildListPopulated(state.illustrations, context);
-              } else {
-                return _buildListEmpty();
-              }
-            } else if (state is IllustrationsError) {
-              return _buildError(state.errorText);
-            } else if (state is IllustrationsLoading) {
-              return _buildLoading();
-            }
-            return Container();
-          },
-        ),
-      ),
     );
   }
 }

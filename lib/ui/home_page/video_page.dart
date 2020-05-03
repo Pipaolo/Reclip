@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../custom_widgets/ad_widget.dart';
-import '../../core/router/route_generator.gr.dart';
-import '../custom_widgets/video_widgets/video_list/video_list.dart';
 
 import '../../bloc/info/info_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
 import '../../core/reclip_colors.dart';
+import '../../core/router/route_generator.gr.dart';
 import '../../data/model/video.dart';
 import '../custom_widgets/home_page_appbar.dart';
 import '../custom_widgets/video_widgets/popular_video.dart';
+import '../custom_widgets/video_widgets/video_list/video_list.dart';
 
 class VideoPage extends StatelessWidget {
   VideoPage({Key key}) : super(key: key);
@@ -71,9 +70,6 @@ class VideoPage extends StatelessWidget {
                   ),
                   VideoList(
                     videos: videos,
-                  ),
-                  AdWidget(
-                    adUnitId: 'ca-app-pub-5477568157944659/6678075258',
                   ),
                 ],
               ),

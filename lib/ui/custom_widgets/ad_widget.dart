@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 class AdWidget extends StatefulWidget {
   final String adUnitId;
+  final AdmobBannerSize admobBannerSize;
   AdWidget({
     Key key,
     @required this.adUnitId,
+    @required this.admobBannerSize,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class _AdWidgetState extends State<AdWidget> {
             child: CircularProgressIndicator(),
           ),
         AdmobBanner(
-          adSize: AdmobBannerSize.BANNER,
+          adSize: widget.admobBannerSize,
           adUnitId: widget.adUnitId,
           onBannerCreated: (controller) => setState(() {
             isLoading = false;

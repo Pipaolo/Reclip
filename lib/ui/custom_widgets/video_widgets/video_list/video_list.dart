@@ -1,8 +1,10 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/core/reclip_colors.dart';
 import 'package:reclip/data/model/video.dart';
 
+import '../../ad_widget.dart';
 import 'youtube_style_widget.dart';
 
 class VideoList extends StatelessWidget {
@@ -31,8 +33,24 @@ class VideoList extends StatelessWidget {
             ),
           ),
         ),
-        YoutubeStyleWidget(
-          videos: videos,
+        ListView.builder(
+          itemBuilder: (context, i) {
+            final bool showAdvertisement = i % 4 == 0 && i != 0;
+            if (showAdvertisement) {
+              return Center(
+                child: AdWidget(
+                  adUnitId: 'ca-app-pub-5477568157944659/6678075258',
+                  admobBannerSize: AdmobBannerSize.BANNER,
+                ),
+              );
+            } else {
+              final video = videos[i];
+              return YoutubeStyleWidget(video: video);
+            }
+          },
+          itemCount: videos.length + (videos.length ~/ 4),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
         ),
       ],
     );

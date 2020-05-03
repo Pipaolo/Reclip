@@ -107,7 +107,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(12),
+                        fontSize: ScreenUtil().setSp(10),
                       ),
                     ),
                     AutoSizeText(
@@ -116,7 +116,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(12),
+                        fontSize: ScreenUtil().setSp(10),
                       ),
                     ),
                     AutoSizeText(
@@ -125,7 +125,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       minFontSize: 12,
                       style: TextStyle(
                         color: reclipBlack,
-                        fontSize: ScreenUtil().setSp(12),
+                        fontSize: ScreenUtil().setSp(10),
                       ),
                     ),
                   ],

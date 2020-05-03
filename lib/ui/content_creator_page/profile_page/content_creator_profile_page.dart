@@ -87,20 +87,25 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                       });
                                     },
                                   ),
-                                  InkWell(
-                                    child: Icon(
-                                      FontAwesomeIcons.solidEdit,
-                                      size: ScreenUtil().setSp(20),
-                                    ),
-                                    onTap: () {
-                                      ExtendedNavigator.rootNavigator.pushNamed(
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                      child: Icon(
+                                        FontAwesomeIcons.solidEdit,
+                                        size: ScreenUtil().setSp(20),
+                                      ),
+                                      onTap: () {
+                                        ExtendedNavigator.rootNavigator
+                                            .pushNamed(
                                           Routes
                                               .contentCreatorEditProfilePageRoute,
                                           arguments:
                                               ContentCreatorEditProfilePageArguments(
                                             user: state.contentCreator,
-                                          ));
-                                    },
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
@@ -121,6 +126,9 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                 ],
                               ),
                             ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(5),
                               child: SizedBox(
@@ -135,8 +143,8 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 5,
+                            const SizedBox(
+                              height: 20,
                             ),
                             TabBar(
                               indicator: UnderlineTabIndicator(
@@ -151,7 +159,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   minFontSize: 12,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(12),
+                                    fontSize: ScreenUtil().setSp(10),
                                   ),
                                 ),
                                 AutoSizeText(
@@ -160,7 +168,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   minFontSize: 12,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(12),
+                                    fontSize: ScreenUtil().setSp(10),
                                   ),
                                 ),
                                 AutoSizeText(
@@ -169,7 +177,7 @@ class _ContentCreatorProfilePageState extends State<ContentCreatorProfilePage> {
                                   minFontSize: 12,
                                   style: TextStyle(
                                     color: reclipBlack,
-                                    fontSize: ScreenUtil().setSp(12),
+                                    fontSize: ScreenUtil().setSp(10),
                                   ),
                                 ),
                               ],
