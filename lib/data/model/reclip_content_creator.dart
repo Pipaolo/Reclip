@@ -16,7 +16,6 @@ class ReclipContentCreator extends Equatable {
   final String facebook;
   final String twitter;
   final String instagram;
-  final GoogleSignInAccount googleAccount;
 
   ReclipContentCreator({
     this.id,
@@ -30,7 +29,6 @@ class ReclipContentCreator extends Equatable {
     this.password,
     this.description,
     this.contactNumber,
-    this.googleAccount,
   });
 
   factory ReclipContentCreator.fromSnapshot(DocumentSnapshot snap) {
@@ -79,7 +77,6 @@ class ReclipContentCreator extends Equatable {
       facebook: facebook ?? this.facebook,
       twitter: twitter ?? this.twitter,
       instagram: instagram ?? this.instagram,
-      googleAccount: googleAccount ?? this.googleAccount,
       contactNumber: contactNumber ?? this.contactNumber,
       description: description ?? this.description,
       birthDate: birthDate ?? this.birthDate,
@@ -114,6 +111,5 @@ class ReclipContentCreator extends Equatable {
         facebook,
         instagram,
         twitter,
-        googleAccount,
       ];
 }

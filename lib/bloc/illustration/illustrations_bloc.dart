@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../data/model/illustration.dart';
 import '../../repository/illustration_repository.dart';
@@ -32,6 +33,12 @@ class IllustrationsBloc extends Bloc<IllustrationsEvent, IllustrationsState> {
       } catch (error) {
         yield IllustrationsError(errorText: error.toString());
       }
+    } else if (event is IllustrationLikeAdded) {
+      await illustrationRepository.addIllustrationLike(
+          event.illustration, event.email);
+    } else if (event is IllustrationLikeRemoved) {
+      await illustrationRepository.removeIllustrationLike(
+          event.illustration, event.email);
     }
   }
 }

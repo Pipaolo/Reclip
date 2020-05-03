@@ -16,3 +16,28 @@ class ShowIllustrations extends IllustrationsEvent {
   @override
   List<Object> get props => [illustrations];
 }
+
+class IllustrationLikeAdded extends IllustrationsEvent {
+  final String email;
+  final Illustration illustration;
+
+  IllustrationLikeAdded({
+    @required this.email,
+    @required this.illustration,
+  });
+
+  @override
+  List<Object> get props => [illustration, email];
+}
+
+class IllustrationLikeRemoved extends IllustrationsEvent {
+  final Illustration illustration;
+  final String email;
+  IllustrationLikeRemoved({
+    @required this.illustration,
+    @required this.email,
+  });
+
+  @override
+  List<Object> get props => [illustration, email];
+}

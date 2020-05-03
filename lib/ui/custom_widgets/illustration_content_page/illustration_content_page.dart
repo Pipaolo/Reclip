@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/bloc/authentication/authentication_bloc.dart';
 
 import '../../../core/reclip_colors.dart';
 import '../../../data/model/illustration.dart';
@@ -31,44 +32,53 @@ class IllustrationContentPage extends HookWidget implements AutoRouteWrapper {
     final scrollController =
         useScrollControllerForAnimation(hideCloseButtonAnimController);
 
-    return SafeArea(
-      child: Scaffold(
-        body: ListView(
-          physics:
-              AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          controller: scrollController,
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              padding: const EdgeInsets.only(
-                bottom: 16,
-              ),
-              child: GestureDetector(
-                onTap: () => context.bloc<IllustrationOverlayBloc>()
-                  ..add(IllustrationPressed()),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: IllustrationHeader(
-                        illustration: illustration,
+    return SafeArea(child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        String currentLoggedInUserEmail = '';
+        if (state is AuthenticatedUser) {
+          currentLoggedInUserEmail = state.user.email;
+        } else if (state is AuthenticatedContentCreator) {
+          currentLoggedInUserEmail = state.contentCreator.email;
+        }
+        return Scaffold(
+          body: ListView(
+            physics:
+                AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            controller: scrollController,
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  bottom: 16,
+                ),
+                child: GestureDetector(
+                  onTap: () => context.bloc<IllustrationOverlayBloc>()
+                    ..add(IllustrationPressed()),
+                  onDoubleTap: () => print(currentLoggedInUserEmail),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: IllustrationHeader(
+                          illustration: illustration,
+                        ),
                       ),
-                    ),
-                    IllustrationOverlay(
-                      title: illustration.title,
-                    ),
-                    _buildCloseButton(context, hideCloseButtonAnimController),
-                  ],
+                      IllustrationOverlay(
+                        title: illustration.title,
+                      ),
+                      _buildCloseButton(context, hideCloseButtonAnimController),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            IllustrationDescription(
-              illustration: illustration,
-            ),
-          ],
-        ),
-      ),
-    );
+              IllustrationDescription(
+                illustration: illustration,
+              ),
+            ],
+          ),
+        );
+      },
+    ));
   }
 
   _buildCloseButton(

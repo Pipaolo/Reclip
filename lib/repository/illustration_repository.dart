@@ -53,19 +53,41 @@ class IllustrationRepository {
     return uploadIllustration;
   }
 
+  Future<void> addIllustrationLike(
+      Illustration illustration, String email) async {
+    await contentCreatorCollection
+        .document(illustration.authorEmail)
+        .collection('illustrations')
+        .document(illustration.id)
+        .updateData({
+      'likedBy': FieldValue.arrayUnion([email]),
+    });
+  }
+
+  Future<void> removeIllustrationLike(
+      Illustration illustration, String email) async {
+    await contentCreatorCollection
+        .document(illustration.authorEmail)
+        .collection('illustrations')
+        .document(illustration.id)
+        .updateData({
+      'likedBy': FieldValue.arrayRemove([email]),
+    });
+  }
+
   Future<void> addIllustration(Illustration illustration) async {
     return await contentCreatorCollection
         .document(illustration.authorEmail)
         .collection('illustrations')
         .document(illustration.id)
-        .setData(illustration.toDocument());
+        .setData(illustration.toJson());
   }
 
   Stream<List<Illustration>> getIllustrations() {
     return illustrationCollectionGroup.snapshots().map(
       (snapshot) {
         return snapshot.documents.map((illustration) {
-          return Illustration.fromSnapshot(illustration);
+          return Illustration.fromJson(illustration.data);
         }).toList();
       },
     );
