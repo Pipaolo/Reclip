@@ -63,6 +63,27 @@ abstract class Routes {
   static const illustrationContentPageRoute =
       '/illustration-content-page-route';
   static const otherProfilePageRoute = '/other-profile-page-route';
+  static const all = [
+    splashPageRoute,
+    loginPageRoute,
+    homePageRoute,
+    signupCategoryPageRoute,
+    signupUserPageRoute,
+    signupContentCreatorFirstPageRoute,
+    signupContentCreatorSecondPageRoute,
+    signupContentCreatorThirdPageRoute,
+    signupContentCreatorFourthPageRoute,
+    signupContentCreatorFifthPageRoute,
+    contentCreatorAddContentPageRoute,
+    contentCreatorProfilePageRoute,
+    contentCreatorEditProfilePageRoute,
+    addContentImagePageRoute,
+    addContentVideoPageRoute,
+    bottomNavBarControllerScreenRoute,
+    videoContentPageRoute,
+    illustrationContentPageRoute,
+    otherProfilePageRoute,
+  ];
 }
 
 class Router extends RouterBase {
@@ -80,7 +101,7 @@ class Router extends RouterBase {
           return misTypedArgsRoute<SplashPageArguments>(args);
         }
         final typedArgs = args as SplashPageArguments ?? SplashPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) =>
               SplashPage(key: typedArgs.key, user: typedArgs.user),
           settings: settings,
@@ -90,7 +111,7 @@ class Router extends RouterBase {
           return misTypedArgsRoute<LoginPageArguments>(args);
         }
         final typedArgs = args as LoginPageArguments ?? LoginPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => LoginPage(key: typedArgs.key),
           settings: settings,
         );
@@ -99,12 +120,12 @@ class Router extends RouterBase {
           return misTypedArgsRoute<HomePageArguments>(args);
         }
         final typedArgs = args as HomePageArguments ?? HomePageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => HomePage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.signupCategoryPageRoute:
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupCategoryPage(),
           settings: settings,
         );
@@ -114,7 +135,7 @@ class Router extends RouterBase {
         }
         final typedArgs =
             args as SignupUserPageArguments ?? SignupUserPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupUserPage(
               key: typedArgs.key, unregisteredUser: typedArgs.unregisteredUser),
           settings: settings,
@@ -126,7 +147,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SignupContentCreatorFirstPageArguments ??
             SignupContentCreatorFirstPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupContentCreatorFirstPage(
               key: typedArgs.key, contentCreator: typedArgs.contentCreator),
           settings: settings,
@@ -138,7 +159,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SignupContentCreatorSecondPageArguments ??
             SignupContentCreatorSecondPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupContentCreatorSecondPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
@@ -150,7 +171,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SignupContentCreatorThirdPageArguments ??
             SignupContentCreatorThirdPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupContentCreatorThirdPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
@@ -162,7 +183,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SignupContentCreatorFourthPageArguments ??
             SignupContentCreatorFourthPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupContentCreatorFourthPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
@@ -174,7 +195,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SignupContentCreatorFifthPageArguments ??
             SignupContentCreatorFifthPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupContentCreatorFifthPage(
               key: typedArgs.key,
               user: typedArgs.user,
@@ -187,7 +208,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as ContentCreatorAddContentPageArguments ??
             ContentCreatorAddContentPageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => ContentCreatorAddContentPage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
@@ -198,7 +219,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as ContentCreatorProfilePageArguments ??
             ContentCreatorProfilePageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => ContentCreatorProfilePage(key: typedArgs.key),
           settings: settings,
         );
@@ -209,7 +230,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as ContentCreatorEditProfilePageArguments ??
             ContentCreatorEditProfilePageArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => ContentCreatorEditProfilePage(
               key: typedArgs.key, user: typedArgs.user),
           settings: settings,
@@ -220,7 +241,7 @@ class Router extends RouterBase {
           return misTypedArgsRoute<AddContentImagePageArguments>(args);
         }
         final typedArgs = args as AddContentImagePageArguments;
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => AddContentImagePage(
               key: typedArgs.key, image: typedArgs.image, user: typedArgs.user),
           settings: settings,
@@ -231,7 +252,7 @@ class Router extends RouterBase {
           return misTypedArgsRoute<AddContentVideoPageArguments>(args);
         }
         final typedArgs = args as AddContentVideoPageArguments;
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => AddContentVideoPage(
               key: typedArgs.key,
               video: typedArgs.video,
@@ -244,7 +265,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as BottomNavBarControllerArguments ??
             BottomNavBarControllerArguments();
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => BottomNavBarController(
                   key: typedArgs.key,
                   contentCreator: typedArgs.contentCreator,
@@ -284,7 +305,7 @@ class Router extends RouterBase {
           transitionDuration: const Duration(milliseconds: 200),
         );
       case Routes.otherProfilePageRoute:
-        return MaterialPageRoute<dynamic>(
+        return buildAdaptivePageRoute<dynamic>(
           builder: (context) => OtherProfilePage(),
           settings: settings,
         );
@@ -419,4 +440,129 @@ class IllustrationContentPageArguments {
   final Key key;
   final Illustration illustration;
   IllustrationContentPageArguments({this.key, @required this.illustration});
+}
+
+//**************************************************************************
+// Navigation helper methods extension
+//***************************************************************************
+
+extension RouterNavigationHelperMethods on ExtendedNavigatorState {
+  Future pushSplashPageRoute({
+    Key key,
+    FirebaseUser user,
+  }) =>
+      pushNamed(Routes.splashPageRoute,
+          arguments: SplashPageArguments(key: key, user: user));
+  Future pushLoginPageRoute({
+    Key key,
+  }) =>
+      pushNamed(Routes.loginPageRoute, arguments: LoginPageArguments(key: key));
+  Future pushHomePageRoute({
+    Key key,
+  }) =>
+      pushNamed(Routes.homePageRoute, arguments: HomePageArguments(key: key));
+  Future pushSignupCategoryPageRoute() =>
+      pushNamed(Routes.signupCategoryPageRoute);
+  Future pushSignupUserPageRoute({
+    Key key,
+    ReclipUser unregisteredUser,
+  }) =>
+      pushNamed(Routes.signupUserPageRoute,
+          arguments: SignupUserPageArguments(
+              key: key, unregisteredUser: unregisteredUser));
+  Future pushSignupContentCreatorFirstPageRoute({
+    Key key,
+    ReclipContentCreator contentCreator,
+  }) =>
+      pushNamed(Routes.signupContentCreatorFirstPageRoute,
+          arguments: SignupContentCreatorFirstPageArguments(
+              key: key, contentCreator: contentCreator));
+  Future pushSignupContentCreatorSecondPageRoute({
+    Key key,
+    ReclipContentCreator user,
+  }) =>
+      pushNamed(Routes.signupContentCreatorSecondPageRoute,
+          arguments:
+              SignupContentCreatorSecondPageArguments(key: key, user: user));
+  Future pushSignupContentCreatorThirdPageRoute({
+    Key key,
+    ReclipContentCreator user,
+  }) =>
+      pushNamed(Routes.signupContentCreatorThirdPageRoute,
+          arguments:
+              SignupContentCreatorThirdPageArguments(key: key, user: user));
+  Future pushSignupContentCreatorFourthPageRoute({
+    Key key,
+    ReclipContentCreator user,
+  }) =>
+      pushNamed(Routes.signupContentCreatorFourthPageRoute,
+          arguments:
+              SignupContentCreatorFourthPageArguments(key: key, user: user));
+  Future pushSignupContentCreatorFifthPageRoute({
+    Key key,
+    ReclipContentCreator user,
+    File profileImage,
+  }) =>
+      pushNamed(Routes.signupContentCreatorFifthPageRoute,
+          arguments: SignupContentCreatorFifthPageArguments(
+              key: key, user: user, profileImage: profileImage));
+  Future pushContentCreatorAddContentPageRoute({
+    Key key,
+    ReclipContentCreator user,
+  }) =>
+      pushNamed(Routes.contentCreatorAddContentPageRoute,
+          arguments:
+              ContentCreatorAddContentPageArguments(key: key, user: user));
+  Future pushContentCreatorProfilePageRoute({
+    Key key,
+  }) =>
+      pushNamed(Routes.contentCreatorProfilePageRoute,
+          arguments: ContentCreatorProfilePageArguments(key: key));
+  Future pushContentCreatorEditProfilePageRoute({
+    Key key,
+    ReclipContentCreator user,
+  }) =>
+      pushNamed(Routes.contentCreatorEditProfilePageRoute,
+          arguments:
+              ContentCreatorEditProfilePageArguments(key: key, user: user));
+  Future pushAddContentImagePageRoute({
+    Key key,
+    @required File image,
+    ReclipContentCreator user,
+  }) =>
+      pushNamed(Routes.addContentImagePageRoute,
+          arguments:
+              AddContentImagePageArguments(key: key, image: image, user: user));
+  Future pushAddContentVideoPageRoute({
+    Key key,
+    @required File video,
+    @required ReclipContentCreator contentCreator,
+  }) =>
+      pushNamed(Routes.addContentVideoPageRoute,
+          arguments: AddContentVideoPageArguments(
+              key: key, video: video, contentCreator: contentCreator));
+  Future pushBottomNavBarControllerScreenRoute({
+    Key key,
+    ReclipContentCreator contentCreator,
+    ReclipUser user,
+  }) =>
+      pushNamed(Routes.bottomNavBarControllerScreenRoute,
+          arguments: BottomNavBarControllerArguments(
+              key: key, contentCreator: contentCreator, user: user));
+  Future pushVideoContentPageRoute({
+    Video video,
+    String email,
+    ReclipContentCreator contentCreator,
+  }) =>
+      pushNamed(Routes.videoContentPageRoute,
+          arguments: VideoContentPageArguments(
+              video: video, email: email, contentCreator: contentCreator));
+  Future pushIllustrationContentPageRoute({
+    Key key,
+    @required Illustration illustration,
+  }) =>
+      pushNamed(Routes.illustrationContentPageRoute,
+          arguments: IllustrationContentPageArguments(
+              key: key, illustration: illustration));
+  Future pushOtherProfilePageRoute() => pushNamed(Routes.otherProfilePageRoute);
 }

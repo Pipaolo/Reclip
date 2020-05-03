@@ -39,7 +39,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     setState(() {
       double aspectRatio = 0;
       if (widget.video.height > widget.video.width) {
-        aspectRatio = 4 / 5;
+        aspectRatio = 9 / 16;
       } else {
         aspectRatio = 16 / 9;
       }

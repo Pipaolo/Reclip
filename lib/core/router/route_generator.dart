@@ -21,7 +21,8 @@ import '../../ui/signup_page/signup_content_creator/signup_content_creator_third
 import '../../ui/signup_page/signup_user/signup_user.dart';
 import '../../ui/splash_page/splash_page.dart';
 
-@MaterialAutoRouter()
+@AdaptiveAutoRouter(
+    generateNavigationHelperExtension: true, generateRouteList: true)
 class $Router {
   @initial
   SplashPage splashPageRoute;

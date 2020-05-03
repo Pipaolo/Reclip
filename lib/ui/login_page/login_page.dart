@@ -77,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state is AuthenticatedContentCreator) {
-                ExtendedNavigator.of(context).pop();
                 BlocProvider.of<VideoBloc>(context)
                   ..add(
                     VideosFetched(),
@@ -88,23 +87,20 @@ class _LoginPageState extends State<LoginPage> {
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.contentCreator.email));
 
-                ExtendedNavigator.of(context)
-                    .pushNamed(Routes.bottomNavBarControllerScreenRoute,
-                        arguments: BottomNavBarControllerArguments(
-                          contentCreator: state.contentCreator,
-                        ));
+                ExtendedNavigator.of(context).pushReplacementNamed(
+                    Routes.bottomNavBarControllerScreenRoute,
+                    arguments: BottomNavBarControllerArguments(
+                      contentCreator: state.contentCreator,
+                    ));
               } else if (state is AuthenticatedUser) {
-                ExtendedNavigator.of(context).pop();
                 BlocProvider.of<VideoBloc>(context)
                   ..add(
                     VideosFetched(),
                   );
                 BlocProvider.of<ReclipUserBloc>(context)
                   ..add(GetLikedVideos(email: state.user.email));
-
                 BlocProvider.of<IllustrationsBloc>(context)
                   ..add(IllustrationFetched());
-
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
                 ExtendedNavigator.of(context).pushReplacementNamed(
