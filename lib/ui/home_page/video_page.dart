@@ -21,14 +21,25 @@ class VideoPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<InfoBloc, InfoState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is ShowVideoInfo) {
-            ExtendedNavigator.rootNavigator
-                .pushNamed(Routes.videoContentPageRoute,
-                    arguments: VideoContentPageArguments(
-                      contentCreator: state.contentCreator,
-                      video: state.video,
-                    ));
+            if (state.isPressedFromContentPage) {
+              ExtendedNavigator.of(context).pushReplacementNamed(
+                Routes.videoContentPageRoute,
+                arguments: VideoContentPageArguments(
+                  contentCreator: state.contentCreator,
+                  video: state.video,
+                ),
+              );
+            } else {
+              ExtendedNavigator.of(context).pushNamed(
+                Routes.videoContentPageRoute,
+                arguments: VideoContentPageArguments(
+                  contentCreator: state.contentCreator,
+                  video: state.video,
+                ),
+              );
+            }
           }
         },
         child: BlocBuilder<VideoBloc, VideoState>(

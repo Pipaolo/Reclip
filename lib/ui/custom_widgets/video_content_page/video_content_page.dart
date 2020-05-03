@@ -39,9 +39,9 @@ class VideoContentPage extends HookWidget {
       builder: (context, state) {
         bool isLiked = false;
         if (state is AuthenticatedContentCreator) {
-          isLiked = video.likedBy.contains(state.contentCreator.email);
+          isLiked = video.likedBy.contains(state.contentCreator.email) ?? false;
         } else if (state is AuthenticatedUser) {
-          isLiked = video.likedBy.contains(state.user.email);
+          isLiked = video.likedBy.contains(state.user.email) ?? false;
         }
         return SafeArea(
           child: Scaffold(

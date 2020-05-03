@@ -38,6 +38,7 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
         yield ShowVideoInfo(
           contentCreator: contentCreator,
           video: event.video,
+          isPressedFromContentPage: event.isPressedFromContentPage,
         );
       } catch (e) {
         print(e);

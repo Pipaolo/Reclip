@@ -139,7 +139,9 @@ class CreatorVideos extends StatelessWidget {
                             onTap: () {
                               BlocProvider.of<InfoBloc>(context)
                                 ..add(
-                                  ShowVideo(video: filteredVideos[index]),
+                                  ShowVideo(
+                                      video: filteredVideos[index],
+                                      isPressedFromContentPage: true),
                                 );
                             },
                           ),

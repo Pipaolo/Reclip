@@ -12,15 +12,14 @@ class Idle extends InfoState {
 class ShowVideoInfo extends InfoState {
   final Video video;
   final ReclipContentCreator contentCreator;
-  final bool isLiked;
+  final bool isPressedFromContentPage;
 
-  ShowVideoInfo({
-    this.video,
-    this.contentCreator,
-    this.isLiked,
-  });
+  ShowVideoInfo(
+      {@required this.video,
+      @required this.contentCreator,
+      @required this.isPressedFromContentPage});
   @override
-  List<Object> get props => [isLiked, video, contentCreator];
+  List<Object> get props => [video, contentCreator, isPressedFromContentPage];
 }
 
 class ShowIllustrationInfo extends InfoState {

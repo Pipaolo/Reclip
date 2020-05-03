@@ -40,6 +40,7 @@ class PopularVideo extends StatelessWidget {
               ..add(
                 ShowVideo(
                   video: video,
+                  isPressedFromContentPage: false,
                 ),
               );
           },

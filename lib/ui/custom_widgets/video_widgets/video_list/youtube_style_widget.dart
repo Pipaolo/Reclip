@@ -85,7 +85,10 @@ class YoutubeStyleWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
                     BlocProvider.of<InfoBloc>(context)
-                      ..add(ShowVideo(video: video));
+                      ..add(
+                        ShowVideo(
+                            video: video, isPressedFromContentPage: false),
+                      );
                   },
                 ),
               ),

@@ -157,7 +157,12 @@ class UserMyListPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                             onTap: () {
                               BlocProvider.of<InfoBloc>(context)
-                                ..add(ShowVideo(video: likedVideos[index]));
+                                ..add(
+                                  ShowVideo(
+                                    video: likedVideos[index],
+                                    isPressedFromContentPage: false,
+                                  ),
+                                );
                             },
                           ),
                         ),

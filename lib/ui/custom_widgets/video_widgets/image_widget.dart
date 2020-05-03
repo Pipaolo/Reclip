@@ -72,8 +72,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                             BlocProvider.of<InfoBloc>(context)
                               ..add(
                                 ShowVideo(
-                                  video: widget.videos[index],
-                                ),
+                                    video: widget.videos[index],
+                                    isPressedFromContentPage: false),
                               );
                           },
                         ),

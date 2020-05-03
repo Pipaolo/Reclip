@@ -6,10 +6,14 @@ abstract class InfoEvent extends Equatable {
 
 class ShowVideo extends InfoEvent {
   final Video video;
+  final bool isPressedFromContentPage;
 
-  ShowVideo({this.video});
+  ShowVideo({
+    @required this.video,
+    @required this.isPressedFromContentPage,
+  });
   @override
-  List<Object> get props => [video];
+  List<Object> get props => [video, isPressedFromContentPage];
 }
 
 class ShowIllustration extends InfoEvent {
