@@ -23,7 +23,8 @@ class IllustrationPage extends StatelessWidget {
         listener: (context, state) {
           if (state is ShowIllustrationInfo) {
             BlocProvider.of<OtherUserBloc>(context)
-              ..add(GetOtherUser(email: state.illustration.authorEmail));
+              ..add(
+                  GetOtherUser(email: state.illustration.contentCreatorEmail));
             ExtendedNavigator.rootNavigator
                 .pushNamed(Routes.illustrationContentPageRoute,
                     arguments: IllustrationContentPageArguments(

@@ -18,6 +18,7 @@ class _$VideoTearOff {
   _Video call(
       {@required String videoId,
       @required String contentCreatorEmail,
+      @required String contentCreatorName,
       @required String title,
       @required String description,
       @required DateTime publishedAt,
@@ -30,6 +31,7 @@ class _$VideoTearOff {
     return _Video(
       videoId: videoId,
       contentCreatorEmail: contentCreatorEmail,
+      contentCreatorName: contentCreatorName,
       title: title,
       description: description,
       publishedAt: publishedAt,
@@ -49,6 +51,7 @@ const $Video = _$VideoTearOff();
 mixin _$Video {
   String get videoId;
   String get contentCreatorEmail;
+  String get contentCreatorName;
   String get title;
   String get description;
   DateTime get publishedAt;
@@ -69,6 +72,7 @@ abstract class $VideoCopyWith<$Res> {
   $Res call(
       {String videoId,
       String contentCreatorEmail,
+      String contentCreatorName,
       String title,
       String description,
       DateTime publishedAt,
@@ -91,6 +95,7 @@ class _$VideoCopyWithImpl<$Res> implements $VideoCopyWith<$Res> {
   $Res call({
     Object videoId = freezed,
     Object contentCreatorEmail = freezed,
+    Object contentCreatorName = freezed,
     Object title = freezed,
     Object description = freezed,
     Object publishedAt = freezed,
@@ -106,6 +111,9 @@ class _$VideoCopyWithImpl<$Res> implements $VideoCopyWith<$Res> {
       contentCreatorEmail: contentCreatorEmail == freezed
           ? _value.contentCreatorEmail
           : contentCreatorEmail as String,
+      contentCreatorName: contentCreatorName == freezed
+          ? _value.contentCreatorName
+          : contentCreatorName as String,
       title: title == freezed ? _value.title : title as String,
       description:
           description == freezed ? _value.description : description as String,
@@ -130,6 +138,7 @@ abstract class _$VideoCopyWith<$Res> implements $VideoCopyWith<$Res> {
   $Res call(
       {String videoId,
       String contentCreatorEmail,
+      String contentCreatorName,
       String title,
       String description,
       DateTime publishedAt,
@@ -153,6 +162,7 @@ class __$VideoCopyWithImpl<$Res> extends _$VideoCopyWithImpl<$Res>
   $Res call({
     Object videoId = freezed,
     Object contentCreatorEmail = freezed,
+    Object contentCreatorName = freezed,
     Object title = freezed,
     Object description = freezed,
     Object publishedAt = freezed,
@@ -168,6 +178,9 @@ class __$VideoCopyWithImpl<$Res> extends _$VideoCopyWithImpl<$Res>
       contentCreatorEmail: contentCreatorEmail == freezed
           ? _value.contentCreatorEmail
           : contentCreatorEmail as String,
+      contentCreatorName: contentCreatorName == freezed
+          ? _value.contentCreatorName
+          : contentCreatorName as String,
       title: title == freezed ? _value.title : title as String,
       description:
           description == freezed ? _value.description : description as String,
@@ -190,6 +203,7 @@ class _$_Video implements _Video {
   const _$_Video(
       {@required this.videoId,
       @required this.contentCreatorEmail,
+      @required this.contentCreatorName,
       @required this.title,
       @required this.description,
       @required this.publishedAt,
@@ -201,6 +215,7 @@ class _$_Video implements _Video {
       this.thumbnailUrl})
       : assert(videoId != null),
         assert(contentCreatorEmail != null),
+        assert(contentCreatorName != null),
         assert(title != null),
         assert(description != null),
         assert(publishedAt != null),
@@ -214,6 +229,8 @@ class _$_Video implements _Video {
   final String videoId;
   @override
   final String contentCreatorEmail;
+  @override
+  final String contentCreatorName;
   @override
   final String title;
   @override
@@ -235,7 +252,7 @@ class _$_Video implements _Video {
 
   @override
   String toString() {
-    return 'Video(videoId: $videoId, contentCreatorEmail: $contentCreatorEmail, title: $title, description: $description, publishedAt: $publishedAt, likeCount: $likeCount, viewCount: $viewCount, height: $height, width: $width, videoUrl: $videoUrl, thumbnailUrl: $thumbnailUrl)';
+    return 'Video(videoId: $videoId, contentCreatorEmail: $contentCreatorEmail, contentCreatorName: $contentCreatorName, title: $title, description: $description, publishedAt: $publishedAt, likeCount: $likeCount, viewCount: $viewCount, height: $height, width: $width, videoUrl: $videoUrl, thumbnailUrl: $thumbnailUrl)';
   }
 
   @override
@@ -248,6 +265,9 @@ class _$_Video implements _Video {
             (identical(other.contentCreatorEmail, contentCreatorEmail) ||
                 const DeepCollectionEquality()
                     .equals(other.contentCreatorEmail, contentCreatorEmail)) &&
+            (identical(other.contentCreatorName, contentCreatorName) ||
+                const DeepCollectionEquality()
+                    .equals(other.contentCreatorName, contentCreatorName)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.description, description) ||
@@ -279,6 +299,7 @@ class _$_Video implements _Video {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(videoId) ^
       const DeepCollectionEquality().hash(contentCreatorEmail) ^
+      const DeepCollectionEquality().hash(contentCreatorName) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(publishedAt) ^
@@ -303,6 +324,7 @@ abstract class _Video implements Video {
   const factory _Video(
       {@required String videoId,
       @required String contentCreatorEmail,
+      @required String contentCreatorName,
       @required String title,
       @required String description,
       @required DateTime publishedAt,
@@ -319,6 +341,8 @@ abstract class _Video implements Video {
   String get videoId;
   @override
   String get contentCreatorEmail;
+  @override
+  String get contentCreatorName;
   @override
   String get title;
   @override

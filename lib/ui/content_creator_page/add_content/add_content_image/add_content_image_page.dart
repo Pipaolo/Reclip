@@ -15,8 +15,8 @@ import '../../../custom_widgets/dialogs/dialog_collection.dart';
 
 class AddContentImagePage extends StatefulWidget {
   final File image;
-  final ReclipContentCreator user;
-  AddContentImagePage({Key key, @required this.image, this.user})
+  final ReclipContentCreator contentCreator;
+  AddContentImagePage({Key key, @required this.image, this.contentCreator})
       : super(key: key);
 
   @override
@@ -260,7 +260,8 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
   _uploadImage(BuildContext context) async {
     if (_fbKey.currentState.saveAndValidate()) {
       final illustration = Illustration(
-        authorEmail: widget.user.email,
+        contentCreatorEmail: widget.contentCreator.email,
+        contentCreatorName: widget.contentCreator.name,
         description: _descriptionTextEditingController.text,
         title: _titleTextEditingController.text,
         publishedAt: DateTime.now().toString(),
@@ -270,7 +271,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
           AddIllustration(
             illustration: illustration,
             image: widget.image,
-            user: widget.user,
+            user: widget.contentCreator,
           ),
         );
     }

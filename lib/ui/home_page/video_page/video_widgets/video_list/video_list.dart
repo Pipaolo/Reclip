@@ -54,6 +54,9 @@ class VideoList extends StatelessWidget {
                   admobBannerSize: AdmobBannerSize.BANNER,
                 ),
               );
+            } else if (i > 4) {
+              final video = videos[i - 1];
+              return YoutubeStyleWidget(video: video);
             } else {
               final video = videos[i];
               return YoutubeStyleWidget(video: video);

@@ -97,7 +97,7 @@ class VideoRepository {
         .limit(1)
         .orderBy('likeCount', descending: true)
         .snapshots()
-        .map((event) => Video.fromDocumentSnapshot(event.documents.first));
+        .map((event) => Video.fromJson(event.documents.first.data));
   }
 
   Stream<List<Video>> fetchVideos(VideoFilter videoFilter) {
@@ -105,30 +105,26 @@ class VideoRepository {
       return videoCollectionGroup
           .orderBy('likeCount', descending: true)
           .snapshots()
-          .map((event) => event.documents
-              .map((e) => Video.fromDocumentSnapshot(e))
-              .toList());
+          .map((event) =>
+              event.documents.map((e) => Video.fromJson(e.data)).toList());
     } else if (videoFilter == VideoFilter.viewCount) {
       return videoCollectionGroup
           .orderBy('viewCount', descending: true)
           .snapshots()
-          .map((event) => event.documents
-              .map((e) => Video.fromDocumentSnapshot(e))
-              .toList());
+          .map((event) =>
+              event.documents.map((e) => Video.fromJson(e.data)).toList());
     } else if (videoFilter == VideoFilter.publishedAt) {
       return videoCollectionGroup
           .orderBy('publishedAt', descending: true)
           .snapshots()
-          .map((event) => event.documents
-              .map((e) => Video.fromDocumentSnapshot(e))
-              .toList());
+          .map((event) =>
+              event.documents.map((e) => Video.fromJson(e.data)).toList());
     } else {
       return videoCollectionGroup
           .orderBy('likeCount', descending: true)
           .snapshots()
-          .map((event) => event.documents
-              .map((e) => Video.fromDocumentSnapshot(e))
-              .toList());
+          .map((event) =>
+              event.documents.map((e) => Video.fromJson(e.data)).toList());
     }
   }
 
@@ -171,14 +167,15 @@ class VideoRepository {
 
   Future<void> removeVideoLike(
       String contentCreatorEmail, String videoId, String email) async {
-    //Remove Youtube Video
-    await contentCreatorCollection
+    final videoReference = contentCreatorCollection
         .document(contentCreatorEmail)
         .collection('videos')
-        .document(videoId)
-        .updateData({
+        .document(videoId);
+    await videoReference.updateData({
       'likeCount': FieldValue.increment(-1),
     });
+
+    await videoReference.collection('video_likes').document(email).delete();
 
     //Get User
     final reclipUser = await userCollection.document(email).get();
@@ -223,7 +220,7 @@ class VideoRepository {
         .document(videoId)
         .get()
         .then(
-          (value) => Video.fromDocumentSnapshot(value),
+          (value) => Video.fromJson(value.data),
         );
 
     final reclipUser = await userCollection.document(userLikedEmail).get();

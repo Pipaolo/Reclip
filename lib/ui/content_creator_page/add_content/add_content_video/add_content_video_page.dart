@@ -150,6 +150,7 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                       final width = videoMetadata['width'];
                       final Uuid randomIdGenerator = Uuid();
                       final video = Video(
+                        contentCreatorName: widget.contentCreator.name,
                         contentCreatorEmail: widget.contentCreator.email,
                         title: _titleTextEditingController.text,
                         description: _descriptionTextEditingController.text,
@@ -163,7 +164,6 @@ class _AddContentVideoPageState extends State<AddContentVideoPage> {
                         viewCount: 0,
                       );
 
-                      PaintingBinding.instance.imageCache.clear();
                       BlocProvider.of<AddContentBloc>(context)
                         ..add(
                           VideoAdded(

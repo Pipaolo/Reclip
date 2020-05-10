@@ -111,8 +111,8 @@ class _OtherProfileMyWorksPageState extends State<OtherProfileMyWorksPage> {
             builder: (context, state) {
               if (state is IllustrationsSuccess) {
                 return _buildIllustration(state.illustrations
-                    .where((illustration) =>
-                        illustration.authorEmail.contains(widget.user.email))
+                    .where((illustration) => illustration.contentCreatorEmail
+                        .contains(widget.user.email))
                     .toList());
               } else if (state is IllustrationsError) {
                 return Center(

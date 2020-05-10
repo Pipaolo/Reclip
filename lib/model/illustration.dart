@@ -7,12 +7,12 @@ part 'illustration.g.dart';
 abstract class Illustration with _$Illustration {
   const factory Illustration({
     String id,
-    String title,
-    String authorEmail,
-    String description,
-    String publishedAt,
+    @required String title,
+    @required String contentCreatorEmail,
+    @required String contentCreatorName,
+    @required String description,
+    @required String publishedAt,
     String imageUrl,
-    List<String> likedBy,
     int width,
     int height,
   }) = _Illustration;

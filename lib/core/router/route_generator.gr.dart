@@ -186,7 +186,7 @@ class Router extends RouterBase {
             SignupContentCreatorFourthPageArguments();
         return buildAdaptivePageRoute<dynamic>(
           builder: (context) => SignupContentCreatorFourthPage(
-              key: typedArgs.key, user: typedArgs.user),
+              key: typedArgs.key, user: typedArgs.contentCreator),
           settings: settings,
         );
       case Routes.signupContentCreatorFifthPageRoute:
@@ -244,7 +244,9 @@ class Router extends RouterBase {
         final typedArgs = args as AddContentImagePageArguments;
         return buildAdaptivePageRoute<dynamic>(
           builder: (context) => AddContentImagePage(
-              key: typedArgs.key, image: typedArgs.image, user: typedArgs.user),
+              key: typedArgs.key,
+              image: typedArgs.image,
+              contentCreator: typedArgs.contentCreator),
           settings: settings,
         );
       case Routes.addContentVideoPageRoute:
@@ -364,8 +366,8 @@ class SignupContentCreatorThirdPageArguments {
 //SignupContentCreatorFourthPage arguments holder class
 class SignupContentCreatorFourthPageArguments {
   final Key key;
-  final ReclipContentCreator user;
-  SignupContentCreatorFourthPageArguments({this.key, this.user});
+  final ReclipContentCreator contentCreator;
+  SignupContentCreatorFourthPageArguments({this.key, this.contentCreator});
 }
 
 //SignupContentCreatorFifthPage arguments holder class
@@ -401,8 +403,9 @@ class ContentCreatorEditProfilePageArguments {
 class AddContentImagePageArguments {
   final Key key;
   final File image;
-  final ReclipContentCreator user;
-  AddContentImagePageArguments({this.key, @required this.image, this.user});
+  final ReclipContentCreator contentCreator;
+  AddContentImagePageArguments(
+      {this.key, @required this.image, this.contentCreator});
 }
 
 //AddContentVideoPage arguments holder class
@@ -505,8 +508,8 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   }) =>
       pushNamed(
         Routes.signupContentCreatorFourthPageRoute,
-        arguments:
-            SignupContentCreatorFourthPageArguments(key: key, user: user),
+        arguments: SignupContentCreatorFourthPageArguments(
+            key: key, contentCreator: user),
       );
   Future pushSignupContentCreatorFifthPageRoute({
     Key key,
@@ -544,12 +547,12 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future pushAddContentImagePageRoute({
     Key key,
     @required File image,
-    ReclipContentCreator user,
+    ReclipContentCreator contentCreator,
   }) =>
       pushNamed(
         Routes.addContentImagePageRoute,
-        arguments:
-            AddContentImagePageArguments(key: key, image: image, user: user),
+        arguments: AddContentImagePageArguments(
+            key: key, image: image, contentCreator: contentCreator),
       );
   Future pushAddContentVideoPageRoute({
     Key key,

@@ -17,22 +17,22 @@ class _$IllustrationTearOff {
 
   _Illustration call(
       {String id,
-      String title,
-      String authorEmail,
-      String description,
-      String publishedAt,
+      @required String title,
+      @required String contentCreatorEmail,
+      @required String contentCreatorName,
+      @required String description,
+      @required String publishedAt,
       String imageUrl,
-      List<String> likedBy,
       int width,
       int height}) {
     return _Illustration(
       id: id,
       title: title,
-      authorEmail: authorEmail,
+      contentCreatorEmail: contentCreatorEmail,
+      contentCreatorName: contentCreatorName,
       description: description,
       publishedAt: publishedAt,
       imageUrl: imageUrl,
-      likedBy: likedBy,
       width: width,
       height: height,
     );
@@ -45,11 +45,11 @@ const $Illustration = _$IllustrationTearOff();
 mixin _$Illustration {
   String get id;
   String get title;
-  String get authorEmail;
+  String get contentCreatorEmail;
+  String get contentCreatorName;
   String get description;
   String get publishedAt;
   String get imageUrl;
-  List<String> get likedBy;
   int get width;
   int get height;
 
@@ -64,11 +64,11 @@ abstract class $IllustrationCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String authorEmail,
+      String contentCreatorEmail,
+      String contentCreatorName,
       String description,
       String publishedAt,
       String imageUrl,
-      List<String> likedBy,
       int width,
       int height});
 }
@@ -84,25 +84,28 @@ class _$IllustrationCopyWithImpl<$Res> implements $IllustrationCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object authorEmail = freezed,
+    Object contentCreatorEmail = freezed,
+    Object contentCreatorName = freezed,
     Object description = freezed,
     Object publishedAt = freezed,
     Object imageUrl = freezed,
-    Object likedBy = freezed,
     Object width = freezed,
     Object height = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      authorEmail:
-          authorEmail == freezed ? _value.authorEmail : authorEmail as String,
+      contentCreatorEmail: contentCreatorEmail == freezed
+          ? _value.contentCreatorEmail
+          : contentCreatorEmail as String,
+      contentCreatorName: contentCreatorName == freezed
+          ? _value.contentCreatorName
+          : contentCreatorName as String,
       description:
           description == freezed ? _value.description : description as String,
       publishedAt:
           publishedAt == freezed ? _value.publishedAt : publishedAt as String,
       imageUrl: imageUrl == freezed ? _value.imageUrl : imageUrl as String,
-      likedBy: likedBy == freezed ? _value.likedBy : likedBy as List<String>,
       width: width == freezed ? _value.width : width as int,
       height: height == freezed ? _value.height : height as int,
     ));
@@ -118,11 +121,11 @@ abstract class _$IllustrationCopyWith<$Res>
   $Res call(
       {String id,
       String title,
-      String authorEmail,
+      String contentCreatorEmail,
+      String contentCreatorName,
       String description,
       String publishedAt,
       String imageUrl,
-      List<String> likedBy,
       int width,
       int height});
 }
@@ -140,25 +143,28 @@ class __$IllustrationCopyWithImpl<$Res> extends _$IllustrationCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object authorEmail = freezed,
+    Object contentCreatorEmail = freezed,
+    Object contentCreatorName = freezed,
     Object description = freezed,
     Object publishedAt = freezed,
     Object imageUrl = freezed,
-    Object likedBy = freezed,
     Object width = freezed,
     Object height = freezed,
   }) {
     return _then(_Illustration(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      authorEmail:
-          authorEmail == freezed ? _value.authorEmail : authorEmail as String,
+      contentCreatorEmail: contentCreatorEmail == freezed
+          ? _value.contentCreatorEmail
+          : contentCreatorEmail as String,
+      contentCreatorName: contentCreatorName == freezed
+          ? _value.contentCreatorName
+          : contentCreatorName as String,
       description:
           description == freezed ? _value.description : description as String,
       publishedAt:
           publishedAt == freezed ? _value.publishedAt : publishedAt as String,
       imageUrl: imageUrl == freezed ? _value.imageUrl : imageUrl as String,
-      likedBy: likedBy == freezed ? _value.likedBy : likedBy as List<String>,
       width: width == freezed ? _value.width : width as int,
       height: height == freezed ? _value.height : height as int,
     ));
@@ -169,14 +175,19 @@ class __$IllustrationCopyWithImpl<$Res> extends _$IllustrationCopyWithImpl<$Res>
 class _$_Illustration implements _Illustration {
   const _$_Illustration(
       {this.id,
-      this.title,
-      this.authorEmail,
-      this.description,
-      this.publishedAt,
+      @required this.title,
+      @required this.contentCreatorEmail,
+      @required this.contentCreatorName,
+      @required this.description,
+      @required this.publishedAt,
       this.imageUrl,
-      this.likedBy,
       this.width,
-      this.height});
+      this.height})
+      : assert(title != null),
+        assert(contentCreatorEmail != null),
+        assert(contentCreatorName != null),
+        assert(description != null),
+        assert(publishedAt != null);
 
   factory _$_Illustration.fromJson(Map<String, dynamic> json) =>
       _$_$_IllustrationFromJson(json);
@@ -186,7 +197,9 @@ class _$_Illustration implements _Illustration {
   @override
   final String title;
   @override
-  final String authorEmail;
+  final String contentCreatorEmail;
+  @override
+  final String contentCreatorName;
   @override
   final String description;
   @override
@@ -194,15 +207,13 @@ class _$_Illustration implements _Illustration {
   @override
   final String imageUrl;
   @override
-  final List<String> likedBy;
-  @override
   final int width;
   @override
   final int height;
 
   @override
   String toString() {
-    return 'Illustration(id: $id, title: $title, authorEmail: $authorEmail, description: $description, publishedAt: $publishedAt, imageUrl: $imageUrl, likedBy: $likedBy, width: $width, height: $height)';
+    return 'Illustration(id: $id, title: $title, contentCreatorEmail: $contentCreatorEmail, contentCreatorName: $contentCreatorName, description: $description, publishedAt: $publishedAt, imageUrl: $imageUrl, width: $width, height: $height)';
   }
 
   @override
@@ -213,9 +224,12 @@ class _$_Illustration implements _Illustration {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.authorEmail, authorEmail) ||
+            (identical(other.contentCreatorEmail, contentCreatorEmail) ||
                 const DeepCollectionEquality()
-                    .equals(other.authorEmail, authorEmail)) &&
+                    .equals(other.contentCreatorEmail, contentCreatorEmail)) &&
+            (identical(other.contentCreatorName, contentCreatorName) ||
+                const DeepCollectionEquality()
+                    .equals(other.contentCreatorName, contentCreatorName)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
                     .equals(other.description, description)) &&
@@ -225,9 +239,6 @@ class _$_Illustration implements _Illustration {
             (identical(other.imageUrl, imageUrl) ||
                 const DeepCollectionEquality()
                     .equals(other.imageUrl, imageUrl)) &&
-            (identical(other.likedBy, likedBy) ||
-                const DeepCollectionEquality()
-                    .equals(other.likedBy, likedBy)) &&
             (identical(other.width, width) ||
                 const DeepCollectionEquality().equals(other.width, width)) &&
             (identical(other.height, height) ||
@@ -239,11 +250,11 @@ class _$_Illustration implements _Illustration {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(authorEmail) ^
+      const DeepCollectionEquality().hash(contentCreatorEmail) ^
+      const DeepCollectionEquality().hash(contentCreatorName) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(imageUrl) ^
-      const DeepCollectionEquality().hash(likedBy) ^
       const DeepCollectionEquality().hash(width) ^
       const DeepCollectionEquality().hash(height);
 
@@ -260,12 +271,12 @@ class _$_Illustration implements _Illustration {
 abstract class _Illustration implements Illustration {
   const factory _Illustration(
       {String id,
-      String title,
-      String authorEmail,
-      String description,
-      String publishedAt,
+      @required String title,
+      @required String contentCreatorEmail,
+      @required String contentCreatorName,
+      @required String description,
+      @required String publishedAt,
       String imageUrl,
-      List<String> likedBy,
       int width,
       int height}) = _$_Illustration;
 
@@ -277,15 +288,15 @@ abstract class _Illustration implements Illustration {
   @override
   String get title;
   @override
-  String get authorEmail;
+  String get contentCreatorEmail;
+  @override
+  String get contentCreatorName;
   @override
   String get description;
   @override
   String get publishedAt;
   @override
   String get imageUrl;
-  @override
-  List<String> get likedBy;
   @override
   int get width;
   @override

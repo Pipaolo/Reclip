@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -108,10 +109,8 @@ class AddContentButton extends StatelessWidget {
               try {
                 final fileSizeLimit = 1e9;
 
-                final video = await ImagePicker.pickVideo(
-                  source: ImageSource.gallery,
-                );
-
+                await FilePicker.clearTemporaryFiles();
+                final video = await FilePicker.getFile(type: FileType.video);
                 if (video.lengthSync() > fileSizeLimit) {
                   FlushbarCollection.showFlushbarWarning(
                       'Invalid File Size 🎬❌',
@@ -135,7 +134,7 @@ class AddContentButton extends StatelessWidget {
                     Routes.addContentImagePageRoute,
                     arguments: AddContentImagePageArguments(
                       image: image,
-                      user: contentCreator,
+                      contentCreator: contentCreator,
                     ),
                   );
                 } else {

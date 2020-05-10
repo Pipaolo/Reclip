@@ -10,6 +10,7 @@ abstract class Video with _$Video {
   const factory Video({
     @required String videoId,
     @required String contentCreatorEmail,
+    @required String contentCreatorName,
     @required String title,
     @required String description,
     @required DateTime publishedAt,
@@ -26,6 +27,7 @@ abstract class Video with _$Video {
   factory Video.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) =>
       Video(
         videoId: documentSnapshot.data['videoId'],
+        contentCreatorName: documentSnapshot.data['contentCreatorName'] ?? '',
         contentCreatorEmail: documentSnapshot.data['contentCreatorEmail'],
         title: documentSnapshot.data['title'],
         description: documentSnapshot.data['description'],

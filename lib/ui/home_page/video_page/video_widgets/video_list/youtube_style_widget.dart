@@ -60,7 +60,14 @@ class YoutubeStyleWidget extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 2,
+                        ),
+                        Text(
+                          video.contentCreatorName,
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(10),
+                            color: Colors.black.withOpacity(0.5),
+                          ),
                         ),
                         Text(
                           (video.description.isEmpty)

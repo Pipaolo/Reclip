@@ -71,7 +71,8 @@ class ContentCreatorIllustrations extends StatelessWidget {
                           onTap: () {
                             BlocProvider.of<OtherUserBloc>(context)
                               ..add(GetOtherUser(
-                                  email: illustrations[index].authorEmail));
+                                  email: illustrations[index]
+                                      .contentCreatorEmail));
                             ExtendedNavigator.rootNavigator
                                 .pushNamed(Routes.illustrationContentPageRoute,
                                     arguments: IllustrationContentPageArguments(

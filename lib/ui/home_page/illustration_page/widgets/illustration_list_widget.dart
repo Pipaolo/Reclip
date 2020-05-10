@@ -40,6 +40,11 @@ class IllustrationListWidget extends StatelessWidget {
               admobBannerSize: AdmobBannerSize.LARGE_BANNER,
             ),
           );
+        } else if (i > 4) {
+          final illustration = illustrations[i - 1];
+          return IllustrationCardWidget(
+            illustration: illustration,
+          );
         } else {
           final illustration = illustrations[i];
           return IllustrationCardWidget(

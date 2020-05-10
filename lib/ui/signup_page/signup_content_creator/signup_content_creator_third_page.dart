@@ -139,7 +139,7 @@ class _SignupContentCreatorThirdFormState
       ExtendedNavigator.rootNavigator
           .pushNamed(Routes.signupContentCreatorFourthPageRoute,
               arguments: SignupContentCreatorFourthPageArguments(
-                user: user,
+                contentCreator: user,
               ));
     }
   }

@@ -27,7 +27,7 @@ class IllustrationRepository {
         .delete()
         .then((value) => print('Illustration Deleted From FireStorage'));
     await contentCreatorCollection
-        .document(illustration.authorEmail)
+        .document(illustration.contentCreatorEmail)
         .collection('illustrations')
         .document(illustration.id)
         .delete();
@@ -56,7 +56,7 @@ class IllustrationRepository {
   Future<void> addIllustrationLike(
       Illustration illustration, String email) async {
     await contentCreatorCollection
-        .document(illustration.authorEmail)
+        .document(illustration.contentCreatorEmail)
         .collection('illustrations')
         .document(illustration.id)
         .updateData({
@@ -67,7 +67,7 @@ class IllustrationRepository {
   Future<void> removeIllustrationLike(
       Illustration illustration, String email) async {
     await contentCreatorCollection
-        .document(illustration.authorEmail)
+        .document(illustration.contentCreatorEmail)
         .collection('illustrations')
         .document(illustration.id)
         .updateData({
@@ -77,7 +77,7 @@ class IllustrationRepository {
 
   Future<void> addIllustration(Illustration illustration) async {
     return await contentCreatorCollection
-        .document(illustration.authorEmail)
+        .document(illustration.contentCreatorEmail)
         .collection('illustrations')
         .document(illustration.id)
         .setData(illustration.toJson());
