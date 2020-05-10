@@ -14,6 +14,7 @@ part 'video_state.dart';
 class VideoBloc extends Bloc<VideoEvent, VideoState> {
   final VideoRepository _videoRepository;
   final UserRepository _userRepository;
+  StreamSubscription streamSubscription;
 
   VideoBloc({VideoRepository videoRepository, UserRepository userRepository})
       : assert(videoRepository != null),
@@ -24,16 +25,30 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
   VideoState get initialState => VideoInitial();
 
   @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
+  }
+
   Stream<VideoState> mapEventToState(
     VideoEvent event,
   ) async* {
     if (event is VideosFetched) {
-      _videoRepository.fetchVideos().listen((videos) {
-        add(VideosShowed(videos: videos));
+      streamSubscription?.cancel();
+      streamSubscription = _videoRepository
+          .fetchVideos(event.videoFilter)
+          .listen((videos) async {
+        add(
+          VideosShowed(
+            activeFilter: event.videoFilter,
+            videos: videos,
+          ),
+        );
       });
     } else if (event is VideosShowed) {
       yield VideoLoading();
-      yield VideoSuccess(videos: event.videos);
+      yield VideoSuccess(
+          videos: event.videos, activeFilter: event.activeFilter);
     } else if (event is ViewAdded) {
       await _videoRepository.addVideoView(
           event.contentCreatorEmail, event.videoId);

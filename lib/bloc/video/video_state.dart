@@ -15,11 +15,15 @@ class VideoLoading extends VideoState {
 }
 
 class VideoSuccess extends VideoState {
+  final VideoFilter activeFilter;
   final List<Video> videos;
 
-  VideoSuccess({this.videos});
+  VideoSuccess({
+    @required this.activeFilter,
+    @required this.videos,
+  });
   @override
-  List<Object> get props => [videos];
+  List<Object> get props => [videos, activeFilter];
 }
 
 class VideoError extends VideoState {

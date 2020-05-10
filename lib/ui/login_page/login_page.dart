@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/bloc/popular_video/popular_video_bloc.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/illustration/illustrations_bloc.dart';
@@ -77,13 +78,6 @@ class _LoginPageState extends State<LoginPage> {
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state is AuthenticatedContentCreator) {
-                BlocProvider.of<VideoBloc>(context)
-                  ..add(
-                    VideosFetched(),
-                  );
-                BlocProvider.of<IllustrationsBloc>(context)
-                  ..add(IllustrationFetched());
-
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetContentCreator(email: state.contentCreator.email));
 
@@ -93,14 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                       contentCreator: state.contentCreator,
                     ));
               } else if (state is AuthenticatedUser) {
-                BlocProvider.of<VideoBloc>(context)
-                  ..add(
-                    VideosFetched(),
-                  );
                 BlocProvider.of<ReclipUserBloc>(context)
                   ..add(GetLikedVideos(email: state.user.email));
-                BlocProvider.of<IllustrationsBloc>(context)
-                  ..add(IllustrationFetched());
+
                 BlocProvider.of<UserBloc>(context)
                   ..add(GetUser(email: state.user.email));
                 ExtendedNavigator.of(context).pushReplacementNamed(

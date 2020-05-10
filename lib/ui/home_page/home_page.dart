@@ -2,6 +2,9 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reclip/bloc/bloc/connectivity_bloc.dart';
+import 'package:reclip/bloc/illustration/illustrations_bloc.dart';
+import 'package:reclip/bloc/popular_video/popular_video_bloc.dart';
+import 'package:reclip/bloc/video/video_bloc.dart';
 import 'package:reclip/ui/bloc/navigation_bloc.dart';
 import 'package:reclip/ui/home_page/illustration_page/illustration_page.dart';
 import 'package:reclip/ui/home_page/video_page/video_page.dart';
@@ -35,6 +38,14 @@ class _HomePageState extends State<HomePage> {
       ),
     ];
     BlocProvider.of<NavigationBloc>(context)..add(ShowVideoPage());
+    BlocProvider.of<VideoBloc>(context)
+      ..add(
+        VideosFetched(
+          videoFilter: VideoFilter.likeCount,
+        ),
+      );
+    context.bloc<PopularVideoBloc>()..add(PopularVideoFetched());
+    BlocProvider.of<IllustrationsBloc>(context)..add(IllustrationFetched());
     super.initState();
   }
 

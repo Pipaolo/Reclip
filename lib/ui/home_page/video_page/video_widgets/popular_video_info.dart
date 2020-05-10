@@ -8,11 +8,8 @@ import 'package:reclip/model/video.dart';
 
 class PopularVideoInfo extends StatelessWidget {
   final Video popularVideo;
-  final ReclipContentCreator popularContentCreator;
 
-  const PopularVideoInfo(
-      {Key key, this.popularVideo, this.popularContentCreator})
-      : super(key: key);
+  const PopularVideoInfo({Key key, this.popularVideo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/bloc/popular_video/popular_video_bloc.dart';
 
 import '../bloc/add_content/add_content_bloc.dart';
 import '../bloc/add_video/add_video_bloc.dart';
@@ -54,6 +55,10 @@ class ReclipApp extends StatelessWidget {
             videoRepository: RepositoryProvider.of<VideoRepository>(context),
             addVideoBloc: BlocProvider.of<AddVideoBloc>(context),
           ),
+        ),
+        BlocProvider<PopularVideoBloc>(
+          create: (context) => PopularVideoBloc(
+              videoRepository: context.repository<VideoRepository>()),
         ),
         BlocProvider<VideoBloc>(
           create: (context) => VideoBloc(

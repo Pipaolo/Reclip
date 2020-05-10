@@ -63,7 +63,10 @@ class VideoPage extends StatelessWidget {
     return RefreshIndicator(
       color: reclipIndigo,
       onRefresh: () async {
-        BlocProvider.of<VideoBloc>(context)..add(VideosFetched());
+        BlocProvider.of<VideoBloc>(context)
+          ..add(VideosFetched(
+            videoFilter: VideoFilter.likeCount,
+          ));
         return null;
       },
       child: CustomScrollView(
@@ -73,9 +76,7 @@ class VideoPage extends StatelessWidget {
             delegate: SliverChildListDelegate([
               Column(
                 children: <Widget>[
-                  PopularVideo(
-                    video: videos[0],
-                  ),
+                  PopularVideo(),
                   VideoList(
                     videos: videos,
                   ),

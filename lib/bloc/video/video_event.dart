@@ -1,5 +1,7 @@
 part of 'video_bloc.dart';
 
+enum VideoFilter { likeCount, publishedAt, viewCount }
+
 abstract class VideoEvent extends Equatable {
   const VideoEvent();
 }
@@ -35,14 +37,22 @@ class ViewAdded extends VideoEvent {
 }
 
 class VideosFetched extends VideoEvent {
+  final VideoFilter videoFilter;
+  VideosFetched({
+    @required this.videoFilter,
+  });
   @override
-  List<Object> get props => [];
+  List<Object> get props => [videoFilter];
 }
 
 class VideosShowed extends VideoEvent {
+  final VideoFilter activeFilter;
   final List<Video> videos;
 
-  VideosShowed({this.videos});
+  VideosShowed({
+    @required this.activeFilter,
+    @required this.videos,
+  });
   @override
-  List<Object> get props => [videos];
+  List<Object> get props => [videos, activeFilter];
 }

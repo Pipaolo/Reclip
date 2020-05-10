@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:intl/intl.dart';
+import 'package:reclip/bloc/video/video_bloc.dart';
 import 'package:reclip/model/reclip_content_creator.dart';
 import 'package:reclip/model/video.dart';
 import 'package:reclip/model/video_like.dart';
@@ -91,12 +92,44 @@ class VideoRepository {
         .then((value) => print('Video Deleted From Firebase Storage'));
   }
 
-  Stream<List<Video>> fetchVideos() {
+  Stream<Video> fetchPopularVideo() {
     return videoCollectionGroup
+        .limit(1)
         .orderBy('likeCount', descending: true)
         .snapshots()
-        .map((event) =>
-            event.documents.map((e) => Video.fromDocumentSnapshot(e)).toList());
+        .map((event) => Video.fromDocumentSnapshot(event.documents.first));
+  }
+
+  Stream<List<Video>> fetchVideos(VideoFilter videoFilter) {
+    if (videoFilter == VideoFilter.likeCount) {
+      return videoCollectionGroup
+          .orderBy('likeCount', descending: true)
+          .snapshots()
+          .map((event) => event.documents
+              .map((e) => Video.fromDocumentSnapshot(e))
+              .toList());
+    } else if (videoFilter == VideoFilter.viewCount) {
+      return videoCollectionGroup
+          .orderBy('viewCount', descending: true)
+          .snapshots()
+          .map((event) => event.documents
+              .map((e) => Video.fromDocumentSnapshot(e))
+              .toList());
+    } else if (videoFilter == VideoFilter.publishedAt) {
+      return videoCollectionGroup
+          .orderBy('publishedAt', descending: true)
+          .snapshots()
+          .map((event) => event.documents
+              .map((e) => Video.fromDocumentSnapshot(e))
+              .toList());
+    } else {
+      return videoCollectionGroup
+          .orderBy('likeCount', descending: true)
+          .snapshots()
+          .map((event) => event.documents
+              .map((e) => Video.fromDocumentSnapshot(e))
+              .toList());
+    }
   }
 
   Stream<List<Video>> getUserLikedVideos(String email) {
@@ -145,7 +178,6 @@ class VideoRepository {
         .document(videoId)
         .updateData({
       'likeCount': FieldValue.increment(-1),
-      'likedBy': FieldValue.arrayRemove([email]),
     });
 
     //Get User

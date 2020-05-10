@@ -87,7 +87,6 @@ abstract class Routes {
 }
 
 class Router extends RouterBase {
-  @override
   Set<String> get allRoutes => Routes.all;
 
   @Deprecated('call ExtendedNavigator.ofRouter<Router>() directly')
