@@ -1,22 +1,16 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../../../../core/reclip_colors.dart';
 import '../../../../../model/video.dart';
 import '../../../../custom_widgets/ad_widget.dart';
-
 import 'youtube_style_widget.dart';
 
-class VideoList extends StatefulWidget {
+class VideoList extends StatelessWidget {
   final List<Video> videos;
   const VideoList({Key key, this.videos}) : super(key: key);
 
-  @override
-  _VideoListState createState() => _VideoListState();
-}
-
-class _VideoListState extends State<VideoList> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,11 +55,11 @@ class _VideoListState extends State<VideoList> {
                 ),
               );
             } else {
-              final video = widget.videos[i];
+              final video = videos[i];
               return YoutubeStyleWidget(video: video);
             }
           },
-          itemCount: widget.videos.length + (widget.videos.length ~/ 4),
+          itemCount: videos.length + (videos.length ~/ 4),
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
         ),
