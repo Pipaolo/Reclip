@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_advanced_networkimage/transition.dart';
@@ -39,7 +40,7 @@ class YoutubeStyleWidget extends StatelessWidget {
                         image: AdvancedNetworkImage(video.thumbnailUrl),
                         loadingWidget:
                             Center(child: CircularProgressIndicator()),
-                        fit: BoxFit.fitHeight,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -52,29 +53,34 @@ class YoutubeStyleWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        AutoSizeText(
                           video.title,
                           style: TextStyle(
-                            fontSize: ScreenUtil().setSp(16),
+                            fontSize: 16,
+                            height: 1,
                             fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 2,
                         ),
                         SizedBox(
                           height: 2,
                         ),
-                        Text(
+                        AutoSizeText(
                           video.contentCreatorName,
                           style: TextStyle(
-                            fontSize: ScreenUtil().setSp(10),
+                            fontSize: 12,
                             color: Colors.black.withOpacity(0.5),
                           ),
+                          maxLines: 1,
                         ),
-                        Text(
+                        AutoSizeText(
                           (video.description.isEmpty)
                               ? 'No Description Provided'
                               : video.description,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: ScreenUtil().setSp(12)),
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
                           maxLines: 3,
                         ),
                       ],

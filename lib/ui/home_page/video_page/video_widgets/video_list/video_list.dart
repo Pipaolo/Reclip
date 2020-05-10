@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reclip/core/reclip_admob.dart';
 
 import '../../../../../core/reclip_colors.dart';
 import '../../../../../model/video.dart';
@@ -13,6 +16,8 @@ class VideoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final random = Random();
+    final banner = admobUnitIds[random.nextInt(2)];
     return Column(
       children: <Widget>[
         SizedBox(
@@ -50,7 +55,7 @@ class VideoList extends StatelessWidget {
             if (showAdvertisement) {
               return Center(
                 child: AdWidget(
-                  adUnitId: 'ca-app-pub-5477568157944659/6678075258',
+                  adUnitId: banner,
                   admobBannerSize: AdmobBannerSize.BANNER,
                 ),
               );

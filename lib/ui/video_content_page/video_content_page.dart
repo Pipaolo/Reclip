@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
@@ -20,6 +21,8 @@ import '../home_page/video_page/video_widgets/custom_video_player.dart';
 import 'bloc/video_overview_bloc.dart';
 import 'video_description.dart';
 import 'widgets/video_play_overlay_widget.dart';
+
+enum _AnimationProps { opacity, translateX }
 
 class VideoContentPage extends HookWidget implements AutoRouteWrapper {
   final Video video;
@@ -83,58 +86,78 @@ class VideoContentPage extends HookWidget implements AutoRouteWrapper {
     ReclipContentCreator contentCreator,
     bool isLiked,
   ) {
-    return Stack(
-      children: <Widget>[
-        ListView(
-          controller: scrollController,
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Stack(children: [
-              _buildHeader(),
-              VideoPlayOverlayWidget(
-                onPressed: () => _watchVideo(context, contentCreator),
-              ),
-              Positioned(
-                  top: 10,
-                  right: 10,
-                  child: FadeTransition(
-                    opacity: hideCloseButtonAnimController,
-                    child: Material(
-                      color: reclipBlack.withOpacity(0.5),
-                      shape: CircleBorder(),
-                      child: Ink(
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Icon(
-                              Icons.close,
-                              color: reclipIndigo,
-                              size: ScreenUtil().setSp(20),
-                              textDirection: TextDirection.rtl,
+    final tween = MultiTween<_AnimationProps>()
+      ..add(_AnimationProps.opacity, Tween<double>(begin: 0, end: 1))
+      ..add(
+        _AnimationProps.translateX,
+        Tween<double>(begin: -130.0, end: 0.0),
+      );
+    return PlayAnimation<MultiTweenValues<_AnimationProps>>(
+      tween: tween,
+      duration: Duration(milliseconds: 600),
+      curve: Curves.easeInOut,
+      builder: (context, child, value) {
+        return Opacity(
+          opacity: value.get(_AnimationProps.opacity),
+          child: Transform.translate(
+            offset: Offset(value.get(_AnimationProps.translateX), 0),
+            child: child,
+          ),
+        );
+      },
+      child: Stack(
+        children: <Widget>[
+          ListView(
+            controller: scrollController,
+            physics: BouncingScrollPhysics(),
+            children: <Widget>[
+              Stack(children: [
+                _buildHeader(),
+                VideoPlayOverlayWidget(
+                  onPressed: () => _watchVideo(context, contentCreator),
+                ),
+                Positioned(
+                    top: 10,
+                    right: 10,
+                    child: FadeTransition(
+                      opacity: hideCloseButtonAnimController,
+                      child: Material(
+                        color: reclipBlack.withOpacity(0.5),
+                        shape: CircleBorder(),
+                        child: Ink(
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Icon(
+                                Icons.close,
+                                color: reclipIndigo,
+                                size: ScreenUtil().setSp(20),
+                                textDirection: TextDirection.rtl,
+                              ),
                             ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
                         ),
                       ),
-                    ),
-                  )),
-            ]),
-            VideoDescription(
-              publishedAt: video.publishedAt,
-              contentCreatorEmail: contentCreator.email,
-              isLiked: isLiked,
-              videoId: video.videoId,
-              thumbnailUrl: video.thumbnailUrl,
-              title: video.title,
-              description: video.description,
-              contentCreator: contentCreator,
-            ),
-          ],
-        ),
-      ],
+                    )),
+              ]),
+              VideoDescription(
+                publishedAt: video.publishedAt,
+                contentCreatorEmail: contentCreator.email,
+                isLiked: isLiked,
+                videoId: video.videoId,
+                thumbnailUrl: video.thumbnailUrl,
+                title: video.title,
+                description: video.description,
+                contentCreator: contentCreator,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,3 +1,5 @@
-class ReclipAdMob {
-  static final String androidAdUnit = 'ca-app-pub-5477568157944659/6678075258';
-}
+const admobUnitIds = [
+  'ca-app-pub-5477568157944659/6678075258',
+  'ca-app-pub-5477568157944659/4157815514',
+  'ca-app-pub-5477568157944659/1340080486'
+];

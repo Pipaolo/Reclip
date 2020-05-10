@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reclip/ui/illustration_content_page/bloc/illustration_overlay_bloc.dart';
-
-import 'package:simple_animations/simple_animations/controlled_animation.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class IllustrationOverlay extends StatelessWidget {
   final String title;
@@ -19,13 +18,14 @@ class IllustrationOverlay extends StatelessWidget {
       builder: (context, showOverlay) {
         return Align(
           alignment: Alignment.bottomCenter,
-          child: ControlledAnimation(
+          child: CustomAnimation(
             duration: Duration(milliseconds: 180),
             tween: Tween<double>(begin: 0, end: ScreenUtil().setHeight(60)),
-            playback:
-                (showOverlay) ? Playback.PLAY_FORWARD : Playback.PLAY_REVERSE,
+            control: (showOverlay)
+                ? CustomAnimationControl.PLAY
+                : CustomAnimationControl.PLAY_REVERSE,
             curve: Curves.easeInOutCubic,
-            builder: (context, anim) {
+            builder: (context, child, anim) {
               return Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 20.0),

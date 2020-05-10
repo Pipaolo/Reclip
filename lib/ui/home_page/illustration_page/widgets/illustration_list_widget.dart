@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:reclip/core/reclip_admob.dart';
 import 'package:reclip/model/illustration.dart';
 import 'package:reclip/ui/custom_widgets/ad_widget.dart';
 import 'illustration_card_widget.dart';
@@ -14,6 +17,8 @@ class IllustrationListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final random = Random();
+    final banner = admobUnitIds[random.nextInt(2)];
     return StaggeredGridView.countBuilder(
       itemCount: illustrations.length + (illustrations.length ~/ 4),
       shrinkWrap: true,
@@ -36,7 +41,7 @@ class IllustrationListWidget extends StatelessWidget {
         if (i % 4 == 0 && i != 0) {
           return Center(
             child: AdWidget(
-              adUnitId: 'ca-app-pub-5477568157944659/6678075258',
+              adUnitId: banner,
               admobBannerSize: AdmobBannerSize.LARGE_BANNER,
             ),
           );
