@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reclip/bloc/info/info_bloc.dart';
-import 'package:reclip/bloc/popular_video/popular_video_bloc.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/model/reclip_content_creator.dart';
-import 'package:reclip/model/video.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../bloc/info/info_bloc.dart';
+import '../../../../bloc/popular_video/popular_video_bloc.dart';
+import '../../../../core/reclip_colors.dart';
+import '../../../../model/video.dart';
 import 'popular_video_image.dart';
 import 'popular_video_info.dart';
 

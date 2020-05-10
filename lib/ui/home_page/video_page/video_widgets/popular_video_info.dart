@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/model/reclip_content_creator.dart';
-import 'package:reclip/model/video.dart';
+
+import '../../../../core/reclip_colors.dart';
+import '../../../../model/video.dart';
 
 class PopularVideoInfo extends StatelessWidget {
   final Video popularVideo;
