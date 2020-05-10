@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/reclip_colors.dart';
-import '../../../data/model/reclip_content_creator.dart';
+import '../../../model/reclip_content_creator.dart';
 
 class ContentCreatorContactInfoPage extends StatelessWidget {
   final ReclipContentCreator user;

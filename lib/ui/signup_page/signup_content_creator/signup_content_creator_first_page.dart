@@ -7,7 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../core/router/route_generator.gr.dart';
-import '../../../data/model/reclip_content_creator.dart';
+import '../../../model/reclip_content_creator.dart';
 
 class SignupContentCreatorFirstPage extends StatelessWidget {
   final ReclipContentCreator contentCreator;

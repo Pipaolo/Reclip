@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:reclip/core/failure/auth_failure.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_user.dart';
 
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
 import 'firebase_reclip_repository.dart';
 
 class UserRepository {

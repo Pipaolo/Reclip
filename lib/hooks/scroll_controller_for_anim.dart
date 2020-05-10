@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
 
 ScrollController useScrollControllerForAnimation(
   AnimationController animationController,
@@ -44,7 +44,7 @@ class _ScrollControllerForAnimationHookState
 
         if (_scrollController.offset.abs() >
             _scrollController.position.viewportDimension / 4) {
-          Router.navigator.pop();
+          ExtendedNavigator.of(context).pop();
           _scrollController.dispose();
         }
       }

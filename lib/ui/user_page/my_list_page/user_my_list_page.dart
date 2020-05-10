@@ -9,7 +9,7 @@ import 'package:reclip/core/router/route_generator.gr.dart';
 import '../../../bloc/info/info_bloc.dart';
 import '../../../bloc/reclip_user/reclipuser_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../data/model/video.dart';
+import '../../../model/video.dart';
 
 class UserMyListPage extends StatelessWidget {
   const UserMyListPage({Key key}) : super(key: key);
@@ -22,7 +22,6 @@ class UserMyListPage extends StatelessWidget {
           ExtendedNavigator.rootNavigator
               .pushNamed(Routes.videoContentPageRoute,
                   arguments: VideoContentPageArguments(
-                    contentCreator: state.contentCreator,
                     video: state.video,
                   ));
         }

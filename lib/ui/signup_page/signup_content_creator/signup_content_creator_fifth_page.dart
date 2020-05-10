@@ -13,7 +13,7 @@ import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../data/model/reclip_content_creator.dart';
+import '../../../model/reclip_content_creator.dart';
 
 class SignupContentCreatorFifthPage extends StatelessWidget {
   final ReclipContentCreator user;

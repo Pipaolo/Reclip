@@ -12,8 +12,8 @@ import '../../bloc/user/user_bloc.dart';
 import '../../bloc/video/video_bloc.dart';
 import '../../core/reclip_colors.dart';
 import '../../core/router/route_generator.gr.dart';
-import '../../data/model/reclip_content_creator.dart';
-import '../../data/model/reclip_user.dart';
+import '../../model/reclip_content_creator.dart';
+import '../../model/reclip_user.dart';
 
 class SplashPage extends StatefulWidget {
   final FirebaseUser user;

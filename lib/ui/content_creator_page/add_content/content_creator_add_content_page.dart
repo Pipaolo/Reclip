@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../core/reclip_colors.dart';
 import '../../../core/router/route_generator.gr.dart';
-import '../../../data/model/reclip_content_creator.dart';
+import '../../../model/reclip_content_creator.dart';
 import '../../custom_widgets/flushbars/flushbar_collection.dart';
 
 class ContentCreatorAddContentPage extends StatefulWidget {

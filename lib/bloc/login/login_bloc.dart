@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_user.dart';
 
-import '../../data/model/reclip_content_creator.dart';
-import '../../data/model/reclip_user.dart';
 import '../../repository/firebase_reclip_repository.dart';
 import '../../repository/user_repository.dart';
 import '../authentication/authentication_bloc.dart';

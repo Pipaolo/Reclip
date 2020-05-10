@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                     );
                 }
               } else if (state is LoginSuccessUnregisteredContentCreator) {
-                Router.navigator.pop();
+                ExtendedNavigator.of(context).pop();
                 Future.delayed(
                   Duration(seconds: 3),
                   () => ExtendedNavigator.rootNavigator.pushNamed(

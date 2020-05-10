@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/reclip_colors.dart';
 import '../../../core/router/route_generator.gr.dart';
-import '../../../data/model/reclip_content_creator.dart';
+import '../../../model/reclip_content_creator.dart';
 
 class SignupContentCreatorSecondPage extends StatelessWidget {
   final ReclipContentCreator user;

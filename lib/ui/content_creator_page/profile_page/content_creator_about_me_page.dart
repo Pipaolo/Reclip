@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
 
 class ContentCreatorAboutMePage extends StatelessWidget {
   final ReclipContentCreator user;

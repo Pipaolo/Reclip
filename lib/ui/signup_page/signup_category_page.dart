@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../bloc/verification/verification_bloc.dart';
 import '../../core/reclip_colors.dart';
 import '../../core/router/route_generator.gr.dart';
-import '../../data/model/reclip_content_creator.dart';
+import '../../model/reclip_content_creator.dart';
 import 'signup_appbar.dart';
 
 class SignupCategoryPage extends StatelessWidget {

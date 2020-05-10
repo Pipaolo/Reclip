@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:reclip/bloc/user/user_bloc.dart';
 import 'package:reclip/core/reclip_colors.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
 
 class ContentCreatorEditProfilePage extends StatefulWidget {
   final ReclipContentCreator user;

@@ -9,9 +9,9 @@ import 'package:reclip/ui/custom_widgets/flushbars/flushbar_collection.dart';
 import '../../../../bloc/illustration/illustrations_bloc.dart';
 import '../../../../bloc/video/video_bloc.dart';
 import '../../../../core/reclip_colors.dart';
-import '../../../../data/model/illustration.dart';
-import '../../../../data/model/reclip_content_creator.dart';
-import '../../../../data/model/video.dart';
+import '../../../../model/illustration.dart';
+import '../../../../model/reclip_content_creator.dart';
+import '../../../../model/video.dart';
 import 'content_creator_illustrations.dart';
 import 'content_creator_videos.dart';
 

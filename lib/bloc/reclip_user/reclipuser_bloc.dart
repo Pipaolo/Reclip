@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:reclip/model/video.dart';
 
-import '../../data/model/video.dart';
 import '../../repository/firebase_reclip_repository.dart';
 import '../../repository/video_repository.dart';
 

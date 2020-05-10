@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
 import 'package:intl/intl.dart';
+import 'package:reclip/model/illustration.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
 import 'package:uuid/uuid.dart';
 
 class IllustrationRepository {
@@ -33,14 +33,14 @@ class IllustrationRepository {
         .delete();
   }
 
-  Future<Illustration> addImage(ReclipContentCreator user,
+  Future<Illustration> addImage(ReclipContentCreator contentCreator,
       Illustration rawIllustration, File image) async {
     final imageType = image.path.split('/').last.split('.').last;
     final imageDateUploaded = DateFormat('MM-dd-yyyy').format(
       DateTime.parse(rawIllustration.publishedAt),
     );
     final reference = illustrationReference.child(
-        '${user.email}/illustrations/$imageDateUploaded/${rawIllustration.title}.$imageType');
+        '${contentCreator.email}/illustrations/$imageDateUploaded/${rawIllustration.title}.$imageType');
     final uploadTask = reference.putData(await image.readAsBytes());
     await uploadTask.onComplete;
     final idRandomizer = Uuid();

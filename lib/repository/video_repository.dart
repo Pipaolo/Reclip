@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/video.dart';
+
 import 'package:intl/intl.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/video.dart';
+import 'package:reclip/model/video_like.dart';
 
 class VideoRepository {
   final contentCreatorCollection =
@@ -73,26 +75,6 @@ class VideoRepository {
         .replaceAll('%40', '@')
         .replaceAll('%2F', '/');
 
-    for (var user in video.likedBy) {
-      final userLikedVideo = await userCollection
-          .document('user')
-          .collection('likedVideos')
-          .document(video.videoId)
-          .get();
-      if (userLikedVideo.exists) {
-        await userCollection
-            .document(user)
-            .collection('likedVideos')
-            .document(video.videoId)
-            .delete();
-      } else {
-        await contentCreatorCollection
-            .document(user)
-            .collection('likedVideos')
-            .document(video.videoId)
-            .delete();
-      }
-    }
     await contentCreatorCollection
         .document(video.contentCreatorEmail)
         .collection('videos')
@@ -114,7 +96,7 @@ class VideoRepository {
         .orderBy('likeCount', descending: true)
         .snapshots()
         .map((event) =>
-            event.documents.map((e) => Video.fromJson(e.data)).toList());
+            event.documents.map((e) => Video.fromDocumentSnapshot(e)).toList());
   }
 
   Stream<List<Video>> getUserLikedVideos(String email) {
@@ -129,6 +111,21 @@ class VideoRepository {
               )
               .toList(),
         );
+  }
+
+  Future<bool> isVideoLikedByCurrentUser(
+    String currentUserEmail,
+    String contentCreatorEmail,
+    String videoId,
+  ) async {
+    return await contentCreatorCollection
+        .document(contentCreatorEmail)
+        .collection('videos')
+        .document(videoId)
+        .collection('video_likes')
+        .document(currentUserEmail)
+        .get()
+        .then((value) => value.exists);
   }
 
   Future<void> addVideoView(String email, String videoId) async {
@@ -169,16 +166,24 @@ class VideoRepository {
   }
 
   Future<void> addVideoLike(
-      String contentCreatorEmail, String videoId, String email) async {
-    //Get Liked youtube Video
-    await contentCreatorCollection
+      String contentCreatorEmail, String videoId, String userLikedEmail) async {
+    final videoReference = contentCreatorCollection
         .document(contentCreatorEmail)
         .collection('videos')
-        .document(videoId)
-        .updateData({
+        .document(videoId);
+
+    await videoReference.updateData({
       'likeCount': FieldValue.increment(1),
-      'likedBy': FieldValue.arrayUnion([email]),
     });
+
+    await videoReference
+        .collection('video_likes')
+        .document(userLikedEmail)
+        .setData(VideoLike(
+          userLikedEmail: userLikedEmail,
+          contentCreatorEmail: contentCreatorEmail,
+          videoId: videoId,
+        ).toJson());
 
     final video = await contentCreatorCollection
         .document(contentCreatorEmail)
@@ -186,20 +191,19 @@ class VideoRepository {
         .document(videoId)
         .get()
         .then(
-          (value) => Video.fromJson(value.data),
+          (value) => Video.fromDocumentSnapshot(value),
         );
-    //Add Youtube Video
-    //Get User
-    final reclipUser = await userCollection.document(email).get();
+
+    final reclipUser = await userCollection.document(userLikedEmail).get();
     if (reclipUser.exists) {
       await userCollection
-          .document(email)
+          .document(userLikedEmail)
           .collection('likedVideos')
           .document(videoId)
           .setData(video.toJson());
     } else {
       await contentCreatorCollection
-          .document(email)
+          .document(userLikedEmail)
           .collection('likedVideos')
           .document(videoId)
           .setData(video.toJson());

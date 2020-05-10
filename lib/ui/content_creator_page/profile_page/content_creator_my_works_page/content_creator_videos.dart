@@ -9,8 +9,8 @@ import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../../../core/reclip_colors.dart';
 import '../../../../core/router/route_generator.gr.dart';
-import '../../../../data/model/reclip_content_creator.dart';
-import '../../../../data/model/video.dart';
+import '../../../../model/reclip_content_creator.dart';
+import '../../../../model/video.dart';
 
 class ContentCreatorVideos extends StatelessWidget {
   final ReclipContentCreator user;
@@ -67,7 +67,6 @@ class ContentCreatorVideos extends StatelessWidget {
                             ExtendedNavigator.rootNavigator.pushNamed(
                               Routes.videoContentPageRoute,
                               arguments: VideoContentPageArguments(
-                                contentCreator: user,
                                 video: videos[index],
                               ),
                             );

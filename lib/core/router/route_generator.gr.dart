@@ -13,9 +13,9 @@ import 'package:reclip/ui/login_page/login_page.dart';
 import 'package:reclip/ui/home_page/home_page.dart';
 import 'package:reclip/ui/signup_page/signup_category_page.dart';
 import 'package:reclip/ui/signup_page/signup_user/signup_user.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/model/reclip_user.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_first_page.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_second_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_third_page.dart';
 import 'package:reclip/ui/signup_page/signup_content_creator/signup_content_creator_fourth_page.dart';
@@ -27,11 +27,11 @@ import 'package:reclip/ui/content_creator_page/profile_page/edit_profile_page/co
 import 'package:reclip/ui/content_creator_page/add_content/add_content_image/add_content_image_page.dart';
 import 'package:reclip/ui/content_creator_page/add_content/add_content_video/add_content_video_page.dart';
 import 'package:reclip/ui/bottom_navigation_controller/bottom_nav_controller.dart';
-import 'package:reclip/ui/custom_widgets/video_content_page/video_content_page.dart';
-import 'package:reclip/data/model/video.dart';
-import 'package:reclip/ui/custom_widgets/illustration_content_page/illustration_content_page.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/ui/custom_widgets/other_profile_page/other_profile_page.dart';
+import 'package:reclip/ui/video_content_page/video_content_page.dart';
+import 'package:reclip/model/video.dart';
+import 'package:reclip/ui/illustration_content_page/illustration_content_page.dart';
+import 'package:reclip/model/illustration.dart';
+import 'package:reclip/ui/other_profile_page/other_profile_page.dart';
 
 abstract class Routes {
   static const splashPageRoute = '/';
@@ -63,7 +63,7 @@ abstract class Routes {
   static const illustrationContentPageRoute =
       '/illustration-content-page-route';
   static const otherProfilePageRoute = '/other-profile-page-route';
-  static const all = [
+  static const all = {
     splashPageRoute,
     loginPageRoute,
     homePageRoute,
@@ -83,12 +83,14 @@ abstract class Routes {
     videoContentPageRoute,
     illustrationContentPageRoute,
     otherProfilePageRoute,
-  ];
+  };
 }
 
 class Router extends RouterBase {
-  //This will probably be removed in future versions
-  //you should call ExtendedNavigator.ofRouter<Router>() directly
+  @override
+  Set<String> get allRoutes => Routes.all;
+
+  @Deprecated('call ExtendedNavigator.ofRouter<Router>() directly')
   static ExtendedNavigatorState get navigator =>
       ExtendedNavigator.ofRouter<Router>();
 
@@ -274,20 +276,15 @@ class Router extends RouterBase {
           settings: settings,
         );
       case Routes.videoContentPageRoute:
-        if (hasInvalidArgs<VideoContentPageArguments>(args)) {
+        if (hasInvalidArgs<VideoContentPageArguments>(args, isRequired: true)) {
           return misTypedArgsRoute<VideoContentPageArguments>(args);
         }
-        final typedArgs =
-            args as VideoContentPageArguments ?? VideoContentPageArguments();
+        final typedArgs = args as VideoContentPageArguments;
         return PageRouteBuilder<dynamic>(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              VideoContentPage(
-                  video: typedArgs.video,
-                  email: typedArgs.email,
-                  contentCreator: typedArgs.contentCreator),
+              VideoContentPage(video: typedArgs.video).wrappedRoute(context),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
-          transitionDuration: const Duration(milliseconds: 200),
         );
       case Routes.illustrationContentPageRoute:
         if (hasInvalidArgs<IllustrationContentPageArguments>(args,
@@ -302,7 +299,6 @@ class Router extends RouterBase {
                   .wrappedRoute(context),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.slideBottom,
-          transitionDuration: const Duration(milliseconds: 200),
         );
       case Routes.otherProfilePageRoute:
         return buildAdaptivePageRoute<dynamic>(
@@ -315,9 +311,9 @@ class Router extends RouterBase {
   }
 }
 
-//**************************************************************************
+// *************************************************************************
 // Arguments holder classes
-//***************************************************************************
+// **************************************************************************
 
 //SplashPage arguments holder class
 class SplashPageArguments {
@@ -430,9 +426,7 @@ class BottomNavBarControllerArguments {
 //VideoContentPage arguments holder class
 class VideoContentPageArguments {
   final Video video;
-  final String email;
-  final ReclipContentCreator contentCreator;
-  VideoContentPageArguments({this.video, this.email, this.contentCreator});
+  VideoContentPageArguments({@required this.video});
 }
 
 //IllustrationContentPage arguments holder class
@@ -442,127 +436,157 @@ class IllustrationContentPageArguments {
   IllustrationContentPageArguments({this.key, @required this.illustration});
 }
 
-//**************************************************************************
+// *************************************************************************
 // Navigation helper methods extension
-//***************************************************************************
+// **************************************************************************
 
 extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future pushSplashPageRoute({
     Key key,
     FirebaseUser user,
   }) =>
-      pushNamed(Routes.splashPageRoute,
-          arguments: SplashPageArguments(key: key, user: user));
+      pushNamed(
+        Routes.splashPageRoute,
+        arguments: SplashPageArguments(key: key, user: user),
+      );
   Future pushLoginPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.loginPageRoute, arguments: LoginPageArguments(key: key));
+      pushNamed(
+        Routes.loginPageRoute,
+        arguments: LoginPageArguments(key: key),
+      );
   Future pushHomePageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.homePageRoute, arguments: HomePageArguments(key: key));
+      pushNamed(
+        Routes.homePageRoute,
+        arguments: HomePageArguments(key: key),
+      );
   Future pushSignupCategoryPageRoute() =>
       pushNamed(Routes.signupCategoryPageRoute);
   Future pushSignupUserPageRoute({
     Key key,
     ReclipUser unregisteredUser,
   }) =>
-      pushNamed(Routes.signupUserPageRoute,
-          arguments: SignupUserPageArguments(
-              key: key, unregisteredUser: unregisteredUser));
+      pushNamed(
+        Routes.signupUserPageRoute,
+        arguments: SignupUserPageArguments(
+            key: key, unregisteredUser: unregisteredUser),
+      );
   Future pushSignupContentCreatorFirstPageRoute({
     Key key,
     ReclipContentCreator contentCreator,
   }) =>
-      pushNamed(Routes.signupContentCreatorFirstPageRoute,
-          arguments: SignupContentCreatorFirstPageArguments(
-              key: key, contentCreator: contentCreator));
+      pushNamed(
+        Routes.signupContentCreatorFirstPageRoute,
+        arguments: SignupContentCreatorFirstPageArguments(
+            key: key, contentCreator: contentCreator),
+      );
   Future pushSignupContentCreatorSecondPageRoute({
     Key key,
     ReclipContentCreator user,
   }) =>
-      pushNamed(Routes.signupContentCreatorSecondPageRoute,
-          arguments:
-              SignupContentCreatorSecondPageArguments(key: key, user: user));
+      pushNamed(
+        Routes.signupContentCreatorSecondPageRoute,
+        arguments:
+            SignupContentCreatorSecondPageArguments(key: key, user: user),
+      );
   Future pushSignupContentCreatorThirdPageRoute({
     Key key,
     ReclipContentCreator user,
   }) =>
-      pushNamed(Routes.signupContentCreatorThirdPageRoute,
-          arguments:
-              SignupContentCreatorThirdPageArguments(key: key, user: user));
+      pushNamed(
+        Routes.signupContentCreatorThirdPageRoute,
+        arguments: SignupContentCreatorThirdPageArguments(key: key, user: user),
+      );
   Future pushSignupContentCreatorFourthPageRoute({
     Key key,
     ReclipContentCreator user,
   }) =>
-      pushNamed(Routes.signupContentCreatorFourthPageRoute,
-          arguments:
-              SignupContentCreatorFourthPageArguments(key: key, user: user));
+      pushNamed(
+        Routes.signupContentCreatorFourthPageRoute,
+        arguments:
+            SignupContentCreatorFourthPageArguments(key: key, user: user),
+      );
   Future pushSignupContentCreatorFifthPageRoute({
     Key key,
     ReclipContentCreator user,
     File profileImage,
   }) =>
-      pushNamed(Routes.signupContentCreatorFifthPageRoute,
-          arguments: SignupContentCreatorFifthPageArguments(
-              key: key, user: user, profileImage: profileImage));
+      pushNamed(
+        Routes.signupContentCreatorFifthPageRoute,
+        arguments: SignupContentCreatorFifthPageArguments(
+            key: key, user: user, profileImage: profileImage),
+      );
   Future pushContentCreatorAddContentPageRoute({
     Key key,
     ReclipContentCreator user,
   }) =>
-      pushNamed(Routes.contentCreatorAddContentPageRoute,
-          arguments:
-              ContentCreatorAddContentPageArguments(key: key, user: user));
+      pushNamed(
+        Routes.contentCreatorAddContentPageRoute,
+        arguments: ContentCreatorAddContentPageArguments(key: key, user: user),
+      );
   Future pushContentCreatorProfilePageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.contentCreatorProfilePageRoute,
-          arguments: ContentCreatorProfilePageArguments(key: key));
+      pushNamed(
+        Routes.contentCreatorProfilePageRoute,
+        arguments: ContentCreatorProfilePageArguments(key: key),
+      );
   Future pushContentCreatorEditProfilePageRoute({
     Key key,
     ReclipContentCreator user,
   }) =>
-      pushNamed(Routes.contentCreatorEditProfilePageRoute,
-          arguments:
-              ContentCreatorEditProfilePageArguments(key: key, user: user));
+      pushNamed(
+        Routes.contentCreatorEditProfilePageRoute,
+        arguments: ContentCreatorEditProfilePageArguments(key: key, user: user),
+      );
   Future pushAddContentImagePageRoute({
     Key key,
     @required File image,
     ReclipContentCreator user,
   }) =>
-      pushNamed(Routes.addContentImagePageRoute,
-          arguments:
-              AddContentImagePageArguments(key: key, image: image, user: user));
+      pushNamed(
+        Routes.addContentImagePageRoute,
+        arguments:
+            AddContentImagePageArguments(key: key, image: image, user: user),
+      );
   Future pushAddContentVideoPageRoute({
     Key key,
     @required File video,
     @required ReclipContentCreator contentCreator,
   }) =>
-      pushNamed(Routes.addContentVideoPageRoute,
-          arguments: AddContentVideoPageArguments(
-              key: key, video: video, contentCreator: contentCreator));
+      pushNamed(
+        Routes.addContentVideoPageRoute,
+        arguments: AddContentVideoPageArguments(
+            key: key, video: video, contentCreator: contentCreator),
+      );
   Future pushBottomNavBarControllerScreenRoute({
     Key key,
     ReclipContentCreator contentCreator,
     ReclipUser user,
   }) =>
-      pushNamed(Routes.bottomNavBarControllerScreenRoute,
-          arguments: BottomNavBarControllerArguments(
-              key: key, contentCreator: contentCreator, user: user));
+      pushNamed(
+        Routes.bottomNavBarControllerScreenRoute,
+        arguments: BottomNavBarControllerArguments(
+            key: key, contentCreator: contentCreator, user: user),
+      );
   Future pushVideoContentPageRoute({
-    Video video,
-    String email,
-    ReclipContentCreator contentCreator,
+    @required Video video,
   }) =>
-      pushNamed(Routes.videoContentPageRoute,
-          arguments: VideoContentPageArguments(
-              video: video, email: email, contentCreator: contentCreator));
+      pushNamed(
+        Routes.videoContentPageRoute,
+        arguments: VideoContentPageArguments(video: video),
+      );
   Future pushIllustrationContentPageRoute({
     Key key,
     @required Illustration illustration,
   }) =>
-      pushNamed(Routes.illustrationContentPageRoute,
-          arguments: IllustrationContentPageArguments(
-              key: key, illustration: illustration));
+      pushNamed(
+        Routes.illustrationContentPageRoute,
+        arguments: IllustrationContentPageArguments(
+            key: key, illustration: illustration),
+      );
   Future pushOtherProfilePageRoute() => pushNamed(Routes.otherProfilePageRoute);
 }

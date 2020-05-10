@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:reclip/data/model/illustration.dart';
+import 'package:reclip/model/illustration.dart';
 import 'package:reclip/repository/illustration_repository.dart';
 
 part 'remove_illustration_event.dart';

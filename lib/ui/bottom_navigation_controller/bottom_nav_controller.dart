@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_user.dart';
 
-import '../../data/model/reclip_content_creator.dart';
-import '../../data/model/reclip_user.dart';
 import '../bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import '../content_creator_page/add_content/content_creator_add_content_page.dart';
 import '../content_creator_page/profile_page/content_creator_profile_page.dart';

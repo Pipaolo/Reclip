@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:reclip/model/video.dart';
 
-import 'package:reclip/data/model/video.dart';
 import 'package:reclip/repository/video_repository.dart';
 
 part 'remove_video_event.dart';

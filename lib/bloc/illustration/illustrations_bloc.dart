@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:reclip/model/illustration.dart';
 
-import '../../data/model/illustration.dart';
 import '../../repository/illustration_repository.dart';
 
 part 'illustrations_event.dart';

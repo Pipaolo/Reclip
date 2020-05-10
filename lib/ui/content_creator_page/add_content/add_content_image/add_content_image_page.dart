@@ -1,18 +1,17 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:reclip/core/router/route_generator.gr.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/ui/custom_widgets/dialogs/dialog_collection.dart';
 
 import '../../../../bloc/add_content/add_content_bloc.dart';
 import '../../../../core/reclip_colors.dart';
-
-import '../../../../data/model/illustration.dart';
+import '../../../../model/illustration.dart';
+import '../../../../model/reclip_content_creator.dart';
+import '../../../custom_widgets/dialogs/dialog_collection.dart';
 
 class AddContentImagePage extends StatefulWidget {
   final File image;
@@ -125,7 +124,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
           Future.delayed(
             Duration(seconds: 2),
             () {
-              Router.navigator.pop();
+              ExtendedNavigator.of(context).pop();
             },
           );
         } else if (state is UploadImageDuplicate) {
@@ -133,7 +132,7 @@ class _AddContentImagePageState extends State<AddContentImagePage> {
           Future.delayed(
             Duration(seconds: 2),
             () {
-              Router.navigator.pop();
+              ExtendedNavigator.of(context).pop();
             },
           );
         } else if (state is UploadImageError) {

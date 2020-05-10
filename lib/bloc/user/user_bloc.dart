@@ -4,8 +4,9 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_user.dart';
+
 import 'package:reclip/repository/firebase_reclip_repository.dart';
 
 part 'user_event.dart';

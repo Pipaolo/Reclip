@@ -9,7 +9,7 @@ import '../../../../bloc/other_user/other_user_bloc.dart';
 import '../../../../bloc/remove_illustration/remove_illustration_bloc.dart';
 import '../../../../core/reclip_colors.dart';
 import '../../../../core/router/route_generator.gr.dart';
-import '../../../../data/model/illustration.dart';
+import '../../../../model/illustration.dart';
 import '../../../custom_widgets/dialogs/dialog_collection.dart';
 
 class ContentCreatorIllustrations extends StatelessWidget {

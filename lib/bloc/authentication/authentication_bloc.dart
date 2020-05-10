@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/reclip_user.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_user.dart';
 
 import 'package:reclip/repository/user_repository.dart';
 import 'package:meta/meta.dart';
@@ -13,6 +13,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  String currentLoggedInUserEmail;
   final UserRepository _userRepository;
 
   AuthenticationBloc({@required UserRepository userRepository})
@@ -40,10 +41,12 @@ class AuthenticationBloc
       if (isSignedIn) {
         final user = await _userRepository.getUser();
         if (user != null) {
+          currentLoggedInUserEmail = user.email;
           yield AuthenticatedUser(user: user);
         } else {
           final contentCreator = await _userRepository.getContentCreator();
           if (contentCreator != null) {
+            currentLoggedInUserEmail = contentCreator.email;
             yield AuthenticatedContentCreator(contentCreator: contentCreator);
           } else {
             add(LoggedOut());
@@ -63,9 +66,11 @@ class AuthenticationBloc
 
     if (reclipUser != null) {
       print("USER FOUND!");
+      currentLoggedInUserEmail = reclipUser.email;
       yield AuthenticatedUser(user: reclipUser);
     } else {
       final reclipContentCreator = await _userRepository.getContentCreator();
+      currentLoggedInUserEmail = reclipContentCreator.email;
       print("CONTENT CREATOR FOUND!");
       yield AuthenticatedContentCreator(
         contentCreator: reclipContentCreator,

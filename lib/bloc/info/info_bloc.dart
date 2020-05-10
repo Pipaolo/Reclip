@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/model/illustration.dart';
+import 'package:reclip/model/video.dart';
 
-import '../../data/model/illustration.dart';
-import '../../data/model/reclip_content_creator.dart';
-import '../../data/model/video.dart';
 import '../../repository/firebase_reclip_repository.dart';
 import '../../repository/user_repository.dart';
 import '../../repository/video_repository.dart';
@@ -33,10 +32,7 @@ class InfoBloc extends Bloc<InfoEvent, InfoState> {
     yield (Idle());
     if (event is ShowVideo) {
       try {
-        final contentCreator = await videoRepository
-            .fetchContentCreator(event.video.contentCreatorEmail);
         yield ShowVideoInfo(
-          contentCreator: contentCreator,
           video: event.video,
           isPressedFromContentPage: event.isPressedFromContentPage,
         );

@@ -11,7 +11,7 @@ import '../../../bloc/authentication/authentication_bloc.dart';
 import '../../../bloc/signup/signup_bloc.dart';
 import '../../../core/reclip_colors.dart';
 import '../../../core/router/route_generator.gr.dart';
-import '../../../data/model/reclip_user.dart';
+import '../../../model/reclip_user.dart';
 
 class SignupUserPage extends StatelessWidget {
   final ReclipUser unregisteredUser;

@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../bloc/add_video/add_video_bloc.dart';
 import '../../../core/reclip_colors.dart';
-import '../../../data/model/video.dart';
+import '../../../model/video.dart';
 
 class DialogCollection {
   DialogCollection._();

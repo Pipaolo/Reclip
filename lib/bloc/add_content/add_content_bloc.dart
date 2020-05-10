@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:reclip/bloc/add_video/add_video_bloc.dart';
-import 'package:reclip/data/model/illustration.dart';
-import 'package:reclip/data/model/reclip_content_creator.dart';
-import 'package:reclip/data/model/video.dart';
 import 'package:meta/meta.dart';
+import 'package:reclip/model/illustration.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/video.dart';
 import 'package:reclip/repository/illustration_repository.dart';
 import 'package:reclip/repository/video_repository.dart';
 

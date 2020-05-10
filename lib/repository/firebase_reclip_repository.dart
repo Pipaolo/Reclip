@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:reclip/model/reclip_content_creator.dart';
+import 'package:reclip/model/reclip_user.dart';
 import 'package:uuid/uuid.dart';
-
-import '../data/model/reclip_content_creator.dart';
-import '../data/model/reclip_user.dart';
 
 class FirebaseReclipRepository {
   final userCollection = Firestore.instance.collection('users');
